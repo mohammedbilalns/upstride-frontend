@@ -1,53 +1,58 @@
-"use client"
+"use client";
 
-import { useState } from "react"
-import { useForm } from "react-hook-form"
-import { zodResolver } from "@hookform/resolvers/zod"
-import { toast } from "sonner"
-import { registerSchema } from "../validations"
-import type { RegisterFormValues } from "../validations"
-import { Form, FormField, FormItem, FormLabel, FormControl, FormMessage } from "@/components/ui/form"
-import { Input } from "@/components/ui/input"
-import { Button } from "@/components/ui/button"
+import { useState } from "react";
+import { useForm } from "react-hook-form";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { toast } from "sonner";
+import { registerSchema } from "../validations";
+import type { RegisterFormValues } from "../validations";
+import {
+  Form,
+  FormField,
+  FormItem,
+  FormLabel,
+  FormControl,
+  FormMessage,
+} from "@/components/ui/form";
+import { Input } from "@/components/ui/input";
+import { Button } from "@/components/ui/button";
 
 interface RegisterFormProps {
-  onSuccess?: () => void
+  onSuccess?: () => void;
 }
 
 export default function RegisterForm({ onSuccess }: RegisterFormProps) {
-  const [isLoading, setIsLoading] = useState(false)
+  const [isLoading, setIsLoading] = useState(false);
 
   const form = useForm<RegisterFormValues>({
     resolver: zodResolver(registerSchema),
     defaultValues: {
       name: "",
       email: "",
+      phone: "",
       password: "",
-      confirmPassword: ""
+      confirmPassword: "",
     },
-  })
+  });
 
   const handleRegister = async (values: RegisterFormValues) => {
-    setIsLoading(true)
+    setIsLoading(true);
     try {
-      console.log(values)
+      console.log(values);
 
-      toast.success("Account created successfully! Please sign in.")
-      onSuccess?.()
+      toast.success("Account created successfully! Please sign in.");
+      onSuccess?.();
     } catch (err) {
-      console.error(err)
-      toast.error("Something went wrong. Please try again.")
+      console.error(err);
+      toast.error("Something went wrong. Please try again.");
     } finally {
-      setIsLoading(false)
+      setIsLoading(false);
     }
-  }
+  };
 
   return (
     <Form {...form}>
-      <form
-        onSubmit={form.handleSubmit(handleRegister)}
-        className="space-y-4"
-      >
+      <form onSubmit={form.handleSubmit(handleRegister)} className="space-y-4">
         {/* Name */}
         <FormField
           control={form.control}
@@ -78,6 +83,20 @@ export default function RegisterForm({ onSuccess }: RegisterFormProps) {
           )}
         />
 
+        <FormField
+          control={form.control}
+          name="phone"
+          render={({ field }) => (
+            <FormItem>
+              <FormLabel>Phone</FormLabel>
+              <FormControl>
+                <Input type="tel" placeholder="Enter your phone" {...field} />
+              </FormControl>
+              <FormMessage />
+            </FormItem>
+          )}
+        />
+
         {/* Password */}
         <FormField
           control={form.control}
@@ -86,7 +105,11 @@ export default function RegisterForm({ onSuccess }: RegisterFormProps) {
             <FormItem>
               <FormLabel>Password</FormLabel>
               <FormControl>
-                <Input type="password" placeholder="Enter your password" {...field} />
+                <Input
+                  type="password"
+                  placeholder="Enter your password"
+                  {...field}
+                />
               </FormControl>
               <FormMessage />
             </FormItem>
@@ -101,7 +124,11 @@ export default function RegisterForm({ onSuccess }: RegisterFormProps) {
             <FormItem>
               <FormLabel>Confirm Password</FormLabel>
               <FormControl>
-                <Input type="password" placeholder="Confirm your password" {...field} />
+                <Input
+                  type="password"
+                  placeholder="Confirm your password"
+                  {...field}
+                />
               </FormControl>
               <FormMessage />
             </FormItem>
@@ -109,15 +136,10 @@ export default function RegisterForm({ onSuccess }: RegisterFormProps) {
         />
 
         {/* Submit */}
-        <Button
-          type="submit"
-          className="w-full"
-          disabled={isLoading}
-        >
+        <Button type="submit" className="w-full" disabled={isLoading}>
           {isLoading ? "Creating Account..." : "Create Account"}
         </Button>
       </form>
     </Form>
-  )
+  );
 }
-
