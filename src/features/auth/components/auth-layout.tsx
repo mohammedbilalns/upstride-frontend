@@ -47,10 +47,13 @@ export default function AuthLayout() {
                   <TabsTrigger value="register">Register</TabsTrigger>
                 </TabsList>
                 <TabsContent value="login">
-                  <LoginForm />
+                  <LoginForm setActiveTab={setActiveTab} />
                 </TabsContent>
                 <TabsContent value="register">
-                  <RegisterForm onSuccess={() => setShowOtp(true)} />
+                  <RegisterForm
+                    setActiveTab={setActiveTab}
+                    onSuccess={() => setShowOtp(true)}
+                  />
                 </TabsContent>
               </Tabs>
             )}

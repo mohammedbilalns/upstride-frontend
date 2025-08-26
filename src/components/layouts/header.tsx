@@ -1,10 +1,13 @@
-"use client"
-import { cn } from "@/lib/utils"
-import { Button } from "@/components/ui/button"
-import ThemeToggle from "../theme-toggle"
-import { Link } from "@tanstack/react-router"
+"use client";
+import { cn } from "@/lib/utils";
+import { Button } from "@/components/ui/button";
+import ThemeToggle from "../theme-toggle";
+import { Link } from "@tanstack/react-router";
+import { useAuthStore } from "@/store/auth.store";
 
 export function Header() {
+  const { isLoggedIn } = useAuthStore();
+
   const navItems = [
     {
       label: "Home",
@@ -14,7 +17,7 @@ export function Header() {
       label: "Create",
       href: "/blog/create",
     },
-  ]
+  ];
   return (
     <header className="border-b bg-background sticky top-0 z-10 ">
       <div className="container mx-auto px-4 h-16 flex items-center justify-between gap-6">
@@ -28,7 +31,9 @@ export function Header() {
               <Link
                 key={navItem.href}
                 to={navItem.href}
-                className={cn("text-sm font-medium transition-colors hover:text-primary")}
+                className={cn(
+                  "text-sm font-medium transition-colors hover:text-primary",
+                )}
               >
                 {navItem.label}
               </Link>
@@ -39,12 +44,16 @@ export function Header() {
           <div className="hidden md:block">{/* search */}</div>
           <ThemeToggle></ThemeToggle>
           <div className="flex items-center gap-2">
-            <Button variant={"default"} asChild>
-              <Link to="/auth">Login</Link>
-            </Button>
+            {isLoggedIn ? (
+              <Button variant={"default"}>Logout</Button>
+            ) : (
+              <Button variant={"default"} asChild>
+                <Link to="/auth">Login</Link>
+              </Button>
+            )}
           </div>
         </div>
       </div>
     </header>
-  )
+  );
 }

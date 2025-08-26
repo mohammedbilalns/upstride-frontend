@@ -1,5 +1,3 @@
-"use client";
-
 import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -16,13 +14,19 @@ import {
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
+import { useRegister } from "../hooks";
 
 interface RegisterFormProps {
   onSuccess?: () => void;
+  setActiveTab: (tab: "login" | "register") => void;
 }
 
-export default function RegisterForm({ onSuccess }: RegisterFormProps) {
+export default function RegisterForm({
+  onSuccess,
+  setActiveTab,
+}: RegisterFormProps) {
   const [isLoading, setIsLoading] = useState(false);
+  const registerMutation = useRegister();
 
   const form = useForm<RegisterFormValues>({
     resolver: zodResolver(registerSchema),
@@ -39,8 +43,10 @@ export default function RegisterForm({ onSuccess }: RegisterFormProps) {
     setIsLoading(true);
     try {
       console.log(values);
-
-      toast.success("Account created successfully! Please sign in.");
+      registerMutation.mutate(values, {
+        onSuccess: () => console.log("Register success,please verify otp"),
+        onError: (error) => console.log("Register error ", error),
+      });
       onSuccess?.();
     } catch (err) {
       console.error(err);
@@ -61,7 +67,11 @@ export default function RegisterForm({ onSuccess }: RegisterFormProps) {
             <FormItem>
               <FormLabel>Name</FormLabel>
               <FormControl>
-                <Input placeholder="Enter your name" {...field} />
+                <Input
+                  placeholder="Enter your name"
+                  {...field}
+                  autoComplete="name"
+                />
               </FormControl>
               <FormMessage />
             </FormItem>
@@ -76,13 +86,19 @@ export default function RegisterForm({ onSuccess }: RegisterFormProps) {
             <FormItem>
               <FormLabel>Email</FormLabel>
               <FormControl>
-                <Input type="email" placeholder="Enter your email" {...field} />
+                <Input
+                  type="email"
+                  placeholder="Enter your email"
+                  {...field}
+                  autoComplete="email"
+                />
               </FormControl>
               <FormMessage />
             </FormItem>
           )}
         />
 
+        {/* Phone */}
         <FormField
           control={form.control}
           name="phone"
@@ -90,7 +106,12 @@ export default function RegisterForm({ onSuccess }: RegisterFormProps) {
             <FormItem>
               <FormLabel>Phone</FormLabel>
               <FormControl>
-                <Input type="tel" placeholder="Enter your phone" {...field} />
+                <Input
+                  type="tel"
+                  placeholder="Enter your phone"
+                  {...field}
+                  autoComplete="tel"
+                />
               </FormControl>
               <FormMessage />
             </FormItem>
@@ -109,6 +130,7 @@ export default function RegisterForm({ onSuccess }: RegisterFormProps) {
                   type="password"
                   placeholder="Enter your password"
                   {...field}
+                  autoComplete="new-password"
                 />
               </FormControl>
               <FormMessage />
@@ -128,6 +150,7 @@ export default function RegisterForm({ onSuccess }: RegisterFormProps) {
                   type="password"
                   placeholder="Confirm your password"
                   {...field}
+                  autoComplete="new-password"
                 />
               </FormControl>
               <FormMessage />
@@ -140,6 +163,18 @@ export default function RegisterForm({ onSuccess }: RegisterFormProps) {
           {isLoading ? "Creating Account..." : "Create Account"}
         </Button>
       </form>
+
+      {/* 👇 Login link */}
+      <p className="mt-4 text-center text-sm text-muted-foreground">
+        Already have an account?{" "}
+        <button
+          type="button"
+          onClick={() => setActiveTab("login")}
+          className="text-primary font-medium hover:underline cursor-pointer"
+        >
+          Login
+        </button>
+      </p>
     </Form>
   );
 }

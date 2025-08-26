@@ -1,29 +1,33 @@
+import { Sun, Moon } from "lucide-react";
+import { Button } from "./ui/button";
+import { useTheme } from "next-themes";
+import { useEffect } from "react";
+import { motion, AnimatePresence } from "framer-motion";
+import { useThemeStore } from "@/store/theme.store";
 
-import { Sun, Moon } from "lucide-react"
-import { Button } from "./ui/button"
-import { useTheme } from "next-themes"
-import { useEffect } from "react"
-import { motion, AnimatePresence } from "framer-motion"
-import { useThemeStore } from "@/store/theme"
-
-import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/components/ui/tooltip"
+import {
+  Tooltip,
+  TooltipContent,
+  TooltipProvider,
+  TooltipTrigger,
+} from "@/components/ui/tooltip";
 
 export default function ThemeToggle() {
-  const { isDarkMode, toggleTheme } = useThemeStore()
-  const { theme, setTheme } = useTheme()
+  const { isDarkMode, toggleTheme } = useThemeStore();
+  const { theme, setTheme } = useTheme();
 
   useEffect(() => {
     if (theme === "dark" && !isDarkMode) {
-      useThemeStore.setState({ isDarkMode: true })
+      useThemeStore.setState({ isDarkMode: true });
     } else if (theme === "light" && isDarkMode) {
-      useThemeStore.setState({ isDarkMode: false })
+      useThemeStore.setState({ isDarkMode: false });
     }
-  }, [theme, isDarkMode])
+  }, [theme, isDarkMode]);
 
   const handleToggleTheme = () => {
-    toggleTheme()
-    setTheme(isDarkMode ? "light" : "dark")
-  }
+    toggleTheme();
+    setTheme(isDarkMode ? "light" : "dark");
+  };
 
   return (
     <TooltipProvider>
@@ -66,6 +70,5 @@ export default function ThemeToggle() {
         </TooltipContent>
       </Tooltip>
     </TooltipProvider>
-  )
+  );
 }
-

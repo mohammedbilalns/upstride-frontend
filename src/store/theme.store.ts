@@ -23,8 +23,8 @@ export const useThemeStore = create<ThemeState>()(
     }),
     {
       name: "theme-storage",
-    }
-  )
+    },
+  ),
 );
 
 function applyTheme(isDark: boolean) {

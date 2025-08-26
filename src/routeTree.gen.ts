@@ -12,6 +12,7 @@ import { Route as rootRouteImport } from './routes/__root'
 import { Route as AboutRouteImport } from './routes/about'
 import { Route as AuthRouteRouteImport } from './routes/auth/route'
 import { Route as IndexRouteImport } from './routes/index'
+import { Route as UnauthorizedIndexRouteImport } from './routes/unauthorized/index'
 import { Route as AuthIndexRouteImport } from './routes/auth/index'
 
 const AboutRoute = AboutRouteImport.update({
@@ -29,6 +30,11 @@ const IndexRoute = IndexRouteImport.update({
   path: '/',
   getParentRoute: () => rootRouteImport,
 } as any)
+const UnauthorizedIndexRoute = UnauthorizedIndexRouteImport.update({
+  id: '/unauthorized/',
+  path: '/unauthorized/',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const AuthIndexRoute = AuthIndexRouteImport.update({
   id: '/',
   path: '/',
@@ -40,11 +46,13 @@ export interface FileRoutesByFullPath {
   '/auth': typeof AuthRouteRouteWithChildren
   '/about': typeof AboutRoute
   '/auth/': typeof AuthIndexRoute
+  '/unauthorized': typeof UnauthorizedIndexRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/about': typeof AboutRoute
   '/auth': typeof AuthIndexRoute
+  '/unauthorized': typeof UnauthorizedIndexRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
@@ -52,19 +60,21 @@ export interface FileRoutesById {
   '/auth': typeof AuthRouteRouteWithChildren
   '/about': typeof AboutRoute
   '/auth/': typeof AuthIndexRoute
+  '/unauthorized/': typeof UnauthorizedIndexRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/' | '/auth' | '/about' | '/auth/'
+  fullPaths: '/' | '/auth' | '/about' | '/auth/' | '/unauthorized'
   fileRoutesByTo: FileRoutesByTo
-  to: '/' | '/about' | '/auth'
-  id: '__root__' | '/' | '/auth' | '/about' | '/auth/'
+  to: '/' | '/about' | '/auth' | '/unauthorized'
+  id: '__root__' | '/' | '/auth' | '/about' | '/auth/' | '/unauthorized/'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
   AuthRouteRoute: typeof AuthRouteRouteWithChildren
   AboutRoute: typeof AboutRoute
+  UnauthorizedIndexRoute: typeof UnauthorizedIndexRoute
 }
 
 declare module '@tanstack/react-router' {
@@ -88,6 +98,13 @@ declare module '@tanstack/react-router' {
       path: '/'
       fullPath: '/'
       preLoaderRoute: typeof IndexRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/unauthorized/': {
+      id: '/unauthorized/'
+      path: '/unauthorized'
+      fullPath: '/unauthorized'
+      preLoaderRoute: typeof UnauthorizedIndexRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/auth/': {
@@ -116,6 +133,7 @@ const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   AuthRouteRoute: AuthRouteRouteWithChildren,
   AboutRoute: AboutRoute,
+  UnauthorizedIndexRoute: UnauthorizedIndexRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)

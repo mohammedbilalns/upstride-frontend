@@ -1,4 +1,3 @@
-"use client ";
 import { useForm } from "react-hook-form";
 import { loginSchema } from "../validations";
 import type { loginFormValues } from "../validations";
@@ -14,10 +13,19 @@ import {
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
-import { toast } from "sonner";
+import { useLogin } from "../hooks/useLogin";
 
-export default function LoginForm() {
+type LoginFormProps = {
+  setActiveTab: (tab: "login" | "register") => void;
+  onForgotPasswordClick?: () => void;
+};
+
+export default function LoginForm({
+  setActiveTab,
+  onForgotPasswordClick,
+}: LoginFormProps) {
   const [isLoading, setIsLoading] = useState(false);
+  const loginMutation = useLogin();
   const form = useForm<loginFormValues>({
     resolver: zodResolver(loginSchema),
     defaultValues: {
@@ -29,11 +37,10 @@ export default function LoginForm() {
   const handleLogin = async (values: loginFormValues) => {
     setIsLoading(true);
     try {
-      console.log(values);
-
-      toast("Login Success ");
-    } catch (err) {
-      console.error(err);
+      await loginMutation.mutateAsync(values);
+    } catch (error) {
+      // Error is already handled in the hook
+      console.log("Login error:", error);
     } finally {
       setIsLoading(false);
     }
@@ -49,12 +56,17 @@ export default function LoginForm() {
             <FormItem>
               <FormLabel>Email</FormLabel>
               <FormControl>
-                <Input placeholder="Enter your email" {...field} />
+                <Input
+                  placeholder="Enter your email"
+                  {...field}
+                  autoComplete="email"
+                />
               </FormControl>
               <FormMessage />
             </FormItem>
           )}
-        ></FormField>
+        />
+
         <FormField
           control={form.control}
           name="password"
@@ -66,12 +78,24 @@ export default function LoginForm() {
                   type="password"
                   placeholder="Enter your password"
                   {...field}
+                  autoComplete="current-password"
                 />
               </FormControl>
               <FormMessage />
             </FormItem>
           )}
-        ></FormField>
+        />
+
+        <div className="flex justify-end -mt-2">
+          <button
+            type="button"
+            onClick={onForgotPasswordClick}
+            className="text-sm text-primary hover:underline cursor-pointer"
+          >
+            Forgot password?
+          </button>
+        </div>
+
         <Button
           type="submit"
           className="w-full cursor-pointer"
@@ -80,6 +104,17 @@ export default function LoginForm() {
           {isLoading ? "Signing in... " : "Sign In"}
         </Button>
       </form>
+
+      <p className="mt-4 text-center text-sm text-muted-foreground ">
+        Don’t have an account?{" "}
+        <button
+          type="button"
+          onClick={() => setActiveTab("register")}
+          className="text-primary font-medium hover:underline cursor-pointer"
+        >
+          Sign up
+        </button>
+      </p>
     </Form>
   );
 }
