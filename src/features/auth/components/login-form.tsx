@@ -16,12 +16,12 @@ import { useLogin } from "../hooks/useLogin";
 
 type LoginFormProps = {
   setActiveTab: (tab: "login" | "register") => void;
-  onForgotPasswordClick?: () => void;
+  setForgotpassword: (forgotpassword: boolean) => void;
 };
 
 export default function LoginForm({
   setActiveTab,
-  onForgotPasswordClick,
+  setForgotpassword,
 }: LoginFormProps) {
   const loginMutation = useLogin();
   const form = useForm<loginFormValues>({
@@ -79,7 +79,7 @@ export default function LoginForm({
         <div className="flex justify-end -mt-2">
           <button
             type="button"
-            onClick={onForgotPasswordClick}
+            onClick={() => setForgotpassword(true)}
             className="text-sm text-primary hover:underline cursor-pointer"
           >
             Forgot password?

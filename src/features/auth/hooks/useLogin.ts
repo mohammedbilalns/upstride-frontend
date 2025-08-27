@@ -1,12 +1,6 @@
 import { useMutation } from "@tanstack/react-query";
 import type { loginFormValues } from "../validations";
-import {
-  initiatePasswordReset,
-  resendResetOtp,
-  updatePassword,
-  userLogin,
-  verifyResetOtp,
-} from "../services/auth.service";
+import { userLogin } from "../services/auth.service";
 import { useAuthStore } from "@/store/auth.store";
 import { useRouter } from "@tanstack/react-router";
 import { toast } from "sonner";
@@ -20,36 +14,12 @@ export const useLogin = () => {
     mutationFn: (data: loginFormValues) => userLogin(data),
     onSuccess: (response) => {
       setUser(response.user);
-      toast.success(response.message || "Login successful");
+      toast.success(response.message);
       router.navigate({ to: "/" });
     },
     onError: (error: ApiError) => {
-      const errorMessage = error?.response?.data?.message || "Login failed";
+      const errorMessage = error?.response?.data?.message;
       toast.error(errorMessage);
     },
-  });
-};
-
-export const useIntiatePasswordReset = () => {
-  return useMutation({
-    mutationFn: (data) => initiatePasswordReset(data),
-  });
-};
-
-export const useVerifyResetOtp = () => {
-  return useMutation({
-    mutationFn: (data) => verifyResetOtp(data),
-  });
-};
-
-export const useResendResetOtp = () => {
-  return useMutation({
-    mutationFn: (data) => resendResetOtp(data),
-  });
-};
-
-export const useUpdatePassword = () => {
-  return useMutation({
-    mutationFn: (data) => updatePassword(data),
   });
 };

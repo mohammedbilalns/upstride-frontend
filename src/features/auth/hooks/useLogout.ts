@@ -13,7 +13,7 @@ export const useLogout = () => {
     mutationFn: () => logout(),
     onSuccess: (response) => {
       clearUser();
-      toast.success(response.messsage);
+      toast.success(response.message);
       router.navigate({ to: "/" });
     },
     onError: (error: ApiError) => {
