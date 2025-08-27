@@ -1,7 +1,5 @@
-import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { toast } from "sonner";
 import { registerSchema } from "../validations";
 import type { RegisterFormValues } from "../validations";
 import {
@@ -17,7 +15,7 @@ import { Button } from "@/components/ui/button";
 import { useRegister } from "../hooks";
 
 interface RegisterFormProps {
-  onSuccess?: () => void;
+  onSuccess?: (email: string) => void;
   setActiveTab: (tab: "login" | "register") => void;
 }
 
@@ -25,8 +23,11 @@ export default function RegisterForm({
   onSuccess,
   setActiveTab,
 }: RegisterFormProps) {
-  const [isLoading, setIsLoading] = useState(false);
-  const registerMutation = useRegister();
+  const registerMutation = useRegister({
+    onRegisterSuccess: (email) => {
+      onSuccess?.(email);
+    },
+  });
 
   const form = useForm<RegisterFormValues>({
     resolver: zodResolver(registerSchema),
@@ -39,21 +40,8 @@ export default function RegisterForm({
     },
   });
 
-  const handleRegister = async (values: RegisterFormValues) => {
-    setIsLoading(true);
-    try {
-      console.log(values);
-      registerMutation.mutate(values, {
-        onSuccess: () => console.log("Register success,please verify otp"),
-        onError: (error) => console.log("Register error ", error),
-      });
-      onSuccess?.();
-    } catch (err) {
-      console.error(err);
-      toast.error("Something went wrong. Please try again.");
-    } finally {
-      setIsLoading(false);
-    }
+  const handleRegister = (values: RegisterFormValues) => {
+    registerMutation.mutate(values);
   };
 
   return (
@@ -159,8 +147,14 @@ export default function RegisterForm({
         />
 
         {/* Submit */}
-        <Button type="submit" className="w-full" disabled={isLoading}>
-          {isLoading ? "Creating Account..." : "Create Account"}
+        <Button
+          type="submit"
+          className="w-full cursor-pointer"
+          disabled={registerMutation.isPending}
+        >
+          {registerMutation.isPending
+            ? "Creating Account..."
+            : "Create Account"}
         </Button>
       </form>
 

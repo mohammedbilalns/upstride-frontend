@@ -6,11 +6,9 @@ import {
   resendResetOtp,
   updatePassword,
   userLogin,
-  verifyRegisterOtp,
   verifyResetOtp,
 } from "../services/auth.service";
 import { useAuthStore } from "@/store/auth.store";
-
 import { useRouter } from "@tanstack/react-router";
 import { toast } from "sonner";
 import type { ApiError } from "@/types/api";
@@ -30,12 +28,6 @@ export const useLogin = () => {
       const errorMessage = error?.response?.data?.message || "Login failed";
       toast.error(errorMessage);
     },
-  });
-};
-
-export const useVerifyOtp = () => {
-  return useMutation({
-    mutationFn: (data) => verifyRegisterOtp(data),
   });
 };
 

@@ -7,10 +7,10 @@ export const registerSchema = z
     phone: z
       .string()
       .regex(/^\d{10}$/, { message: "Must be exactly 10 digits" }),
-    password: z.string().min(6, "Password must be atleast 6 characters long"),
+    password: z.string().min(8, "Password must be atleast 8 characters long"),
     confirmPassword: z
       .string()
-      .min(6, "Password must be atleast 6 characters long"),
+      .min(8, "Password must be atleast 8 characters long"),
   })
   .refine((data) => data.password === data.confirmPassword, {
     message: "Passwords do not match ",

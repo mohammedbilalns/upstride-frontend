@@ -8,6 +8,7 @@ import {
   InputOTPGroup,
   InputOTPSlot,
 } from "@/components/ui/input-otp";
+import { useVerifyOtp } from "../hooks/useVerifyOtp";
 
 interface OtpVerificationProps {
   onVerify: (otp: string) => void;
@@ -27,6 +28,7 @@ export default function OtpVerification({
   const [otpTimer, setOtpTimer] = useState(300);
   const [resendTimer, setResendTimer] = useState(0);
   const [hasResent, setHasResent] = useState(false);
+  const verifyOtpMutation = useVerifyOtp();
 
   useEffect(() => {
     const interval = setInterval(() => {
@@ -48,15 +50,7 @@ export default function OtpVerification({
   };
 
   const handleVerify = () => {
-    if (otp.length !== 6) {
-      setError("Please enter all 6 digits");
-      return;
-    }
-    if (otpTimer <= 0) {
-      setError("OTP has expired. Please request a new code.");
-      return;
-    }
-    onVerify(otp);
+    verifyOtpMutation.mutate({ email, otp });
   };
 
   const handleResend = () => {
@@ -130,10 +124,10 @@ export default function OtpVerification({
 
         <Button
           onClick={handleVerify}
-          disabled={!isComplete || isLoading || isOtpExpired}
-          className="w-full"
+          disabled={!isComplete || isOtpExpired}
+          className="w-full cursor-pointer"
         >
-          {isLoading ? "Verifying..." : "Verify Code"}
+          {verifyOtpMutation.isPending ? "Verifying..." : "Verify Code"}
         </Button>
 
         <div className="text-center space-y-2">

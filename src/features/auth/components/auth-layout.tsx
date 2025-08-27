@@ -9,6 +9,7 @@ import OtpVerification from "./otp-verification";
 export default function AuthLayout() {
   const [activeTab, setActiveTab] = useState("login");
   const [showOtp, setShowOtp] = useState(false);
+  const [registeredEmail, setRegisteredEmail] = useState<string | null>(null);
 
   return (
     <div className="min-h-[calc(100vh-4rem)] grid lg:grid-cols-2">
@@ -31,7 +32,7 @@ export default function AuthLayout() {
           <div className="bg-card rounded-xl shadow-lg border border-border/50 p-8 backdrop-blur-sm">
             {showOtp ? (
               <OtpVerification
-                email="bilalnsmuhammed@gmail.com"
+                email={registeredEmail || ""}
                 onVerify={() => console.log("verified")}
                 onResend={() => console.log("resending otp")}
                 isLoading={false}
@@ -52,7 +53,10 @@ export default function AuthLayout() {
                 <TabsContent value="register">
                   <RegisterForm
                     setActiveTab={setActiveTab}
-                    onSuccess={() => setShowOtp(true)}
+                    onSuccess={(email: string) => {
+                      setRegisteredEmail(email);
+                      setShowOtp(true);
+                    }}
                   />
                 </TabsContent>
               </Tabs>
