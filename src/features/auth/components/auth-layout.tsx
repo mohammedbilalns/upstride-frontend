@@ -32,10 +32,8 @@ export default function AuthLayout() {
           <div className="bg-card rounded-xl shadow-lg border border-border/50 p-8 backdrop-blur-sm">
             {showOtp ? (
               <OtpVerification
+                onOtpExpired={() => setShowOtp(false)}
                 email={registeredEmail || ""}
-                onVerify={() => console.log("verified")}
-                onResend={() => console.log("resending otp")}
-                isLoading={false}
               />
             ) : (
               <Tabs

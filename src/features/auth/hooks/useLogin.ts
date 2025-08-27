@@ -2,7 +2,6 @@ import { useMutation } from "@tanstack/react-query";
 import type { loginFormValues } from "../validations";
 import {
   initiatePasswordReset,
-  resendRegisterOtp,
   resendResetOtp,
   updatePassword,
   userLogin,
@@ -28,12 +27,6 @@ export const useLogin = () => {
       const errorMessage = error?.response?.data?.message || "Login failed";
       toast.error(errorMessage);
     },
-  });
-};
-
-export const useResendRegisterOtp = () => {
-  return useMutation({
-    mutationFn: (data) => resendRegisterOtp(data),
   });
 };
 

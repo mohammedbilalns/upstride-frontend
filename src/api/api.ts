@@ -16,10 +16,7 @@ api.interceptors.response.use(
     const originalRequest = error.config as CustomAxiosRequestConfig;
 
     if (error.response?.status === 401 && !originalRequest._retry) {
-      const isAuthEndpoint =
-        originalRequest.url?.includes("/auth/login") ||
-        originalRequest.url?.includes("/auth/register") ||
-        originalRequest.url?.includes("/auth/refresh");
+      const isAuthEndpoint = originalRequest.url?.includes("/auth");
 
       if (isAuthEndpoint) {
         return Promise.reject(error);

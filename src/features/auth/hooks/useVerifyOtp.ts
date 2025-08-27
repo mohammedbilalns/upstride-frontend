@@ -10,7 +10,7 @@ type VerifyOtpData = {
   otp: string;
 };
 
-export const useVerifyOtp = () => {
+export const useVerifyOtp = (callbacks?: { onOtpExpired?: () => void }) => {
   const router = useRouter();
   const { setUser } = useAuthStore();
 
@@ -22,8 +22,13 @@ export const useVerifyOtp = () => {
       router.navigate({ to: "/" });
     },
     onError: (error: ApiError) => {
+      console.log(error.response);
       const errorMessage = error?.response?.data?.message;
       toast.error(errorMessage);
+      if (error.response?.status === 429) {
+        console.log("reached here");
+        callbacks?.onOtpExpired?.();
+      }
     },
   });
 };

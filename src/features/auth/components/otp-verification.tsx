@@ -9,26 +9,24 @@ import {
   InputOTPSlot,
 } from "@/components/ui/input-otp";
 import { useVerifyOtp } from "../hooks/useVerifyOtp";
+import { useResendRegisterOtp } from "../hooks/useResendRegisterOtp";
 
 interface OtpVerificationProps {
-  onVerify: (otp: string) => void;
-  onResend: () => void;
   email: string;
-  isLoading?: boolean;
+  onOtpExpired?: () => void;
 }
 
 export default function OtpVerification({
-  onVerify,
-  onResend,
   email,
-  isLoading = false,
+  onOtpExpired,
 }: OtpVerificationProps) {
   const [otp, setOtp] = useState("");
   const [error, setError] = useState("");
   const [otpTimer, setOtpTimer] = useState(300);
   const [resendTimer, setResendTimer] = useState(0);
   const [hasResent, setHasResent] = useState(false);
-  const verifyOtpMutation = useVerifyOtp();
+  const verifyOtpMutation = useVerifyOtp({ onOtpExpired });
+  const resendOtpMuatation = useResendRegisterOtp({ onOtpExpired });
 
   useEffect(() => {
     const interval = setInterval(() => {
@@ -54,7 +52,7 @@ export default function OtpVerification({
   };
 
   const handleResend = () => {
-    onResend();
+    resendOtpMuatation.mutate({ email });
     setOtpTimer(300);
     setOtp("");
     setError("");
@@ -96,13 +94,15 @@ export default function OtpVerification({
 
       <div className="space-y-4">
         <div className="space-y-2">
-          <Label htmlFor="otp">Verification Code</Label>
+          <Label className="justify-center" htmlFor="otp">
+            Verification Code
+          </Label>
           <div className="flex justify-center">
             <InputOTP
               maxLength={6}
               value={otp}
               onChange={handleOtpChange}
-              disabled={isLoading || isOtpExpired}
+              disabled={verifyOtpMutation.isPending || isOtpExpired}
             >
               <InputOTPGroup>
                 <InputOTPSlot index={0} />
@@ -138,7 +138,7 @@ export default function OtpVerification({
             <Button
               variant="ghost"
               onClick={handleResend}
-              disabled={isLoading || !canResend}
+              disabled={verifyOtpMutation.isPending || !canResend}
               className="text-sm"
             >
               {canResend ? "Resend Code" : "Resend Code"}
