@@ -4,9 +4,14 @@ import { Button } from "@/components/ui/button";
 import ThemeToggle from "../theme-toggle";
 import { Link } from "@tanstack/react-router";
 import { useAuthStore } from "@/store/auth.store";
+import { useLogout } from "@/features/auth/hooks/useLogout";
 
 export function Header() {
+  const logoutMutation = useLogout();
   const { isLoggedIn } = useAuthStore();
+  const handleLogout = () => {
+    logoutMutation.mutate();
+  };
 
   const navItems = [
     {
@@ -45,9 +50,15 @@ export function Header() {
           <ThemeToggle></ThemeToggle>
           <div className="flex items-center gap-2">
             {isLoggedIn ? (
-              <Button variant={"default"}>Logout</Button>
+              <Button
+                onClick={handleLogout}
+                className="cursor-pointer"
+                variant={"default"}
+              >
+                {logoutMutation.isPending ? "Logging out..." : "Logout"}
+              </Button>
             ) : (
-              <Button variant={"default"} asChild>
+              <Button className="cursor-pointer" variant={"default"} asChild>
                 <Link to="/auth">Login</Link>
               </Button>
             )}

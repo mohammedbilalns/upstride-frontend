@@ -91,9 +91,9 @@ export async function updatePassword(data: unknown) {
 //   }
 // }
 
-export async function logout(data: unknown) {
+export async function logout() {
   try {
-    const response = await api.post(API_ROUTES.AUTH.LOGOUT, data);
+    const response = await api.post(API_ROUTES.AUTH.LOGOUT);
     return response.data;
   } catch (error) {
     console.error("error while logging out ", error);

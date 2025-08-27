@@ -2,7 +2,6 @@ import { useForm } from "react-hook-form";
 import { loginSchema } from "../validations";
 import type { loginFormValues } from "../validations";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { useState } from "react";
 import {
   Form,
   FormField,
@@ -24,7 +23,6 @@ export default function LoginForm({
   setActiveTab,
   onForgotPasswordClick,
 }: LoginFormProps) {
-  const [isLoading, setIsLoading] = useState(false);
   const loginMutation = useLogin();
   const form = useForm<loginFormValues>({
     resolver: zodResolver(loginSchema),
@@ -34,16 +32,8 @@ export default function LoginForm({
     },
   });
 
-  const handleLogin = async (values: loginFormValues) => {
-    setIsLoading(true);
-    try {
-      await loginMutation.mutateAsync(values);
-    } catch (error) {
-      // Error is already handled in the hook
-      console.log("Login error:", error);
-    } finally {
-      setIsLoading(false);
-    }
+  const handleLogin = (values: loginFormValues) => {
+    loginMutation.mutate(values);
   };
 
   return (
@@ -99,9 +89,9 @@ export default function LoginForm({
         <Button
           type="submit"
           className="w-full cursor-pointer"
-          disabled={isLoading}
+          disabled={loginMutation.isPending}
         >
-          {isLoading ? "Signing in... " : "Sign In"}
+          {loginMutation.isPending ? "Signing in... " : "Sign In"}
         </Button>
       </form>
 

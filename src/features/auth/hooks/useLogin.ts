@@ -2,7 +2,6 @@ import { useMutation } from "@tanstack/react-query";
 import type { loginFormValues } from "../validations";
 import {
   initiatePasswordReset,
-  logout,
   resendRegisterOtp,
   resendResetOtp,
   updatePassword,
@@ -67,12 +66,5 @@ export const useResendResetOtp = () => {
 export const useUpdatePassword = () => {
   return useMutation({
     mutationFn: (data) => updatePassword(data),
-  });
-};
-
-export const useLogout = () => {
-  return useMutation({
-    mutationFn: (data) => logout(data),
-    onSuccess: () => console.log("logged out"), // handle clearing the state
   });
 };

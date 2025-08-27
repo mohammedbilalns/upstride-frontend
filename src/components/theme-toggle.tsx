@@ -37,7 +37,7 @@ export default function ThemeToggle() {
             variant="ghost"
             size="icon"
             onClick={handleToggleTheme}
-            className="relative h-10 w-10 rounded-full border bg-background/70 shadow-sm backdrop-blur-sm transition-all hover:scale-105 hover:shadow-md"
+            className=" cursor-pointer relative h-10 w-10 rounded-full border bg-background/70 shadow-sm backdrop-blur-sm transition-all hover:scale-105 hover:shadow-md"
             aria-label="Toggle theme"
           >
             <AnimatePresence mode="wait" initial={false}>
