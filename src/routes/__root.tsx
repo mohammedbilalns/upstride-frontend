@@ -1,7 +1,6 @@
 import * as React from "react";
 import { Outlet, createRootRoute } from "@tanstack/react-router";
 import { Toaster } from "sonner";
-import { Header } from "@/components/layouts/header";
 import { useThemeStore } from "@/store/theme.store";
 import { useEffect } from "react";
 
@@ -17,7 +16,6 @@ function RootComponent() {
   }, [isDarkMode, setTheme]);
   return (
     <React.Fragment>
-      <Header />
       <Outlet />
       <Toaster></Toaster>
     </React.Fragment>
