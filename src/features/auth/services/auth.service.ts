@@ -1,6 +1,7 @@
 import type { loginFormValues, RegisterFormValues } from "../validations";
 import api from "@/api/api";
 import { API_ROUTES } from "@/constants/routes";
+import type { CredentialResponse } from "@react-oauth/google";
 
 export async function userLogin(data: loginFormValues) {
   try {
@@ -97,6 +98,16 @@ export async function logout() {
     return response.data;
   } catch (error) {
     console.error("error while logging out ", error);
+    throw error;
+  }
+}
+
+export async function googleLogin(credentials: CredentialResponse) {
+  try {
+    const response = await api.post(API_ROUTES.AUTH.GOOGLE, credentials);
+    return response.data;
+  } catch (error) {
+    console.error("error while logging in with google", error);
     throw error;
   }
 }

@@ -13,6 +13,7 @@ import {
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { useRegister } from "../hooks";
+import GoogleOAuthButton from "./google-oauth-button";
 
 interface RegisterFormProps {
   onSuccess?: (email: string) => void;
@@ -157,6 +158,10 @@ export default function RegisterForm({
             : "Create Account"}
         </Button>
       </form>
+
+      <div className="mt-4">
+        <GoogleOAuthButton></GoogleOAuthButton>
+      </div>
 
       {/* 👇 Login link */}
       <p className="mt-4 text-center text-sm text-muted-foreground">

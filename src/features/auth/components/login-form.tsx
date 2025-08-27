@@ -13,6 +13,7 @@ import {
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { useLogin } from "../hooks/useLogin";
+import GoogleOAuthButton from "./google-oauth-button";
 
 type LoginFormProps = {
   setActiveTab: (tab: "login" | "register") => void;
@@ -94,6 +95,10 @@ export default function LoginForm({
           {loginMutation.isPending ? "Signing in... " : "Sign In"}
         </Button>
       </form>
+
+      <div className="mt-4">
+        <GoogleOAuthButton></GoogleOAuthButton>
+      </div>
 
       <p className="mt-4 text-center text-sm text-muted-foreground ">
         Don’t have an account?{" "}
