@@ -3,14 +3,12 @@ import { useLogout } from "@/features/auth/hooks/useLogout";
 
 interface LogoutProps {
   isCollapsed: boolean;
-  handleItemClick: (id: string) => void;
 }
-export default function Logout({ isCollapsed, handleItemClick }: LogoutProps) {
+export default function Logout({ isCollapsed }: LogoutProps) {
   const logoutMutation = useLogout();
 
   const handleLogout = () => {
     console.log("fsnfksjd");
-    handleItemClick("logout");
     logoutMutation.mutate();
   };
 

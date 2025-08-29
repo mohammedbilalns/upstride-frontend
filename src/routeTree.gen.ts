@@ -16,6 +16,7 @@ import { Route as IndexRouteImport } from './routes/index'
 import { Route as UnauthorizedIndexRouteImport } from './routes/unauthorized/index'
 import { Route as AuthIndexRouteImport } from './routes/auth/index'
 import { Route as AdminIndexRouteImport } from './routes/admin/index'
+import { Route as AdminUsermanagementIndexRouteImport } from './routes/admin/usermanagement/index'
 import { Route as AdminDashboardIndexRouteImport } from './routes/admin/dashboard/index'
 
 const AboutRoute = AboutRouteImport.update({
@@ -53,6 +54,12 @@ const AdminIndexRoute = AdminIndexRouteImport.update({
   path: '/',
   getParentRoute: () => AdminRouteRoute,
 } as any)
+const AdminUsermanagementIndexRoute =
+  AdminUsermanagementIndexRouteImport.update({
+    id: '/usermanagement/',
+    path: '/usermanagement/',
+    getParentRoute: () => AdminRouteRoute,
+  } as any)
 const AdminDashboardIndexRoute = AdminDashboardIndexRouteImport.update({
   id: '/dashboard/',
   path: '/dashboard/',
@@ -68,6 +75,7 @@ export interface FileRoutesByFullPath {
   '/auth/': typeof AuthIndexRoute
   '/unauthorized': typeof UnauthorizedIndexRoute
   '/admin/dashboard': typeof AdminDashboardIndexRoute
+  '/admin/usermanagement': typeof AdminUsermanagementIndexRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
@@ -76,6 +84,7 @@ export interface FileRoutesByTo {
   '/auth': typeof AuthIndexRoute
   '/unauthorized': typeof UnauthorizedIndexRoute
   '/admin/dashboard': typeof AdminDashboardIndexRoute
+  '/admin/usermanagement': typeof AdminUsermanagementIndexRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
@@ -87,6 +96,7 @@ export interface FileRoutesById {
   '/auth/': typeof AuthIndexRoute
   '/unauthorized/': typeof UnauthorizedIndexRoute
   '/admin/dashboard/': typeof AdminDashboardIndexRoute
+  '/admin/usermanagement/': typeof AdminUsermanagementIndexRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
@@ -99,8 +109,16 @@ export interface FileRouteTypes {
     | '/auth/'
     | '/unauthorized'
     | '/admin/dashboard'
+    | '/admin/usermanagement'
   fileRoutesByTo: FileRoutesByTo
-  to: '/' | '/about' | '/admin' | '/auth' | '/unauthorized' | '/admin/dashboard'
+  to:
+    | '/'
+    | '/about'
+    | '/admin'
+    | '/auth'
+    | '/unauthorized'
+    | '/admin/dashboard'
+    | '/admin/usermanagement'
   id:
     | '__root__'
     | '/'
@@ -111,6 +129,7 @@ export interface FileRouteTypes {
     | '/auth/'
     | '/unauthorized/'
     | '/admin/dashboard/'
+    | '/admin/usermanagement/'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
@@ -172,6 +191,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AdminIndexRouteImport
       parentRoute: typeof AdminRouteRoute
     }
+    '/admin/usermanagement/': {
+      id: '/admin/usermanagement/'
+      path: '/usermanagement'
+      fullPath: '/admin/usermanagement'
+      preLoaderRoute: typeof AdminUsermanagementIndexRouteImport
+      parentRoute: typeof AdminRouteRoute
+    }
     '/admin/dashboard/': {
       id: '/admin/dashboard/'
       path: '/dashboard'
@@ -185,11 +211,13 @@ declare module '@tanstack/react-router' {
 interface AdminRouteRouteChildren {
   AdminIndexRoute: typeof AdminIndexRoute
   AdminDashboardIndexRoute: typeof AdminDashboardIndexRoute
+  AdminUsermanagementIndexRoute: typeof AdminUsermanagementIndexRoute
 }
 
 const AdminRouteRouteChildren: AdminRouteRouteChildren = {
   AdminIndexRoute: AdminIndexRoute,
   AdminDashboardIndexRoute: AdminDashboardIndexRoute,
+  AdminUsermanagementIndexRoute: AdminUsermanagementIndexRoute,
 }
 
 const AdminRouteRouteWithChildren = AdminRouteRoute._addFileChildren(

@@ -17,7 +17,7 @@ export const useLogout = () => {
       router.navigate({ to: "/" });
     },
     onError: (error: ApiError) => {
-      const errorMessage = error?.response?.data?.message || "Login failed";
+      const errorMessage = error?.response?.data?.message || "Logout failed";
       toast.error(errorMessage);
     },
   });

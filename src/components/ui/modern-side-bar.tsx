@@ -1,4 +1,3 @@
-"use client";
 import React, { useState, useEffect } from "react";
 import {
   Home,
@@ -16,6 +15,7 @@ import {
 import Logout from "@/features/admin/components/logoutButton";
 import AdminDetails from "@/features/admin/components/adminDetails";
 import ThemeToggle from "../theme-toggle";
+import { useRouter } from "@tanstack/react-router";
 
 interface NavigationItem {
   id: string;
@@ -65,6 +65,7 @@ export function Sidebar({ className = "" }: SidebarProps) {
   const [isOpen, setIsOpen] = useState(false);
   const [isCollapsed, setIsCollapsed] = useState(false);
   const [activeItem, setActiveItem] = useState("dashboard");
+  const router = useRouter();
 
   // Auto-open sidebar on desktop
   useEffect(() => {
@@ -84,11 +85,12 @@ export function Sidebar({ className = "" }: SidebarProps) {
   const toggleSidebar = () => setIsOpen(!isOpen);
   const toggleCollapse = () => setIsCollapsed(!isCollapsed);
 
-  const handleItemClick = (itemId: string) => {
-    setActiveItem(itemId);
+  const handleItemClick = (item: NavigationItem) => {
+    setActiveItem(item.id);
     if (window.innerWidth < 768) {
       setIsOpen(false);
     }
+    router.navigate({ to: `/admin/${item.href}` });
   };
 
   return (
@@ -174,7 +176,7 @@ export function Sidebar({ className = "" }: SidebarProps) {
               return (
                 <li key={item.id}>
                   <button
-                    onClick={() => handleItemClick(item.id)}
+                    onClick={() => handleItemClick(item)}
                     className={`
                       w-full flex items-center space-x-3 px-4 py-3 rounded-xl text-left transition-all duration-200 group relative cursor-pointer
                       ${
@@ -259,7 +261,7 @@ export function Sidebar({ className = "" }: SidebarProps) {
 
         <div className="mt-auto border-t border-border/50 backdrop-blur-sm">
           <AdminDetails isCollapsed={isCollapsed} />
-          <Logout isCollapsed={isCollapsed} handleItemClick={handleItemClick} />
+          <Logout isCollapsed={isCollapsed} />
         </div>
       </div>
     </>

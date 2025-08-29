@@ -14,7 +14,7 @@ export const useForgotPassword = (callbacks: {
       callbacks?.onSuccess?.(variables.email);
     },
     onError: (error: ApiError) => {
-      const errorMessage = error?.response?.data?.message;
+      const errorMessage = error?.response?.data?.message || "Forgot password failed";
       toast.error(errorMessage);
     },
   });
