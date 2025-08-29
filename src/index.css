@@ -77,16 +77,18 @@
 }
 
 .dark {
-  --background: oklch(0.141 0.005 285.823);      
-  --foreground: oklch(0.985 0 0);                 
+  --background: oklch(0.141 0.005 285.823);
+  --foreground: oklch(0.985 0 0);
   --card: oklch(0.21 0.006 285.885);
   --card-foreground: oklch(0.985 0 0);
   --popover: oklch(0.21 0.006 285.885);
   --popover-foreground: oklch(0.985 0 0);
   --primary: oklch(0.546 0.245 262.881);
-  --primary: oklch(0.546 0.245 262.881);          /* bluish */
-  --primary-foreground: oklch(0.985 0 0);         /* white */
-  --secondary-foreground: oklch(0.985 0 0);       /* white */  --muted: oklch(0.274 0.006 286.033);
+  --primary: oklch(0.546 0.245 262.881); /* bluish */
+  --primary-foreground: oklch(0.985 0 0); /* white */
+  --secondary: oklch(0.35 0.03 260); /* dark slate blue-gray */
+  --secondary-foreground: oklch(0.92 0.02 260); /* light gray/blue text */
+  --muted: oklch(0.274 0.006 286.033);
   --muted-foreground: oklch(0.705 0.015 286.067);
   --accent: oklch(0.274 0.006 286.033);
   --accent-foreground: oklch(0.985 0 0);
@@ -109,12 +111,21 @@
   --sidebar-ring: oklch(0.488 0.243 264.376);
 }
 
-
 @layer base {
   * {
     @apply border-border outline-ring/50;
   }
   body {
     @apply bg-background text-foreground;
+  }
+}
+
+@layer utilities {
+  .scrollbar-hide::-webkit-scrollbar {
+    display: none;
+  }
+  .scrollbar-hide {
+    -ms-overflow-style: none; /* IE/Edge */
+    scrollbar-width: none; /* Firefox */
   }
 }

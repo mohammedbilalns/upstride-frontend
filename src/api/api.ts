@@ -1,3 +1,4 @@
+import { useAuthStore } from "@/store/auth.store";
 import type { InternalAxiosRequestConfig } from "axios";
 import axios, { AxiosError } from "axios";
 
@@ -28,6 +29,7 @@ api.interceptors.response.use(
         await api.post("/auth/refresh");
         return api(originalRequest);
       } catch (refreshError) {
+        useAuthStore.getState().clearUser();
         window.location.href = "/auth/";
         return Promise.reject(refreshError);
       }

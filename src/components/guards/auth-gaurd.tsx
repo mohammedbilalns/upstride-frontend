@@ -5,7 +5,7 @@ const roleRedirects: Record<string, string> = {
   user: "/",
   mentor: "/expert/dashboard",
   admin: "/admin/dashboard",
-  superadmin: "/superadmin",
+  superadmin: "/admin/dashboard",
 };
 
 export function authGuard(allowedRoles?: string[]) {

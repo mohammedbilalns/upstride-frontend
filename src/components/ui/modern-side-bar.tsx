@@ -167,7 +167,11 @@ export function Sidebar({ className = "" }: SidebarProps) {
         </div>
 
         {/* Navigation */}
-        <nav className="flex-1 px-4 py-2 overflow-y-auto">
+        <nav
+          className={`flex-1 px-4 scrollbar-hide py-2  scrollbar-hide ${
+            isCollapsed ? "overflow-hidden" : "overflow-y-auto"
+          }`}
+        >
           <ul className="space-y-1">
             {navigationItems.map((item) => {
               const Icon = item.icon;

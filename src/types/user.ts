@@ -6,6 +6,7 @@ export interface User {
   name: string;
   role: UserRole;
   avatar?: string;
+  isBlocked?: boolean;
   isActive: boolean;
   createdAt: string;
 }

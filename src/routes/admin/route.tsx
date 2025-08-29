@@ -5,7 +5,7 @@ import { authGuard } from "@/components/guards/auth-gaurd";
 import AdminNotFound from "@/features/admin/components/adminNotFound";
 
 export const Route = createFileRoute("/admin")({
-  beforeLoad: authGuard(["admin", "super_admin"]),
+  beforeLoad: authGuard(["admin", "superadmin"]),
   component: RouteComponent,
   notFoundComponent: AdminNotFound,
 });

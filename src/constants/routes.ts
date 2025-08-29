@@ -12,4 +12,9 @@ export const API_ROUTES = {
     GOOGLE: "/auth/google",
     REFRESH: "/auth/refresh",
   },
+  USERMANAGEMENT: {
+    USERS: "/users",
+    BLOCK: (id: string) => `/users/block/${id}`,
+    UNBLOCK: (id: string) => `/users/unblock/${id}`,
+  },
 };
