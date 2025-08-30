@@ -62,9 +62,16 @@ export async function createExpertise(
   }
 }
 
-export async function updateExpertise(id: string) {
+export async function updateExpertise(
+  id: string,
+  name: string,
+  description: string,
+) {
   try {
-    const response = await api.put(API_ROUTES.EXPERTISE.UPDATE(id));
+    const response = await api.put(API_ROUTES.EXPERTISE.UPDATE(id), {
+      name,
+      description,
+    });
     return response.data;
   } catch (error) {
     console.error("Error while updating expertise", error);
@@ -88,6 +95,16 @@ export async function updateSkill(id: string) {
     return response.data;
   } catch (error) {
     console.error("Error while updatingskill expertise", error);
+    throw error;
+  }
+}
+
+export async function verifySkill(id: string) {
+  try {
+    const response = await api.put(API_ROUTES.EXPERTISE.VERIFY_SKILL(id));
+    return response.data;
+  } catch (error) {
+    console.error("Error while verifying skill", error);
     throw error;
   }
 }

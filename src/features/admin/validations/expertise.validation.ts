@@ -31,6 +31,20 @@ export const createExpertiseSchema = z.object({
     ),
 });
 
+export const updateExpertiseSchema = z.object({
+  name: z
+    .string()
+    .trim()
+    .min(3, "Name should be atleast 3 characters long")
+    .max(50, "Name should be atmost 50 characters long"),
+  description: z
+    .string()
+    .trim()
+    .min(3, "Description should be atleast 3 characters long")
+    .max(200, "Description should be atmost 200 characters long"),
+});
+export type updateExpertiseFormValues = z.infer<typeof updateExpertiseSchema>;
+
 export type FormValues = z.infer<typeof createExpertiseSchema>;
 
 export const createSkillSchema = z.object({

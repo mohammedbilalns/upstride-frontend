@@ -1,15 +1,15 @@
 import { useMutation, useQueryClient } from "@tanstack/react-query";
-import { verifyExpertise } from "../services/expertiseManagement.service";
-import type { ApiError } from "@/types";
+import { verifySkill } from "../services/expertiseManagement.service";
 import { toast } from "sonner";
+import type { ApiError } from "@/types";
 
-export const useVerifyExpertise = () => {
+export const useVerifySkill = () => {
   const queryClient = useQueryClient();
   return useMutation({
-    mutationFn: (id: string) => verifyExpertise(id),
+    mutationFn: (id: string) => verifySkill(id),
     onSuccess: (response) => {
       toast.success(response.message);
-      queryClient.invalidateQueries({ queryKey: ["expertises"] });
+      queryClient.invalidateQueries({ queryKey: ["skills"] });
     },
     onError: (error: ApiError) => {
       const errorMessage = error?.response?.data?.message;

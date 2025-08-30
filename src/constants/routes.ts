@@ -24,6 +24,7 @@ export const API_ROUTES = {
     VERIFY: (id: string) => `/expertise/${id}/verify`,
     CREATE_SKILL: (id: string) => `/expertise/${id}/skills`,
     UPDATE_SKILL: (id: string) => `/expertise/skills/${id}`,
+    VERIFY_SKILL: (id: string) => `/expertise/skills/${id}/verify`,
     FETCH_SKILLS: (id: string) => `/expertise/${id}/skills`,
   },
 };

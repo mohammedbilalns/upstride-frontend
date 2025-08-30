@@ -3,6 +3,8 @@ import { Check, X } from "lucide-react";
 import type { Skill } from "@/types";
 import { useFetchSkills } from "../hooks/useFetchSkills";
 import CreateSkillDialog from "./createSkillDialog";
+import { useVerifySkill } from "../hooks/useVerifySkill";
+import { ConfirmDialog } from "@/components/confirm";
 
 interface Props {
   expertiseId: string;
@@ -10,12 +12,12 @@ interface Props {
 
 export default function ExpertiseSkillsCollapse({ expertiseId }: Props) {
   const { data, isLoading } = useFetchSkills(expertiseId);
-  console.log("data", data);
-  const skills: Skill[] = data?.data || [];
+  const verifySkillMutation = useVerifySkill();
 
-  const onToggleSkillVerification = (skillId: string) => {
-    console.log("Toggle verify skill:", skillId);
+  const handleVerifySkill = (skillId: string) => {
+    verifySkillMutation.mutate(skillId);
   };
+  const skills: Skill[] = data?.data || [];
 
   return (
     <div className="bg-muted/30 p-4 border-t border-border/50">
@@ -55,14 +57,17 @@ export default function ExpertiseSkillsCollapse({ expertiseId }: Props) {
               </div>
 
               {!skill.isVerified && (
-                <Button
-                  size="sm"
-                  variant="outline"
-                  onClick={() => onToggleSkillVerification(skill.id)}
-                  className="h-6 px-2 text-xs"
+                <ConfirmDialog
+                  title="Verify Skill"
+                  description="Are you sure you want to verify this skill?"
+                  confirmText="Verify"
+                  variant="default"
+                  onConfirm={() => handleVerifySkill(skill.id)}
                 >
-                  Verify
-                </Button>
+                  <Button size="sm" variant="default">
+                    Verify
+                  </Button>
+                </ConfirmDialog>
               )}
             </div>
           ))}

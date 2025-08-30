@@ -17,6 +17,7 @@ import CreateExpertiseDialog from "./createExpertiseDialog";
 import { useFetchExpertises } from "../hooks/useFetchExperitses";
 import { useVerifyExpertise } from "../hooks/useVerifyExpertise";
 import ExpertiseSkillsCollapse from "./skillsCollapse";
+import UpdateExpertiseDialog from "./updateExpertiseDialog";
 
 export default function ExpertiseManagementTable() {
   const [page, setPage] = useState(1);
@@ -137,9 +138,11 @@ export default function ExpertiseManagementTable() {
                         <TableCell>{getStatusBadge(item.isVerified)}</TableCell>
                         <TableCell className="text-right">
                           <div className="flex justify-end gap-2">
-                            <Button size="sm" variant="outline">
-                              Edit
-                            </Button>
+                            <UpdateExpertiseDialog
+                              name={item.name}
+                              description={item.description}
+                              expertiseId={item.id}
+                            />
                             {!item.isVerified && (
                               <ConfirmDialog
                                 title="Verify Expertise"
