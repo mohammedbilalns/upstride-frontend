@@ -18,6 +18,7 @@ import { useFetchExpertises } from "../hooks/useFetchExperitses";
 import { useVerifyExpertise } from "../hooks/useVerifyExpertise";
 import ExpertiseSkillsCollapse from "./skillsCollapse";
 import UpdateExpertiseDialog from "./updateExpertiseDialog";
+import { Fragment } from "react";
 
 export default function ExpertiseManagementTable() {
   const [page, setPage] = useState(1);
@@ -115,8 +116,8 @@ export default function ExpertiseManagementTable() {
                   </TableRow>
                 ) : (
                   expertises.map((item) => (
-                    <>
-                      <TableRow key={item.id}>
+                    <Fragment key={item.id}>
+                      <TableRow>
                         <TableCell>
                           <Button
                             variant="ghost"
@@ -167,7 +168,7 @@ export default function ExpertiseManagementTable() {
                           </TableCell>
                         </TableRow>
                       )}
-                    </>
+                    </Fragment>
                   ))
                 )}
               </TableBody>

@@ -8,7 +8,6 @@ export default function Logout({ isCollapsed }: LogoutProps) {
   const logoutMutation = useLogout();
 
   const handleLogout = () => {
-    console.log("fsnfksjd");
     logoutMutation.mutate();
   };
 

@@ -8,20 +8,23 @@ export default function AuthCarousel() {
     {
       src: "/modern-office-collaboration.png",
       alt: "Team collaboration",
-      title: "Work Better Together",
-      description: "Join thousands of teams already using our platform",
+      title: "Find the Right Mentor",
+      description:
+        "Connect with experienced professionals who can guide your journey.",
     },
     {
       src: "/dashboard-analytics-charts-and-graphs.png",
       alt: "Analytics dashboard",
-      title: "Powerful Analytics",
-      description: "Get insights that drive your business forward",
+      title: "Learn & Grow Faster",
+      description:
+        "Discover topics and skills tailored to your interests and career path.",
     },
     {
       src: "/secure-cloud-technology-illustration.png",
       alt: "Secure platform",
-      title: "Enterprise Security",
-      description: "Your data is protected with industry-leading security",
+      title: "Join a Thriving Community",
+      description:
+        "Be part of a supportive network of learners, mentors, and professionals.",
     },
   ];
 
@@ -38,7 +41,7 @@ export default function AuthCarousel() {
 
   const prevImage = () => {
     setCurrentImage(
-      (prev) => (prev - 1 + carouselImages.length) % carouselImages.length
+      (prev) => (prev - 1 + carouselImages.length) % carouselImages.length,
     );
   };
 
@@ -74,8 +77,9 @@ export default function AuthCarousel() {
               {carouselImages[currentImage].description}
             </p>
             <div className="mt-8 text-base opacity-75">
-              <span className="font-semibold">SkillShare</span> - Share your
-              expertise
+              <span className="font-semibold">Upstride</span> helps you find the
+              right mentors and share your expertise with a community eager to
+              learn.
             </div>
           </div>
         </div>

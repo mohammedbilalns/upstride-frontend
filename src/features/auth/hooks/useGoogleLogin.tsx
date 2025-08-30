@@ -15,7 +15,7 @@ export const useGoogleLogin = () => {
     onSuccess: (response) => {
       toast.success(response.message);
       setUser(response.user);
-      router.navigate({ to: "/" });
+      router.navigate({ to: "/home" });
     },
     onError: (error: ApiError) => {
       const errorMessage = error?.response?.data?.message;

@@ -12,10 +12,12 @@ import { Route as rootRouteImport } from './routes/__root'
 import { Route as AboutRouteImport } from './routes/about'
 import { Route as AuthRouteRouteImport } from './routes/auth/route'
 import { Route as AdminRouteRouteImport } from './routes/admin/route'
+import { Route as authenticatedRouteRouteImport } from './routes/(authenticated)/route'
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as UnauthorizedIndexRouteImport } from './routes/unauthorized/index'
 import { Route as AuthIndexRouteImport } from './routes/auth/index'
 import { Route as AdminIndexRouteImport } from './routes/admin/index'
+import { Route as authenticatedHomeRouteImport } from './routes/(authenticated)/home'
 import { Route as AdminUsermanagementIndexRouteImport } from './routes/admin/usermanagement/index'
 import { Route as AdminMentormanagementIndexRouteImport } from './routes/admin/mentormanagement/index'
 import { Route as AdminExpertisemanagementIndexRouteImport } from './routes/admin/expertisemanagement/index'
@@ -34,6 +36,10 @@ const AuthRouteRoute = AuthRouteRouteImport.update({
 const AdminRouteRoute = AdminRouteRouteImport.update({
   id: '/admin',
   path: '/admin',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const authenticatedRouteRoute = authenticatedRouteRouteImport.update({
+  id: '/(authenticated)',
   getParentRoute: () => rootRouteImport,
 } as any)
 const IndexRoute = IndexRouteImport.update({
@@ -55,6 +61,11 @@ const AdminIndexRoute = AdminIndexRouteImport.update({
   id: '/',
   path: '/',
   getParentRoute: () => AdminRouteRoute,
+} as any)
+const authenticatedHomeRoute = authenticatedHomeRouteImport.update({
+  id: '/home',
+  path: '/home',
+  getParentRoute: () => authenticatedRouteRoute,
 } as any)
 const AdminUsermanagementIndexRoute =
   AdminUsermanagementIndexRouteImport.update({
@@ -81,10 +92,11 @@ const AdminDashboardIndexRoute = AdminDashboardIndexRouteImport.update({
 } as any)
 
 export interface FileRoutesByFullPath {
-  '/': typeof IndexRoute
+  '/': typeof authenticatedRouteRouteWithChildren
   '/admin': typeof AdminRouteRouteWithChildren
   '/auth': typeof AuthRouteRouteWithChildren
   '/about': typeof AboutRoute
+  '/home': typeof authenticatedHomeRoute
   '/admin/': typeof AdminIndexRoute
   '/auth/': typeof AuthIndexRoute
   '/unauthorized': typeof UnauthorizedIndexRoute
@@ -94,8 +106,9 @@ export interface FileRoutesByFullPath {
   '/admin/usermanagement': typeof AdminUsermanagementIndexRoute
 }
 export interface FileRoutesByTo {
-  '/': typeof IndexRoute
+  '/': typeof authenticatedRouteRouteWithChildren
   '/about': typeof AboutRoute
+  '/home': typeof authenticatedHomeRoute
   '/admin': typeof AdminIndexRoute
   '/auth': typeof AuthIndexRoute
   '/unauthorized': typeof UnauthorizedIndexRoute
@@ -107,9 +120,11 @@ export interface FileRoutesByTo {
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
+  '/(authenticated)': typeof authenticatedRouteRouteWithChildren
   '/admin': typeof AdminRouteRouteWithChildren
   '/auth': typeof AuthRouteRouteWithChildren
   '/about': typeof AboutRoute
+  '/(authenticated)/home': typeof authenticatedHomeRoute
   '/admin/': typeof AdminIndexRoute
   '/auth/': typeof AuthIndexRoute
   '/unauthorized/': typeof UnauthorizedIndexRoute
@@ -125,6 +140,7 @@ export interface FileRouteTypes {
     | '/admin'
     | '/auth'
     | '/about'
+    | '/home'
     | '/admin/'
     | '/auth/'
     | '/unauthorized'
@@ -136,6 +152,7 @@ export interface FileRouteTypes {
   to:
     | '/'
     | '/about'
+    | '/home'
     | '/admin'
     | '/auth'
     | '/unauthorized'
@@ -146,9 +163,11 @@ export interface FileRouteTypes {
   id:
     | '__root__'
     | '/'
+    | '/(authenticated)'
     | '/admin'
     | '/auth'
     | '/about'
+    | '/(authenticated)/home'
     | '/admin/'
     | '/auth/'
     | '/unauthorized/'
@@ -160,6 +179,7 @@ export interface FileRouteTypes {
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
+  authenticatedRouteRoute: typeof authenticatedRouteRouteWithChildren
   AdminRouteRoute: typeof AdminRouteRouteWithChildren
   AuthRouteRoute: typeof AuthRouteRouteWithChildren
   AboutRoute: typeof AboutRoute
@@ -189,6 +209,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AdminRouteRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/(authenticated)': {
+      id: '/(authenticated)'
+      path: '/'
+      fullPath: '/'
+      preLoaderRoute: typeof authenticatedRouteRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/': {
       id: '/'
       path: '/'
@@ -216,6 +243,13 @@ declare module '@tanstack/react-router' {
       fullPath: '/admin/'
       preLoaderRoute: typeof AdminIndexRouteImport
       parentRoute: typeof AdminRouteRoute
+    }
+    '/(authenticated)/home': {
+      id: '/(authenticated)/home'
+      path: '/home'
+      fullPath: '/home'
+      preLoaderRoute: typeof authenticatedHomeRouteImport
+      parentRoute: typeof authenticatedRouteRoute
     }
     '/admin/usermanagement/': {
       id: '/admin/usermanagement/'
@@ -247,6 +281,17 @@ declare module '@tanstack/react-router' {
     }
   }
 }
+
+interface authenticatedRouteRouteChildren {
+  authenticatedHomeRoute: typeof authenticatedHomeRoute
+}
+
+const authenticatedRouteRouteChildren: authenticatedRouteRouteChildren = {
+  authenticatedHomeRoute: authenticatedHomeRoute,
+}
+
+const authenticatedRouteRouteWithChildren =
+  authenticatedRouteRoute._addFileChildren(authenticatedRouteRouteChildren)
 
 interface AdminRouteRouteChildren {
   AdminIndexRoute: typeof AdminIndexRoute
@@ -282,6 +327,7 @@ const AuthRouteRouteWithChildren = AuthRouteRoute._addFileChildren(
 
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
+  authenticatedRouteRoute: authenticatedRouteRouteWithChildren,
   AdminRouteRoute: AdminRouteRouteWithChildren,
   AuthRouteRoute: AuthRouteRouteWithChildren,
   AboutRoute: AboutRoute,

@@ -1,4 +1,3 @@
-"use client";
 import { cn } from "@/lib/utils";
 import { Button } from "@/components/ui/button";
 import ThemeToggle from "../theme-toggle";
@@ -28,7 +27,7 @@ export function Header() {
       <div className="container mx-auto px-4 h-16 flex items-center justify-between gap-6">
         <div className="flex items-center gap-6">
           <Link to="/" className="font-bold text-xl">
-            SkillShare
+            Upstride
           </Link>
 
           <nav className="hidden md:flex items-center gap-6">

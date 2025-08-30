@@ -53,8 +53,9 @@ export default function CreateExpertiseDialog() {
   return (
     <Dialog
       open={open}
-      onOpenChange={(open) => {
-        if (!open) reset();
+      onOpenChange={(isOpen) => {
+        setOpen(isOpen);
+        if (!isOpen) reset();
       }}
     >
       <DialogTrigger asChild>
@@ -123,7 +124,6 @@ export default function CreateExpertiseDialog() {
                 className="cursor-pointer"
                 type="button"
                 variant="outline"
-                onClick={() => reset()}
               >
                 Cancel
               </Button>

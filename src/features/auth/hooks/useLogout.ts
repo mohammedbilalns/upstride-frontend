@@ -14,7 +14,7 @@ export const useLogout = () => {
     onSuccess: (response) => {
       clearUser();
       toast.success(response.message);
-      router.navigate({ to: "/" });
+      router.navigate({ to: "/auth" });
     },
     onError: (error: ApiError) => {
       const errorMessage = error?.response?.data?.message || "Logout failed";

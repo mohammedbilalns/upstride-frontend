@@ -73,7 +73,6 @@ export function Sidebar({ className = "" }: SidebarProps) {
   const [activeItem, setActiveItem] = useState("dashboard");
   const router = useRouter();
 
-  // Auto-open sidebar on desktop
   useEffect(() => {
     const handleResize = () => {
       if (window.innerWidth >= 768) {
@@ -104,7 +103,7 @@ export function Sidebar({ className = "" }: SidebarProps) {
       {/* Mobile hamburger button */}
       <button
         onClick={toggleSidebar}
-        className="fixed top-6 left-6 z-50 p-3 rounded-xl bg-card shadow-lg border border-border/50 backdrop-blur-sm md:hidden hover:bg-accent transition-all duration-200"
+        className="fixed bottom-6 left-6 z-50 p-3 rounded-xl bg-card shadow-lg border border-border/50 backdrop-blur-sm md:hidden hover:bg-accent transition-all duration-200"
         aria-label="Toggle sidebar"
       >
         {isOpen ? (
@@ -122,7 +121,6 @@ export function Sidebar({ className = "" }: SidebarProps) {
         />
       )}
 
-      {/* Sidebar */}
       <div
         className={`
           fixed top-0 left-0 h-screen bg-gradient-to-b from-background to-muted/20 border-r border-border/50 backdrop-blur-sm z-40 transition-all duration-300 ease-in-out flex flex-col
@@ -132,7 +130,6 @@ export function Sidebar({ className = "" }: SidebarProps) {
           ${className}
         `}
       >
-        {/* Header with logo and collapse button */}
         <div className="flex items-center justify-between p-6 border-b border-border/50">
           {!isCollapsed && (
             <div className="flex items-center space-x-3">
@@ -143,7 +140,7 @@ export function Sidebar({ className = "" }: SidebarProps) {
               </div>
               <div className="flex flex-col">
                 <span className="font-bold text-foreground text-xl">
-                  SkillShare
+                  Upstride
                 </span>
                 <span className="text-sm text-muted-foreground">Dashboard</span>
               </div>

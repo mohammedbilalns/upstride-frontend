@@ -15,7 +15,7 @@ export const useLogin = () => {
     onSuccess: (response) => {
       setUser(response.user);
       toast.success(response.message);
-      router.navigate({ to: "/" });
+      router.navigate({ to: "/home" });
     },
     onError: (error: ApiError) => {
       const errorMessage = error?.response?.data?.message;

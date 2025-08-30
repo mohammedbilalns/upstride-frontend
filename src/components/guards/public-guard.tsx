@@ -6,7 +6,7 @@ export function publicGuard() {
     const { isLoggedIn } = useAuthStore.getState();
     if (isLoggedIn) {
       throw redirect({
-        to: "/",
+        to: "/home",
       });
     }
   };
