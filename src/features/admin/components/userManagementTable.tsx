@@ -48,7 +48,7 @@ export default function UserManagementTable() {
             initialValue={search}
           />
 
-          <div className="min-h-[68vh] overflow-x-auto rounded-lg border border-border/50">
+          <div className="min-h-[68vh] overflow-x-auto rounded-lg border border-border/50 ">
             <Table>
               <TableHeader>
                 <TableRow>

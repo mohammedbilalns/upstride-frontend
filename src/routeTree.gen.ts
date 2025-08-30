@@ -17,6 +17,8 @@ import { Route as UnauthorizedIndexRouteImport } from './routes/unauthorized/ind
 import { Route as AuthIndexRouteImport } from './routes/auth/index'
 import { Route as AdminIndexRouteImport } from './routes/admin/index'
 import { Route as AdminUsermanagementIndexRouteImport } from './routes/admin/usermanagement/index'
+import { Route as AdminMentormanagementIndexRouteImport } from './routes/admin/mentormanagement/index'
+import { Route as AdminExpertisemanagementIndexRouteImport } from './routes/admin/expertisemanagement/index'
 import { Route as AdminDashboardIndexRouteImport } from './routes/admin/dashboard/index'
 
 const AboutRoute = AboutRouteImport.update({
@@ -60,6 +62,18 @@ const AdminUsermanagementIndexRoute =
     path: '/usermanagement/',
     getParentRoute: () => AdminRouteRoute,
   } as any)
+const AdminMentormanagementIndexRoute =
+  AdminMentormanagementIndexRouteImport.update({
+    id: '/mentormanagement/',
+    path: '/mentormanagement/',
+    getParentRoute: () => AdminRouteRoute,
+  } as any)
+const AdminExpertisemanagementIndexRoute =
+  AdminExpertisemanagementIndexRouteImport.update({
+    id: '/expertisemanagement/',
+    path: '/expertisemanagement/',
+    getParentRoute: () => AdminRouteRoute,
+  } as any)
 const AdminDashboardIndexRoute = AdminDashboardIndexRouteImport.update({
   id: '/dashboard/',
   path: '/dashboard/',
@@ -75,6 +89,8 @@ export interface FileRoutesByFullPath {
   '/auth/': typeof AuthIndexRoute
   '/unauthorized': typeof UnauthorizedIndexRoute
   '/admin/dashboard': typeof AdminDashboardIndexRoute
+  '/admin/expertisemanagement': typeof AdminExpertisemanagementIndexRoute
+  '/admin/mentormanagement': typeof AdminMentormanagementIndexRoute
   '/admin/usermanagement': typeof AdminUsermanagementIndexRoute
 }
 export interface FileRoutesByTo {
@@ -84,6 +100,8 @@ export interface FileRoutesByTo {
   '/auth': typeof AuthIndexRoute
   '/unauthorized': typeof UnauthorizedIndexRoute
   '/admin/dashboard': typeof AdminDashboardIndexRoute
+  '/admin/expertisemanagement': typeof AdminExpertisemanagementIndexRoute
+  '/admin/mentormanagement': typeof AdminMentormanagementIndexRoute
   '/admin/usermanagement': typeof AdminUsermanagementIndexRoute
 }
 export interface FileRoutesById {
@@ -96,6 +114,8 @@ export interface FileRoutesById {
   '/auth/': typeof AuthIndexRoute
   '/unauthorized/': typeof UnauthorizedIndexRoute
   '/admin/dashboard/': typeof AdminDashboardIndexRoute
+  '/admin/expertisemanagement/': typeof AdminExpertisemanagementIndexRoute
+  '/admin/mentormanagement/': typeof AdminMentormanagementIndexRoute
   '/admin/usermanagement/': typeof AdminUsermanagementIndexRoute
 }
 export interface FileRouteTypes {
@@ -109,6 +129,8 @@ export interface FileRouteTypes {
     | '/auth/'
     | '/unauthorized'
     | '/admin/dashboard'
+    | '/admin/expertisemanagement'
+    | '/admin/mentormanagement'
     | '/admin/usermanagement'
   fileRoutesByTo: FileRoutesByTo
   to:
@@ -118,6 +140,8 @@ export interface FileRouteTypes {
     | '/auth'
     | '/unauthorized'
     | '/admin/dashboard'
+    | '/admin/expertisemanagement'
+    | '/admin/mentormanagement'
     | '/admin/usermanagement'
   id:
     | '__root__'
@@ -129,6 +153,8 @@ export interface FileRouteTypes {
     | '/auth/'
     | '/unauthorized/'
     | '/admin/dashboard/'
+    | '/admin/expertisemanagement/'
+    | '/admin/mentormanagement/'
     | '/admin/usermanagement/'
   fileRoutesById: FileRoutesById
 }
@@ -198,6 +224,20 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AdminUsermanagementIndexRouteImport
       parentRoute: typeof AdminRouteRoute
     }
+    '/admin/mentormanagement/': {
+      id: '/admin/mentormanagement/'
+      path: '/mentormanagement'
+      fullPath: '/admin/mentormanagement'
+      preLoaderRoute: typeof AdminMentormanagementIndexRouteImport
+      parentRoute: typeof AdminRouteRoute
+    }
+    '/admin/expertisemanagement/': {
+      id: '/admin/expertisemanagement/'
+      path: '/expertisemanagement'
+      fullPath: '/admin/expertisemanagement'
+      preLoaderRoute: typeof AdminExpertisemanagementIndexRouteImport
+      parentRoute: typeof AdminRouteRoute
+    }
     '/admin/dashboard/': {
       id: '/admin/dashboard/'
       path: '/dashboard'
@@ -211,12 +251,16 @@ declare module '@tanstack/react-router' {
 interface AdminRouteRouteChildren {
   AdminIndexRoute: typeof AdminIndexRoute
   AdminDashboardIndexRoute: typeof AdminDashboardIndexRoute
+  AdminExpertisemanagementIndexRoute: typeof AdminExpertisemanagementIndexRoute
+  AdminMentormanagementIndexRoute: typeof AdminMentormanagementIndexRoute
   AdminUsermanagementIndexRoute: typeof AdminUsermanagementIndexRoute
 }
 
 const AdminRouteRouteChildren: AdminRouteRouteChildren = {
   AdminIndexRoute: AdminIndexRoute,
   AdminDashboardIndexRoute: AdminDashboardIndexRoute,
+  AdminExpertisemanagementIndexRoute: AdminExpertisemanagementIndexRoute,
+  AdminMentormanagementIndexRoute: AdminMentormanagementIndexRoute,
   AdminUsermanagementIndexRoute: AdminUsermanagementIndexRoute,
 }
 

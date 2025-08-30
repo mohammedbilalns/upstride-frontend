@@ -17,4 +17,13 @@ export const API_ROUTES = {
     BLOCK: (id: string) => `/users/block/${id}`,
     UNBLOCK: (id: string) => `/users/unblock/${id}`,
   },
+  EXPERTISE: {
+    CREATE: "/expertise/",
+    FETCH: "/expertise",
+    UPDATE: (id: string) => `/expertise/${id}`,
+    VERIFY: (id: string) => `/expertise/${id}/verify`,
+    CREATE_SKILL: (id: string) => `/expertise/${id}/skills`,
+    UPDATE_SKILL: (id: string) => `/expertise/skills/${id}`,
+    FETCH_SKILLS: (id: string) => `/expertise/${id}/skills`,
+  },
 };

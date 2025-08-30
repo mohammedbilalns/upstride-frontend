@@ -11,6 +11,7 @@ import {
   ShieldCheck,
   Newspaper,
   Users,
+  Star,
 } from "lucide-react";
 import Logout from "@/features/admin/components/logoutButton";
 import AdminDetails from "@/features/admin/components/adminDetails";
@@ -38,18 +39,17 @@ const navigationItems: NavigationItem[] = [
     href: "/usermanagement",
   },
   {
-    id: "analytics",
-    name: "Analytics",
-    icon: ChartLine,
-    href: "/analytics",
-    badge: "3",
+    id: "expertisemanagement",
+    name: "Expertise Management",
+    icon: Star,
+    href: "/expertisemanagement",
   },
+
   {
     id: "mentormanagement",
     name: "Mentor Management",
     icon: ShieldCheck,
     href: "/mentormanagement",
-    badge: "12",
   },
   { id: "articles", name: "Articles", icon: Newspaper, href: "/articles" },
   {
@@ -57,6 +57,12 @@ const navigationItems: NavigationItem[] = [
     name: "Chat & Sessions",
     icon: MessageCircle,
     href: "/chatandselp",
+  },
+  {
+    id: "analytics",
+    name: "Analytics",
+    icon: ChartLine,
+    href: "/analytics",
   },
   { id: "settings", name: "Settings", icon: Settings, href: "/settings" },
 ];
