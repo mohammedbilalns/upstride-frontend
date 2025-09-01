@@ -16,11 +16,13 @@ import { useRegister } from "../hooks";
 import GoogleOAuthButton from "./google-oauth-button";
 
 interface RegisterFormProps {
+	onRegisterSuccess?: (email: string) => void;
   onSuccess?: (email: string) => void;
   setActiveTab: (tab: "login" | "register") => void;
 }
 
 export default function RegisterForm({
+	onRegisterSuccess,
   onSuccess,
   setActiveTab,
 }: RegisterFormProps) {
@@ -160,7 +162,7 @@ export default function RegisterForm({
       </form>
 
       <div className="mt-4">
-        <GoogleOAuthButton></GoogleOAuthButton>
+        <GoogleOAuthButton onRegisterSuccess={onRegisterSuccess}></GoogleOAuthButton>
       </div>
 
       {/* 👇 Login link */}

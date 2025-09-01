@@ -117,12 +117,22 @@ export default function AuthLayout() {
                   </TabsList>
                   <TabsContent value="login">
                     <LoginForm
+											onRegisterSuccess= {(email)=>{
+												setRegisteredEmail(email)
+												setShowExpertiseSelection(true);
+											}}
                       setActiveTab={setActiveTab}
                       setForgotpassword={setShowForgotPassword}
                     />
                   </TabsContent>
                   <TabsContent value="register">
                     <RegisterForm
+												onRegisterSuccess= {(email)=>{
+												setRegisteredEmail(email)
+												setShowExpertiseSelection(true);
+
+											}}
+											
                       setActiveTab={setActiveTab}
                       onSuccess={(email: string) => {
                         setRegisteredEmail(email);

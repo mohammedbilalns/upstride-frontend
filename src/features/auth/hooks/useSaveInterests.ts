@@ -11,7 +11,6 @@ export const useSaveInterests = () => {
   return useMutation({
     mutationFn: (data: unknown) => saveInterests(data),
     onSuccess: (response) => {
-			console.log("response", response);
 			setUser(response.user);
 			router.navigate({ to: "/home" });
 			

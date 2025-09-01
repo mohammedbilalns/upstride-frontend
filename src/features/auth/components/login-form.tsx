@@ -16,11 +16,13 @@ import { useLogin } from "../hooks/useLogin";
 import GoogleOAuthButton from "./google-oauth-button";
 
 type LoginFormProps = {
+	onRegisterSuccess?: (email:string) => void;
   setActiveTab: (tab: "login" | "register") => void;
   setForgotpassword: (forgotpassword: boolean) => void;
 };
 
 export default function LoginForm({
+	onRegisterSuccess,
   setActiveTab,
   setForgotpassword,
 }: LoginFormProps) {
@@ -97,7 +99,7 @@ export default function LoginForm({
       </form>
 
       <div className="mt-4">
-        <GoogleOAuthButton></GoogleOAuthButton>
+        <GoogleOAuthButton onRegisterSuccess={onRegisterSuccess}></GoogleOAuthButton>
       </div>
 
       <p className="mt-4 text-center text-sm text-muted-foreground ">

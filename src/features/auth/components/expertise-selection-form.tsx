@@ -4,8 +4,9 @@ import { AreaSelectionStep } from "./area-selection";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { TopicSelectionStep } from "./topic-selection-step";
 import { useFetchExpertiseAreas } from "../hooks/useFetchExpertiseAreas";
+import type { ExpertiseArea } from "@/types";
 
-export default function ExpertiseSelection({ onComplete,email }: { onComplete: () => void, email:string }) {
+export default function ExpertiseSelection({ onComplete,email }: { onComplete: () => void, email:string| null }) {
 
   const [selectedAreas, setSelectedAreas] = useState<string[]>([]);
   const [selectedTopicsByArea, setSelectedTopicsByArea] = useState<Record<string, string[]>>({});
@@ -13,7 +14,7 @@ export default function ExpertiseSelection({ onComplete,email }: { onComplete: (
   const [currentAreaIndex, setCurrentAreaIndex] = useState(0);
   
   const { data: expertiseData } = useFetchExpertiseAreas();
-  const expertiseAreas = expertiseData?.expertises || [];
+  const expertiseAreas :ExpertiseArea[] = expertiseData?.expertises || [];
   const saveInterestsMutation = useSaveInterests();
   
   const toggleAreaSelection = (areaId: string) => {
@@ -47,7 +48,7 @@ export default function ExpertiseSelection({ onComplete,email }: { onComplete: (
         };
       }
     });
-  };
+  }; 
 
   const handleSubmit = async () => {
     const allTopics = Object.values(selectedTopicsByArea).flat();
@@ -89,11 +90,11 @@ export default function ExpertiseSelection({ onComplete,email }: { onComplete: (
   };
 
   const currentAreaId = selectedAreas[currentAreaIndex];
-  const currentArea = expertiseAreas.find(area => area.id === currentAreaId);
+  const currentArea = expertiseAreas.find(area  => area.id === currentAreaId);
   const currentTopics = selectedTopicsByArea[currentAreaId] || [];
 
   return (
-    <div className="w-full max-w-2xl mx-auto">
+    <div className="w-full max-w-2xl mx-auto pt-16 ">
       <div className="text-center mb-8">
         <h1 className="text-3xl font-bold mb-3 bg-gradient-to-r from-foreground via-foreground/90 to-foreground/80 bg-clip-text text-transparent">
           Select Your Expertise
