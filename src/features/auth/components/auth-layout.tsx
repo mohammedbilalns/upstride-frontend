@@ -1,4 +1,3 @@
-"use client";
 import { Tabs, TabsList, TabsTrigger, TabsContent } from "@/components/ui/tabs";
 import { useState } from "react";
 import LoginForm from "./login-form";
@@ -8,6 +7,7 @@ import { RegisterOtpVerification } from "./register-otp-verification";
 import { ForgotPasswordOtpVerification } from "./reset-otp-verification";
 import ForgotPasswordForm from "./forgot-password-form";
 import ResetPasswordForm from "./reset-password-form";
+import ExpertiseSelection from "./expertise-selection-form";
 
 export default function AuthLayout() {
   const [activeTab, setActiveTab] = useState("login");
@@ -16,7 +16,13 @@ export default function AuthLayout() {
   const [showForgotPasswordOtp, setShowForgotPasswordOtp] = useState(false);
   const [showResetPassword, setShowResetPassword] = useState(false);
   const [registeredEmail, setRegisteredEmail] = useState<string | null>(null);
+  const [showExpertiseSelection, setShowExpertiseSelection] = useState(false);
 
+  if (showExpertiseSelection) {
+    return (
+      <ExpertiseSelection email={registeredEmail} onComplete={() => setShowExpertiseSelection(false)} />
+    );
+  }
   return (
     <div className="min-h-[calc(100vh-1rem)] grid lg:grid-cols-2 relative overflow-hidden">
       {/* Background gradient overlay */}
@@ -58,7 +64,13 @@ export default function AuthLayout() {
             <div className="relative z-10">
               {showOtp ? (
                 <RegisterOtpVerification
-                  onOtpExpired={() => setShowOtp(false)}
+                  onOtpExpired={() => {
+                    setShowOtp(false);
+                  }}
+									onOtpVerified={() => {
+										setShowOtp(false);
+										setShowExpertiseSelection(true);
+									}}
                   email={registeredEmail || ""}
                 />
               ) : showForgotPasswordOtp ? (

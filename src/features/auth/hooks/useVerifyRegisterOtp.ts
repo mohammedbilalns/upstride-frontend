@@ -1,8 +1,6 @@
 import { useMutation } from "@tanstack/react-query";
 import { verifyRegisterOtp } from "../services/auth.service";
-import { useAuthStore } from "@/store/auth.store";
 import { toast } from "sonner";
-import { useRouter } from "@tanstack/react-router";
 import type { ApiError } from "@/types";
 
 type VerifyOtpData = {
@@ -12,16 +10,14 @@ type VerifyOtpData = {
 
 export const useVerifyRegisterOtp = (callbacks?: {
   onOtpExpired?: () => void;
+	onOtpVerified?: () => void;
 }) => {
-  const router = useRouter();
-  const { setUser } = useAuthStore();
 
   return useMutation({
     mutationFn: (data: VerifyOtpData) => verifyRegisterOtp(data),
     onSuccess: (response) => {
-      setUser(response.user);
+			callbacks?.onOtpVerified?.();
       toast.success(response.message);
-      router.navigate({ to: "/" });
     },
     onError: (error: ApiError) => {
       const errorMessage = error?.response?.data?.message;

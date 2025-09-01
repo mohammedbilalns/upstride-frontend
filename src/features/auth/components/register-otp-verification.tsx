@@ -5,11 +5,13 @@ import { OtpVerificationBase } from "./otp-verification-base";
 export function RegisterOtpVerification({
   email,
   onOtpExpired,
+	onOtpVerified,
 }: {
   email: string;
   onOtpExpired: () => void;
+	onOtpVerified: () => void;
 }) {
-  const verifyOtpMutation = useVerifyRegisterOtp({ onOtpExpired });
+  const verifyOtpMutation = useVerifyRegisterOtp({ onOtpExpired,onOtpVerified });
   const resendOtpMutation = useResendRegisterOtp({ onOtpExpired });
 
   return (

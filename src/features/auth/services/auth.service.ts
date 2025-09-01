@@ -82,15 +82,7 @@ export async function updatePassword(data: unknown) {
   }
 }
 
-// export async function refershToken(data: unknown) {
-//   try {
-//     const response = await api.post(API_ROUTES.AUTH.REFRESH, data);
-//     return response.data;
-//   } catch (error) {
-//     console.error("error while refreshing token", error);
-//     throw error;
-//   }
-// }
+
 
 export async function logout() {
   try {
@@ -110,4 +102,36 @@ export async function googleLogin(credentials: CredentialResponse) {
     console.error("error while logging in with google", error);
     throw error;
   }
+}
+
+export async function fetchExpertiseAreas(){
+	try{
+		const response = await api.get(API_ROUTES.EXPERTISE.FETCH);
+		console.log("response", response);
+		return response.data;
+	}catch(error){
+		console.error("error while fetching expertise areas", error);
+		throw error;
+	}
+}
+// change data to array 
+// export async function fetchSkillsByAreas(data: string[]) {
+// 	try{
+// 		const response = await api.post(API_ROUTES.EXPERTISE.FETCH_SKILLS_BY_AREAS, data);
+// 		return response.data;
+// 	}catch(error){
+// 		console.error("error while fetching skills by areas", error);
+// 		throw error;
+// 	}
+// }
+
+
+export async function  saveInterests(data: unknown) {
+	try{
+		const response = await api.post(API_ROUTES.AUTH.ADD_INTERESTS, data);
+		return response.data;
+	}catch(error){
+		console.error("error while saving expertise and skills", error);
+		throw error;
+	} 
 }

@@ -1,13 +1,15 @@
-import { keepPreviousData, useQuery } from "@tanstack/react-query";
+import { useQuery } from "@tanstack/react-query";
 import { fetchSkills } from "../services/expertiseManagement.service";
 
 export const useFetchSkills = (expertiseId: string) => {
   return useQuery({
     queryKey: ["skills", expertiseId],
-    queryFn: ({ queryKey }) => {
-      const [, expertiseId] = queryKey;
-      return fetchSkills(expertiseId as string);
-    },
-    placeholderData: keepPreviousData,
+    queryFn: () => fetchSkills(expertiseId),
+    enabled: !!expertiseId, 
+    staleTime: 0, 
+    gcTime: 0, 
+    refetchOnWindowFocus: false,
+    refetchOnReconnect: false,
+    retry: false,
   });
 };

@@ -11,6 +11,9 @@ export const API_ROUTES = {
     UPDATE_PASSWORD: "/auth/update-password",
     GOOGLE: "/auth/google",
     REFRESH: "/auth/refresh",
+		ADD_INTERESTS: "/auth/add-interests",
+
+
   },
   USERMANAGEMENT: {
     USERS: "/users",
@@ -26,5 +29,6 @@ export const API_ROUTES = {
     UPDATE_SKILL: (id: string) => `/expertise/skills/${id}`,
     VERIFY_SKILL: (id: string) => `/expertise/skills/${id}/verify`,
     FETCH_SKILLS: (id: string) => `/expertise/${id}/skills`,
+		FETCH_SKILLS_BY_AREAS: "/expertise/skills",
   },
 };
