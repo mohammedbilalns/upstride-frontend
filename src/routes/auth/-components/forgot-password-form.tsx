@@ -14,7 +14,7 @@ import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { useForgotPassword } from "../-hooks/useForgotPassword";
 
-export default function ForgotPasswordForm({
+export  function ForgotPasswordForm({
   onSuccess,
 }: {
   onSuccess: (email: string) => void;

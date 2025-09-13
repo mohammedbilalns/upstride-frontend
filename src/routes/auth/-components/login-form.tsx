@@ -21,7 +21,7 @@ type LoginFormProps = {
   setForgotpassword: (forgotpassword: boolean) => void;
 };
 
-export default function LoginForm({
+export function LoginForm({
   onRegisterSuccess,
   setActiveTab,
   setForgotpassword,

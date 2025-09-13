@@ -21,7 +21,7 @@ interface RegisterFormProps {
   setActiveTab: (tab: "login" | "register") => void;
 }
 
-export default function RegisterForm({
+export function RegisterForm({
   onRegisterSuccess,
   onSuccess,
   setActiveTab,

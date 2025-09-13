@@ -15,7 +15,7 @@ import { Button } from "@/components/ui/button";
 import { useUpdatePassword } from "../-hooks/useUpdatePassword";
 type ResetPasswordFormProps = { email: string; onSuccess: () => void };
 
-export default function ResetPasswordForm({
+export function ResetPasswordForm({
   email,
   onSuccess,
 }: ResetPasswordFormProps) {
