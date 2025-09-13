@@ -196,7 +196,7 @@ const dummyQuickActions: QuickAction[] = [
   }
 ];
 
-export const Route = createFileRoute('/(authenticated)/home')({
+export const Route = createFileRoute('/(authenticated)/home/')({
   component: RouteComponent,
 })
 
@@ -212,7 +212,7 @@ function RouteComponent() {
               <CardHeader>
                 <CardTitle className="flex items-center justify-between">
                   <span>Find Mentors</span>
-                  <Button variant="ghost" size="icon">
+                  <Button className='cursor-pointer' variant="ghost" size="icon">
                     <Filter className="h-4 w-4" />
                   </Button>
                 </CardTitle>
@@ -244,12 +244,12 @@ function RouteComponent() {
                           <p className="text-xs text-muted-foreground">{mentor.title}</p>
                         </div>
                       </div>
-                      <Button size="sm">Connect</Button>
+                      <Button className='cursor-pointer' size="sm">Connect</Button>
                     </div>
                   ))}
                 </div>
                 
-                <Button variant="link" className="w-full">
+                <Button variant="link" className="w-full cursor-pointer">
                   View All Mentors
                 </Button>
               </CardContent>
@@ -282,7 +282,7 @@ function RouteComponent() {
                   </div>
                 ))}
                 
-                <Button variant="link" className="w-full">
+                <Button variant="link" className="w-full cursor-pointer">
                   View All Mentors
                 </Button>
               </CardContent>
@@ -358,7 +358,7 @@ function RouteComponent() {
                       <Clock className="h-3 w-3 mr-1" />
                       <span>{session.time}</span>
                     </div>
-                    <Button className="w-full mt-3" size="sm">
+                    <Button className="cursor-pointer w-full mt-3" size="sm">
                       Join Session
                     </Button>
                   </div>
@@ -371,7 +371,7 @@ function RouteComponent() {
               <CardHeader>
                 <CardTitle>Recommended Articles</CardTitle>
               </CardHeader>
-              <CardContent className="space-y-3">
+              <CardContent className="space-y-3 cursor-pointer">
                 {dummyRecommendedArticles.map((article) => (
                   <div key={article.id} className="flex items-start p-2 rounded-lg hover:bg-muted transition-colors">
                     <img 
@@ -397,7 +397,7 @@ function RouteComponent() {
                 {dummyQuickActions.map((action) => {
                   const Icon = action.icon;
                   return (
-                    <Button key={action.id} variant="ghost" className="w-full justify-start">
+                    <Button key={action.id} variant="ghost" className="cursor-pointer w-full justify-start">
                       <div className="bg-muted p-2 rounded-lg mr-3">
                         <Icon className="h-4 w-4 text-primary" />
                       </div>
@@ -424,3 +424,4 @@ function RouteComponent() {
     </div>
   )
 }
+

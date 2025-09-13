@@ -31,4 +31,19 @@ export const API_ROUTES = {
     FETCH_SKILLS: (id: string) => `/expertise/${id}/skills`,
 		FETCH_SKILLS_BY_AREAS: "/expertise/skills",
   },
+	MENTOR: {
+		FETCH: "/mentor",
+		UPDATE: "/mentor",
+		CREATE: "/mentor",
+		APPROVE: (id: string) => `/mentor/${id}/approve`,
+		REJECT: (id: string) => `/mentor/${id}/reject`,
+	},
+	ARTICLES: {
+    ARTICLES: "/articles",
+		CREATE: "/articles",
+		UPDATE: (id: string) => `/articles/${id}`,
+		DELETE: (id: string) => `/articles/${id}`,
+		READ: (id: string) => `/articles/${id}`,
+	},
+
 };

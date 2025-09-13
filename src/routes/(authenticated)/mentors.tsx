@@ -215,7 +215,7 @@ function RouteComponent() {
                   </SelectContent>
                 </Select>
               </div>
-              <Button className="w-full">Apply Filters</Button>
+              <Button className="w-full cursor-pointer">Apply Filters</Button>
             </CardContent>
           </Card>
           
@@ -316,11 +316,11 @@ function RouteComponent() {
                     <span className="font-medium ml-1">{mentor.experience}</span>
                   </div>
                   <div className="flex space-x-2">
-                    <Button variant="outline" size="sm">
+                    <Button variant="outline" size="sm" className='cursor-pointer'>
                       <MessageCircle className="h-4 w-4 mr-1" />
                       Message
                     </Button>
-                    <Button size="sm">
+                    <Button size="sm" className='cursor-pointer'>
                       <UserCheck className="h-4 w-4 mr-1" />
                       Connect
                     </Button>
@@ -331,7 +331,7 @@ function RouteComponent() {
           </div>
           
           <div className="mt-6 flex justify-center">
-            <Button variant="outline">Load More Mentors</Button>
+            <Button className='cursor-pointer' variant="outline">Load More Mentors</Button>
           </div>
         </div>
       </div>

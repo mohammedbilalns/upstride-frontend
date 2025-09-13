@@ -1,4 +1,4 @@
-import { createFileRoute } from '@tanstack/react-router'
+import { createFileRoute, Link } from '@tanstack/react-router'
 import { 
   Search, 
   LayoutGrid, 
@@ -19,6 +19,7 @@ import {
   SelectValue,
 } from '@/components/ui/select'
 import { Badge } from '@/components/ui/badge'
+import { useAuthStore } from '@/store/auth.store'
 
 interface Article {
   id: number;
@@ -130,18 +131,36 @@ const popularTags = [
   "Personal Brand"
 ];
 
-export const Route = createFileRoute('/(authenticated)/articles')({
+export const Route = createFileRoute('/(authenticated)/articles/')({
   component: RouteComponent,
 })
 
 function RouteComponent() {
+
+	const {user} = useAuthStore()
+	const isMentor = user?.role === "mentor"
+	
   return (
     <div className="container mx-auto px-4 py-6">
-      <div className="mb-6">
-        <h1 className="text-2xl font-bold mb-2">Articles</h1>
-        <p className="text-muted-foreground">
-          Explore our collection of articles on career growth, leadership, and professional development.
-        </p>
+			<div className="mb-6 flex justify-between">
+				<div>
+					<h1 className="text-2xl font-bold mb-2">Articles</h1>
+					<p className="text-muted-foreground">
+						Explore our collection of articles on career growth, leadership, and professional development.
+					</p>
+				</div>
+				{
+					isMentor && (
+						<div>
+							<Link to={"/articles/create"}>
+								<Button>Create Article</Button>
+							</Link>
+
+						</div>
+					)
+				}
+
+
       </div>
       
       <div className="flex flex-col md:flex-row gap-6">
@@ -185,7 +204,7 @@ function RouteComponent() {
                   </SelectContent>
                 </Select>
               </div>
-              <Button className="w-full">Apply Filters</Button>
+              <Button className="w-full cursor-pointer">Apply Filters</Button>
             </CardContent>
           </Card>
           
@@ -262,9 +281,12 @@ function RouteComponent() {
                       <span>{article.views >= 1000 ? `${(article.views / 1000).toFixed(1)}K` : article.views}</span>
                     </div>
                   </div>
-                  <Button variant="link" className="text-sm p-0 h-auto">
-                    Read More
-                  </Button>
+									<Link to={`/articles/${article.id}`} >
+										<Button variant="link" className="cursor-pointer text-sm p-0 h-auto">
+											Read More
+										</Button>
+									</Link>
+
                 </CardFooter>
               </Card>
             ))}

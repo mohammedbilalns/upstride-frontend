@@ -9,15 +9,12 @@ import {
 import { Separator } from "@/components/ui/separator";
 import { useRouter } from "@tanstack/react-router";
 import { Bell, Menu } from "lucide-react";
+import { Link } from "@tanstack/react-router";
 import ThemeToggle from "../theme-toggle";
 import { useState } from "react";
 import { useLogout } from "@/routes/auth/-hooks";
 import { Zap } from "lucide-react";
-
-const user = {
-  name: "Alex Johnson",
-  image: "https://randomuser.me/api/portraits/men/32.jpg",
-};
+import { useAuthStore } from "@/store/auth.store";
 
 // Navigation Links
 const navLinks = [
@@ -30,6 +27,8 @@ export default function Navbar() {
   const router = useRouter();
   const [isOpen, setIsOpen] = useState(false);
   const logoutMutation = useLogout();
+	const {user} = useAuthStore()
+	
 
   const goToNotifications = () => {
     router.navigate({ to: "/notifications" });
@@ -39,15 +38,16 @@ export default function Navbar() {
     <header className="relative z-50 border-b border-border/50 bg-card/50 backdrop-blur-xl">
       <div className="container mx-auto px-6 py-4 flex justify-between items-center">
         {/* Logo */}
-        <div className="flex items-center space-x-2">
-          <div className="w-8 h-8 bg-gradient-to-br from-primary to-primary/80 rounded-lg flex items-center justify-center shadow-lg shadow-primary/20">
-            <Zap className="h-5 w-5 text-primary-foreground" />
-          </div>
-          <h1 className="text-2xl font-bold bg-gradient-to-r from-foreground to-foreground/80 bg-clip-text text-transparent">
-            UpStride
-          </h1>
-        </div>
-
+				<Link to="/">
+					<div className="flex items-center space-x-2">
+						<div className="w-8 h-8 bg-gradient-to-br from-primary to-primary/80 rounded-lg flex items-center justify-center shadow-lg shadow-primary/20">
+							<Zap className="h-5 w-5 text-primary-foreground" />
+						</div>
+						<h1 className="text-2xl font-bold bg-gradient-to-r from-foreground to-foreground/80 bg-clip-text text-transparent">
+							UpStride
+						</h1>
+					</div>
+					</Link>
         {/* Desktop Nav Links */}
         <nav className="hidden md:flex items-center space-x-8">
           {navLinks.map((link) => (
@@ -94,9 +94,9 @@ export default function Navbar() {
                 className=" cursor-pointer relative h-8 w-8 rounded-full"
               >
                 <Avatar className="h-8 w-8">
-                  <AvatarImage src={user.image} alt={user.name} />
+                  <AvatarImage src={user?.avatar} alt={user?.name} />
                   <AvatarFallback>
-                    {user.name
+                    {user?.name
                       .split(" ")
                       .map((n) => n[0])
                       .join("")}
@@ -106,10 +106,7 @@ export default function Navbar() {
             </DropdownMenuTrigger>
             <DropdownMenuContent align="end">
               <div className="px-4 py-2 text-sm">
-                <div>{user.name}</div>
-                <div className="text-xs text-muted-foreground">
-                  Software Developer
-                </div>
+                <div>{user?.name}</div> 
               </div>
               <Separator />
               <DropdownMenuItem
