@@ -1,6 +1,7 @@
 import { createFileRoute, Outlet } from "@tanstack/react-router";
 import { Header } from "@/components/layouts/header";
 import { authGuard } from "@/components/guards/auth-gaurd";
+import Navbar from "@/components/layouts/navbar";
 
 export const Route = createFileRoute("/(authenticated)")({
   component: RouteComponent,
@@ -10,7 +11,7 @@ export const Route = createFileRoute("/(authenticated)")({
 function RouteComponent() {
   return (
     <div>
-      <Header />
+      <Navbar></Navbar>
       <Outlet />
     </div>
   );

@@ -12,10 +12,10 @@ import {
 import { Pagination } from "@/components/pagination";
 import { ConfirmDialog } from "@/components/confirm";
 import { ChevronDown, ChevronRight, Check, X } from "lucide-react";
-import SearchBar from "./searchBar";
+import SearchBar from "../../-components/searchBar";
 import CreateExpertiseDialog from "./createExpertiseDialog";
-import { useFetchExpertises } from "../hooks/useFetchExperitses";
-import { useVerifyExpertise } from "../hooks/useVerifyExpertise";
+import { useFetchExpertises } from "../-hooks/useFetchExperitses";
+import { useVerifyExpertise } from "../-hooks/useVerifyExpertise";
 import ExpertiseSkillsCollapse from "./skillsCollapse";
 import UpdateExpertiseDialog from "./updateExpertiseDialog";
 import { Fragment } from "react";

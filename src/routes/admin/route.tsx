@@ -1,8 +1,8 @@
 import { createFileRoute } from "@tanstack/react-router";
-import { Sidebar } from "@/components/ui/modern-side-bar";
+import { Sidebar } from "./-components";
 import { Outlet } from "@tanstack/react-router";
 import { authGuard } from "@/components/guards/auth-gaurd";
-import AdminNotFound from "@/features/admin/components/adminNotFound";
+import AdminNotFound from "./-components/adminNotFound";
 
 export const Route = createFileRoute("/admin")({
   beforeLoad: authGuard(["admin", "superadmin"]),

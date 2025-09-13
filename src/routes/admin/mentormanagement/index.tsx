@@ -1,4 +1,4 @@
-import MentorManagementTable from "@/features/admin/components/mentorManagementTable";
+import MentorManagementTable from "./-components/mentorManagementTable";
 import { createFileRoute } from "@tanstack/react-router";
 
 export const Route = createFileRoute("/admin/mentormanagement/")({

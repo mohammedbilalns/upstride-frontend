@@ -82,8 +82,6 @@ export async function updatePassword(data: unknown) {
   }
 }
 
-
-
 export async function logout() {
   try {
     const response = await api.post(API_ROUTES.AUTH.LOGOUT);
@@ -114,17 +112,6 @@ export async function fetchExpertiseAreas(){
 		throw error;
 	}
 }
-// change data to array 
-// export async function fetchSkillsByAreas(data: string[]) {
-// 	try{
-// 		const response = await api.post(API_ROUTES.EXPERTISE.FETCH_SKILLS_BY_AREAS, data);
-// 		return response.data;
-// 	}catch(error){
-// 		console.error("error while fetching skills by areas", error);
-// 		throw error;
-// 	}
-// }
-
 
 export async function  saveInterests(data: unknown) {
 	try{

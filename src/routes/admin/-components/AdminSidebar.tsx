@@ -13,9 +13,9 @@ import {
   Users,
   Star,
 } from "lucide-react";
-import Logout from "@/features/admin/components/logoutButton";
-import AdminDetails from "@/features/admin/components/adminDetails";
-import ThemeToggle from "../theme-toggle";
+import LogoutButton from "./logoutButton";
+import ThemeToggle from "@/components/theme-toggle";
+import AdminDetails from "./adminDetails";
 import { useRouter } from "@tanstack/react-router";
 
 interface NavigationItem {
@@ -268,7 +268,7 @@ export function Sidebar({ className = "" }: SidebarProps) {
 
         <div className="mt-auto border-t border-border/50 backdrop-blur-sm">
           <AdminDetails isCollapsed={isCollapsed} />
-          <Logout isCollapsed={isCollapsed} />
+          <LogoutButton isCollapsed={isCollapsed} />
         </div>
       </div>
     </>

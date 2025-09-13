@@ -1,10 +1,10 @@
 import { Button } from "@/components/ui/button";
 import { Check, X } from "lucide-react";
 import type { Skill } from "@/types";
-import { useFetchSkills } from "../hooks/useFetchSkills";
-import CreateSkillDialog from "./createSkillDialog";
-import { useVerifySkill } from "../hooks/useVerifySkill";
+import { useFetchSkills } from "../-hooks/useFetchSkills";
+import { useVerifySkill } from "../-hooks/useVerifySkill";
 import { ConfirmDialog } from "@/components/confirm";
+import CreateSkillDialog from "./createSkillDialog";
 
 interface Props {
   expertiseId: string;

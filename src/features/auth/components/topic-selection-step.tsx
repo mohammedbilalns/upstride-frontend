@@ -1,7 +1,7 @@
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { ChevronLeft, ChevronRight, Loader2, AlertCircle } from "lucide-react";
-import { useFetchSkills } from "@/features/admin/hooks/useFetchSkills";
+import { useFetchSkills } from "@/routes/admin/expertisemanagement/-hooks/useFetchSkills";
 import type { ExpertiseArea , Topic } from "@/types";
 import { useMemo } from "react";
 

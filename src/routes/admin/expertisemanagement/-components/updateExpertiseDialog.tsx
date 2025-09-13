@@ -1,7 +1,7 @@
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { updateExpertiseSchema } from "../validations/expertise.validation";
-import type { updateExpertiseFormValues } from "../validations/expertise.validation";
+import { updateExpertiseSchema } from "../-validations/expertise.validation";
+import type { updateExpertiseFormValues } from "../-validations/expertise.validation";
 import {
   Dialog,
   DialogTrigger,
@@ -16,7 +16,7 @@ import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
-import { useUpdateExpertise } from "../hooks/useUpdateExpertise";
+import { useUpdateExpertise } from "../-hooks/useUpdateExpertise";
 import { useState } from "react";
 
 export default function UpdateExpertiseDialog({

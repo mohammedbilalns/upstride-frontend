@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { useCreateSkill } from "../hooks/useCreateSkill";
+import { useCreateSkill } from "../-hooks/useCreateSkill";
 import {
   Dialog,
   DialogTrigger,
@@ -15,8 +15,8 @@ import { Button } from "@/components/ui/button";
 import { Label } from "@/components/ui/label";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
-import { createSkillSchema } from "../validations/expertise.validation";
-import type { createSkillFormValues } from "../validations/expertise.validation";
+import { createSkillSchema } from "../-validations/expertise.validation";
+import type { createSkillFormValues } from "../-validations/expertise.validation";
 
 interface CreateSkillDialogProps {
   expertiseId: string;

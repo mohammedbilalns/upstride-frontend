@@ -17,7 +17,12 @@ import { Route as IndexRouteImport } from './routes/index'
 import { Route as UnauthorizedIndexRouteImport } from './routes/unauthorized/index'
 import { Route as AuthIndexRouteImport } from './routes/auth/index'
 import { Route as AdminIndexRouteImport } from './routes/admin/index'
+import { Route as authenticatedSessionsRouteImport } from './routes/(authenticated)/sessions'
+import { Route as authenticatedProfileRouteImport } from './routes/(authenticated)/profile'
+import { Route as authenticatedNotificationsRouteImport } from './routes/(authenticated)/notifications'
+import { Route as authenticatedMentorsRouteImport } from './routes/(authenticated)/mentors'
 import { Route as authenticatedHomeRouteImport } from './routes/(authenticated)/home'
+import { Route as authenticatedArticlesRouteImport } from './routes/(authenticated)/articles'
 import { Route as AdminUsermanagementIndexRouteImport } from './routes/admin/usermanagement/index'
 import { Route as AdminMentormanagementIndexRouteImport } from './routes/admin/mentormanagement/index'
 import { Route as AdminExpertisemanagementIndexRouteImport } from './routes/admin/expertisemanagement/index'
@@ -62,9 +67,35 @@ const AdminIndexRoute = AdminIndexRouteImport.update({
   path: '/',
   getParentRoute: () => AdminRouteRoute,
 } as any)
+const authenticatedSessionsRoute = authenticatedSessionsRouteImport.update({
+  id: '/sessions',
+  path: '/sessions',
+  getParentRoute: () => authenticatedRouteRoute,
+} as any)
+const authenticatedProfileRoute = authenticatedProfileRouteImport.update({
+  id: '/profile',
+  path: '/profile',
+  getParentRoute: () => authenticatedRouteRoute,
+} as any)
+const authenticatedNotificationsRoute =
+  authenticatedNotificationsRouteImport.update({
+    id: '/notifications',
+    path: '/notifications',
+    getParentRoute: () => authenticatedRouteRoute,
+  } as any)
+const authenticatedMentorsRoute = authenticatedMentorsRouteImport.update({
+  id: '/mentors',
+  path: '/mentors',
+  getParentRoute: () => authenticatedRouteRoute,
+} as any)
 const authenticatedHomeRoute = authenticatedHomeRouteImport.update({
   id: '/home',
   path: '/home',
+  getParentRoute: () => authenticatedRouteRoute,
+} as any)
+const authenticatedArticlesRoute = authenticatedArticlesRouteImport.update({
+  id: '/articles',
+  path: '/articles',
   getParentRoute: () => authenticatedRouteRoute,
 } as any)
 const AdminUsermanagementIndexRoute =
@@ -96,7 +127,12 @@ export interface FileRoutesByFullPath {
   '/admin': typeof AdminRouteRouteWithChildren
   '/auth': typeof AuthRouteRouteWithChildren
   '/about': typeof AboutRoute
+  '/articles': typeof authenticatedArticlesRoute
   '/home': typeof authenticatedHomeRoute
+  '/mentors': typeof authenticatedMentorsRoute
+  '/notifications': typeof authenticatedNotificationsRoute
+  '/profile': typeof authenticatedProfileRoute
+  '/sessions': typeof authenticatedSessionsRoute
   '/admin/': typeof AdminIndexRoute
   '/auth/': typeof AuthIndexRoute
   '/unauthorized': typeof UnauthorizedIndexRoute
@@ -108,7 +144,12 @@ export interface FileRoutesByFullPath {
 export interface FileRoutesByTo {
   '/': typeof authenticatedRouteRouteWithChildren
   '/about': typeof AboutRoute
+  '/articles': typeof authenticatedArticlesRoute
   '/home': typeof authenticatedHomeRoute
+  '/mentors': typeof authenticatedMentorsRoute
+  '/notifications': typeof authenticatedNotificationsRoute
+  '/profile': typeof authenticatedProfileRoute
+  '/sessions': typeof authenticatedSessionsRoute
   '/admin': typeof AdminIndexRoute
   '/auth': typeof AuthIndexRoute
   '/unauthorized': typeof UnauthorizedIndexRoute
@@ -124,7 +165,12 @@ export interface FileRoutesById {
   '/admin': typeof AdminRouteRouteWithChildren
   '/auth': typeof AuthRouteRouteWithChildren
   '/about': typeof AboutRoute
+  '/(authenticated)/articles': typeof authenticatedArticlesRoute
   '/(authenticated)/home': typeof authenticatedHomeRoute
+  '/(authenticated)/mentors': typeof authenticatedMentorsRoute
+  '/(authenticated)/notifications': typeof authenticatedNotificationsRoute
+  '/(authenticated)/profile': typeof authenticatedProfileRoute
+  '/(authenticated)/sessions': typeof authenticatedSessionsRoute
   '/admin/': typeof AdminIndexRoute
   '/auth/': typeof AuthIndexRoute
   '/unauthorized/': typeof UnauthorizedIndexRoute
@@ -140,7 +186,12 @@ export interface FileRouteTypes {
     | '/admin'
     | '/auth'
     | '/about'
+    | '/articles'
     | '/home'
+    | '/mentors'
+    | '/notifications'
+    | '/profile'
+    | '/sessions'
     | '/admin/'
     | '/auth/'
     | '/unauthorized'
@@ -152,7 +203,12 @@ export interface FileRouteTypes {
   to:
     | '/'
     | '/about'
+    | '/articles'
     | '/home'
+    | '/mentors'
+    | '/notifications'
+    | '/profile'
+    | '/sessions'
     | '/admin'
     | '/auth'
     | '/unauthorized'
@@ -167,7 +223,12 @@ export interface FileRouteTypes {
     | '/admin'
     | '/auth'
     | '/about'
+    | '/(authenticated)/articles'
     | '/(authenticated)/home'
+    | '/(authenticated)/mentors'
+    | '/(authenticated)/notifications'
+    | '/(authenticated)/profile'
+    | '/(authenticated)/sessions'
     | '/admin/'
     | '/auth/'
     | '/unauthorized/'
@@ -244,11 +305,46 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AdminIndexRouteImport
       parentRoute: typeof AdminRouteRoute
     }
+    '/(authenticated)/sessions': {
+      id: '/(authenticated)/sessions'
+      path: '/sessions'
+      fullPath: '/sessions'
+      preLoaderRoute: typeof authenticatedSessionsRouteImport
+      parentRoute: typeof authenticatedRouteRoute
+    }
+    '/(authenticated)/profile': {
+      id: '/(authenticated)/profile'
+      path: '/profile'
+      fullPath: '/profile'
+      preLoaderRoute: typeof authenticatedProfileRouteImport
+      parentRoute: typeof authenticatedRouteRoute
+    }
+    '/(authenticated)/notifications': {
+      id: '/(authenticated)/notifications'
+      path: '/notifications'
+      fullPath: '/notifications'
+      preLoaderRoute: typeof authenticatedNotificationsRouteImport
+      parentRoute: typeof authenticatedRouteRoute
+    }
+    '/(authenticated)/mentors': {
+      id: '/(authenticated)/mentors'
+      path: '/mentors'
+      fullPath: '/mentors'
+      preLoaderRoute: typeof authenticatedMentorsRouteImport
+      parentRoute: typeof authenticatedRouteRoute
+    }
     '/(authenticated)/home': {
       id: '/(authenticated)/home'
       path: '/home'
       fullPath: '/home'
       preLoaderRoute: typeof authenticatedHomeRouteImport
+      parentRoute: typeof authenticatedRouteRoute
+    }
+    '/(authenticated)/articles': {
+      id: '/(authenticated)/articles'
+      path: '/articles'
+      fullPath: '/articles'
+      preLoaderRoute: typeof authenticatedArticlesRouteImport
       parentRoute: typeof authenticatedRouteRoute
     }
     '/admin/usermanagement/': {
@@ -283,11 +379,21 @@ declare module '@tanstack/react-router' {
 }
 
 interface authenticatedRouteRouteChildren {
+  authenticatedArticlesRoute: typeof authenticatedArticlesRoute
   authenticatedHomeRoute: typeof authenticatedHomeRoute
+  authenticatedMentorsRoute: typeof authenticatedMentorsRoute
+  authenticatedNotificationsRoute: typeof authenticatedNotificationsRoute
+  authenticatedProfileRoute: typeof authenticatedProfileRoute
+  authenticatedSessionsRoute: typeof authenticatedSessionsRoute
 }
 
 const authenticatedRouteRouteChildren: authenticatedRouteRouteChildren = {
+  authenticatedArticlesRoute: authenticatedArticlesRoute,
   authenticatedHomeRoute: authenticatedHomeRoute,
+  authenticatedMentorsRoute: authenticatedMentorsRoute,
+  authenticatedNotificationsRoute: authenticatedNotificationsRoute,
+  authenticatedProfileRoute: authenticatedProfileRoute,
+  authenticatedSessionsRoute: authenticatedSessionsRoute,
 }
 
 const authenticatedRouteRouteWithChildren =

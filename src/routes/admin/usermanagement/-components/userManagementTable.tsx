@@ -9,9 +9,9 @@ import {
   TableRow,
 } from "@/components/ui/table";
 import { Pagination } from "@/components/pagination";
-import { useFetchUsers, useBlockUser, useUnBlockUser } from "../hooks";
+import { useFetchUsers,useBlockUser, useUnBlockUser } from "../-hooks";
 import type { User } from "@/types";
-import SearchBar from "./searchBar";
+import SearchBar from "../../-components/searchBar";
 import { ConfirmDialog } from "@/components/confirm";
 import { UserCheck, UserX } from "lucide-react";
 
@@ -162,3 +162,4 @@ export default function UserManagementTable() {
     </div>
   );
 }
+

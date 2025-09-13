@@ -1,7 +1,7 @@
+import type { FormValues } from "../-validations/expertise.validation";
 import { useForm, Controller } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { createExpertiseSchema } from "../validations/expertise.validation";
-import type { FormValues } from "../validations/expertise.validation";
+import { createExpertiseSchema } from "../-validations/expertise.validation";
 import {
   Dialog,
   DialogTrigger,
@@ -17,7 +17,7 @@ import { Button } from "@/components/ui/button";
 import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
 import { MultiSelect } from "@/components/ui/mulit-select";
-import { useCreateExpertise } from "../hooks/useCreateExpertise";
+import { useCreateExpertise } from "../-hooks/useCreateExpertise";
 import { useState } from "react";
 
 export default function CreateExpertiseDialog() {

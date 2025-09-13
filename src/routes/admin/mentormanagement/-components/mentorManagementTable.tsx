@@ -29,7 +29,6 @@ type User = {
   name: string;
   email: string;
 };
-
 type Skill = {
   id: string;
   name: string;
@@ -58,8 +57,8 @@ type Mentor = {
   createdAt: string;
 };
 import { Pagination } from "@/components/pagination";
-import SearchBar from "./searchBar";
 import { ConfirmDialog } from "@/components/confirm";
+import SearchBar from "../../-components/searchBar";
 
 const generateDummyData = (): Mentor[] => {
   const expertises: Expertise[] = [

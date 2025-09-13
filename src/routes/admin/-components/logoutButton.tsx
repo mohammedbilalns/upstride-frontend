@@ -4,7 +4,7 @@ import { useLogout } from "@/features/auth/hooks/useLogout";
 interface LogoutProps {
   isCollapsed: boolean;
 }
-export default function Logout({ isCollapsed }: LogoutProps) {
+export default function LogoutButton({ isCollapsed }: LogoutProps) {
   const logoutMutation = useLogout();
 
   const handleLogout = () => {
