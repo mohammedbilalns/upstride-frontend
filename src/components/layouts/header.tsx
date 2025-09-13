@@ -3,7 +3,7 @@ import { Button } from "@/components/ui/button";
 import ThemeToggle from "../theme-toggle";
 import { Link } from "@tanstack/react-router";
 import { useAuthStore } from "@/store/auth.store";
-import { useLogout } from "@/features/auth/hooks/useLogout";
+import { useLogout } from "@/routes/auth/-hooks";
 
 export function Header() {
   const logoutMutation = useLogout();

@@ -26,8 +26,9 @@ export default function ExpertiseManagementTable() {
   const [search, setSearch] = useState<string>("");
   const [expandedRows, setExpandedRows] = useState<Set<string>>(new Set());
   const { data, isLoading } = useFetchExpertises(page, rowsPerPage, search);
+	console.log("Fetched expertises", data);
   const totalPages = data?.total ? Math.ceil(data.total / rowsPerPage) : 1;
-  const expertises: Expertise[] = data?.data || [];
+  const expertises: Expertise[] = data?.expertises || [];
   const verifyExpertiseMuation = useVerifyExpertise();
 
   const toggleExpanded = (id: string) => {

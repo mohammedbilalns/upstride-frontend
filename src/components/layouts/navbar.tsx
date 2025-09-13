@@ -11,7 +11,7 @@ import { useRouter } from "@tanstack/react-router";
 import { Bell, Menu } from "lucide-react";
 import ThemeToggle from "../theme-toggle";
 import { useState } from "react";
-import { useLogout } from "@/features/auth/hooks/useLogout";
+import { useLogout } from "@/routes/auth/-hooks";
 import { Zap } from "lucide-react";
 
 const user = {
@@ -28,13 +28,13 @@ const navLinks = [
 
 export default function Navbar() {
   const router = useRouter();
-  const [isOpen, setIsOpen] = useState(false); 
+  const [isOpen, setIsOpen] = useState(false);
   const logoutMutation = useLogout();
-  
+
   const goToNotifications = () => {
     router.navigate({ to: "/notifications" });
   };
-  
+
   return (
     <header className="relative z-50 border-b border-border/50 bg-card/50 backdrop-blur-xl">
       <div className="container mx-auto px-6 py-4 flex justify-between items-center">
@@ -47,7 +47,7 @@ export default function Navbar() {
             UpStride
           </h1>
         </div>
-        
+
         {/* Desktop Nav Links */}
         <nav className="hidden md:flex items-center space-x-8">
           {navLinks.map((link) => (
@@ -69,47 +69,65 @@ export default function Navbar() {
             </a>
           ))}
         </nav>
-        
+
         {/* Right Side Actions */}
         <div className="flex items-center space-x-4">
           {/* Notification Bell - Now a link to notifications page */}
-          <Button 
-            variant="ghost" 
-            size="icon" 
+          <Button
+            variant="ghost"
+            size="icon"
             className="relative cursor-pointer"
             onClick={goToNotifications}
           >
             <Bell className="h-5 w-5 text-muted-foreground" />
             <span className="absolute top-1.5 right-1.5 h-2 w-2 bg-destructive rounded-full"></span>
           </Button>
-          
+
           {/* Theme Toggle */}
           <ThemeToggle />
-          
+
           {/* User Avatar (Dropdown) */}
           <DropdownMenu>
             <DropdownMenuTrigger asChild>
-              <Button variant="ghost" className=" cursor-pointer relative h-8 w-8 rounded-full">
+              <Button
+                variant="ghost"
+                className=" cursor-pointer relative h-8 w-8 rounded-full"
+              >
                 <Avatar className="h-8 w-8">
                   <AvatarImage src={user.image} alt={user.name} />
-                  <AvatarFallback>{user.name.split(" ").map(n => n[0]).join("")}</AvatarFallback>
+                  <AvatarFallback>
+                    {user.name
+                      .split(" ")
+                      .map((n) => n[0])
+                      .join("")}
+                  </AvatarFallback>
                 </Avatar>
               </Button>
             </DropdownMenuTrigger>
             <DropdownMenuContent align="end">
               <div className="px-4 py-2 text-sm">
                 <div>{user.name}</div>
-                <div className="text-xs text-muted-foreground">Software Developer</div>
+                <div className="text-xs text-muted-foreground">
+                  Software Developer
+                </div>
               </div>
               <Separator />
-              <DropdownMenuItem className="cursor-pointer" onClick={() => router.navigate({ to: "/profile" })}>
+              <DropdownMenuItem
+                className="cursor-pointer"
+                onClick={() => router.navigate({ to: "/profile" })}
+              >
                 Profile
               </DropdownMenuItem>
-               {/* <DropdownMenuItem>Settings</DropdownMenuItem> */}
-              <DropdownMenuItem className="cursor-pointer" onClick={()=> logoutMutation.mutate()}>Sign out</DropdownMenuItem>
+              {/* <DropdownMenuItem>Settings</DropdownMenuItem> */}
+              <DropdownMenuItem
+                className="cursor-pointer"
+                onClick={() => logoutMutation.mutate()}
+              >
+                Sign out
+              </DropdownMenuItem>
             </DropdownMenuContent>
           </DropdownMenu>
-          
+
           {/* Mobile Menu Button */}
           <Button
             variant="ghost"
@@ -121,7 +139,7 @@ export default function Navbar() {
           </Button>
         </div>
       </div>
-      
+
       {/* Mobile Menu */}
       {isOpen && (
         <div className="md:hidden py-3 border-t border-border/50">
