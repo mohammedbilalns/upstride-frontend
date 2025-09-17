@@ -1,5 +1,5 @@
 import { keepPreviousData, useQuery } from "@tanstack/react-query";
-import { fetchExpertises } from "../services/expertiseManagement.service";
+import { fetchExpertises } from "../../expertisemanagement/-services/expertiseManagement.service";
 
 export const useFetchExpertises = (
   page: number,

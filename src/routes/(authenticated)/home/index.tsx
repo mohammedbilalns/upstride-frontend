@@ -1,4 +1,4 @@
-import { createFileRoute } from '@tanstack/react-router'
+import { createFileRoute, Link } from '@tanstack/react-router'
 import { 
   Heart,
   MessageSquare,
@@ -10,14 +10,17 @@ import {
   Calendar,
   Clock,
   MessageCircle,
-	Bell,
-	Search
+  Bell,
+  Search,
+  Star,
+  Award
 } from 'lucide-react'
 import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
 import { Badge } from '@/components/ui/badge'
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar'
+import { useAuthStore } from '@/store/auth.store'
 
 interface Mentor {
   id: number;
@@ -26,7 +29,6 @@ interface Mentor {
   imageUrl: string;
   isOnline: boolean;
 }
-
 interface Article {
   id: number;
   title: string;
@@ -41,7 +43,6 @@ interface Article {
   comments: number;
   views: string;
 }
-
 interface Session {
   id: number;
   mentorName: string;
@@ -50,20 +51,17 @@ interface Session {
   date: string;
   color: string;
 }
-
 interface RecommendedArticle {
   id: number;
   title: string;
   readTime: string;
   imageUrl: string;
 }
-
 interface QuickAction {
   id: number;
   title: string;
   icon: any;
 }
-
 // Dummy data for mentors
 const dummyMentors: Mentor[] = [
   {
@@ -88,7 +86,6 @@ const dummyMentors: Mentor[] = [
     isOnline: false
   }
 ];
-
 // Dummy data for articles
 const dummyArticles: Article[] = [
   {
@@ -134,7 +131,6 @@ const dummyArticles: Article[] = [
     views: '5.7K'
   }
 ];
-
 // Dummy data for sessions
 const dummySessions: Session[] = [
   {
@@ -154,7 +150,6 @@ const dummySessions: Session[] = [
     color: 'border-l-green-500'
   }
 ];
-
 // Dummy data for recommended articles
 const dummyRecommendedArticles: RecommendedArticle[] = [
   {
@@ -176,7 +171,6 @@ const dummyRecommendedArticles: RecommendedArticle[] = [
     imageUrl: 'https://images.unsplash.com/photo-1551836022-d5d88e9218df?ixlib=rb-4.0.3&auto=format&fit=crop&w=500&q=60'
   }
 ];
-
 // Dummy data for quick actions
 const dummyQuickActions: QuickAction[] = [
   {
@@ -195,18 +189,47 @@ const dummyQuickActions: QuickAction[] = [
     icon: Calendar
   }
 ];
-
 export const Route = createFileRoute('/(authenticated)/home/')({
   component: RouteComponent,
 })
-
 function RouteComponent() {
+  // Get authentication status - assuming you have an auth hook
+  const { user } = useAuthStore()
+  const isUser = true; // Check if user is authenticated
+  const isMentor = user?.role === 'mentor'; // Check if user is already a mentor
+  
   return (
     <div className="min-h-screen bg-background">
       <main className="container mx-auto px-4 sm:px-6 lg:px-8 py-6">
         <div className="flex flex-col lg:flex-row gap-6">
           {/* Left Sidebar */}
           <div className="w-full lg:w-1/4 space-y-6">
+            {/* Register as Mentor Card - Only shows if user is authenticated and not already a mentor */}
+            {isUser && !isMentor && (
+               <Card className="border-primary/20 bg-primary/5 dark:bg-primary/10">
+                <CardContent className="p-6">
+                  <div className="flex flex-col items-center text-center">
+                    <div className="bg-primary/10 p-3 rounded-full mb-4">
+                      <Award className="h-8 w-8 text-primary" />
+                    </div>
+                    <h3 className="text-lg font-semibold mb-2">Become a Mentor</h3>
+										<p className="text-sm text-muted-foreground mb-4">
+											Share your expertise and help others grow in their careers.
+										</p>
+
+										<Link to='/mentor/register'>
+
+											<Button className="w-full cursor-pointer">
+												<Star className="h-4 w-4 mr-2" />
+												Register as Mentor
+											</Button>
+										</Link>
+
+                  </div>
+                </CardContent>
+              </Card> 
+            )}
+            
             {/* Find Mentors */}
             <Card>
               <CardHeader>
@@ -424,4 +447,3 @@ function RouteComponent() {
     </div>
   )
 }
-

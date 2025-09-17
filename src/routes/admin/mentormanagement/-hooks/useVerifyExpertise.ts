@@ -1,5 +1,5 @@
 import { useMutation, useQueryClient } from "@tanstack/react-query";
-import { verifyExpertise } from "../services/expertiseManagement.service";
+import { verifyExpertise } from "../../expertisemanagement/-services/expertiseManagement.service";
 import type { ApiError } from "@/types";
 import { toast } from "sonner";
 

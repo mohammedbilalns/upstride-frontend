@@ -11,9 +11,7 @@ export const API_ROUTES = {
     UPDATE_PASSWORD: "/auth/update-password",
     GOOGLE: "/auth/google",
     REFRESH: "/auth/refresh",
-		ADD_INTERESTS: "/auth/add-interests",
-
-
+    ADD_INTERESTS: "/auth/add-interests",
   },
   USERMANAGEMENT: {
     USERS: "/users",
@@ -29,21 +27,25 @@ export const API_ROUTES = {
     UPDATE_SKILL: (id: string) => `/expertise/skills/${id}`,
     VERIFY_SKILL: (id: string) => `/expertise/skills/${id}/verify`,
     FETCH_SKILLS: (id: string) => `/expertise/${id}/skills`,
-		FETCH_SKILLS_BY_AREAS: "/expertise/skills",
+    FETCH_SKILLS_BY_AREAS: "/expertise/skills",
   },
-	MENTOR: {
-		FETCH: "/mentor",
-		UPDATE: "/mentor",
-		CREATE: "/mentor",
-		APPROVE: (id: string) => `/mentor/${id}/approve`,
-		REJECT: (id: string) => `/mentor/${id}/reject`,
-	},
-	ARTICLES: {
+  MENTOR: {
+    FETCH: "/mentor",
+    UPDATE: "/mentor",
+    CREATE: "/mentor",
+    APPROVE: (id: string) => `/mentor/${id}/approve`,
+    REJECT: (id: string) => `/mentor/${id}/reject`,
+  },
+  ARTICLES: {
     ARTICLES: "/articles",
-		CREATE: "/articles",
-		UPDATE: (id: string) => `/articles/${id}`,
-		DELETE: (id: string) => `/articles/${id}`,
-		READ: (id: string) => `/articles/${id}`,
-	},
-
+    CREATE: "/articles",
+    UPDATE: (id: string) => `/articles/${id}`,
+    DELETE: (id: string) => `/articles/${id}`,
+    READ: (id: string) => `/articles/${id}`,
+  },
+  MEDIA: {
+    GENERATE_TOKEN: "/media/generate-signature",
+    SAVE_MEDIA: "/media/save-media",
+    DELETE: (id: string, mediaType: string) => `/media/${id}/${mediaType}`,
+  },
 };

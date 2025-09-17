@@ -30,6 +30,7 @@ import { Route as authenticatedChatsIndexRouteImport } from './routes/(authentic
 import { Route as authenticatedArticlesIndexRouteImport } from './routes/(authenticated)/articles/index'
 import { Route as authenticatedChatsChatIdRouteImport } from './routes/(authenticated)/chats/$chatId'
 import { Route as authenticatedArticlesArticleIdRouteImport } from './routes/(authenticated)/articles/$articleId'
+import { Route as authenticatedMentorRegisterIndexRouteImport } from './routes/(authenticated)/mentor/register/index'
 import { Route as authenticatedArticlesCreateIndexRouteImport } from './routes/(authenticated)/articles/create/index'
 
 const AboutRoute = AboutRouteImport.update({
@@ -143,6 +144,12 @@ const authenticatedArticlesArticleIdRoute =
     path: '/articles/$articleId',
     getParentRoute: () => authenticatedRouteRoute,
   } as any)
+const authenticatedMentorRegisterIndexRoute =
+  authenticatedMentorRegisterIndexRouteImport.update({
+    id: '/mentor/register/',
+    path: '/mentor/register/',
+    getParentRoute: () => authenticatedRouteRoute,
+  } as any)
 const authenticatedArticlesCreateIndexRoute =
   authenticatedArticlesCreateIndexRouteImport.update({
     id: '/articles/create/',
@@ -172,6 +179,7 @@ export interface FileRoutesByFullPath {
   '/admin/mentormanagement': typeof AdminMentormanagementIndexRoute
   '/admin/usermanagement': typeof AdminUsermanagementIndexRoute
   '/articles/create': typeof authenticatedArticlesCreateIndexRoute
+  '/mentor/register': typeof authenticatedMentorRegisterIndexRoute
 }
 export interface FileRoutesByTo {
   '/': typeof authenticatedRouteRouteWithChildren
@@ -193,6 +201,7 @@ export interface FileRoutesByTo {
   '/admin/mentormanagement': typeof AdminMentormanagementIndexRoute
   '/admin/usermanagement': typeof AdminUsermanagementIndexRoute
   '/articles/create': typeof authenticatedArticlesCreateIndexRoute
+  '/mentor/register': typeof authenticatedMentorRegisterIndexRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
@@ -218,6 +227,7 @@ export interface FileRoutesById {
   '/admin/mentormanagement/': typeof AdminMentormanagementIndexRoute
   '/admin/usermanagement/': typeof AdminUsermanagementIndexRoute
   '/(authenticated)/articles/create/': typeof authenticatedArticlesCreateIndexRoute
+  '/(authenticated)/mentor/register/': typeof authenticatedMentorRegisterIndexRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
@@ -243,6 +253,7 @@ export interface FileRouteTypes {
     | '/admin/mentormanagement'
     | '/admin/usermanagement'
     | '/articles/create'
+    | '/mentor/register'
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
@@ -264,6 +275,7 @@ export interface FileRouteTypes {
     | '/admin/mentormanagement'
     | '/admin/usermanagement'
     | '/articles/create'
+    | '/mentor/register'
   id:
     | '__root__'
     | '/'
@@ -288,6 +300,7 @@ export interface FileRouteTypes {
     | '/admin/mentormanagement/'
     | '/admin/usermanagement/'
     | '/(authenticated)/articles/create/'
+    | '/(authenticated)/mentor/register/'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
@@ -448,6 +461,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof authenticatedArticlesArticleIdRouteImport
       parentRoute: typeof authenticatedRouteRoute
     }
+    '/(authenticated)/mentor/register/': {
+      id: '/(authenticated)/mentor/register/'
+      path: '/mentor/register'
+      fullPath: '/mentor/register'
+      preLoaderRoute: typeof authenticatedMentorRegisterIndexRouteImport
+      parentRoute: typeof authenticatedRouteRoute
+    }
     '/(authenticated)/articles/create/': {
       id: '/(authenticated)/articles/create/'
       path: '/articles/create'
@@ -469,6 +489,7 @@ interface authenticatedRouteRouteChildren {
   authenticatedChatsIndexRoute: typeof authenticatedChatsIndexRoute
   authenticatedHomeIndexRoute: typeof authenticatedHomeIndexRoute
   authenticatedArticlesCreateIndexRoute: typeof authenticatedArticlesCreateIndexRoute
+  authenticatedMentorRegisterIndexRoute: typeof authenticatedMentorRegisterIndexRoute
 }
 
 const authenticatedRouteRouteChildren: authenticatedRouteRouteChildren = {
@@ -482,6 +503,7 @@ const authenticatedRouteRouteChildren: authenticatedRouteRouteChildren = {
   authenticatedChatsIndexRoute: authenticatedChatsIndexRoute,
   authenticatedHomeIndexRoute: authenticatedHomeIndexRoute,
   authenticatedArticlesCreateIndexRoute: authenticatedArticlesCreateIndexRoute,
+  authenticatedMentorRegisterIndexRoute: authenticatedMentorRegisterIndexRoute,
 }
 
 const authenticatedRouteRouteWithChildren =

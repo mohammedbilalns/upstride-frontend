@@ -1,23 +1,20 @@
 import { createFileRoute } from '@tanstack/react-router'
 import { 
-  User,
-  Settings,
-  Mail,
-  MapPin,
-  Briefcase,
-  Target,
-  MessageSquare,
-  Calendar,
+  User, 
   X,
   Plus,
   Edit,
-  Save,
-  Check
+  Save, 
+  Upload,
+  Lock,
+  BookOpen
 } from 'lucide-react'
 import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
 import { Textarea } from '@/components/ui/textarea'
+import { Badge } from '@/components/ui/badge'
+import { Label } from '@/components/ui/label'
 import { 
   Select,
   SelectContent,
@@ -25,97 +22,91 @@ import {
   SelectTrigger,
   SelectValue,
 } from '@/components/ui/select'
-import { Badge } from '@/components/ui/badge'
-import { Label } from '@/components/ui/label'
-import { cn } from '@/lib/utils'
+import React from 'react'
 
-// Profile data structure
+// Updated profile data structure
 interface ProfileData {
-  personalInfo: {
-    firstName: string;
-    lastName: string;
-    email: string;
-    jobTitle: string;
-    bio: string;
-    location: string;
-  };
-  stats: {
-    articlesRead: number;
-    mentors: number;
-    sessions: number;
-  };
-  careerGoals: {
-    shortTerm: string;
-    longTerm: string;
+  name: string;
+  email: string;
+  phone: string;
+  profilePicture?: string;
+  expertises: {
+    name: string;
     skills: string[];
-  };
-  mentorshipPreferences: {
-    communication: string;
-    availability: string;
-    interests: string[];
-  };
+  }[];
+  // Mentor-only fields
+  bio?: string;
+  currentRole?: string;
+  institution?: string;
+  yearsOfExperience?: number;
+  educationalQualifications?: string[];
+  personalWebsite?: string;
+  resumePdf?: string;
 }
 
 // Dummy profile data
 const dummyProfile: ProfileData = {
-  personalInfo: {
-    firstName: 'Alex',
-    lastName: 'Johnson',
-    email: 'alex.johnson@example.com',
-    jobTitle: 'Software Developer',
-    bio: 'Passionate software developer with 5 years of experience in web development. Currently focusing on React and Node.js technologies.',
-    location: 'San Francisco, CA'
-  },
-  stats: {
-    articlesRead: 12,
-    mentors: 3,
-    sessions: 8
-  },
-  careerGoals: {
-    shortTerm: 'Improve my leadership skills and take on more responsibility in team projects.',
-    longTerm: 'Transition to a technical leadership role within the next 3 years.',
-    skills: ['Leadership', 'Project Management', 'System Architecture']
-  },
-  mentorshipPreferences: {
-    communication: 'Video Calls',
-    availability: 'Weekdays (9 AM - 5 PM)',
-    interests: ['Leadership', 'Career Growth']
-  }
+  name: 'Alex Johnson',
+  email: 'alex.johnson@example.com',
+  phone: '+1 (555) 123-4567',
+  profilePicture: '',
+  expertises: [
+    {
+      name: 'Web Development',
+      skills: ['React', 'Node.js', 'TypeScript']
+    },
+    {
+      name: 'Leadership',
+      skills: ['Team Management', 'Project Planning']
+    }
+  ],
+  bio: 'Passionate software developer with 5 years of experience in web development. Currently focusing on React and Node.js technologies.',
+  currentRole: 'Senior Software Developer',
+  institution: 'Tech University',
+  yearsOfExperience: 5,
+  educationalQualifications: ['BSc in Computer Science', 'MSc in Software Engineering'],
+  personalWebsite: 'https://alexjohnson.dev',
+  resumePdf: '/path/to/resume.pdf'
 };
 
-// Communication options
-const communicationOptions = [
-  'Video Calls',
-  'Phone Calls',
-  'Chat Messages',
-  'Email'
-];
-
-// Availability options
-const availabilityOptions = [
-  'Weekdays (9 AM - 5 PM)',
-  'Weekdays (5 PM - 8 PM)',
-  'Weekends',
-  'Flexible'
-];
-
-// Interest options
-const interestOptions = [
+// Expertise options
+const expertiseOptions = [
+  'Web Development',
+  'Mobile Development',
+  'Data Science',
+  'Machine Learning',
+  'DevOps',
+  'Cloud Computing',
+  'Cybersecurity',
+  'UI/UX Design',
+  'Product Management',
   'Leadership',
-  'Career Growth',
-  'Technical Skills',
-  'Networking',
-  'Work-Life Balance',
-  'Entrepreneurship'
+  'Marketing',
+  'Sales',
+  'Other'
 ];
 
-// Account settings options
+// Skill options mapped to expertise
+const skillOptions: Record<string, string[]> = {
+  'Web Development': ['HTML', 'CSS', 'JavaScript', 'React', 'Angular', 'Vue', 'Node.js', 'Express', 'Django', 'Flask'],
+  'Mobile Development': ['iOS', 'Android', 'React Native', 'Flutter', 'Xamarin'],
+  'Data Science': ['Python', 'R', 'SQL', 'Tableau', 'Power BI', 'Excel'],
+  'Machine Learning': ['TensorFlow', 'PyTorch', 'Scikit-learn', 'Keras', 'Pandas', 'NumPy'],
+  'DevOps': ['Docker', 'Kubernetes', 'Jenkins', 'Git', 'AWS', 'Azure', 'Google Cloud'],
+  'Cloud Computing': ['AWS', 'Azure', 'Google Cloud', 'Heroku', 'DigitalOcean'],
+  'Cybersecurity': ['Network Security', 'Ethical Hacking', 'Cryptography', 'Firewalls', 'VPN'],
+  'UI/UX Design': ['Figma', 'Sketch', 'Adobe XD', 'InVision', 'Principle'],
+  'Product Management': ['Agile', 'Scrum', 'JIRA', 'Trello', 'Product Strategy'],
+  'Leadership': ['Team Management', 'Project Management', 'Strategic Planning', 'Communication'],
+  'Marketing': ['Digital Marketing', 'Content Marketing', 'SEO', 'SEM', 'Social Media'],
+  'Sales': ['Sales Strategy', 'Negotiation', 'CRM', 'Lead Generation', 'Closing'],
+  'Other': []
+};
+
+// Account settings options (only two items)
 const accountSettings = [
-  { id: 'personal', label: 'Personal Information', icon: User },
-  { id: 'security', label: 'Security', icon: Settings },
-  { id: 'notifications', label: 'Notifications', icon: Mail },
-  { id: 'privacy', label: 'Privacy', icon: MapPin },
-  { id: 'billing', label: 'Billing', icon: Briefcase }
+  { id: 'security', label: 'Change Password', icon: Lock },
+  { id: 'articles', label: 'My Articles', icon: BookOpen }
 ];
 
 export const Route = createFileRoute('/(authenticated)/profile')({
@@ -123,12 +114,111 @@ export const Route = createFileRoute('/(authenticated)/profile')({
 })
 
 function RouteComponent() {
+  // State to manage if user is a mentor
+  const [isMentor, setIsMentor] = React.useState(true);
+  
+  // State for form data
+  const [profileData, setProfileData] = React.useState<ProfileData>(dummyProfile);
+  
+  // State for editing
+  const [isEditing, setIsEditing] = React.useState(false);
+  
+  // State for new expertise selection
+  const [newExpertise, setNewExpertise] = React.useState('');
+  
+  // State for new skill selection per expertise
+  const [newSkills, setNewSkills] = React.useState<Record<number, string[]>>({});
+  
+  // Handle input changes
+  const handleInputChange = (field: keyof ProfileData, value: string | number) => {
+    setProfileData(prev => ({ ...prev, [field]: value }));
+  };
+  
+  // Handle expertise changes
+  const handleExpertiseChange = (index: number, value: string) => {
+    const updatedExpertises = [...profileData.expertises];
+    updatedExpertises[index].name = value;
+    setProfileData(prev => ({ ...prev, expertises: updatedExpertises }));
+  };
+  
+  // Add new expertise
+  const addExpertise = () => {
+    if (newExpertise && !profileData.expertises.some(e => e.name === newExpertise)) {
+      setProfileData(prev => ({
+        ...prev,
+        expertises: [...prev.expertises, { name: newExpertise, skills: [] }]
+      }));
+      setNewExpertise('');
+    }
+  };
+  
+  // Remove expertise
+  const removeExpertise = (index: number) => {
+    const updatedExpertises = [...profileData.expertises];
+    updatedExpertises.splice(index, 1);
+    setProfileData(prev => ({ ...prev, expertises: updatedExpertises }));
+  };
+  
+  // Add new skill to expertise
+  const addSkill = (expertiseIndex: number) => {
+    const skill = newSkills[expertiseIndex]?.[0];
+    if (skill && !profileData.expertises[expertiseIndex].skills.includes(skill)) {
+      const updatedExpertises = [...profileData.expertises];
+      updatedExpertises[expertiseIndex].skills.push(skill);
+      setProfileData(prev => ({ ...prev, expertises: updatedExpertises }));
+      
+      // Clear the selected skill
+      setNewSkills(prev => ({ ...prev, [expertiseIndex]: [] }));
+    }
+  };
+  
+  // Remove skill from expertise
+  const removeSkill = (expertiseIndex: number, skillIndex: number) => {
+    const updatedExpertises = [...profileData.expertises];
+    updatedExpertises[expertiseIndex].skills.splice(skillIndex, 1);
+    setProfileData(prev => ({ ...prev, expertises: updatedExpertises }));
+  };
+  
+  // Handle qualification changes
+  const handleQualificationChange = (index: number, value: string) => {
+    const updatedQualifications = [...(profileData.educationalQualifications || [])];
+    updatedQualifications[index] = value;
+    setProfileData(prev => ({ ...prev, educationalQualifications: updatedQualifications }));
+  };
+  
+  // Add new qualification
+  const addQualification = () => {
+    setProfileData(prev => ({
+      ...prev,
+      educationalQualifications: [...(prev.educationalQualifications || []), '']
+    }));
+  };
+  
+  // Remove qualification
+  const removeQualification = (index: number) => {
+    const updatedQualifications = [...(profileData.educationalQualifications || [])];
+    updatedQualifications.splice(index, 1);
+    setProfileData(prev => ({ ...prev, educationalQualifications: updatedQualifications }));
+  };
+  
+  // Toggle edit mode
+  const toggleEditMode = () => {
+    setIsEditing(!isEditing);
+  };
+  
+  // Save profile
+  const saveProfile = () => {
+    // Here you would typically send the data to your backend
+    console.log('Saving profile:', profileData);
+    setIsEditing(false);
+  };
+  
   return (
     <div className="container mx-auto px-4 py-6">
       <div className="mb-6">
         <h1 className="text-2xl font-bold mb-2">My Profile</h1>
         <p className="text-muted-foreground">
-          Manage your account information and preferences.
+          Manage your profile information and preferences.
         </p>
       </div>
       
@@ -138,40 +228,50 @@ function RouteComponent() {
           <Card className="mb-6">
             <CardContent className="p-6 text-center">
               <div className="relative inline-block mb-4">
-                <div className="w-24 h-24 rounded-full bg-primary/10 flex items-center justify-center mx-auto">
-                  <User className="h-12 w-12 text-primary" />
-                </div>
-                <Button 
-                  size="sm" 
-                  variant="outline" 
-                  className="absolute bottom-0 right-0 rounded-full p-2"
-                >
-                  <Edit className="h-3 w-3" />
-                </Button>
+                {profileData.profilePicture ? (
+                  <img 
+                    src={profileData.profilePicture} 
+                    alt="Profile" 
+                    className="w-24 h-24 rounded-full object-cover mx-auto"
+                  />
+                ) : (
+                  <div className="w-24 h-24 rounded-full bg-primary/10 flex items-center justify-center mx-auto">
+                    <User className="h-12 w-12 text-primary" />
+                  </div>
+                )}
+                {isEditing && (
+                  <Button 
+                    size="sm" 
+                    variant="outline" 
+                    className="absolute bottom-0 right-0 rounded-full p-2"
+                  >
+                    <Upload className="h-3 w-3" />
+                  </Button>
+                )}
               </div>
               <h2 className="text-xl font-semibold mb-1">
-                {dummyProfile.personalInfo.firstName} {dummyProfile.personalInfo.lastName}
+                {profileData.name}
               </h2>
-              <p className="text-muted-foreground mb-6">{dummyProfile.personalInfo.jobTitle}</p>
+              <p className="text-muted-foreground mb-6">
+                {isMentor ? 'Mentor' : 'Mentee'}
+              </p>
               
-              <div className="flex justify-center space-x-6 mb-6">
-                <div className="text-center">
-                  <p className="text-lg font-semibold">{dummyProfile.stats.articlesRead}</p>
-                  <p className="text-xs text-muted-foreground">Articles Read</p>
-                </div>
-                <div className="text-center">
-                  <p className="text-lg font-semibold">{dummyProfile.stats.mentors}</p>
-                  <p className="text-xs text-muted-foreground">Mentors</p>
-                </div>
-                <div className="text-center">
-                  <p className="text-lg font-semibold">{dummyProfile.stats.sessions}</p>
-                  <p className="text-xs text-muted-foreground">Sessions</p>
-                </div>
-              </div>
-              
-              <Button className="w-full">
-                <Edit className="h-4 w-4 mr-2" />
-                Edit Profile
+              <Button 
+                onClick={toggleEditMode}
+                className="w-full"
+                variant={isEditing ? "outline" : "default"}
+              >
+                {isEditing ? (
+                  <>
+                    <X className="h-4 w-4 mr-2" />
+                    Cancel
+                  </>
+                ) : (
+                  <>
+                    <Edit className="h-4 w-4 mr-2" />
+                    Edit Profile
+                  </>
+                )}
               </Button>
             </CardContent>
           </Card>
@@ -215,21 +315,14 @@ function RouteComponent() {
               </CardTitle>
             </CardHeader>
             <CardContent className="space-y-4">
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                <div>
-                  <Label htmlFor="firstName">First Name</Label>
-                  <Input 
-                    id="firstName" 
-                    defaultValue={dummyProfile.personalInfo.firstName}
-                  />
-                </div>
-                <div>
-                  <Label htmlFor="lastName">Last Name</Label>
-                  <Input 
-                    id="lastName" 
-                    defaultValue={dummyProfile.personalInfo.lastName}
-                  />
-                </div>
+              <div>
+                <Label htmlFor="name">Name</Label>
+                <Input 
+                  id="name" 
+                  value={profileData.name}
+                  onChange={(e) => handleInputChange('name', e.target.value)}
+                  disabled={!isEditing}
+                />
               </div>
               
               <div>
@@ -237,162 +330,255 @@ function RouteComponent() {
                 <Input 
                   id="email" 
                   type="email"
-                  defaultValue={dummyProfile.personalInfo.email}
+                  value={profileData.email}
+                  disabled // Non-editable
                 />
               </div>
               
               <div>
-                <Label htmlFor="jobTitle">Job Title</Label>
+                <Label htmlFor="phone">Phone</Label>
                 <Input 
-                  id="jobTitle" 
-                  defaultValue={dummyProfile.personalInfo.jobTitle}
+                  id="phone" 
+                  value={profileData.phone}
+                  disabled // Non-editable
                 />
               </div>
               
-              <div>
-                <Label htmlFor="bio">Bio</Label>
-                <Textarea 
-                  id="bio" 
-                  rows={3}
-                  defaultValue={dummyProfile.personalInfo.bio}
-                />
-              </div>
+              {/* Mentor-only fields */}
+              {isMentor && (
+                <>
+                  <div>
+                    <Label htmlFor="bio">Bio</Label>
+                    <Textarea 
+                      id="bio" 
+                      rows={3}
+                      value={profileData.bio}
+                      onChange={(e) => handleInputChange('bio', e.target.value)}
+                      disabled={!isEditing}
+                    />
+                  </div>
+                  
+                  <div>
+                    <Label htmlFor="currentRole">Current Role</Label>
+                    <Input 
+                      id="currentRole" 
+                      value={profileData.currentRole}
+                      onChange={(e) => handleInputChange('currentRole', e.target.value)}
+                      disabled={!isEditing}
+                    />
+                  </div>
+                  
+                  <div>
+                    <Label htmlFor="institution">Institution</Label>
+                    <Input 
+                      id="institution" 
+                      value={profileData.institution}
+                      onChange={(e) => handleInputChange('institution', e.target.value)}
+                      disabled={!isEditing}
+                    />
+                  </div>
+                  
+                  <div>
+                    <Label htmlFor="yearsOfExperience">Years of Experience</Label>
+                    <Input 
+                      id="yearsOfExperience" 
+                      type="number"
+                      value={profileData.yearsOfExperience}
+                      onChange={(e) => handleInputChange('yearsOfExperience', parseInt(e.target.value) || 0)}
+                      disabled={!isEditing}
+                    />
+                  </div>
+                  
+                  <div>
+                    <Label htmlFor="personalWebsite">Personal Website</Label>
+                    <Input 
+                      id="personalWebsite" 
+                      value={profileData.personalWebsite}
+                      onChange={(e) => handleInputChange('personalWebsite', e.target.value)}
+                      disabled={!isEditing}
+                    />
+                  </div>
+                  
+                  <div>
+                    <Label htmlFor="resumePdf">Resume PDF</Label>
+                    <div className="flex items-center gap-2">
+                      <Input 
+                        id="resumePdf" 
+                        value={profileData.resumePdf}
+                        onChange={(e) => handleInputChange('resumePdf', e.target.value)}
+                        disabled={!isEditing}
+                      />
+                      {isEditing && (
+                        <Button variant="outline" size="sm">
+                          <Upload className="h-4 w-4 mr-1" />
+                          Upload
+                        </Button>
+                      )}
+                    </div>
+                  </div>
+                </>
+              )}
               
-              <div>
-                <Label htmlFor="location">Location</Label>
-                <Input 
-                  id="location" 
-                  defaultValue={dummyProfile.personalInfo.location}
-                />
-              </div>
+              {/* Educational Qualifications (mentor-only) */}
+              {isMentor && (
+                <div>
+                  <div className="flex items-center justify-between mb-2">
+                    <Label>Educational Qualifications</Label>
+                    {isEditing && (
+                      <Button variant="ghost" size="sm" onClick={addQualification}>
+                        <Plus className="h-4 w-4 mr-1" />
+                        Add
+                      </Button>
+                    )}
+                  </div>
+                  <div className="space-y-2">
+                    {profileData.educationalQualifications?.map((qualification, index) => (
+                      <div key={index} className="flex items-center gap-2">
+                        <Input 
+                          value={qualification}
+                          onChange={(e) => handleQualificationChange(index, e.target.value)}
+                          disabled={!isEditing}
+                        />
+                        {isEditing && (
+                          <Button 
+                            variant="ghost" 
+                            size="sm"
+                            onClick={() => removeQualification(index)}
+                          >
+                            <X className="h-4 w-4" />
+                          </Button>
+                        )}
+                      </div>
+                    ))}
+                  </div>
+                </div>
+              )}
               
-              <div className="flex justify-end space-x-2">
-                <Button variant="outline">Cancel</Button>
-                <Button>
-                  <Save className="h-4 w-4 mr-2" />
-                  Save Changes
-                </Button>
-              </div>
-            </CardContent>
-          </Card>
-          
-          {/* Career Goals */}
-          <Card>
-            <CardHeader>
-              <CardTitle className="flex items-center gap-2">
-                <Target className="h-5 w-5" />
-                Career Goals
-              </CardTitle>
-            </CardHeader>
-            <CardContent className="space-y-4">
+              {/* Expertises and Skills */}
               <div>
-                <Label htmlFor="shortTerm">Short-term Goals</Label>
-                <Textarea 
-                  id="shortTerm" 
-                  rows={3}
-                  defaultValue={dummyProfile.careerGoals.shortTerm}
-                />
-              </div>
-              
-              <div>
-                <Label htmlFor="longTerm">Long-term Goals</Label>
-                <Textarea 
-                  id="longTerm" 
-                  rows={3}
-                  defaultValue={dummyProfile.careerGoals.longTerm}
-                />
-              </div>
-              
-              <div>
-                <Label>Skills I Want to Develop</Label>
-                <div className="flex flex-wrap gap-2 mt-2">
-                  {dummyProfile.careerGoals.skills.map((skill) => (
-                    <Badge key={skill} variant="secondary" className="flex items-center">
-                      {skill}
-                      <button className="ml-2 hover:text-foreground">
-                        <X className="h-3 w-3" />
-                      </button>
-                    </Badge>
+                <div className="flex items-center justify-between mb-2">
+                  <Label>Expertises</Label>
+                  {isEditing && (
+                    <div className="flex items-center gap-2">
+                      <Select value={newExpertise} onValueChange={setNewExpertise}>
+                        <SelectTrigger className="w-48">
+                          <SelectValue placeholder="Select expertise" />
+                        </SelectTrigger>
+                        <SelectContent>
+                          {expertiseOptions.map(option => (
+                            <SelectItem key={option} value={option}>{option}</SelectItem>
+                          ))}
+                        </SelectContent>
+                      </Select>
+                      <Button 
+                        variant="outline" 
+                        size="sm" 
+                        onClick={addExpertise}
+                        disabled={!newExpertise}
+                      >
+                        <Plus className="h-4 w-4 mr-1" />
+                        Add
+                      </Button>
+                    </div>
+                  )}
+                </div>
+                <div className="space-y-4">
+                  {profileData.expertises.map((expertise, expertiseIndex) => (
+                    <div key={expertiseIndex} className="border rounded-lg p-4">
+                      <div className="flex items-center justify-between mb-2">
+                        <div className="flex items-center gap-2">
+                          {isEditing ? (
+                            <Select 
+                              value={expertise.name} 
+                              onValueChange={(value) => handleExpertiseChange(expertiseIndex, value)}
+                            >
+                              <SelectTrigger className="w-48">
+                                <SelectValue />
+                              </SelectTrigger>
+                              <SelectContent>
+                                {expertiseOptions.map(option => (
+                                  <SelectItem key={option} value={option}>{option}</SelectItem>
+                                ))}
+                              </SelectContent>
+                            </Select>
+                          ) : (
+                            <Badge variant="secondary">{expertise.name}</Badge>
+                          )}
+                        </div>
+                        {isEditing && (
+                          <Button 
+                            variant="ghost" 
+                            size="sm"
+                            onClick={() => removeExpertise(expertiseIndex)}
+                          >
+                            <X className="h-4 w-4" />
+                          </Button>
+                        )}
+                      </div>
+                      
+                      <div className="mb-2">
+                        <div className="flex items-center justify-between mb-2">
+                          <Label className="text-sm">Skills</Label>
+                          {isEditing && (
+                            <div className="flex items-center gap-2">
+                              <Select 
+                                value={newSkills[expertiseIndex]?.[0] || ''} 
+                                onValueChange={(value) => setNewSkills(prev => ({ 
+                                  ...prev, 
+                                  [expertiseIndex]: [value] 
+                                }))}
+                              >
+                                <SelectTrigger className="w-48">
+                                  <SelectValue placeholder="Select skill" />
+                                </SelectTrigger>
+                                <SelectContent>
+                                  {skillOptions[expertise.name]?.map(skill => (
+                                    <SelectItem key={skill} value={skill}>{skill}</SelectItem>
+                                  ))}
+                                </SelectContent>
+                              </Select>
+                              <Button 
+                                variant="outline" 
+                                size="sm" 
+                                onClick={() => addSkill(expertiseIndex)}
+                                disabled={!newSkills[expertiseIndex]?.[0]}
+                              >
+                                <Plus className="h-4 w-4 mr-1" />
+                                Add
+                              </Button>
+                            </div>
+                          )}
+                        </div>
+                        <div className="flex flex-wrap gap-2 mt-2">
+                          {expertise.skills.map((skill, skillIndex) => (
+                            <Badge key={skillIndex} variant="outline" className="flex items-center">
+                              {skill}
+                              {isEditing && (
+                                <button 
+                                  className="ml-2 hover:text-foreground"
+                                  onClick={() => removeSkill(expertiseIndex, skillIndex)}
+                                >
+                                  <X className="h-3 w-3" />
+                                </button>
+                              )}
+                            </Badge>
+                          ))}
+                        </div>
+                      </div>
+                    </div>
                   ))}
-                  <Button variant="ghost" size="sm" className="h-8 px-3">
-                    <Plus className="h-4 w-4 mr-1" />
-                    Add Skill
+                </div>
+              </div>
+              
+              {isEditing && (
+                <div className="flex justify-end space-x-2">
+                  <Button variant="outline" onClick={toggleEditMode}>Cancel</Button>
+                  <Button onClick={saveProfile}>
+                    <Save className="h-4 w-4 mr-2" />
+                    Save Changes
                   </Button>
                 </div>
-              </div>
-              
-              <div className="flex justify-end">
-                <Button>
-                  <Save className="h-4 w-4 mr-2" />
-                  Save Goals
-                </Button>
-              </div>
-            </CardContent>
-          </Card>
-          
-          {/* Mentorship Preferences */}
-          <Card>
-            <CardHeader>
-              <CardTitle className="flex items-center gap-2">
-                <MessageSquare className="h-5 w-5" />
-                Mentorship Preferences
-              </CardTitle>
-            </CardHeader>
-            <CardContent className="space-y-4">
-              <div>
-                <Label>Preferred Communication</Label>
-                <Select defaultValue={dummyProfile.mentorshipPreferences.communication}>
-                  <SelectTrigger>
-                    <SelectValue />
-                  </SelectTrigger>
-                  <SelectContent>
-                    {communicationOptions.map((option) => (
-                      <SelectItem key={option} value={option}>
-                        {option}
-                      </SelectItem>
-                    ))}
-                  </SelectContent>
-                </Select>
-              </div>
-              
-              <div>
-                <Label>Availability</Label>
-                <Select defaultValue={dummyProfile.mentorshipPreferences.availability}>
-                  <SelectTrigger>
-                    <SelectValue />
-                  </SelectTrigger>
-                  <SelectContent>
-                    {availabilityOptions.map((option) => (
-                      <SelectItem key={option} value={option}>
-                        {option}
-                      </SelectItem>
-                    ))}
-                  </SelectContent>
-                </Select>
-              </div>
-              
-              <div>
-                <Label>Areas of Interest</Label>
-                <div className="grid grid-cols-2 gap-2 mt-2">
-                  {interestOptions.map((interest) => (
-                    <label key={interest} className="flex items-center space-x-2">
-                      <input 
-                        type="checkbox" 
-                        className="rounded"
-                        defaultChecked={dummyProfile.mentorshipPreferences.interests.includes(interest)}
-                      />
-                      <span className="text-sm">{interest}</span>
-                    </label>
-                  ))}
-                </div>
-              </div>
-              
-              <div className="flex justify-end">
-                <Button>
-                  <Save className="h-4 w-4 mr-2" />
-                  Save Preferences
-                </Button>
-              </div>
+              )}
             </CardContent>
           </Card>
         </div>

@@ -1,6 +1,6 @@
 import { useQueryClient, useMutation } from "@tanstack/react-query";
-import { updateExpertise } from "../services/expertiseManagement.service";
 import { toast } from "sonner";
+import { updateExpertise } from "../../expertisemanagement/-services/expertiseManagement.service";
 import type { ApiError } from "@/types";
 export const useUpdateExpertise = (callbacks?: {
   onUpdateSuccess?: (updated: { name: string; description: string }) => void;
