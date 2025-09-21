@@ -351,21 +351,23 @@ export default function MentorRegisterForm() {
               {isUploading ? (
                 <UploadingIndicator uploadProgress={uploadProgress} />
               ) : fileDetails && resumeFile ? (
-                <FilePreview
-                  resumeFile={resumeFile}
-                  handleUpload={handleUpload}
-                  removeResume={removeResume}
-                  isDeleting={isDeleting}
-                  isUploading={isUploading}
-                />
-              ) : resumeFile ? (
-                <FilePreview
-                  resumeFile={resumeFile}
-                  handleUpload={handleUpload}
-                  removeResume={removeResume}
-                  isUploading={isUploading}
-                  isDeleting={isDeleting}
-                />
+									<FilePreview
+										resumeFile={resumeFile}
+										fileDetails={fileDetails}
+										handleUpload={handleUpload}
+										removeResume={removeResume}
+										isDeleting={isDeleting}
+										isUploading={isUploading}
+									/>
+								) : resumeFile ? (
+										<FilePreview
+											resumeFile={resumeFile}
+											fileDetails={fileDetails}
+											handleUpload={handleUpload}
+											removeResume={removeResume}
+											isUploading={isUploading}
+											isDeleting={isDeleting}
+										/>
               ) : (
                 <FileUpload handleFileChange={handleFileChange} />
               )}

@@ -9,7 +9,6 @@ export const useUploadMedia = () => {
   const deleteMediaMutation = useDeleteMedia();
   const [uploadProgress, setUploadProgress] = useState<number>(0);
   const [isUploading, setIsUploading] = useState<boolean>(false);
-  const [resourceType, setResourceType] = useState<string>("image");
   const [fileDetails, setFileDetails] = useState<CloudinaryResponse>({
     public_id: "",
     original_filename: "",
@@ -21,6 +20,7 @@ export const useUploadMedia = () => {
 
   const uploadToCloudinary = async (
     file: File,
+		resourceType: string,
     cloudName: string,
     apiKey: string,
     token: string,
@@ -28,7 +28,6 @@ export const useUploadMedia = () => {
     timestamp: number,
   ) => {
     return new Promise<CloudinaryResponse>((resolve, reject) => {
-      setResourceType(file.type === "application/pdf" ? "raw" : "image");
       const url = `https://api.cloudinary.com/v1_1/${cloudName}/${resourceType}/upload`;
       const xhr = new XMLHttpRequest();
       const formData = new FormData();
@@ -38,6 +37,8 @@ export const useUploadMedia = () => {
       formData.append("api_key", apiKey);
       formData.append("timestamp", timestamp.toString());
       formData.append("signature", token);
+			formData.append("type","authenticated")
+			formData.append("resource_type", resourceType)
 
       xhr.open("POST", url, true);
 
@@ -74,11 +75,13 @@ export const useUploadMedia = () => {
     try {
       setIsUploading(true);
       setUploadProgress(0);
+			const resourceType = file.type == "application/pdf" ? "raw" : "image"
 
-      const tokenData = await generateTokenMutation.mutateAsync();
+      const tokenData = await generateTokenMutation.mutateAsync(resourceType);
 
       const fileDetails = await uploadToCloudinary(
         file,
+				resourceType,
         tokenData.data.cloud_name,
         tokenData.data.api_key,
         tokenData.data.signature,
@@ -102,7 +105,7 @@ export const useUploadMedia = () => {
     try {
       await deleteMediaMutation.mutateAsync({
         fileId: fileDetails.public_id,
-        mediaType: resourceType,
+        mediaType: fileDetails.resuource_type,
       });
       resetUpload();
     } catch (err) {

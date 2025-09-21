@@ -5,7 +5,7 @@ import { generateToken } from "@/services/media.service";
 
 export const useGenerateToken = () => {
   return useMutation({
-    mutationFn: () => generateToken(),
+    mutationFn: (resource_type: string) => generateToken(resource_type),
     onSuccess: () => {},
     onError: (error: ApiError) => {
       const errorMessage =

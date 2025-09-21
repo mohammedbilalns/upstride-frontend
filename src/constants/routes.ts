@@ -33,8 +33,8 @@ export const API_ROUTES = {
     FETCH: "/mentor",
     UPDATE: "/mentor",
     CREATE: "/mentor",
-    APPROVE: (id: string) => `/mentor/${id}/approve`,
-    REJECT: (id: string) => `/mentor/${id}/reject`,
+    APPROVE: `/mentor/approve`,
+    REJECT: `/mentor/reject`,
   },
   ARTICLES: {
     ARTICLES: "/articles",

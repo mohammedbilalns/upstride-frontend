@@ -1,9 +1,9 @@
 import api from "@/api/api";
 import { API_ROUTES } from "@/constants/routes";
 
-export async function generateToken() {
+export async function generateToken(resource_type: string) {
   try {
-    const response = await api.post(API_ROUTES.MEDIA.GENERATE_TOKEN);
+    const response = await api.post(API_ROUTES.MEDIA.GENERATE_TOKEN, {resource_type});
     return response.data;
   } catch (err) {
     console.error("error while generating token", err);

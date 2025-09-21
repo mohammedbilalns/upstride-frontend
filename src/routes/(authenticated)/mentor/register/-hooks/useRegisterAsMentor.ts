@@ -9,6 +9,7 @@ export const useRegisterAsMentor = () => {
   const router = useRouter();
   return useMutation({
     mutationFn: (data: MentorDetails) => registerMentor(data),
+
     onSuccess: () => {
       toast.success("Request submitted successfully");
       router.navigate({ to: "/home" });
