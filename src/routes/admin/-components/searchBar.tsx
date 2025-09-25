@@ -4,13 +4,12 @@ import { useDebounce } from "@/hooks/useDebounce";
 
 interface SearchBarProps {
   onSearch: (value: string) => void;
-  setPage: React.Dispatch<React.SetStateAction<number>>;
+  setPage: (page: number) => void;
   initialValue?: string;
 }
 
 export default function SearchBar({
   onSearch,
-  setPage,
   initialValue = "",
 }: SearchBarProps) {
   const [input, setInput] = useState(initialValue);
@@ -18,8 +17,7 @@ export default function SearchBar({
 
   useEffect(() => {
     onSearch(debounced);
-    setPage(1);
-  }, [debounced, onSearch, setPage]);
+  }, [debounced, onSearch]);
 
   return (
     <div className="flex items-center mb-4">

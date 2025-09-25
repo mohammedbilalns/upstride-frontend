@@ -16,7 +16,7 @@ import {
 import LogoutButton from "./logoutButton";
 import ThemeToggle from "@/components/theme-toggle";
 import AdminDetails from "./adminDetails";
-import { useRouter } from "@tanstack/react-router";
+import { Link, useLocation } from "@tanstack/react-router";
 
 interface NavigationItem {
   id: string;
@@ -44,7 +44,6 @@ const navigationItems: NavigationItem[] = [
     icon: Star,
     href: "/expertisemanagement",
   },
-
   {
     id: "mentormanagement",
     name: "Mentor Management",
@@ -70,8 +69,9 @@ const navigationItems: NavigationItem[] = [
 export function Sidebar({ className = "" }: SidebarProps) {
   const [isOpen, setIsOpen] = useState(false);
   const [isCollapsed, setIsCollapsed] = useState(false);
-  const [activeItem, setActiveItem] = useState("dashboard");
-  const router = useRouter();
+  const location = useLocation();
+
+  const currentPath = location.pathname;
 
   useEffect(() => {
     const handleResize = () => {
@@ -90,17 +90,18 @@ export function Sidebar({ className = "" }: SidebarProps) {
   const toggleSidebar = () => setIsOpen(!isOpen);
   const toggleCollapse = () => setIsCollapsed(!isCollapsed);
 
-  const handleItemClick = (item: NavigationItem) => {
-    setActiveItem(item.id);
+  const handleItemClick = () => {
     if (window.innerWidth < 768) {
       setIsOpen(false);
     }
-    router.navigate({ to: `/admin/${item.href}` });
+  };
+
+  const isActive = (item: NavigationItem) => {
+    return currentPath === `/admin${item.href}`;
   };
 
   return (
     <>
-      {/* Mobile hamburger button */}
       <button
         onClick={toggleSidebar}
         className="fixed bottom-6 left-6 z-50 p-3 rounded-xl bg-card shadow-lg border border-border/50 backdrop-blur-sm md:hidden hover:bg-accent transition-all duration-200"
@@ -178,21 +179,29 @@ export function Sidebar({ className = "" }: SidebarProps) {
           <ul className="space-y-1">
             {navigationItems.map((item) => {
               const Icon = item.icon;
-              const isActive = activeItem === item.id;
+              const active = isActive(item);
 
               return (
                 <li key={item.id}>
-                  <button
-                    onClick={() => handleItemClick(item)}
+                  <Link
+                    to={`/admin${item.href}`}
+                    onClick={handleItemClick}
                     className={`
                       w-full flex items-center space-x-3 px-4 py-3 rounded-xl text-left transition-all duration-200 group relative cursor-pointer
                       ${
-                        isActive
+                        active
                           ? "bg-primary/10 text-primary border border-primary/20 shadow-sm"
                           : "text-muted-foreground hover:bg-accent hover:text-foreground"
                       }
                       ${isCollapsed ? "justify-center px-3" : ""}
                     `}
+                    activeProps={{
+                      className: "bg-primary/10 text-primary border border-primary/20 shadow-sm",
+                    }}
+                    inactiveProps={{
+                      className: "text-muted-foreground hover:bg-accent hover:text-foreground",
+                    }}
+                    preload="intent"
                     title={isCollapsed ? item.name : undefined}
                   >
                     <div className="flex items-center justify-center min-w-[20px]">
@@ -200,7 +209,7 @@ export function Sidebar({ className = "" }: SidebarProps) {
                         className={`
                           h-5 w-5 flex-shrink-0
                           ${
-                            isActive
+                            active
                               ? "text-primary"
                               : "text-muted-foreground group-hover:text-foreground"
                           }
@@ -211,7 +220,7 @@ export function Sidebar({ className = "" }: SidebarProps) {
                     {!isCollapsed && (
                       <div className="flex items-center justify-between w-full">
                         <span
-                          className={`text-sm ${isActive ? "font-semibold" : "font-medium"}`}
+                          className={`text-sm ${active ? "font-semibold" : "font-medium"}`}
                         >
                           {item.name}
                         </span>
@@ -220,7 +229,7 @@ export function Sidebar({ className = "" }: SidebarProps) {
                             className={`
                             px-2 py-1 text-xs font-semibold rounded-full
                             ${
-                              isActive
+                              active
                                 ? "bg-primary/20 text-primary"
                                 : "bg-muted text-muted-foreground"
                             }
@@ -253,7 +262,7 @@ export function Sidebar({ className = "" }: SidebarProps) {
                         <div className="absolute left-0 top-1/2 transform -translate-y-1/2 -translate-x-1 w-2 h-2 bg-popover border-l border-t border-border rotate-45" />
                       </div>
                     )}
-                  </button>
+                  </Link>
                 </li>
               );
             })}
