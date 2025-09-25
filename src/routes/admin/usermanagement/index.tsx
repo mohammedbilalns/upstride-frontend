@@ -19,7 +19,6 @@ import { fetchUsers } from "./-services/usermangement.service";
 
 export const Route = createFileRoute("/admin/usermanagement/")({
 	component: RouteComponent,
-
 	validateSearch: (input) => {
 		const result = paramsSchema.safeParse(input);
 		if (result.success) return result.data;
@@ -100,6 +99,7 @@ function RouteComponent() {
 					onSearch={setSearch}
 					setPage={setPage}
 					initialValue={search}
+					placeholder="Search by name, email"
 				/>
 
 				<div className="min-h-[68vh] overflow-x-auto rounded-lg border border-border/50 ">

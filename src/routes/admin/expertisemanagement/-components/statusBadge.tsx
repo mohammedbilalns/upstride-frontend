@@ -1,6 +1,6 @@
 import { Check, X } from "lucide-react";
 
-export default function StatusBadge({ isVerified }: { isVerified: boolean }) {
+export function StatusBadge({ isVerified }: { isVerified: boolean }) {
   return (
     <span
       className={`inline-flex items-center gap-1 px-2 py-1 rounded-full text-xs font-medium ${

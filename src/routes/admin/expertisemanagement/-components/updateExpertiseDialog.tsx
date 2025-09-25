@@ -19,7 +19,7 @@ import { Textarea } from "@/components/ui/textarea";
 import { useUpdateExpertise } from "../-hooks/useUpdateExpertise";
 import { useState } from "react";
 
-export default function UpdateExpertiseDialog({
+export function UpdateExpertiseDialog({
   expertiseId,
   name,
   description,

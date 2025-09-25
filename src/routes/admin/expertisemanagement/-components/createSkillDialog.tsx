@@ -21,7 +21,7 @@ import type { createSkillFormValues } from "../-validations/expertise.validation
 interface CreateSkillDialogProps {
   expertiseId: string;
 }
-export default function CreateSkillDialog({
+export  function CreateSkillDialog({
   expertiseId,
 }: CreateSkillDialogProps) {
   const [open, setOpen] = useState(false);

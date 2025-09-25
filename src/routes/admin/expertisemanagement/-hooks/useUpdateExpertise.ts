@@ -1,12 +1,12 @@
-import { useQueryClient, useMutation } from "@tanstack/react-query";
+import { useMutation } from "@tanstack/react-query";
 import { updateExpertise } from "../-services/expertiseManagement.service";
 import { toast } from "sonner";
 import type { ApiError } from "@/types";
+import { useRouter } from "@tanstack/react-router";
 export const useUpdateExpertise = (callbacks?: {
   onUpdateSuccess?: (updated: { name: string; description: string }) => void;
 }) => {
-  const queryClient = useQueryClient();
-
+	const router = useRouter()
   return useMutation({
     mutationFn: ({
       id,
@@ -24,10 +24,7 @@ export const useUpdateExpertise = (callbacks?: {
         name: variables.name,
         description: variables.description,
       });
-
-      queryClient.invalidateQueries({
-        queryKey: ["expertises"],
-      });
+			router.invalidate({ sync: true });
     },
     onError: (error: ApiError) => {
       const errorMessage =

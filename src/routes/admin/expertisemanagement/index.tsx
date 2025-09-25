@@ -1,4 +1,4 @@
-import { createFileRoute } from "@tanstack/react-router";
+import { createFileRoute, useNavigate } from "@tanstack/react-router";
 import { Fragment, useState } from "react";
 import { Button } from "@/components/ui/button";
 import {
@@ -9,31 +9,47 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
-import { Pagination } from "@/components/pagination";
-import { ConfirmDialog } from "@/components/confirm";
+import { Pagination,ConfirmDialog } from "@/components";
 import { ChevronDown, ChevronRight } from "lucide-react";
-import StatusBadge from "./-components/statusBadge";
 import SearchBar from "../-components/searchBar";
-import CreateExpertiseDialog from "./-components/createExpertiseDialog";
+import { CreateExpertiseDialog, UpdateExpertiseDialog, StatusBadge } from "./-components";
 import ExpertiseSkillsCollapse from "./-components/skillsCollapse";
-import UpdateExpertiseDialog from "./-components/updateExpertiseDialog";
-import { useFetchExpertises } from "./-hooks/useFetchExperitses";
 import type { Expertise } from "@/types";
 import { useVerifyExpertise } from "./-hooks/useVerifyExpertise";
+import { paramsSchema, type RowsPerPage } from "../-validtations/searchParamsSchema";
+import { queryClient } from "@/main";
+import { fetchExpertises } from "./-services/expertiseManagement.service";
 
 export const Route = createFileRoute("/admin/expertisemanagement/")({
-  component: RouteComponent,	
+	component: RouteComponent,
+	validateSearch: (input) => {
+		const result = paramsSchema.safeParse(input);
+		if (result.success) return result.data;
+		return { page: 1, rowsPerPage: 10, search: "" };
+	},
+	loaderDeps: ({search}) => ({
+		page: search.page,
+		rowsPerPage: search.rowsPerPage,
+		search: search.search
+	}),
+	loader: async ({ deps }) => {
+		const { page, rowsPerPage,search: query } = deps;
+		return queryClient.fetchQuery({
+			queryKey: ["expertises", page, rowsPerPage, query],
+			queryFn: () => fetchExpertises(String(page), String(rowsPerPage), query),
+		});	
+	},
+
 });
 
 function RouteComponent() {
-	const [page, setPage] = useState(1);
-  const [rowsPerPage, setRowsPerPage] = useState(10);
-  const [search, setSearch] = useState<string>("");
-  const [expandedRows, setExpandedRows] = useState<Set<string>>(new Set());
-  const { data, isLoading } = useFetchExpertises(page, rowsPerPage, search);
-  const totalPages = data?.total ? Math.ceil(data.total / rowsPerPage) : 1;
-  const expertises: Expertise[] = data?.expertises || [];
-  const verifyExpertiseMuation = useVerifyExpertise();
+	const navigate = useNavigate({from:Route.fullPath})
+	const {page,rowsPerPage, search} = Route.useSearch()
+	const [expandedRows, setExpandedRows] = useState<Set<string>>(new Set());
+	const data = Route.useLoaderData();
+	const totalPages = data?.total ? Math.ceil(data.total / rowsPerPage) : 1;
+	const expertises: Expertise[] = data?.expertises || [];
+	const verifyExpertiseMuation = useVerifyExpertise();
 
   const toggleExpanded = (id: string) => {
     setExpandedRows((prev) => {
@@ -46,6 +62,36 @@ function RouteComponent() {
       return newSet;
     });
   };
+
+
+		const setSearch = (newSearch: string) => {
+		navigate({
+			search: (prev) => ({
+				...prev,
+				search: newSearch,
+				page: prev.search === newSearch ? prev.page : 1,
+			}),
+		});
+	};
+
+	const setPage = (newPage: number) => {
+		navigate({
+			search: (prev) => ({
+				...prev,
+				page: newPage
+			})
+		});
+	};
+
+	const setRowsPerPage = (newRowsPerPage: RowsPerPage) => {
+		navigate({
+			search: (prev) => ({
+				...prev,
+				rowsPerPage: newRowsPerPage,
+				page: 1 
+			})
+		});
+	};
 
   const handleVerifyExpertise = (id: string) => {
     verifyExpertiseMuation.mutate(id);
@@ -62,6 +108,7 @@ function RouteComponent() {
               onSearch={setSearch}
               setPage={setPage}
               initialValue={search}
+							placeholder="Search by name"
             />
             <CreateExpertiseDialog />
           </div>
@@ -78,13 +125,7 @@ function RouteComponent() {
                 </TableRow>
               </TableHeader>
               <TableBody>
-                {isLoading ? (
-                  <TableRow>
-                    <TableCell colSpan={5} className="text-center">
-                      Loading...
-                    </TableCell>
-                  </TableRow>
-                ) : expertises.length === 0 ? (
+                { expertises.length === 0 ? (
                   <TableRow>
                     <TableCell
                       colSpan={5}

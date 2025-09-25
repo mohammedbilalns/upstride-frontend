@@ -1,13 +1,13 @@
-import { useMutation, useQueryClient } from "@tanstack/react-query";
+import { useMutation } from "@tanstack/react-query";
 import { toast } from "sonner";
 import { createExpertise } from "../-services/expertiseManagement.service";
 import type { ApiError } from "@/types";
+import { useRouter } from "@tanstack/react-router";
 
 export const useCreateExpertise = (callbacks?: {
   onCreateSuccess?: () => void;
 }) => {
-  const queryClient = useQueryClient();
-
+const router = useRouter()
   return useMutation({
     mutationFn: ({
       name,
@@ -20,10 +20,8 @@ export const useCreateExpertise = (callbacks?: {
     }) => createExpertise(name, description, skills),
     onSuccess: (response) => {
       toast.success(response.message);
-      callbacks?.onCreateSuccess?.();
-      queryClient.invalidateQueries({
-        queryKey: ["expertises"],
-      });
+      callbacks?.onCreateSuccess?.(); 
+			router.invalidate({ sync: true });
     },
     onError: (error: ApiError) => {
       const errorMessage =

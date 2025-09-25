@@ -6,11 +6,13 @@ interface SearchBarProps {
   onSearch: (value: string) => void;
   setPage: (page: number) => void;
   initialValue?: string;
+	placeholder: string;
 }
 
 export default function SearchBar({
   onSearch,
   initialValue = "",
+	placeholder
 }: SearchBarProps) {
   const [input, setInput] = useState(initialValue);
   const debounced = useDebounce(input, 500);
@@ -22,7 +24,7 @@ export default function SearchBar({
   return (
     <div className="flex items-center mb-4">
       <Input
-        placeholder="Search by name or email..."
+        placeholder={placeholder}
         value={input}
         onChange={(e) => setInput(e.target.value)}
         className="w-full sm:w-64"

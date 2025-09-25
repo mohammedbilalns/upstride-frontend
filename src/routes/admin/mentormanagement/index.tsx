@@ -101,6 +101,7 @@ function RouteComponent() {
               onSearch={setSearch}
               setPage={setPage}
               initialValue={search}
+							placeholder="Search by name, email, skills"
             />
             <div className="flex gap-2">
               <select
