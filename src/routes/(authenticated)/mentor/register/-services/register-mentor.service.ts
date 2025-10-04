@@ -11,3 +11,13 @@ export async function registerMentor(data: MentorDetails) {
     throw err;
   }
 }
+
+export async function updateMentorRegistration(data: MentorDetails) {
+  try {
+    const response = await api.put(API_ROUTES.MENTOR.UPDATE, data);
+    return response.data;
+  } catch (err) {
+    console.error("error while updating mentor registration", err);
+    throw err;
+  }
+}

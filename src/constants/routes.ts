@@ -12,6 +12,7 @@ export const API_ROUTES = {
     GOOGLE: "/auth/google",
     REFRESH: "/auth/refresh",
     ADD_INTERESTS: "/auth/add-interests",
+		GET_USERS: "/auth/me",
   },
   USERMANAGEMENT: {
     USERS: "/users",
@@ -31,6 +32,7 @@ export const API_ROUTES = {
   },
   MENTOR: {
     FETCH: "/mentor",
+		FETCH_MENTOR_DETAILS: "/mentor/details",
     UPDATE: "/mentor",
     CREATE: "/mentor",
     APPROVE: `/mentor/approve`,

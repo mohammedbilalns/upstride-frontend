@@ -19,13 +19,13 @@ export default function FileUpload({ handleFileChange }: FileUploadProps) {
       >
         Browse File
       </Button>
-      <input
-        id="resume-upload"
-        type="file"
-        accept=".pdf"
-        className="hidden"
-        onChange={handleFileChange}
-      />
-    </div>
+			<input
+				id="resume-upload"
+				type="file"
+				accept=".pdf,application/pdf"
+				className="hidden"
+				onChange={handleFileChange}
+			/>
+		</div>
   );
 }

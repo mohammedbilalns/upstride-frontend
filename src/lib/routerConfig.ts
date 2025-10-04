@@ -8,5 +8,6 @@ export const router = createRouter({
   defaultNotFoundComponent: NotFoundComponent,
 	defaultPendingComponent: Loading,
 	scrollRestoration: true,
-	defaultPreload:'intent'
+	defaultPreload:'intent',
+	defaultStaleTime: 5 * 60 * 1000,
 });

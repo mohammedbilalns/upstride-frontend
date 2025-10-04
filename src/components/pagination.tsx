@@ -6,13 +6,14 @@ import {
   SelectContent,
   SelectItem,
 } from "@/components/ui/select";
+import type { RowsPerPage } from "@/routes/admin/-validtations/searchParamsSchema";
 
 interface PaginationProps {
   page: number;
   totalPages: number;
   rowsPerPage: number;
   setPage: (page: number) => void;
-  setRowsPerPage: (rows: number) => void;
+  setRowsPerPage: (rows: RowsPerPage) => void;
 }
 
 export function Pagination({

@@ -9,6 +9,7 @@
 // Additionally, you should also exclude this file from your linter and/or formatter to prevent it from being checked or modified.
 
 import { Route as rootRouteImport } from './routes/__root'
+import { Route as TestRouteImport } from './routes/test'
 import { Route as AboutRouteImport } from './routes/about'
 import { Route as AuthRouteRouteImport } from './routes/auth/route'
 import { Route as AdminRouteRouteImport } from './routes/admin/route'
@@ -33,6 +34,11 @@ import { Route as authenticatedArticlesArticleIdRouteImport } from './routes/(au
 import { Route as authenticatedMentorRegisterIndexRouteImport } from './routes/(authenticated)/mentor/register/index'
 import { Route as authenticatedArticlesCreateIndexRouteImport } from './routes/(authenticated)/articles/create/index'
 
+const TestRoute = TestRouteImport.update({
+  id: '/test',
+  path: '/test',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const AboutRoute = AboutRouteImport.update({
   id: '/about',
   path: '/about',
@@ -162,6 +168,7 @@ export interface FileRoutesByFullPath {
   '/admin': typeof AdminRouteRouteWithChildren
   '/auth': typeof AuthRouteRouteWithChildren
   '/about': typeof AboutRoute
+  '/test': typeof TestRoute
   '/mentors': typeof authenticatedMentorsRoute
   '/notifications': typeof authenticatedNotificationsRoute
   '/profile': typeof authenticatedProfileRoute
@@ -184,6 +191,7 @@ export interface FileRoutesByFullPath {
 export interface FileRoutesByTo {
   '/': typeof authenticatedRouteRouteWithChildren
   '/about': typeof AboutRoute
+  '/test': typeof TestRoute
   '/mentors': typeof authenticatedMentorsRoute
   '/notifications': typeof authenticatedNotificationsRoute
   '/profile': typeof authenticatedProfileRoute
@@ -210,6 +218,7 @@ export interface FileRoutesById {
   '/admin': typeof AdminRouteRouteWithChildren
   '/auth': typeof AuthRouteRouteWithChildren
   '/about': typeof AboutRoute
+  '/test': typeof TestRoute
   '/(authenticated)/mentors': typeof authenticatedMentorsRoute
   '/(authenticated)/notifications': typeof authenticatedNotificationsRoute
   '/(authenticated)/profile': typeof authenticatedProfileRoute
@@ -236,6 +245,7 @@ export interface FileRouteTypes {
     | '/admin'
     | '/auth'
     | '/about'
+    | '/test'
     | '/mentors'
     | '/notifications'
     | '/profile'
@@ -258,6 +268,7 @@ export interface FileRouteTypes {
   to:
     | '/'
     | '/about'
+    | '/test'
     | '/mentors'
     | '/notifications'
     | '/profile'
@@ -283,6 +294,7 @@ export interface FileRouteTypes {
     | '/admin'
     | '/auth'
     | '/about'
+    | '/test'
     | '/(authenticated)/mentors'
     | '/(authenticated)/notifications'
     | '/(authenticated)/profile'
@@ -309,11 +321,19 @@ export interface RootRouteChildren {
   AdminRouteRoute: typeof AdminRouteRouteWithChildren
   AuthRouteRoute: typeof AuthRouteRouteWithChildren
   AboutRoute: typeof AboutRoute
+  TestRoute: typeof TestRoute
   UnauthorizedIndexRoute: typeof UnauthorizedIndexRoute
 }
 
 declare module '@tanstack/react-router' {
   interface FileRoutesByPath {
+    '/test': {
+      id: '/test'
+      path: '/test'
+      fullPath: '/test'
+      preLoaderRoute: typeof TestRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/about': {
       id: '/about'
       path: '/about'
@@ -547,6 +567,7 @@ const rootRouteChildren: RootRouteChildren = {
   AdminRouteRoute: AdminRouteRouteWithChildren,
   AuthRouteRoute: AuthRouteRouteWithChildren,
   AboutRoute: AboutRoute,
+  TestRoute: TestRoute,
   UnauthorizedIndexRoute: UnauthorizedIndexRoute,
 }
 export const routeTree = rootRouteImport

@@ -1,4 +1,4 @@
-import { createFileRoute } from "@tanstack/react-router";
+import { createFileRoute, useNavigate } from "@tanstack/react-router";
 import { Fragment, useState } from "react";
 import { Button } from "@/components/ui/button";
 import {
@@ -23,34 +23,90 @@ import { Pagination } from "@/components/pagination";
 import { ConfirmDialog } from "@/components/confirm";
 import SearchBar from "../-components/searchBar";
 import TableCollapse from "./-components/tableCollapse";
-import { useFetchMentors } from "./-hooks/useFetchMentors";
 import { useApproveMentor } from "./-hooks/useApproveMentor";
 import { useRejectMentor } from "./-hooks/useRejectMentor";
 import StatusBadge from "./-components/statusBadge";
 import type { Mentor } from "@/types/mentor";
+import { paramsSchema} from "./validtions/-searchParamsSchema";
+import { queryClient } from "@/main";
+import { fetchMentors } from "./-services/mentormanagement.service";
+import type { RowsPerPage } from "../-validtations/searchParamsSchema";
 
 export const Route = createFileRoute("/admin/mentormanagement/")({
-  component: RouteComponent,
+	component: RouteComponent,
+	validateSearch: (input) =>{
+		const result = paramsSchema.safeParse(input); 
+		if (result.success) return result.data;
+		return { page: 1, rowsPerPage: 10, search: "", filter: undefined};
+	},
+	loaderDeps: ({search}) => ({
+		page: search.page,
+		rowsPerPage: search.rowsPerPage,
+		search: search.search,
+		filter: search.filter
+	}),
+	loader: async ({deps}) => {
+		const { page, rowsPerPage, search: query, filter  } = deps;
+		return queryClient.fetchQuery({
+			queryKey: ["mentors", page, rowsPerPage, query, filter],
+			queryFn: () => fetchMentors(String(page), String(rowsPerPage), query, filter),
+		});
+	},
+
 });
 type MentorStatus = "pending" | "approved" | "rejected";
 
 function RouteComponent() {
-  const [page, setPage] = useState(1);
-  const [rowsPerPage, setRowsPerPage] = useState(10);
-  const [search, setSearch] = useState<string>("");
-  const [filter, setFilter] = useState<MentorStatus | undefined>(undefined);
+	const navigate = useNavigate({from:Route.fullPath});
+	const {page,rowsPerPage, search, filter} = Route.useSearch()
+	const data = Route.useLoaderData(); 
   const approveMentorMutation = useApproveMentor();
   const rejectMentorMutation = useRejectMentor();
-  const { data, isLoading } = useFetchMentors(
-    page,
-    rowsPerPage,
-    search,
-    filter,
-  );
+
   const totalPages = data?.totalMentors
     ? Math.ceil(data.totalMentors / rowsPerPage)
     : 1;
   const [expandedRows, setExpandedRows] = useState<Set<string>>(new Set());
+
+	const setSearch = (newSearch: string) => {
+		navigate({
+			search: (prev) => ({
+				...prev,
+				search: newSearch,
+				page: prev.search === newSearch ? prev.page : 1,
+			}),
+		});
+	};
+
+
+	const setPage = (newPage: number) => {
+		navigate({
+			search: (prev ) => ({
+				...prev,
+				page: newPage
+			})
+		});
+	};
+
+	const setRowsPerPage = (newRowsPerPage: RowsPerPage) => {
+		navigate({
+			search: (prev) => ({
+				...prev,
+				rowsPerPage: newRowsPerPage,
+				page: 1 
+			})
+		});
+	};
+
+	const setFilter = (newFilter: MentorStatus | undefined) => {
+		navigate({
+			search: (prev) => ({
+				...prev,
+				filter: newFilter,
+				page: 1 
+			})
+		});
+	};
 
   const toggleExpanded = (id: string) => {
     setExpandedRows((prev) => {
@@ -135,13 +191,7 @@ function RouteComponent() {
                 </TableRow>
               </TableHeader>
               <TableBody>
-                {isLoading ? (
-                  <TableRow>
-                    <TableCell colSpan={7} className="text-center">
-                      Loading...
-                    </TableCell>
-                  </TableRow>
-                ) : data?.mentors.length === 0 ? (
+                { data?.mentors.length === 0 ? (
                   <TableRow>
                     <TableCell
                       colSpan={7}

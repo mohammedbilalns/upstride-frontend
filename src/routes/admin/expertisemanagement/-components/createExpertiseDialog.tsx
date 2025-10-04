@@ -20,7 +20,7 @@ import { MultiSelect } from "@/components/ui/mulit-select";
 import { useCreateExpertise } from "../-hooks/useCreateExpertise";
 import { useState } from "react";
 
-export default function CreateExpertiseDialog() {
+export  function CreateExpertiseDialog() {
   const [open, setOpen] = useState(false);
 
   const createExpertiseMutation = useCreateExpertise({

@@ -24,7 +24,7 @@ import { Button, Checkbox } from "@/components/ui";
 import FilePreview from "./filePreview";
 import UploadingIndicator from "./uploadingIndicator";
 import FileUpload from "./fileUpload";
-import { Plus, X } from "lucide-react";
+import { Plus} from "lucide-react";
 import SkillSelection from "./skillSelection";
 import {
   mentorRegistrationSchema,
@@ -55,7 +55,7 @@ export default function MentorRegisterForm() {
         currentRole: "",
         organisation: "",
         yearsOfExperience: 0,
-        educationalQualifications: [""],
+        educationalQualifications:  [{ value: "" }],
         personalWebsite: "",
         expertise: "",
         skills: [],
@@ -64,13 +64,10 @@ export default function MentorRegisterForm() {
       },
     });
 
-  const { fields, append, remove } = useFieldArray<
-    mentorRegistrationFormValues,
-    "educationalQualifications"
-  >({
-    control: form.control,
-    name: "educationalQualifications",
-  });
+ const { fields, append, remove } = useFieldArray({
+  control: form.control,
+  name: "educationalQualifications",
+}); 
 
   const {
     handleUpload,
@@ -115,24 +112,35 @@ export default function MentorRegisterForm() {
       }
     }
   };
+const MAX_FILE_SIZE = 2 * 1024 * 1024; 
 
-  const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    if (e.target.files && e.target.files[0]) {
-      const file = e.target.files[0];
-      if (file.type === "application/pdf") {
-        setResumeFile(file);
-        resetUpload();
-        form.setValue("resume", file);
+const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+  if (e.target.files && e.target.files[0]) {
+    const file = e.target.files[0];
 
-        handleUpload(file).catch((error) => {
-          console.error("Upload failed:", error);
-          toast.error("Failed to upload file");
-        });
-      } else {
-        toast.error("Invalid file type");
-      }
+    if (file.type !== "application/pdf") {
+      toast.error("Invalid file type. Only PDF allowed.");
+      e.target.value = ""; 
+      return;
     }
-  };
+
+    if (file.size > MAX_FILE_SIZE) {
+      toast.error("File size must not exceed 2MB.");
+      e.target.value = ""; 
+      return;
+    }
+
+    setResumeFile(file);
+    resetUpload();
+    form.setValue("resume", file);
+
+    handleUpload(file).catch((error) => {
+      console.error("Upload failed:", error);
+      toast.error("Failed to upload file");
+    });
+  }
+};
+
 
   const removeResume = async () => {
     if (fileDetails) {
@@ -150,7 +158,7 @@ export default function MentorRegisterForm() {
         currentRole: values.currentRole,
         organisation: values.organisation,
         yearsOfExperience: values.yearsOfExperience,
-        educationalQualifications: values.educationalQualifications,
+        educationalQualifications: values.educationalQualifications.map(field => field.value),
         personalWebsite: values.personalWebsite,
         expertise: values.expertise,
         skills: values.skills,
@@ -244,43 +252,69 @@ export default function MentorRegisterForm() {
               Add up to 7 qualifications (degrees, certifications, etc.)
             </FormDescription>
 
-            {fields.map((field, index) => (
-              <div key={field.id} className="flex items-center gap-2 mb-2">
-                <FormField
-                  control={form.control}
-                  name={`educationalQualifications.${index}`}
-                  render={({ field }) => (
-                    <FormItem className="flex-1">
-                      <FormControl>
-                        <Input
-                          placeholder="e.g. BSc in Computer Science"
-                          {...field}
-                        />
-                      </FormControl>
-                      <FormMessage />
-                    </FormItem>
-                  )}
-                />
-                {fields.length > 1 && (
-                  <Button
-                    type="button"
-                    variant="outline"
-                    size="icon"
-                    onClick={() => remove(index)}
-                  >
-                    <X className="h-4 w-4" />
-                  </Button>
-                )}
-              </div>
-            ))}
+						{/*       {fields.map((field, index) => ( */}
+						{/*         <div key={field.id} className="flex items-center gap-2 mb-2"> */}
+						{/*           <FormField */}
+						{/*             control={form.control} */}
+						{/*             name={`educationalQualifications.${index}`} */}
+						{/*             render={({ field }) => ( */}
+						{/*               <FormItem className="flex-1"> */}
+						{/*                 <FormControl> */}
+						{/*                   <Input */}
+						{/*                     placeholder="e.g. BSc in Computer Science" */}
+						{/*                     {...field} */}
+						{/*                   /> */}
+						{/*                 </FormControl> */}
+						{/*                 <FormMessage /> */}
+						{/*               </FormItem> */}
+						{/*             )} */}
+						{/*           /> */}
+						{/*           {fields.length > 1 && ( */}
+						{/*             <Button */}
+						{/*               type="button" */}
+						{/*               variant="outline" */}
+						{/*               size="icon" */}
+						{/*               onClick={() => remove(index)} */}
+						{/*             > */}
+						{/*               <X className="h-4 w-4" /> */}
+						{/*             </Button> */}
+						{/* 		)} */}
+						{/* 	</div> */}
+						{/* ))} */}
 
-            {fields.length < 7 && (
-              <Button
-                type="button"
-                variant="outline"
-                onClick={() => append("")}
-                className="mt-2"
-              >
+						{fields.map((field, index) => (
+							<div key={field.id} className="flex items-center gap-2 mb-2">
+								<FormField
+									control={form.control}
+									name={`educationalQualifications.${index}.value`}
+									render={({ field }) => (
+										<FormItem className="flex-1">
+											<FormControl>
+												<Input {...field} placeholder="e.g. BSc in Computer Science" />
+											</FormControl>
+											<FormMessage />
+										</FormItem>
+									)}
+								/>
+								{fields.length > 1 && (
+									<Button type="button" onClick={() => remove(index)}>Remove</Button>
+								)}
+							</div>
+						))}
+
+						{form.formState.errors.educationalQualifications && (
+							<p className="text-sm font-medium text-destructive mt-2">
+								{form.formState.errors.educationalQualifications.message as string}
+							</p>
+						)}
+
+						{fields.length < 7 && (
+							<Button
+								type="button"
+								variant="outline"
+								onClick={() => append({value:""})}
+								className="mt-2"
+							>
                 <Plus className="h-4 w-4 mr-2" />
                 Add Qualification
               </Button>

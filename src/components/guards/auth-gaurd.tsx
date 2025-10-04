@@ -3,7 +3,7 @@ import { useAuthStore } from "@/store/auth.store";
 
 const roleRedirects: Record<string, string> = {
   user: "/",
-  mentor: "/expert/dashboard",
+  mentor: "/",
   admin: "/admin/dashboard",
   superadmin: "/admin/dashboard",
 };

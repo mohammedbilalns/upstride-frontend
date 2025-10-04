@@ -33,6 +33,7 @@
     "@tanstack/react-router": "^1.131.27",
     "@tanstack/react-router-devtools": "^1.131.27",
     "@tiptap/extension-document": "^3.4.2",
+    "@tiptap/extension-highlight": "^3.5.2",
     "@tiptap/extension-image": "^3.4.2",
     "@tiptap/extension-paragraph": "^3.4.2",
     "@tiptap/extension-placeholder": "^3.4.2",

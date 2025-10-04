@@ -7,7 +7,7 @@ import { RouterProvider } from "@tanstack/react-router";
 import { GoogleOAuthProvider } from "@react-oauth/google";
 import { router } from "./lib/routerConfig";
 
-const queryClient = new QueryClient();
+export const queryClient = new QueryClient();
 
 declare module "@tanstack/react-router" {
   interface Register {
@@ -22,7 +22,6 @@ createRoot(document.getElementById("root")!).render(
     <GoogleOAuthProvider clientId={GOOGLE_CLIENT_ID}>
       <QueryClientProvider client={queryClient}>
         <RouterProvider router={router} />
-
         <ReactQueryDevtools initialIsOpen={false} />
       </QueryClientProvider>
     </GoogleOAuthProvider>

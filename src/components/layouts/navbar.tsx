@@ -94,7 +94,7 @@ export default function Navbar() {
                 className=" cursor-pointer relative h-8 w-8 rounded-full"
               >
                 <Avatar className="h-8 w-8">
-                  <AvatarImage src={user?.avatar} alt={user?.name} />
+                  <AvatarImage src={user?.profilePicture} alt={user?.name} />
                   <AvatarFallback>
                     {user?.name
                       .split(" ")

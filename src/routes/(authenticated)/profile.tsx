@@ -114,19 +114,14 @@ export const Route = createFileRoute('/(authenticated)/profile')({
 })
 
 function RouteComponent() {
-  // State to manage if user is a mentor
   const [isMentor, setIsMentor] = React.useState(true);
   
-  // State for form data
   const [profileData, setProfileData] = React.useState<ProfileData>(dummyProfile);
   
-  // State for editing
   const [isEditing, setIsEditing] = React.useState(false);
   
-  // State for new expertise selection
   const [newExpertise, setNewExpertise] = React.useState('');
   
-  // State for new skill selection per expertise
   const [newSkills, setNewSkills] = React.useState<Record<number, string[]>>({});
   
   // Handle input changes
