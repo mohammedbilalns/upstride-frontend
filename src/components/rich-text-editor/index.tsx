@@ -7,6 +7,7 @@ interface RichTextEditorProps {
 	content: string
 	onChange: (content: string) => void
 }
+
 function RichTextEditor({content, onChange}: RichTextEditorProps){
 	const editor = useEditor({
 		extensions: [StarterKit.configure({
@@ -28,7 +29,7 @@ function RichTextEditor({content, onChange}: RichTextEditorProps){
 		content,
 		editorProps: {
 			attributes: {
-				class: "min-h-[300px] border rounded-md mx-auto  py-2 px-3"
+				class: "min-h-[350px] border rounded-md mx-auto  py-2 px-3"
 			}
 		},
 		onUpdate: ({editor}) => {

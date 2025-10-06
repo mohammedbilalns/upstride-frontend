@@ -252,36 +252,6 @@ const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
               Add up to 7 qualifications (degrees, certifications, etc.)
             </FormDescription>
 
-						{/*       {fields.map((field, index) => ( */}
-						{/*         <div key={field.id} className="flex items-center gap-2 mb-2"> */}
-						{/*           <FormField */}
-						{/*             control={form.control} */}
-						{/*             name={`educationalQualifications.${index}`} */}
-						{/*             render={({ field }) => ( */}
-						{/*               <FormItem className="flex-1"> */}
-						{/*                 <FormControl> */}
-						{/*                   <Input */}
-						{/*                     placeholder="e.g. BSc in Computer Science" */}
-						{/*                     {...field} */}
-						{/*                   /> */}
-						{/*                 </FormControl> */}
-						{/*                 <FormMessage /> */}
-						{/*               </FormItem> */}
-						{/*             )} */}
-						{/*           /> */}
-						{/*           {fields.length > 1 && ( */}
-						{/*             <Button */}
-						{/*               type="button" */}
-						{/*               variant="outline" */}
-						{/*               size="icon" */}
-						{/*               onClick={() => remove(index)} */}
-						{/*             > */}
-						{/*               <X className="h-4 w-4" /> */}
-						{/*             </Button> */}
-						{/* 		)} */}
-						{/* 	</div> */}
-						{/* ))} */}
-
 						{fields.map((field, index) => (
 							<div key={field.id} className="flex items-center gap-2 mb-2">
 								<FormField
