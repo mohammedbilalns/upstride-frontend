@@ -1,23 +1,23 @@
+import { createRootRoute, Outlet } from "@tanstack/react-router";
 import * as React from "react";
-import { Outlet, createRootRoute } from "@tanstack/react-router";
+import { useEffect } from "react";
 import { Toaster } from "sonner";
 import { useThemeStore } from "@/store/theme.store";
-import { useEffect } from "react";
 
 export const Route = createRootRoute({
-  component: RootComponent,
+	component: RootComponent,
 });
 
 function RootComponent() {
-  const { isDarkMode, setTheme } = useThemeStore();
+	const { isDarkMode, setTheme } = useThemeStore();
 
-  useEffect(() => {
-    setTheme(isDarkMode);
-  }, [isDarkMode, setTheme]);
-  return (
-    <React.Fragment>
-      <Outlet />
-      <Toaster></Toaster>
-    </React.Fragment>
-  );
+	useEffect(() => {
+		setTheme(isDarkMode);
+	}, [isDarkMode, setTheme]);
+	return (
+		<React.Fragment>
+			<Outlet />
+			<Toaster></Toaster>
+		</React.Fragment>
+	);
 }

@@ -1,18 +1,18 @@
-import { GoogleLogin } from "@react-oauth/google";
 import type { CredentialResponse } from "@react-oauth/google";
+import { GoogleLogin } from "@react-oauth/google";
 import { useGoogleLogin } from "../-hooks/useGoogleLogin";
 
 export default function GoogleOAuthButton({
-  onRegisterSuccess,
+	onRegisterSuccess,
 }: {
-  onRegisterSuccess?: (email: string) => void;
+	onRegisterSuccess?: (email: string) => void;
 }) {
-  const googleAuthMutation = useGoogleLogin({ onRegisterSuccess });
-  const handleSuccess = (credentialResponse: CredentialResponse) => {
-    if (credentialResponse.credential) {
-      googleAuthMutation.mutate(credentialResponse);
-    }
-  };
+	const googleAuthMutation = useGoogleLogin({ onRegisterSuccess });
+	const handleSuccess = (credentialResponse: CredentialResponse) => {
+		if (credentialResponse.credential) {
+			googleAuthMutation.mutate(credentialResponse);
+		}
+	};
 
-  return <GoogleLogin auto_select onSuccess={handleSuccess}></GoogleLogin>;
+	return <GoogleLogin auto_select onSuccess={handleSuccess}></GoogleLogin>;
 }

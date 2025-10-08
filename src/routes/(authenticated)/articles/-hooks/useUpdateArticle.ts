@@ -1,36 +1,33 @@
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { toast } from "sonner";
-import { updateArticle } from "../-services/article.service";
 import type { ApiError } from "@/types";
+import { updateArticle } from "../-services/article.service";
+import type { articleUpdateData } from "../-validations/article.validations";
 
 export const useUpdateArticle = (callbacks?: {
-  onUpdateSuccess?: () => void;
+	onUpdateSuccess?: () => void;
 }) => {
-  const queryClient = useQueryClient();
+	const queryClient = useQueryClient();
 
-  return useMutation({
-    mutationFn: ({
-      id,
-      title,
-      description,
-      content,
-    }: {
-      id: string;
-      title: string;
-      description: string;
-      content: string;
-    }) => updateArticle(id, { title, description, content }),
-    onSuccess: (response) => {
-      toast.success(response.message);
-      callbacks?.onUpdateSuccess?.();
-      queryClient.invalidateQueries({
-        queryKey: ["articles"],
-      });
-    },
-    onError: (error: ApiError) => {
-      const errorMessage =
-        error?.response?.data?.message || "Article update failed";
-      toast.error(errorMessage);
-    },
-  });
+	return useMutation({
+		mutationFn: ({
+			articleId,
+			data,
+		}: {
+			articleId: string;
+			data: articleUpdateData;
+		}) => updateArticle(articleId, data),
+		onSuccess: (response) => {
+			toast.success(response.message);
+			callbacks?.onUpdateSuccess?.();
+			queryClient.invalidateQueries({
+				queryKey: ["articles"],
+			});
+		},
+		onError: (error: ApiError) => {
+			const errorMessage =
+				error?.response?.data?.message || "Article update failed";
+			toast.error(errorMessage);
+		},
+	});
 };

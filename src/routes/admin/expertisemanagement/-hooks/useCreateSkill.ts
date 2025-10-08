@@ -1,8 +1,8 @@
 import { useMutation } from "@tanstack/react-query";
-import { createSkill } from "../-services/expertiseManagement.service";
+import { useRouter } from "@tanstack/react-router";
 import { toast } from "sonner";
 import type { ApiError } from "@/types";
-import { useRouter } from "@tanstack/react-router";
+import { createSkill } from "../-services/expertiseManagement.service";
 
 export const useCreateSkill = (callbacks?: {
 	onCreateSuccess?: () => void;
@@ -13,14 +13,13 @@ export const useCreateSkill = (callbacks?: {
 			name,
 			expertiseId,
 		}: {
-				name: string;
-				expertiseId: string;
-			}) => createSkill(name, expertiseId),
+			name: string;
+			expertiseId: string;
+		}) => createSkill(name, expertiseId),
 		onSuccess: (response, variables) => {
 			toast.success(response.message);
 			callbacks?.onCreateSuccess?.();
 			router.invalidate({ sync: true });
-
 		},
 		onError: (error: ApiError) => {
 			const errorMessage =

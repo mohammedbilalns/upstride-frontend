@@ -1,19 +1,24 @@
-import { Button } from '@/components/ui/button'
-import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
-import { Input } from '@/components/ui/input'
-import { Badge } from '@/components/ui/badge'
-import { Tag, X } from 'lucide-react'
+import { Tag, X } from "lucide-react";
+import { Badge } from "@/components/ui/badge";
+import { Button } from "@/components/ui/button";
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { Input } from "@/components/ui/input";
 
-
-interface TagSelectorProps {	
-	tags: string[]
-	addTag: any
-	removeTag: any
-	newTag: string
-	setNewTag: any
+interface TagSelectorProps {
+	tags: string[];
+	addTag: any;
+	removeTag: any;
+	newTag: string;
+	setNewTag: any;
 }
 
-export default function TagSelector({ tags,  addTag, removeTag, newTag, setNewTag }: TagSelectorProps) {
+export default function TagSelector({
+	tags,
+	addTag,
+	removeTag,
+	newTag,
+	setNewTag,
+}: TagSelectorProps) {
 	return (
 		<Card>
 			<CardHeader>
@@ -25,7 +30,11 @@ export default function TagSelector({ tags,  addTag, removeTag, newTag, setNewTa
 			<CardContent className="space-y-4">
 				<div className="flex flex-wrap gap-2">
 					{tags.map((tag, index) => (
-						<Badge key={index} variant="secondary" className="flex items-center">
+						<Badge
+							key={index}
+							variant="secondary"
+							className="flex items-center"
+						>
 							{tag}
 							<button
 								onClick={() => removeTag(index)}
@@ -42,9 +51,9 @@ export default function TagSelector({ tags,  addTag, removeTag, newTag, setNewTa
 						value={newTag}
 						onChange={(e) => setNewTag(e.target.value)}
 						onKeyPress={(e) => {
-							if (e.key === 'Enter' && newTag.trim()) {
-								addTag(newTag.trim())
-								setNewTag('')
+							if (e.key === "Enter" && newTag.trim()) {
+								addTag(newTag.trim());
+								setNewTag("");
 							}
 						}}
 					/>
@@ -53,8 +62,8 @@ export default function TagSelector({ tags,  addTag, removeTag, newTag, setNewTa
 						size="sm"
 						onClick={() => {
 							if (newTag.trim()) {
-								addTag(newTag.trim())
-								setNewTag('')
+								addTag(newTag.trim());
+								setNewTag("");
 							}
 						}}
 					>
@@ -63,7 +72,5 @@ export default function TagSelector({ tags,  addTag, removeTag, newTag, setNewTa
 				</div>
 			</CardContent>
 		</Card>
-
-
-	)
+	);
 }

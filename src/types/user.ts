@@ -7,9 +7,9 @@ export interface User {
 	role: UserRole;
 	profilePicture?: string;
 	isActive: boolean;
-	isRequestedForMentoring: "pending" | "approved" | "rejected"
+	isRequestedForMentoring: "pending" | "approved" | "rejected";
 	interestedExpertises: string[];
 	interestedSkills: string[];
-	createdAt: Date; 
+	createdAt: Date;
 	isBlocked?: boolean;
 }

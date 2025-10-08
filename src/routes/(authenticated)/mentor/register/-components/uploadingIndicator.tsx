@@ -1,12 +1,13 @@
-import { Upload } from "lucide-react"
-import { Progress } from "@/components/ui/progress"
+import { Upload } from "lucide-react";
+import { Progress } from "@/components/ui/progress";
 
-interface UploadingIndicatorProps{
-	uploadProgress: number,
+interface UploadingIndicatorProps {
+	uploadProgress: number;
 }
 
-export default function UploadingIndicator({uploadProgress}: UploadingIndicatorProps) {
-
+export default function UploadingIndicator({
+	uploadProgress,
+}: UploadingIndicatorProps) {
 	return (
 		<div className="space-y-4">
 			<div className="flex flex-col items-center justify-center">
@@ -18,5 +19,5 @@ export default function UploadingIndicator({uploadProgress}: UploadingIndicatorP
 				<p className="text-sm text-muted-foreground mt-1">{uploadProgress}%</p>
 			</div>
 		</div>
-	)
+	);
 }

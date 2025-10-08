@@ -1,10 +1,10 @@
-import type  { Article } from "./$articleId";
+import type { Article } from "./$articleId";
 
 export const dummyArticles: Article[] = [
-  {
-    id: 1,
-    title: "5 Strategies for Effective Remote Leadership",
-    content: `
+	{
+		id: 1,
+		title: "5 Strategies for Effective Remote Leadership",
+		content: `
 # 5 Strategies for Effective Remote Leadership
 
 Remote leadership has become one of the most critical skills in today's distributed work environment. As organizations continue to embrace flexible work arrangements, leaders must adapt their management styles to ensure team productivity, engagement, and well-being.
@@ -70,30 +70,46 @@ Effective remote leadership requires a different approach than traditional in-pe
 
 The future of work is distributed, and leaders who master these strategies will be well-positioned to thrive in this new environment.
     `,
-    excerpt: 'Leading remote teams requires different approaches than traditional in-person management. Here are five strategies I\'ve found most effective...',
-    author: {
-      name: 'Sarah Williams',
-      title: 'Leadership Coach',
-      imageUrl: 'https://randomuser.me/api/portraits/women/44.jpg',
-      isMentor: true
-    },
-    publishedAt: '2024-01-10',
-    readTime: '8 min read',
-    category: 'Leadership',
-    tags: ['Leadership', 'Remote Work', 'Team Management', 'Communication'],
-    likes: 342,
-    comments: 28,
-    views: 12420,
-    relatedArticles: [
-      { id: 2, title: 'Building Trust in Remote Teams', author: 'Michael Chen', readTime: '6 min read' },
-      { id: 3, title: 'Remote Team Communication Best Practices', author: 'Emma Thompson', readTime: '5 min read' },
-      { id: 4, title: 'Managing Remote Team Performance', author: 'David Wilson', readTime: '7 min read' }
-    ]
-  },
-  {
-    id: 2,
-    title: "Navigating Career Transitions in Tech",
-    content: `
+		excerpt:
+			"Leading remote teams requires different approaches than traditional in-person management. Here are five strategies I've found most effective...",
+		author: {
+			name: "Sarah Williams",
+			title: "Leadership Coach",
+			imageUrl: "https://randomuser.me/api/portraits/women/44.jpg",
+			isMentor: true,
+		},
+		publishedAt: "2024-01-10",
+		readTime: "8 min read",
+		category: "Leadership",
+		tags: ["Leadership", "Remote Work", "Team Management", "Communication"],
+		likes: 342,
+		comments: 28,
+		views: 12420,
+		relatedArticles: [
+			{
+				id: 2,
+				title: "Building Trust in Remote Teams",
+				author: "Michael Chen",
+				readTime: "6 min read",
+			},
+			{
+				id: 3,
+				title: "Remote Team Communication Best Practices",
+				author: "Emma Thompson",
+				readTime: "5 min read",
+			},
+			{
+				id: 4,
+				title: "Managing Remote Team Performance",
+				author: "David Wilson",
+				readTime: "7 min read",
+			},
+		],
+	},
+	{
+		id: 2,
+		title: "Navigating Career Transitions in Tech",
+		content: `
 # Navigating Career Transitions in Tech
 
 The technology industry is known for its rapid pace and constant evolution. For professionals working in this field, career transitions are not just common—they're often necessary for growth and advancement.
@@ -202,30 +218,46 @@ Career transitions in tech are both challenging and rewarding. With careful plan
 
 Remember that career growth is not always linear. Embrace the journey, learn from each experience, and stay open to new opportunities as they arise.
     `,
-    excerpt: 'Changing roles within the tech industry can be challenging but rewarding. Here\'s how to make a smooth transition...',
-    author: {
-      name: 'Michael Chen',
-      title: 'Tech Career Advisor',
-      imageUrl: 'https://randomuser.me/api/portraits/men/22.jpg',
-      isMentor: true
-    },
-    publishedAt: '2024-01-08',
-    readTime: '10 min read',
-    category: 'Career Growth',
-    tags: ['Career Growth', 'Technology', 'Professional Development'],
-    likes: 287,
-    comments: 19,
-    views: 9820,
-    relatedArticles: [
-      { id: 1, title: '5 Strategies for Effective Remote Leadership', author: 'Sarah Williams', readTime: '8 min read' },
-      { id: 5, title: 'AI in the Workplace: Opportunities and Challenges', author: 'Emma Thompson', readTime: '7 min read' },
-      { id: 6, title: 'Networking Strategies for Introverts', author: 'David Wilson', readTime: '5 min read' }
-    ]
-  },
-  {
-    id: 3,
-    title: "Building Your Personal Brand as a Professional",
-    content: `
+		excerpt:
+			"Changing roles within the tech industry can be challenging but rewarding. Here's how to make a smooth transition...",
+		author: {
+			name: "Michael Chen",
+			title: "Tech Career Advisor",
+			imageUrl: "https://randomuser.me/api/portraits/men/22.jpg",
+			isMentor: true,
+		},
+		publishedAt: "2024-01-08",
+		readTime: "10 min read",
+		category: "Career Growth",
+		tags: ["Career Growth", "Technology", "Professional Development"],
+		likes: 287,
+		comments: 19,
+		views: 9820,
+		relatedArticles: [
+			{
+				id: 1,
+				title: "5 Strategies for Effective Remote Leadership",
+				author: "Sarah Williams",
+				readTime: "8 min read",
+			},
+			{
+				id: 5,
+				title: "AI in the Workplace: Opportunities and Challenges",
+				author: "Emma Thompson",
+				readTime: "7 min read",
+			},
+			{
+				id: 6,
+				title: "Networking Strategies for Introverts",
+				author: "David Wilson",
+				readTime: "5 min read",
+			},
+		],
+	},
+	{
+		id: 3,
+		title: "Building Your Personal Brand as a Professional",
+		content: `
 # Building Your Personal Brand as a Professional
 
 In today's competitive professional landscape, having a strong personal brand is more important than ever. Your personal brand is how you market yourself to the world—it's what people say about you when you're not in the room.
@@ -368,30 +400,46 @@ Remember that your personal brand is not just about self-promotion—it's about 
 
 Start today, be patient, stay consistent, and watch as your personal brand opens doors and creates opportunities you never imagined possible.
     `,
-    excerpt: 'Your personal brand is how you market yourself to the world. Here are practical steps to build and maintain a strong professional brand...',
-    author: {
-      name: 'Emma Thompson',
-      title: 'Personal Branding Expert',
-      imageUrl: 'https://randomuser.me/api/portraits/women/68.jpg',
-      isMentor: true
-    },
-    publishedAt: '2024-01-05',
-    readTime: '12 min read',
-    category: 'Personal Branding',
-    tags: ['Personal Branding', 'Career Development', 'Marketing'],
-    likes: 425,
-    comments: 32,
-    views: 15630,
-    relatedArticles: [
-      { id: 1, title: '5 Strategies for Effective Remote Leadership', author: 'Sarah Williams', readTime: '8 min read' },
-      { id: 2, title: 'Navigating Career Transitions in Tech', author: 'Michael Chen', readTime: '10 min read' },
-      { id: 4, title: 'Effective Communication in Remote Teams', author: 'David Wilson', readTime: '6 min read' }
-    ]
-  },
-  {
-    id: 4,
-    title: "Effective Communication in Remote Teams",
-    content: `
+		excerpt:
+			"Your personal brand is how you market yourself to the world. Here are practical steps to build and maintain a strong professional brand...",
+		author: {
+			name: "Emma Thompson",
+			title: "Personal Branding Expert",
+			imageUrl: "https://randomuser.me/api/portraits/women/68.jpg",
+			isMentor: true,
+		},
+		publishedAt: "2024-01-05",
+		readTime: "12 min read",
+		category: "Personal Branding",
+		tags: ["Personal Branding", "Career Development", "Marketing"],
+		likes: 425,
+		comments: 32,
+		views: 15630,
+		relatedArticles: [
+			{
+				id: 1,
+				title: "5 Strategies for Effective Remote Leadership",
+				author: "Sarah Williams",
+				readTime: "8 min read",
+			},
+			{
+				id: 2,
+				title: "Navigating Career Transitions in Tech",
+				author: "Michael Chen",
+				readTime: "10 min read",
+			},
+			{
+				id: 4,
+				title: "Effective Communication in Remote Teams",
+				author: "David Wilson",
+				readTime: "6 min read",
+			},
+		],
+	},
+	{
+		id: 4,
+		title: "Effective Communication in Remote Teams",
+		content: `
 # Effective Communication in Remote Teams
 
 Communication has always been the lifeblood of successful teams, but in remote work environments, it becomes even more critical. When team members are distributed across different locations, time zones, and even cultures, establishing effective communication practices is essential for productivity, collaboration, and team cohesion.
@@ -535,30 +583,46 @@ By establishing clear protocols, leveraging the right tools, over-communicating 
 
 Remember that communication is a skill that improves with practice. Encourage experimentation, learning from mistakes, and continuous improvement to create a communication culture that supports your team's success in the remote work environment.
     `,
-    excerpt: 'Communication is the foundation of successful remote teams. Here are strategies to ensure clear and effective communication...',
-    author: {
-      name: 'David Wilson',
-      title: 'Communication Specialist',
-      imageUrl: 'https://randomuser.me/api/portraits/men/41.jpg',
-      isMentor: true
-    },
-    publishedAt: '2024-01-03',
-    readTime: '9 min read',
-    category: 'Communication',
-    tags: ['Communication', 'Remote Work', 'Team Management'],
-    likes: 312,
-    comments: 24,
-    views: 8750,
-    relatedArticles: [
-      { id: 1, title: '5 Strategies for Effective Remote Leadership', author: 'Sarah Williams', readTime: '8 min read' },
-      { id: 3, title: 'Building Your Personal Brand as a Professional', author: 'Emma Thompson', readTime: '12 min read' },
-      { id: 6, title: 'Networking Strategies for Introverts', author: 'Michael Chen', readTime: '5 min read' }
-    ]
-  },
-  {
-    id: 5,
-    title: "AI in the Workplace: Opportunities and Challenges",
-    content: `
+		excerpt:
+			"Communication is the foundation of successful remote teams. Here are strategies to ensure clear and effective communication...",
+		author: {
+			name: "David Wilson",
+			title: "Communication Specialist",
+			imageUrl: "https://randomuser.me/api/portraits/men/41.jpg",
+			isMentor: true,
+		},
+		publishedAt: "2024-01-03",
+		readTime: "9 min read",
+		category: "Communication",
+		tags: ["Communication", "Remote Work", "Team Management"],
+		likes: 312,
+		comments: 24,
+		views: 8750,
+		relatedArticles: [
+			{
+				id: 1,
+				title: "5 Strategies for Effective Remote Leadership",
+				author: "Sarah Williams",
+				readTime: "8 min read",
+			},
+			{
+				id: 3,
+				title: "Building Your Personal Brand as a Professional",
+				author: "Emma Thompson",
+				readTime: "12 min read",
+			},
+			{
+				id: 6,
+				title: "Networking Strategies for Introverts",
+				author: "Michael Chen",
+				readTime: "5 min read",
+			},
+		],
+	},
+	{
+		id: 5,
+		title: "AI in the Workplace: Opportunities and Challenges",
+		content: `
 # AI in the Workplace: Opportunities and Challenges
 
 Artificial Intelligence (AI) is rapidly transforming the modern workplace. From automating routine tasks to providing data-driven insights, AI technologies are reshaping how we work, collaborate, and make decisions. As organizations increasingly adopt AI solutions, it's essential to understand both the opportunities and challenges this technology presents.
@@ -758,30 +822,46 @@ The future of work will be shaped by how effectively we integrate AI into our wo
 
 As we move forward, the most successful organizations and professionals will be those who view AI not as a replacement for human intelligence, but as a powerful tool that augments and enhances human capabilities—creating a workplace that is more productive, innovative, and ultimately more human.
     `,
-    excerpt: 'Artificial intelligence is transforming how we work. This article explores the opportunities and challenges of AI integration...',
-    author: {
-      name: 'Emma Thompson',
-      title: 'Technology Consultant',
-      imageUrl: 'https://randomuser.me/api/portraits/women/68.jpg',
-      isMentor: true
-    },
-    publishedAt: '2023-12-28',
-    readTime: '15 min read',
-    category: 'Technology',
-    tags: ['Technology', 'AI', 'Future of Work', 'Innovation'],
-    likes: 567,
-    comments: 42,
-    views: 21450,
-    relatedArticles: [
-      { id: 1, title: '5 Strategies for Effective Remote Leadership', author: 'Sarah Williams', readTime: '8 min read' },
-      { id: 2, title: 'Navigating Career Transitions in Tech', author: 'Michael Chen', readTime: '10 min read' },
-      { id: 4, title: 'Effective Communication in Remote Teams', author: 'David Wilson', readTime: '9 min read' }
-    ]
-  },
-  {
-    id: 6,
-    title: "Networking Strategies for Introverts",
-    content: `
+		excerpt:
+			"Artificial intelligence is transforming how we work. This article explores the opportunities and challenges of AI integration...",
+		author: {
+			name: "Emma Thompson",
+			title: "Technology Consultant",
+			imageUrl: "https://randomuser.me/api/portraits/women/68.jpg",
+			isMentor: true,
+		},
+		publishedAt: "2023-12-28",
+		readTime: "15 min read",
+		category: "Technology",
+		tags: ["Technology", "AI", "Future of Work", "Innovation"],
+		likes: 567,
+		comments: 42,
+		views: 21450,
+		relatedArticles: [
+			{
+				id: 1,
+				title: "5 Strategies for Effective Remote Leadership",
+				author: "Sarah Williams",
+				readTime: "8 min read",
+			},
+			{
+				id: 2,
+				title: "Navigating Career Transitions in Tech",
+				author: "Michael Chen",
+				readTime: "10 min read",
+			},
+			{
+				id: 4,
+				title: "Effective Communication in Remote Teams",
+				author: "David Wilson",
+				readTime: "9 min read",
+			},
+		],
+	},
+	{
+		id: 6,
+		title: "Networking Strategies for Introverts",
+		content: `
 # Networking Strategies for Introverts
 
 Networking is often seen as an extrovert's game—filled with crowded rooms, small talk, and constant social interaction. For introverts, the traditional networking scene can be exhausting, overwhelming, and even anxiety-inducing. However, networking is a critical skill for career growth, and introverts have unique strengths that can make them exceptional networkers when they leverage their natural tendencies.
@@ -1016,26 +1096,40 @@ The key is to approach networking in a way that feels authentic and sustainable.
 
 With the right strategies and mindset, introverts can not only navigate networking successfully but thrive in environments that might once have seemed challenging. Your introversion is not a weakness—it's a different way of engaging with the world that, when harnessed effectively, can lead to deep, lasting professional relationships.
     `,
-    excerpt: 'Networking doesn\'t have to be exhausting. Discover strategies tailored for introverts to build meaningful professional connections...',
-    author: {
-      name: 'Michael Chen',
-      title: 'Career Coach',
-      imageUrl: 'https://randomuser.me/api/portraits/men/22.jpg',
-      isMentor: true
-    },
-    publishedAt: '2023-12-20',
-    readTime: '14 min read',
-    category: 'Networking',
-    tags: ['Networking', 'Career Development', 'Personal Growth'],
-    likes: 423,
-    comments: 31,
-    views: 18960,
-    relatedArticles: [
-      { id: 1, title: '5 Strategies for Effective Remote Leadership', author: 'Sarah Williams', readTime: '8 min read' },
-      { id: 3, title: 'Building Your Personal Brand as a Professional', author: 'Emma Thompson', readTime: '12 min read' },
-      { id: 5, title: 'AI in the Workplace: Opportunities and Challenges', author: 'Emma Thompson', readTime: '15 min read' }
-    ]
-  }
+		excerpt:
+			"Networking doesn't have to be exhausting. Discover strategies tailored for introverts to build meaningful professional connections...",
+		author: {
+			name: "Michael Chen",
+			title: "Career Coach",
+			imageUrl: "https://randomuser.me/api/portraits/men/22.jpg",
+			isMentor: true,
+		},
+		publishedAt: "2023-12-20",
+		readTime: "14 min read",
+		category: "Networking",
+		tags: ["Networking", "Career Development", "Personal Growth"],
+		likes: 423,
+		comments: 31,
+		views: 18960,
+		relatedArticles: [
+			{
+				id: 1,
+				title: "5 Strategies for Effective Remote Leadership",
+				author: "Sarah Williams",
+				readTime: "8 min read",
+			},
+			{
+				id: 3,
+				title: "Building Your Personal Brand as a Professional",
+				author: "Emma Thompson",
+				readTime: "12 min read",
+			},
+			{
+				id: 5,
+				title: "AI in the Workplace: Opportunities and Challenges",
+				author: "Emma Thompson",
+				readTime: "15 min read",
+			},
+		],
+	},
 ];
-
-

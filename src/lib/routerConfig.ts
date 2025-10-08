@@ -1,13 +1,13 @@
 import { createRouter } from "@tanstack/react-router";
-import { routeTree } from "@/routeTree.gen";
-import NotFoundComponent from "@/components/notFoundComponent";
 import Loading from "@/components/loading";
+import NotFoundComponent from "@/components/notFoundComponent";
+import { routeTree } from "@/routeTree.gen";
 
 export const router = createRouter({
-  routeTree,
-  defaultNotFoundComponent: NotFoundComponent,
+	routeTree,
+	defaultNotFoundComponent: NotFoundComponent,
 	defaultPendingComponent: Loading,
 	scrollRestoration: true,
-	defaultPreload:'intent',
+	defaultPreload: "intent",
 	defaultStaleTime: 5 * 60 * 1000,
 });
