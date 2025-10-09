@@ -91,92 +91,91 @@ function RouteComponent() {
 		form.handleSubmit(onSubmit)();
 	};
 
-	return (
-		<div className="container mx-auto px-4 py-6">
-			{/* Header */}
-			<div className="flex items-center justify-between mb-6">
-				<div className="flex items-center space-x-4">
-					<Button
-						className="cursor-pointer"
-						variant="ghost"
-						onClick={handleGoBack}
-					>
-						<ArrowLeft className="h-4 w-4 mr-2" />
-						Back
-					</Button>
-					<h1 className="text-2xl font-bold">Create New Article</h1>
-				</div>
-			</div>
 
-			<div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
-				{/* Main Content */}
-				<div className="lg:col-span-2">
-					<Card className="h-full flex flex-col">
-						<CardHeader>
-							<CardTitle className="flex items-center">
-								<FileText className="h-5 w-5 mr-2" />
-								Article Content
-							</CardTitle>
-						</CardHeader>
-						<CardContent className="flex-1 flex flex-col space-y-4">
-							<div>
-								<Label htmlFor="title">Title</Label>
-								<Input
-									id="title"
-									placeholder="Enter article title..."
-									{...form.register("title")}
-									className="text-lg mt-2"
-								/>
-								{form.formState.errors.title && (
-									<p className="text-red-500 text-sm mt-1">
-										{form.formState.errors.title.message}
-									</p>
-								)}
-							</div>
+    return (
+        <div className="container mx-auto px-4 py-6">
+            {/* Header */}
+            <div className="flex items-center justify-between mb-6">
+                <div className="flex items-center space-x-4">
+                    <Button
+                        className="cursor-pointer"
+                        variant="ghost"
+                        onClick={handleGoBack}
+                    >
+                        <ArrowLeft className="h-4 w-4 mr-2" />
+                        Back
+                    </Button>
+                    <h1 className="text-2xl font-bold">Create New Article</h1>
+                </div>
+            </div>
 
-							{/* Editor */}
-							<div className="flex-1 min-h-[400px]">
-								<Controller
-									name="content"
-									control={form.control}
-									render={({ field }) => (
-										<div className="h-full border rounded-md overflow-hidden flex flex-col">
-											<RichTextEditor
-												content={field.value}
-												onChange={field.onChange}
-											/>
-										</div>
-									)}
-								/>
-								{form.formState.errors.content && (
-									<p className="text-red-500 text-sm mt-1">
-										{form.formState.errors.content.message}
-									</p>
-								)}
-							</div>
-						</CardContent>
-					</Card>
-				</div>
+            <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
+                {/* Main Content */}
+                <div className="lg:col-span-2">
+                    <Card className="h-full flex flex-col">
+                        <CardHeader>
+                            <CardTitle className="flex items-center">
+                                <FileText className="h-5 w-5 mr-2" />
+                                Article Content
+                            </CardTitle>
+                        </CardHeader>
+                        <CardContent className="flex-1 flex flex-col space-y-4">
+                            <div>
+                                <Label htmlFor="title">Title</Label>
+                                <Input
+                                    id="title"
+                                    placeholder="Enter article title..."
+                                    {...form.register("title")}
+                                    className="text-lg mt-2"
+                                />
+                                {form.formState.errors.title && (
+                                    <p className="text-red-500 text-sm mt-1">
+                                        {form.formState.errors.title.message}
+                                    </p>
+                                )}
+                            </div>
 
-				{/* Sidebar */}
-				<div className="flex flex-col space-y-6">
-					<FeaturedImageUpload onImageChange={handleImageChange} />
+                            {/* Editor */}
+                            <div className="flex-1 min-h-[400px] border rounded-md overflow-hidden">
+                                <Controller
+                                    name="content"
+                                    control={form.control}
+                                    render={({ field }) => (
+                                        <RichTextEditor
+                                            content={field.value}
+                                            onChange={field.onChange}
+                                        />
+                                    )}
+                                />
+                                {form.formState.errors.content && (
+                                    <p className="text-red-500 text-sm mt-1">
+                                        {form.formState.errors.content.message}
+                                    </p>
+                                )}
+                            </div>
+                        </CardContent>
+                    </Card>
+                </div>
 
-					{/* Tags */}
-					<TagSelector
-						tags={form.watch("tags")}
-						addTag={addTag}
-						removeTag={removeTag}
-						newTag={newTag}
-						setNewTag={setNewTag}
-					/>
+                {/* Sidebar */}
+                <div className="flex flex-col space-y-6">
+                    <FeaturedImageUpload onImageChange={handleImageChange} />
 
-					<PublishInfo
-						handleSave={handleSave}
-						isSaving={createArticleMutation.isPending}
-					/>
-				</div>
-			</div>
-		</div>
-	);
+                    {/* Tags */}
+                    <TagSelector
+                        tags={form.watch("tags")}
+                        addTag={addTag}
+                        removeTag={removeTag}
+                        newTag={newTag}
+                        setNewTag={setNewTag}
+                    />
+
+                    <PublishInfo
+                        handleSave={handleSave}
+                        isSaving={createArticleMutation.isPending}
+                    />
+                </div>
+            </div>
+        </div>
+    );	
 }

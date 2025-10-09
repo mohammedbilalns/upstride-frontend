@@ -72,8 +72,13 @@ function MenuBar({ editor }: { editor?: Editor }) {
 		},
 		{
 			icon: <Highlighter className="size-4" />,
-			onclick: () =>
-				editor.chain().focus().toggleHighlight({ color: "yellow" }).run(),
+			onclick: () => {
+				if (editor.isActive('highlight')) {
+					editor.chain().focus().unsetHighlight().run();
+				} else {
+					editor.chain().focus().setHighlight({ color: 'yellow' }).run();
+				}
+			},	
 			pressed: editor.isActive("highlight"),
 		},
 	];

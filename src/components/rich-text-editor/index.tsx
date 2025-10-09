@@ -35,7 +35,8 @@ function RichTextEditor({ content, onChange }: RichTextEditorProps) {
 		content,
 		editorProps: {
 			attributes: {
-				class: "min-h-[420px] border rounded-md mx-auto  py-2 px-3",
+				class: "prose prose-sm sm:prose lg:prose-lg xl:prose-2xl mx-auto focus:outline-none h-full overflow-y-auto py-2 px-3",
+
 			},
 		},
 		onUpdate: ({ editor }) => {
@@ -49,7 +50,10 @@ function RichTextEditor({ content, onChange }: RichTextEditorProps) {
 	return (
 		<div>
 			<MenuBar key={selectionKey} editor={editor} />
-			<EditorContent editor={editor} />
+			<div className="flex-1 overflow-hidden" >
+
+			<EditorContent editor={editor} className="h-full" />
+			</div>
 		</div>
 	);
 }
