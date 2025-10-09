@@ -10,6 +10,7 @@ interface TagSelectorProps {
 	removeTag:(tag: string)=> void;
 	newTag: string;
 	setNewTag: any;
+	error?: string  ;   
 }
 
 export default function TagSelector({
@@ -18,6 +19,7 @@ export default function TagSelector({
 	removeTag,
 	newTag,
 	setNewTag,
+	error
 }: TagSelectorProps) {
 	return (
 		<Card>
@@ -71,6 +73,11 @@ export default function TagSelector({
 					</Button>
 				</div>
 			</CardContent>
+			{error && (
+				<p className="text-red-500 text-sm mt-1">
+					{error}
+				</p>
+			)}
 		</Card>
 	);
 }

@@ -21,7 +21,7 @@ const featuredImageSchema = z.object({
 	secure_url: z.url(),
 	bytes: z.number(),
 	asset_folder: z.string(),
-});
+}).optional();
 
 const baseArticleSchema = z.object({
 	title: titleSchema,
