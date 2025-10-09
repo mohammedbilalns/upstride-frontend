@@ -2,6 +2,7 @@ import Highlight from "@tiptap/extension-highlight";
 import { EditorContent, useEditor } from "@tiptap/react";
 import StarterKit from "@tiptap/starter-kit";
 import MenuBar from "./menuBar";
+import { useState } from "react";
 
 interface RichTextEditorProps {
 	content: string;
@@ -9,6 +10,8 @@ interface RichTextEditorProps {
 }
 
 function RichTextEditor({ content, onChange }: RichTextEditorProps) {
+
+	const [selectionKey, setSelectionKey] = useState(0)
 	const editor = useEditor({
 		extensions: [
 			StarterKit.configure({
@@ -32,17 +35,20 @@ function RichTextEditor({ content, onChange }: RichTextEditorProps) {
 		content,
 		editorProps: {
 			attributes: {
-				class: "min-h-[350px] border rounded-md mx-auto  py-2 px-3",
+				class: "min-h-[420px] border rounded-md mx-auto  py-2 px-3",
 			},
 		},
 		onUpdate: ({ editor }) => {
 			onChange(editor.getHTML());
 		},
+		onSelectionUpdate: () =>{
+			setSelectionKey(prev => prev + 1)
+		}
 	});
 
 	return (
 		<div>
-			<MenuBar editor={editor} />
+			<MenuBar key={selectionKey} editor={editor} />
 			<EditorContent editor={editor} />
 		</div>
 	);

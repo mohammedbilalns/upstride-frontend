@@ -11,9 +11,24 @@ import {
 	Strikethrough,
 } from "lucide-react";
 import { Toggle } from "../ui";
+import { useEffect, useState } from "react";
 
 function MenuBar({ editor }: { editor?: Editor }) {
 	if (!editor) return null;
+    const [, forceUpdate] = useState({});
+    
+    useEffect(() => {
+        const handleSelectionUpdate = () => {
+            forceUpdate({});
+        };
+        
+        editor.on('selectionUpdate', handleSelectionUpdate);
+        
+        return () => {
+            editor.off('selectionUpdate', handleSelectionUpdate);
+        };
+    }, [editor]);
+
 	const options = [
 		{
 			icon: <Heading1 className="size-4" />,
