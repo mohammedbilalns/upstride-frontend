@@ -6,8 +6,8 @@ import { Input } from "@/components/ui/input";
 
 interface TagSelectorProps {
 	tags: string[];
-	addTag: any;
-	removeTag: any;
+	addTag: ()=>void;
+	removeTag:(tag: string)=> void;
 	newTag: string;
 	setNewTag: any;
 }
@@ -37,7 +37,7 @@ export default function TagSelector({
 						>
 							{tag}
 							<button
-								onClick={() => removeTag(index)}
+								onClick={() => removeTag(tag)}
 								className="ml-2 hover:text-destructive"
 							>
 								<X className="h-3 w-3" />
@@ -52,7 +52,7 @@ export default function TagSelector({
 						onChange={(e) => setNewTag(e.target.value)}
 						onKeyPress={(e) => {
 							if (e.key === "Enter" && newTag.trim()) {
-								addTag(newTag.trim());
+								addTag();
 								setNewTag("");
 							}
 						}}
@@ -62,7 +62,7 @@ export default function TagSelector({
 						size="sm"
 						onClick={() => {
 							if (newTag.trim()) {
-								addTag(newTag.trim());
+								addTag();
 								setNewTag("");
 							}
 						}}

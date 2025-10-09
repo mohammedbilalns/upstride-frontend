@@ -52,6 +52,7 @@ function RouteComponent() {
 
 	const addTag = () => {
 		const currentTags = form.getValues("tags");
+		if(currentTags.length >= 7) return 
 		if (newTag.trim() && !currentTags.includes(newTag.trim())) {
 			form.setValue("tags", [...currentTags, newTag.trim()], {
 				shouldValidate: true,
@@ -62,6 +63,7 @@ function RouteComponent() {
 
 	const removeTag = (tagToRemove: string) => {
 		const currentTags = form.getValues("tags");
+
 		form.setValue(
 			"tags",
 			currentTags.filter((tag) => tag !== tagToRemove),
