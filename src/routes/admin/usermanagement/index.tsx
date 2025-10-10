@@ -22,12 +22,7 @@ import { fetchUsers } from "./-services/usermangement.service";
 
 export const Route = createFileRoute("/admin/usermanagement/")({
 	component: RouteComponent,
-	validateSearch: (input) => {
-		const result = paramsSchema.safeParse(input);
-		if (result.success) return result.data;
-		return { page: 1, rowsPerPage: 10, search: "" };
-	},
-
+	validateSearch: paramsSchema,
 	loaderDeps: ({ search }) => ({
 		page: search.page,
 		rowsPerPage: search.rowsPerPage,

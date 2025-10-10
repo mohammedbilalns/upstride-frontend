@@ -10,18 +10,14 @@ import { useInfiniteQuery } from "@tanstack/react-query";
 
 export const Route = createFileRoute("/(authenticated)/articles/")({
   component: RouteComponent,
-  validateSearch: (input) => {
-    const result = articlesParamsSchema.safeParse(input);
-    if (result.success) return result.data;
-    return { category: "", sortBy: "", tag: "" };
-  },
+  validateSearch: articlesParamsSchema
 });
 
 function RouteComponent() {
   const { user } = useAuthStore();
   const isMentor = user?.role === "mentor";
   const searchParams = Route.useSearch();
-  const navigate = useNavigate();
+  const navigate = useNavigate({from: Route.fullPath});
   const [searchInput, setSearchInput] = useState("");
   const [viewMode, setViewMode] = useState<"grid" | "list">("grid");
   const debouncedSearchInput = useDebounce(searchInput, 500);
