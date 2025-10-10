@@ -11,18 +11,17 @@ export async function fetchArticles(
 ) {
 
 	try {
-		console.log("category recieved in the service", category)
+		let response 
 		if(category){
-			const response = await api.get(API_ROUTES.ARTICLES.ARTICLES_BY_CATEGORY, {
+			response = await api.get(API_ROUTES.ARTICLES.ARTICLES_BY_CATEGORY, {
 				params: { page, query, category, sortBy },
 			});
-			return response.data;
 		}else {
-			const response = await api.get(API_ROUTES.ARTICLES.ARTICLES, {
+			response = await api.get(API_ROUTES.ARTICLES.ARTICLES, {
 				params: { page, query, tag, sortBy },
 			});
-			return response.data;
 		}
+		return response.data;
 
 	} catch (error) {
 		console.error("Error while fetching articles", error);

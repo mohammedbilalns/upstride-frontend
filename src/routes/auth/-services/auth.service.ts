@@ -105,7 +105,6 @@ export async function googleLogin(credentials: CredentialResponse) {
 export async function fetchExpertiseAreas() {
 	try {
 		const response = await api.get(API_ROUTES.EXPERTISE.FETCH);
-		console.log("response", response);
 		return response.data;
 	} catch (error) {
 		console.error("error while fetching expertise areas", error);

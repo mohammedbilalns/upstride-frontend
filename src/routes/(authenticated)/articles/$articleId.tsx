@@ -1,21 +1,22 @@
+// In your article page component file
+
 import { createFileRoute, useNavigate } from "@tanstack/react-router";
 import {
 	ArrowLeft,
 	Bookmark,
 	Calendar,
-	Clock,
 	Edit,
 	Eye,
 	Heart,
 	MessageCircle,
 	MoreHorizontal,
 	Share,
+	User,
 } from "lucide-react";
 import { useState } from "react";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
-import { Card, CardContent, CardHeader } from "@/components/ui/card";
 import {
 	DropdownMenu,
 	DropdownMenuContent,
@@ -25,101 +26,35 @@ import {
 import { Separator } from "@/components/ui/separator";
 import { Textarea } from "@/components/ui/textarea";
 import { useAuthStore } from "@/store/auth.store";
-import { dummyArticles } from "./-dummy-data";
-
-// Define types
-interface Comment {
-	id: number;
-	author: {
-		name: string;
-		imageUrl: string;
-	};
-	content: string;
-	timestamp: string;
-	likes: number;
-}
-
-export interface Article {
-	id: number;
-	title: string;
-	content: string;
-	excerpt: string;
-	author: {
-		name: string;
-		title: string;
-		imageUrl: string;
-		isMentor: boolean;
-	};
-	publishedAt: string;
-	readTime: string;
-	category: string;
-	tags: string[];
-	likes: number;
-	comments: number;
-	views: number;
-	relatedArticles: {
-		id: number;
-		title: string;
-		author: string;
-		readTime: string;
-	}[];
-}
-
-// Expanded dummy data for articles with full content
-// Dummy comments data
-const dummyComments: Comment[] = [
-	{
-		id: 1,
-		author: {
-			name: "Alex Johnson",
-			imageUrl: "https://randomuser.me/api/portraits/men/32.jpg",
-		},
-		content:
-			"Great article! These strategies have really helped me improve my remote leadership skills. The point about focusing on outcomes rather than activity is particularly valuable.",
-		timestamp: "2 hours ago",
-		likes: 12,
-	},
-	{
-		id: 2,
-		author: {
-			name: "Maria Garcia",
-			imageUrl: "https://randomuser.me/api/portraits/women/65.jpg",
-		},
-		content:
-			"I especially appreciate the emphasis on team well-being. It's so important to remember that remote work can be isolating and leaders need to be proactive about maintaining team connections.",
-		timestamp: "5 hours ago",
-		likes: 8,
-	},
-	{
-		id: 3,
-		author: {
-			name: "James Wilson",
-			imageUrl: "https://randomuser.me/api/portraits/men/45.jpg",
-		},
-		content:
-			"The communication protocols section is spot on. We've implemented similar strategies in our team and it's made a huge difference in our productivity.",
-		timestamp: "1 day ago",
-		likes: 15,
-	},
-];
+import { dummyComments } from "./-dummy-data";
+import { queryClient } from "@/main";
+import { fetchArticle } from "./-services/article.service";
+import type { Tag } from "@/types/article";
 
 export const Route = createFileRoute("/(authenticated)/articles/$articleId")({
 	component: RouteComponent,
+	loader: async ({ params }) => {
+		const { articleId } = params;
+		return queryClient.fetchQuery({
+			queryKey: ["article", articleId],
+			queryFn: () => fetchArticle(articleId),
+		});
+	},
 });
 
 function RouteComponent() {
 	const { articleId } = Route.useParams();
 	const navigate = useNavigate();
+	const data = Route.useLoaderData();
+	const article = data.article;
+	const initialIsLiked = data.isLiked;
+
 	const { user } = useAuthStore();
-	const [liked, setLiked] = useState(false);
+	const [liked, setLiked] = useState(initialIsLiked);
 	const [bookmarked, setBookmarked] = useState(false);
 	const [newComment, setNewComment] = useState("");
 
-	// Find the article by ID
-	const article = dummyArticles.find((a) => a.id === parseInt(articleId));
-
-	// Check if the current user is the author
-	const isAuthor = user && article && article.author.name === user.name;
+	const isAuthor = user && article && article.author === user.id;
 
 	const handleGoBack = () => {
 		navigate({ to: "/articles" });
@@ -135,7 +70,6 @@ function RouteComponent() {
 
 	const handleSubmitComment = () => {
 		if (newComment.trim()) {
-			// Here you would typically submit the comment to your API
 			console.log("Submitting comment:", newComment);
 			setNewComment("");
 		}
@@ -157,245 +91,170 @@ function RouteComponent() {
 	}
 
 	return (
-		<div className="container mx-auto px-4 py-6 max-w-7xl ">
+		<div className="container mx-auto px-4 py-6 max-w-5xl">
 			{/* Back Button */}
-			{/* <Button  */}
-			{/*   variant="ghost"  */}
-			{/*   className="mb-6" */}
-			{/*   onClick={handleGoBack} */}
-			{/* > */}
-			{/*   <ArrowLeft className="h-4 w-4 mr-2" /> */}
-			{/*   Back to Articles */}
-			{/* </Button> */}
+			<Button variant="ghost" className="mb-4 -ml-2" onClick={handleGoBack}>
+				<ArrowLeft className="h-4 w-4 mr-2" />
+				Back
+			</Button>
 
 			{/* Article Header */}
-			<Card className="mb-8">
-				<CardHeader className="pb-6">
-					<div className="flex items-center justify-between mb-4">
-						<Badge variant="secondary">{article.category}</Badge>
-						<div className="flex items-center text-sm text-muted-foreground">
-							<Clock className="h-4 w-4 mr-1" />
-							{article.readTime}
-						</div>
-					</div>
+			<header className="mb-6">
+				<h1 className="text-4xl md:text-5xl font-bold leading-tight tracking-tight mb-4">
+					{article.title}
+				</h1>
 
-					<h1 className="text-3xl font-bold mb-4">{article.title}</h1>
-
-					<div className="flex items-center justify-between">
-						<div className="flex items-center space-x-3">
-							<Avatar className="h-12 w-12">
-								<AvatarImage
-									src={article.author.imageUrl}
-									alt={article.author.name}
-								/>
-								<AvatarFallback>
-									{article.author.name
-										.split(" ")
-										.map((n) => n[0])
-										.join("")}
-								</AvatarFallback>
-							</Avatar>
-							<div>
-								<div className="flex items-center">
-									<p className="font-medium">{article.author.name}</p>
-									{article.author.isMentor && (
-										<Badge variant="outline" className="ml-2 text-xs">
-											MENTOR
-										</Badge>
-									)}
-								</div>
-								<p className="text-sm text-muted-foreground">
-									{article.author.title}
-								</p>
-							</div>
-						</div>
-						<div className="text-sm text-muted-foreground">
-							<div className="flex items-center">
-								<Calendar className="h-4 w-4 mr-1" />
-								{new Date(article.publishedAt).toLocaleDateString("en-US", {
+				{/* Author Info & Date */}
+				<div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
+					<div className="flex items-center space-x-3">
+						<Avatar className="h-10 w-10">
+							<AvatarImage src={article.authorImage} alt={article.authorName} />
+							<AvatarFallback>
+								<User className="h-5 w-5" />
+							</AvatarFallback>
+						</Avatar>
+						<div>
+							<p className="font-medium text-base">{article.authorName}</p>
+							<p className="text-sm text-muted-foreground">
+								{new Date(article.createdAt).toLocaleDateString("en-US", {
 									year: "numeric",
 									month: "long",
 									day: "numeric",
 								})}
-							</div>
+							</p>
 						</div>
 					</div>
-				</CardHeader>
+					{isAuthor && (
+						<DropdownMenu>
+							<DropdownMenuTrigger asChild>
+								<Button variant="ghost" size="sm">
+									<MoreHorizontal className="h-4 w-4" />
+								</Button>
+							</DropdownMenuTrigger>
+							<DropdownMenuContent align="end">
+								<DropdownMenuItem onClick={() => navigate({ to: `/articles/edit/${article.id}` })}>
+									<Edit className="h-4 w-4 mr-2" />
+									Edit Article
+								</DropdownMenuItem>
+							</DropdownMenuContent>
+						</DropdownMenu>
+					)}
+				</div>
+			</header>
 
-				<CardContent>
-					{/* Article Content */}
-					<div className="prose prose-gray max-w-none mb-8">
-						<div className="whitespace-pre-wrap">{article.content}</div>
-					</div>
+			{/* Featured Image with Fixed Aspect Ratio */}
+			{article.featuredImage && (
+				<div className="w-full aspect-video rounded-lg overflow-hidden mb-6">
+					<img
+						src={article.featuredImage}
+						alt={`Featured image for ${article.title}`}
+						className="w-full h-full object-cover"
+					/>
+				</div>
+			)}
 
-					{/* Tags */}
-					<div className="flex flex-wrap gap-2 mb-6">
-						{article.tags.map((tag) => (
-							<Badge key={tag} variant="outline">
-								{tag}
-							</Badge>
-						))}
-					</div>
+			{/* Article Content */}
+			<div
+				className="prose-custom max-w-none mb-6" // <-- USE THE NEW CLASS HERE
+				dangerouslySetInnerHTML={{ __html: article.content }}
+			/>
 
-					{/* Engagement Metrics */}
-					<div className="flex items-center justify-between pt-6 border-t">
-						<div className="flex items-center space-x-6 text-sm text-muted-foreground">
-							<div className="flex items-center">
-								<Eye className="h-4 w-4 mr-1" />
-								{article.views.toLocaleString()} views
-							</div>
-							<div className="flex items-center">
-								<MessageCircle className="h-4 w-4 mr-1" />
-								{article.comments} comments
-							</div>
-						</div>
+			{/* Tags */}
+			<div className="flex flex-wrap gap-2 mb-6">
+				{article.tags.map((tag:Tag) => (
+					<Badge key={tag._id} variant="secondary">
+						{tag.name}
+					</Badge>
+				))}
+			</div>
 
-						<div className="flex items-center space-x-2">
-							<Button
-								variant={liked ? "default" : "ghost"}
-								size="sm"
-								onClick={handleLike}
-								className="flex cursor-pointer items-center"
-							>
-								<Heart
-									className={`h-4 w-4 mr-1 ${liked ? "fill-current" : ""}`}
-								/>
-								{liked ? article.likes + 1 : article.likes}
-							</Button>
-							<Button
-								variant={bookmarked ? "default" : "ghost"}
-								size="sm"
-								className="cursor-pointer"
-								onClick={handleBookmark}
-							>
-								<Bookmark
-									className={`h-4 w-4 ${bookmarked ? "fill-current" : ""}`}
-								/>
-							</Button>
-							<Button className="cursor-pointer" variant="ghost" size="sm">
-								<Share className="h-4 w-4" />
-							</Button>
-							{isAuthor && (
-								<DropdownMenu>
-									<DropdownMenuTrigger asChild>
-										<Button
-											variant="ghost"
-											size="sm"
-											className="cursor-pointer"
-										>
-											<MoreHorizontal className="h-4 w-4" />
-										</Button>
-									</DropdownMenuTrigger>
-									<DropdownMenuContent align="end">
-										<DropdownMenuItem
-											onClick={() =>
-												navigate({ to: `/articles/edit/${article.id}` })
-											}
-										>
-											<Edit className="h-4 w-4 mr-2" />
-											Edit Article
-										</DropdownMenuItem>
-									</DropdownMenuContent>
-								</DropdownMenu>
-							)}
-						</div>
-					</div>
-				</CardContent>
-			</Card>
+			<Separator className="my-6" />
+
+			{/* Engagement Bar */}
+			<div className="flex items-center justify-between py-2">
+				<div className="flex items-center space-x-6 text-sm text-muted-foreground">
+					<span className="flex items-center">
+						<Eye className="h-4 w-4 mr-1" />
+						{article.views.toLocaleString()} views
+					</span>
+					<span className="flex items-center">
+						<MessageCircle className="h-4 w-4 mr-1" />
+						{article.comments} comments
+					</span>
+				</div>
+
+				<div className="flex items-center space-x-2">
+					<Button
+						variant={liked ? "default" : "outline"}
+						size="sm"
+						onClick={handleLike}
+					>
+						<Heart className={`h-4 w-4 mr-1 ${liked ? "fill-current" : ""}`} />
+						{liked ? article.likes + 1 : article.likes}
+					</Button>
+					<Button variant="outline" size="sm" onClick={handleBookmark}>
+						<Bookmark className={`h-4 w-4 ${bookmarked ? "fill-current" : ""}`} />
+					</Button>
+					<Button variant="outline" size="sm">
+						<Share className="h-4 w-4" />
+					</Button>
+				</div>
+			</div>
+
+			<Separator className="my-8" />
 
 			{/* Comments Section */}
-			<Card>
-				<CardHeader>
-					<h2 className="text-xl font-semibold">
-						Comments ({dummyComments.length})
-					</h2>
-				</CardHeader>
-				<CardContent>
-					{/* Add Comment */}
-					<div className="mb-6">
+			<section>
+				<h2 className="text-2xl font-bold mb-6 tracking-tight">Comments ({dummyComments.length})</h2>
+
+				{/* Add Comment */}
+				<div className="flex gap-3 mb-8">
+					<Avatar className="h-10 w-10">
+						<AvatarImage src={article.authorImage} />
+						<AvatarFallback>
+							<User className="h-5 w-5" />
+						</AvatarFallback>
+					</Avatar>
+					<div className="flex-1">
 						<Textarea
-							placeholder="Add a comment..."
+							placeholder="Share your thoughts..."
 							value={newComment}
 							onChange={(e) => setNewComment(e.target.value)}
-							className="mb-3"
+							rows={3}
 						/>
-						<Button
-							onClick={handleSubmitComment}
-							className="cursor-pointer"
-							disabled={!newComment.trim()}
-						>
-							Post Comment
-						</Button>
+						<div className="flex justify-end mt-3">
+							<Button onClick={handleSubmitComment} disabled={!newComment.trim()}>
+								Post Comment
+							</Button>
+						</div>
 					</div>
+				</div>
 
-					<Separator className="mb-6" />
-
-					{/* Comments List */}
-					<div className="space-y-6">
-						{dummyComments.map((comment) => (
-							<div key={comment.id} className="flex space-x-3">
-								<Avatar className="h-10 w-10">
-									<AvatarImage
-										src={comment.author.imageUrl}
-										alt={comment.author.name}
-									/>
-									<AvatarFallback>
-										{comment.author.name
-											.split(" ")
-											.map((n) => n[0])
-											.join("")}
-									</AvatarFallback>
-								</Avatar>
-								<div className="flex-1">
-									<div className="flex items-center justify-between mb-1">
-										<p className="font-medium">{comment.author.name}</p>
-										<span className="text-xs text-muted-foreground">
-											{comment.timestamp}
-										</span>
-									</div>
-									<p className="text-sm mb-2">{comment.content}</p>
-									<Button
-										variant="ghost"
-										size="sm"
-										className="cursor-pointer text-xs"
-									>
-										<Heart className="h-3 w-3 mr-1" />
-										{comment.likes}
-									</Button>
+				{/* Comments List */}
+				<div className="space-y-6">
+					{dummyComments.map((comment) => (
+						<div key={comment.id} className="flex gap-3">
+							<Avatar className="h-10 w-10">
+								<AvatarImage src={comment.author.imageUrl} alt={comment.author.name} />
+								<AvatarFallback>
+									<User className="h-5 w-5" />
+								</AvatarFallback>
+							</Avatar>
+							<div className="flex-1 space-y-2">
+								<div className="flex items-center justify-between">
+									<p className="font-semibold text-sm">{comment.author.name}</p>
+									<span className="text-xs text-muted-foreground">{comment.timestamp}</span>
 								</div>
+								<p className="text-sm text-muted-foreground leading-relaxed">{comment.content}</p>
+								<Button variant="ghost" size="sm" className="text-xs h-8 px-2">
+									<Heart className="h-3 w-3 mr-1" />
+									{comment.likes}
+								</Button>
 							</div>
-						))}
-					</div>
-				</CardContent>
-			</Card>
-
-			{/* Related Articles */}
-			<Card className="mt-8">
-				<CardHeader>
-					<h2 className="text-xl font-semibold">Related Articles</h2>
-				</CardHeader>
-				<CardContent>
-					<div className="space-y-4">
-						{article.relatedArticles.map((relatedArticle) => (
-							<div
-								key={relatedArticle.id}
-								className="flex items-start space-x-3 p-3 rounded-lg hover:bg-muted/50 transition-colors cursor-pointer"
-								onClick={() =>
-									navigate({ to: `/articles/${relatedArticle.id}` })
-								}
-							>
-								<div className="flex-1">
-									<h3 className="font-medium mb-1">{relatedArticle.title}</h3>
-									<p className="text-sm text-muted-foreground">
-										by {relatedArticle.author} • {relatedArticle.readTime}
-									</p>
-								</div>
-								<ArrowLeft className="h-4 w-4 text-muted-foreground rotate-180" />
-							</div>
-						))}
-					</div>
-				</CardContent>
-			</Card>
+						</div>
+					))}
+				</div>
+			</section>
 		</div>
 	);
 }

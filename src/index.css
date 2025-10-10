@@ -164,3 +164,76 @@
 	scrollbar-width: thin;
 	scrollbar-color: var(--muted-foreground) var(--background);
 }
+
+
+
+.prose-custom {
+  font-family: ui-serif, Georgia, Cambria, "Times New Roman", Times, serif;
+  color: hsl(var(--foreground)); 
+  font-size: 1.25rem; 
+  line-height: 1.75; 
+  letter-spacing: 0.01em; 
+}
+
+.prose-custom h1,
+.prose-custom h2,
+.prose-custom h3 {
+  font-family: ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, "Noto Sans", sans-serif;
+  font-weight: 700;
+  letter-spacing: -0.025em;
+  line-height: 1.25;
+  color: hsl(var(--foreground));
+}
+
+.prose-custom h1 {
+  font-size: 3rem; 
+  margin-top: 2rem;
+  margin-bottom: 1rem;
+}
+
+.prose-custom h2 {
+  font-size: 2.25rem; 
+  margin-top: 2.5rem;
+  margin-bottom: 1rem;
+}
+
+.prose-custom h3 {
+  font-size: 1.875rem; 
+  margin-top: 2rem;
+  margin-bottom: 0.75rem;
+}
+
+.prose-custom p {
+  margin-bottom: 1.25rem;
+}
+
+.prose-custom a {
+  color: hsl(var(--primary)); 
+  text-decoration: underline;
+  font-weight: 500;
+}
+
+.prose-custom blockquote {
+  border-left: 4px solid hsl(var(--border));
+  padding-left: 1.5rem;
+  font-style: italic;
+  color: hsl(var(--muted-foreground));
+  margin: 2rem 0;
+}
+
+.prose-custom ul, .prose-custom ol {
+  margin-bottom: 1.25rem;
+  padding-left: 1.5rem;
+}
+
+.prose-custom li {
+  margin-bottom: 0.5rem;
+}
+
+.prose-custom code {
+  background-color: hsl(var(--muted));
+  color: hsl(var(--foreground));
+  padding: 0.125rem 0.25rem;
+  border-radius: 0.25rem;
+  font-size: 0.875em;
+}

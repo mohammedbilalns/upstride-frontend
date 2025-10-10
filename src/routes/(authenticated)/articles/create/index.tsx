@@ -31,7 +31,7 @@ function RouteComponent() {
   const handleCreateSuccess = () => {
     navigate({
       to: "/articles",
-      search: { search: "", category: "", sortBy: "", tag: "" },
+      search: { category: "", sortBy: "", tag: "" },
     });
   };
 
@@ -53,7 +53,7 @@ function RouteComponent() {
   const handleGoBack = () => {
     navigate({
       to: "/articles",
-      search: { search: "", category: "", sortBy: "", tag: "" },
+      search: {  category: "", sortBy: "", tag: "" },
     });
   };
 
