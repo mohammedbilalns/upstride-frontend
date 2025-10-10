@@ -27,7 +27,7 @@ export function ArticleCard({ article }: { article: ArticleInList }) {
                 <div className="flex items-center justify-between mb-1">
                     <div className="flex gap-1 flex-wrap">
                         {article.tags.slice(0, 2).map((tag: Tag) => (
-                            <Badge key={tag.id} variant="secondary" className="text-xs">
+                            <Badge key={tag._id} variant="secondary" className="text-xs">
                                 {tag.name}
                             </Badge>
                         ))}

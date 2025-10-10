@@ -156,7 +156,7 @@
 }
 
 ::-webkit-scrollbar-thumb:hover {
-	background: var(--foreground); /* stronger color on hover */
+	background: var(--foreground); 
 }
 
 /* Firefox */

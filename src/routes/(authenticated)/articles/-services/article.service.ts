@@ -1,5 +1,6 @@
 import api from "@/api/api";
 import { API_ROUTES } from "@/constants/routes";
+import { notFound } from "@tanstack/react-router";
 import type { articleCreateData } from "../-validations/article.validations";
 
 export async function fetchArticles(
@@ -67,7 +68,10 @@ export async function fetchArticle(articleId: string) {
 		const response = await api.get(API_ROUTES.ARTICLES.READ(articleId));
 		return response.data;
 	} catch (error) {
-		console.error("Error while fetching article", error);
+		if(error?.status == 404){
+			throw notFound()
+		}
+		
 		throw error;
 	}
 }
