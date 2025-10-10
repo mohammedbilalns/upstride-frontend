@@ -6,7 +6,7 @@ import {
 	SelectTrigger,
 	SelectValue,
 } from "@/components/ui/select";
-import type { RowsPerPage } from "@/routes/admin/-validtations/searchParamsSchema";
+import type { RowsPerPage } from "@/routes/admin/-validations/searchParamsSchema";
 
 interface PaginationProps {
 	page: number;

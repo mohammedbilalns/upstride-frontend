@@ -1133,3 +1133,29 @@ With the right strategies and mindset, introverts can not only navigate networki
 		],
 	},
 ];
+
+
+export const categories = [
+	{id:1,name:	"All Categories" },
+	{id:2, name: "Leadership"},
+	{id:3, name: 	"Career Growth",},
+	{id:4, name: 	"Personal Branding",},
+];
+
+
+
+export const sortOptions = [
+	{ value: "newest", label: "Newest First" },
+	{ value: "popular", label: "Most Popular" },
+	{ value: "commented", label: "Most Commented" },
+]; 
+
+export const popularTags = [
+	"Leadership",
+	"Career",
+	"Networking",
+	"Communication",
+	"Technology",
+	"Personal Brand",
+]; 
+

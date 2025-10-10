@@ -24,7 +24,7 @@ import {
 import { queryClient } from "@/main";
 import type { Mentor } from "@/types/mentor";
 import SearchBar from "../-components/searchBar";
-import type { RowsPerPage } from "../-validtations/searchParamsSchema";
+import type { RowsPerPage } from "../-validations/searchParamsSchema";
 import StatusBadge from "./-components/statusBadge";
 import TableCollapse from "./-components/tableCollapse";
 import { useApproveMentor } from "./-hooks/useApproveMentor";

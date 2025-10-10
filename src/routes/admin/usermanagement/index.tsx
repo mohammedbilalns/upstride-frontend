@@ -16,7 +16,7 @@ import SearchBar from "../-components/searchBar";
 import {
 	paramsSchema,
 	type RowsPerPage,
-} from "../-validtations/searchParamsSchema";
+} from "../-validations/searchParamsSchema";
 import { useBlockUser, useUnBlockUser } from "./-hooks";
 import { fetchUsers } from "./-services/usermangement.service";
 
