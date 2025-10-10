@@ -15,11 +15,13 @@ import { articleCreateSchema } from "../-validations/article.validations";
 import { FeaturedImageUpload } from "./-components/featuredImage";
 import PublishInfo from "./-components/publishInfo";
 import TagSelector from "./-components/tagSelector";
+import { authGuard } from "@/components/guards/auth-gaurd";
 
 type ArticleFormData = z.infer<typeof articleCreateSchema>;
 
 export const Route = createFileRoute("/(authenticated)/articles/create/")({
   component: RouteComponent,
+	beforeLoad: authGuard(["mentor"])
 });
 
 function RouteComponent() {
