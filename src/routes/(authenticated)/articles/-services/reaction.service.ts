@@ -1,0 +1,23 @@
+import api from "@/api/api";
+import { API_ROUTES } from "@/constants/routes";
+
+export async function reactResource(resourceId: string, reaction: "like" | "dislike") {
+	try {
+
+		const response = await api.post(API_ROUTES.REACT.REACT_RESOURCE, {resourceId, reaction})
+		return response.data; 
+	}catch(error){
+		console.error("error while liking resource", error);
+		throw error;
+	}
+}
+
+export async function getReactions(resourceId: string, page: number, limit: number){
+	try {
+		const response = await api.get(API_ROUTES.REACT.GET_REACTIONS,{params: {resourceId, page, limit}})
+		return response.data; 
+	}catch(error){
+		console.error("error while fetching reactions", error);
+		throw error;
+	}
+}

@@ -1,25 +1,40 @@
 import { Bookmark, Eye, Heart, MessageCircle, Share } from "lucide-react";
 import { Button } from "@/components/ui";
 import { useState } from "react";
+import { useReactResource } from "../-hooks/useReactResource";
 
 interface ArticleEngagementBarProps {
 	articleId: string;
-	likes: number;
+	initialLikes: number;
 	comments: number;
 	views: number;
 	isLiked: boolean; 
 	isBookmarked: boolean; 
 
 }
-export default function ArticleEngagementBar({articleId,views,likes,comments , isLiked , isBookmarked}:ArticleEngagementBarProps){
+export default function ArticleEngagementBar({articleId,views,initialLikes,comments , isLiked , isBookmarked}:ArticleEngagementBarProps){
 
 	const [liked, setLiked] = useState(isLiked);
+	const [likes, setLikes] = useState(initialLikes);
 	const [bookmarked, setBookmarked] = useState(isBookmarked);
+	const reactResourceMutation = useReactResource()
 
-	// implement like and bookmark
 	const handleLike = () => {
-		console.log("articleId", articleId)
-		setLiked(!liked);
+		if (reactResourceMutation.isPending) return;
+		const newLikedState = !liked;
+		const newLikesCount = newLikedState ? likes + 1 : likes - 1;
+		const reaction = newLikedState ? "like" : "dislike";
+		setLiked(newLikedState);
+		setLikes(newLikesCount);
+		reactResourceMutation.mutate(
+			{resourceId: articleId, reaction},
+			{
+				onError: ()=>{
+					setLiked(!newLikedState)
+					setLikes(newLikedState ? newLikesCount - 1: newLikesCount +1 )
+				} 
+			}
+		)
 	};
 
 	const handleBookmark = () => {
@@ -43,15 +58,17 @@ export default function ArticleEngagementBar({articleId,views,likes,comments , i
 				<Button
 					variant={liked ? "default" : "outline"}
 					size="sm"
+					className="cursor-pointer"
+					disabled={reactResourceMutation.isPending}
 					onClick={handleLike}
 				>
 					<Heart className={`h-4 w-4 mr-1 ${liked ? "fill-current" : ""}`} />
 					{likes}	
 				</Button>
-				<Button variant="outline" size="sm" onClick={handleBookmark}>
+				<Button className="cursor-pointer" variant="outline" size="sm" onClick={handleBookmark}>
 					<Bookmark className={`h-4 w-4 ${bookmarked ? "fill-current" : ""}`} />
 				</Button>
-				<Button variant="outline" size="sm">
+				<Button className="cursor-pointer" variant="outline" size="sm">
 					<Share className="h-4 w-4" />
 				</Button>
 			</div>

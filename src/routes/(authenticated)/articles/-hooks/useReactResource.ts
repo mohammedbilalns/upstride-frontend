@@ -1,0 +1,49 @@
+import { useMutation, useQueryClient } from "@tanstack/react-query"
+import { reactResource } from "../-services/reaction.service"
+import type { ApiError } from "@/types"
+import { toast } from "sonner"
+import type { Article } from "@/types/article"
+
+export const useReactResource = () =>{
+	const queryClient = useQueryClient()
+	return useMutation({
+		mutationFn: ({resourceId, reaction}: {resourceId: string, reaction: "like" | "dislike"}) => reactResource(resourceId, reaction),
+		onMutate: async ({resourceId, reaction})=>{
+
+			await queryClient.cancelQueries({queryKey: ["article", resourceId]})
+			// snapshot the previous data
+			const previousArticleData = queryClient.getQueryData(["article", resourceId])
+			// optimistically update the cache with the new data
+			queryClient.setQueryData(['article', resourceId],(old:{article: Article, isLiked: boolean})=>{	
+				if(!old) return old 
+				return {
+					...old,
+					article:{
+						...old.article,
+						likes: reaction === "like" ? old.article.likes + 1 : old.article.likes - 1,
+					},
+					isLiked: reaction === "like" ? true : false
+				}
+			})
+			// return the context with the snapshot 
+			return {previousArticleData, resourceId}
+		},
+		onError:(error: ApiError ,_variables, context) =>{
+			// revert the cache to the previous state	
+			if(context?.previousArticleData){
+				queryClient.setQueryData(['article',context.resourceId],context.previousArticleData)
+
+			}
+			const errorMessage = error?.response?.data?.message || "Failed to react to resource"
+			toast.error(errorMessage)
+		},
+		// onSuccess: (_data, variables) =>{
+		// 	// invalidate the query for the Article
+		// 	  //queryClient.invalidateQueries({ queryKey: ['article', variables.resourceId] });
+		// },
+		onSettled: (_data, _error, variables) => {
+			//  refetch after error or success to ensure sync
+			queryClient.invalidateQueries({ queryKey: ['article', variables.resourceId] });
+		}
+	})
+}

@@ -54,4 +54,8 @@ export const API_ROUTES = {
     SAVE_MEDIA: "/media/save-media",
     DELETE: (id: string, mediaType: string) => `/media/${id}/${mediaType}`,
   },
+	REACT: {
+		REACT_RESOURCE: "/reactions",
+		GET_REACTIONS: "/reactions",
+	}
 };

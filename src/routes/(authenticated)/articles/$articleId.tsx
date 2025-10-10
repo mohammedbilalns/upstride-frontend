@@ -144,7 +144,7 @@ function RouteComponent() {
 
 			<Separator className="my-6" />
 			{/* ement Bar */}
-			<ArticleEngagementBar articleId={articleId} likes={article.likes} comments={article.comments} views={article.views} isLiked={isLiked} isBookmarked={false} />
+			<ArticleEngagementBar articleId={articleId} initialLikes={article.likes} comments={article.comments} views={article.views} isLiked={isLiked} isBookmarked={false} />
 			<Separator className="my-8" />
 			<CommentsList articleId={article.id} />
 		</div>
