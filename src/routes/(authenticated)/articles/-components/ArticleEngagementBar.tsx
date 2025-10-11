@@ -26,13 +26,14 @@ export default function ArticleEngagementBar({articleId,views,initialLikes,comme
 		const reaction = newLikedState ? "like" : "dislike";
 		setLiked(newLikedState);
 		setLikes(newLikesCount);
+
 		reactResourceMutation.mutate(
-			{resourceId: articleId, reaction},
+			{resourceId: articleId, reaction, resourceType:"article"},
 			{
 				onError: ()=>{
 					setLiked(!newLikedState)
 					setLikes(newLikedState ? newLikesCount - 1: newLikesCount +1 )
-				} 
+				},
 			}
 		)
 	};
@@ -59,8 +60,8 @@ export default function ArticleEngagementBar({articleId,views,initialLikes,comme
 					variant={liked ? "default" : "outline"}
 					size="sm"
 					className="cursor-pointer"
-					disabled={reactResourceMutation.isPending}
 					onClick={handleLike}
+					disabled={reactResourceMutation.isPending}
 				>
 					<Heart className={`h-4 w-4 mr-1 ${liked ? "fill-current" : ""}`} />
 					{likes}	

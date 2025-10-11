@@ -22,6 +22,7 @@ import type { Article, Tag } from "@/types/article";
 import CommentsList from "./-components/CommentsList";
 import ArticleEngagementBar from "./-components/ArticleEngagementBar";
 import { ArticleNotFound } from "./-components/ArticleNotFound";
+import { useQuery } from "@tanstack/react-query";
 
 export const Route = createFileRoute("/(authenticated)/articles/$articleId")({
 	component: RouteComponent,
@@ -39,7 +40,13 @@ function RouteComponent() {
 	const { user } = useAuthStore();
 	const { articleId } = Route.useParams();
 	const navigate = useNavigate();
-	const data = Route.useLoaderData();
+
+	const { data } = useQuery({
+		queryKey: ["article", articleId],
+		queryFn: () => fetchArticle(articleId),
+		staleTime: 5 * 60 * 1000, 
+	});
+
 	const article: Article = data?.article;
 	const isLiked: boolean = data?.isLiked;
 	const isAuthor = user && article && article.author === user.id;

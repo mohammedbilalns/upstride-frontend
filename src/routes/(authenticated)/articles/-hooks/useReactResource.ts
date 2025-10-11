@@ -3,13 +3,15 @@ import { reactResource } from "../-services/reaction.service"
 import type { ApiError } from "@/types"
 import { toast } from "sonner"
 import type { Article } from "@/types/article"
+import type { ReactionMutationParams } from "@/types/reaction"
 
 export const useReactResource = () =>{
 	const queryClient = useQueryClient()
-	return useMutation({
-		mutationFn: ({resourceId, reaction}: {resourceId: string, reaction: "like" | "dislike"}) => reactResource(resourceId, reaction),
-		onMutate: async ({resourceId, reaction})=>{
 
+	return useMutation({
+		mutationFn: ({resourceId, reaction, resourceType}:ReactionMutationParams ) => reactResource(resourceId, reaction,resourceType),
+
+		onMutate: async ({resourceId, reaction})=>{
 			await queryClient.cancelQueries({queryKey: ["article", resourceId]})
 			// snapshot the previous data
 			const previousArticleData = queryClient.getQueryData(["article", resourceId])
@@ -37,13 +39,9 @@ export const useReactResource = () =>{
 			const errorMessage = error?.response?.data?.message || "Failed to react to resource"
 			toast.error(errorMessage)
 		},
-		// onSuccess: (_data, variables) =>{
-		// 	// invalidate the query for the Article
-		// 	  //queryClient.invalidateQueries({ queryKey: ['article', variables.resourceId] });
-		// },
 		onSettled: (_data, _error, variables) => {
 			//  refetch after error or success to ensure sync
-			queryClient.invalidateQueries({ queryKey: ['article', variables.resourceId] });
+			queryClient.invalidateQueries({ queryKey: ['article', variables.resourceId], refetchType:"none" });
 		}
 	})
 }
