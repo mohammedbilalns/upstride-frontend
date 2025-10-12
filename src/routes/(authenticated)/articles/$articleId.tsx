@@ -159,7 +159,7 @@ function RouteComponent() {
 				isBookmarked={false}
 			/>
 			<Separator className="my-8" />
-			<CommentsList articleId={article.id} />
+			<CommentsList commentsCount={article.comments} articleId={article.id} />
 		</div>
 	);
 }

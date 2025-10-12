@@ -5,9 +5,17 @@ import { useFetchComments } from "../-hooks/useFetchComments";
 import CommentForm from "./CommentForm";
 import CommentItem from "./CommentItem";
 
-const COMMENTS_PER_PAGE = 2;
+interface CommentListProps {
+	articleId: string;
+	commentsCount: number;
+}
 
-export default function CommentsList({ articleId }: { articleId: string }) {
+const COMMENTS_PER_PAGE = 10;
+
+export default function CommentsList({
+	articleId,
+	commentsCount,
+}: CommentListProps) {
 	const {
 		data,
 		fetchNextPage,
@@ -15,18 +23,14 @@ export default function CommentsList({ articleId }: { articleId: string }) {
 		isFetchingNextPage,
 		isLoading,
 		error,
-	} = useFetchComments(articleId, COMMENTS_PER_PAGE);
+	} = useFetchComments(articleId, COMMENTS_PER_PAGE, undefined, true);
 
 	const allComments = useMemo(
 		() => data?.pages.flatMap((page) => page.comments) || [],
 		[data],
 	);
 
-	const totalComments = data?.pages[0]?.total || 0;
-
-	const handleReply = (commentId: string) => {
-		console.log(`Replying to comment ${commentId}`);
-	};
+	const totalComments = commentsCount;
 
 	return (
 		<section>
@@ -48,7 +52,6 @@ export default function CommentsList({ articleId }: { articleId: string }) {
 						key={comment.id}
 						comment={comment}
 						articleId={articleId}
-						onReply={handleReply}
 					/>
 				))}
 			</div>

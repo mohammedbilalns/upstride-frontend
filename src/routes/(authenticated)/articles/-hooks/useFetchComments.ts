@@ -5,6 +5,7 @@ export const useFetchComments = (
 	articleId: string,
 	limit: number,
 	parentCommentId?: string,
+	enabled: boolean = true,
 ) => {
 	return useInfiniteQuery({
 		queryKey: ["comments", articleId, limit, parentCommentId],
@@ -19,5 +20,7 @@ export const useFetchComments = (
 		},
 		initialPageParam: 1,
 		refetchOnWindowFocus: false,
+		// enable query only  if there is no parentId or non null parentId
+		enabled: enabled && (parentCommentId ? !!parentCommentId : true),
 	});
 };
