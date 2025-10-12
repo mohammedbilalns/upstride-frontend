@@ -1,13 +1,13 @@
 import { Avatar, AvatarFallback, AvatarImage } from "@radix-ui/react-avatar";
-import { ChevronDown, ChevronUp, Heart, User } from "lucide-react";
-import { useState, useEffect, useCallback, useMemo } from "react";
-import { Button } from "@/components/ui";
+import { User } from "lucide-react";
+import { useState } from "react";
 import { formatRelativeTime } from "@/lib/dateUtil";
 import type { Comment } from "@/types/comment";
-import { useFetchComments } from "../-hooks/useFetchComments";
-import { useReactResource } from "../-hooks/useReactResource";
-import { LoadingSpinner } from "@/components/spinner";
 import CommentForm from "./CommentForm";
+import { CommentActions } from "./CommentActions";
+import { CommentReplies } from "./CommentReplies";
+import { useCommentInteractions } from "../-hooks/useCommentInteractions";
+import { useCommentReplies } from "../-hooks/useCommentReplies";
 
 interface CommentItemProps {
 	comment: Comment;
@@ -20,90 +20,19 @@ export default function CommentItem({
 	articleId,
 	level = 0,
 }: CommentItemProps) {
-	const [liked, setLiked] = useState(comment.isLiked);
-	const [likes, setLikes] = useState(comment.likes);
 	const [showReplyForm, setShowReplyForm] = useState(false);
-	const [showReplies, setShowReplies] = useState(false);
-	const [replies, setReplies] = useState<Comment[]>([]);
-	const [totalReplies, setTotalReplies] = useState(0);
-	const [shouldFetchReplies, setShouldFetchReplies] = useState(false);
 
-	const reactCommentMutation = useReactResource();
-
+	const { liked, likes, handleReact, isPending } = useCommentInteractions(comment);
+	
 	const {
-		data: repliesData,
-		fetchNextPage,
+		showReplies,
+		replies,
+		isLoadingReplies,
+		hasMoreReplies,
 		isFetchingNextPage,
-		isLoading: isLoadingReplies,
-	} = useFetchComments(articleId, 10, comment.id, shouldFetchReplies);
-
-	// Memoize computed values
-	const hasMoreReplies = useMemo(
-		() => replies.length < totalReplies,
-		[replies.length, totalReplies]
-	);
-
-	const hasReplies = comment.replies > 0;
-	const replyText = comment.replies === 1 ? "reply" : "replies";
-
-	// Toggle reply form
-	const handleReply = useCallback(() => {
-		setShowReplyForm(prev => !prev);
-	}, []);
-
-	// Handle like/unlike
-	const handleReact = useCallback(() => {
-		if (reactCommentMutation.isPending) return;
-
-		const newLikedState = !liked;
-		const newLikesCount = newLikedState ? likes + 1 : likes - 1;
-		const reaction = newLikedState ? "like" : "dislike";
-
-		// Optimistic update
-		setLiked(newLikedState);
-		setLikes(newLikesCount);
-
-		reactCommentMutation.mutate(
-			{ resourceId: comment.id, reaction, resourceType: "comment" },
-			{
-				onError: () => {
-					// Revert on error
-					setLiked(!newLikedState);
-					setLikes(newLikedState ? newLikesCount - 1 : newLikesCount + 1);
-				},
-			}
-		);
-	}, [liked, likes, comment.id, reactCommentMutation]);
-
-	// Toggle replies visibility
-	const handleToggleReplies = useCallback(() => {
-		if (!showReplies && replies.length === 0) {
-			setShouldFetchReplies(true);
-		}
-		setShowReplies(prev => !prev);
-	}, [showReplies, replies.length]);
-
-	// Load more replies
-	const handleLoadMoreReplies = useCallback(() => {
-		fetchNextPage();
-	}, [fetchNextPage]);
-
-	// Update replies when new data is fetched
-	useEffect(() => {
-		if (!repliesData?.pages.length) return;
-
-		const allReplies = repliesData.pages.flatMap(page => page.comments);
-		
-		// Only update if there are new replies
-		if (allReplies.length > replies.length) {
-			setReplies(allReplies);
-		}
-
-		const total = repliesData.pages[0]?.total;
-		if (total !== undefined && total !== totalReplies) {
-			setTotalReplies(total);
-		}
-	}, [repliesData, replies.length, totalReplies]);
+		handleToggleReplies,
+		handleLoadMoreReplies,
+	} = useCommentReplies(articleId, comment.id, comment.replies);
 
 	return (
 		<div className={level > 0 ? "ml-6 mt-4" : ""}>
@@ -130,53 +59,23 @@ export default function CommentItem({
 					</p>
 
 					{/* Actions */}
-					<div className="flex items-center justify-between py-2">
-						<div className="flex items-center space-x-6 text-sm text-muted-foreground">
-							{hasReplies && (
-								<button
-									type="button"
-									className="flex items-center hover:text-foreground cursor-pointer transition-colors"
-									onClick={handleToggleReplies}
-									aria-label={showReplies ? "Hide replies" : "Show replies"}
-								>
-									{showReplies ? (
-										<ChevronUp className="h-4 w-4 mr-1" />
-									) : (
-										<ChevronDown className="h-4 w-4 mr-1" />
-									)}
-									{comment.replies} {replyText}
-								</button>
-							)}
-						</div>
-
-						<div className="flex items-center space-x-2">
-							<Button
-								variant={liked ? "default" : "outline"}
-								size="sm"
-								onClick={handleReact}
-								disabled={reactCommentMutation.isPending}
-								aria-label={liked ? "Unlike comment" : "Like comment"}
-							>
-								<Heart className="h-4 w-4 mr-1" />
-								{likes}
-							</Button>
-							<Button
-								variant="ghost"
-								size="sm"
-								className="text-xs h-8 px-2"
-								onClick={handleReply}
-							>
-								Reply
-							</Button>
-						</div>
-					</div>
+					<CommentActions
+						repliesCount={comment.replies}
+						showReplies={showReplies}
+						liked={liked}
+						likes={likes}
+						isPending={isPending}
+						onToggleReplies={handleToggleReplies}
+						onReact={handleReact}
+						onReply={() => setShowReplyForm(prev => !prev)}
+					/>
 
 					{/* Reply Form */}
 					{showReplyForm && (
 						<CommentForm
 							articleId={articleId}
 							commentId={comment.id}
-							onCancel={handleReply}
+							onCancel={() => setShowReplyForm(false)}
 							placeholder="Reply to this comment..."
 							rows={2}
 							avatarSize="sm"
@@ -186,38 +85,16 @@ export default function CommentItem({
 			</div>
 
 			{/* Replies Section */}
-			{showReplies && (
-				<div className="mt-4 space-y-4">
-					{isLoadingReplies && replies.length === 0 ? (
-						<LoadingSpinner />
-					) : (
-						<>
-							{replies.map(reply => (
-								<CommentItem
-									key={reply.id}
-									comment={reply}
-									articleId={articleId}
-									level={level + 1}
-								/>
-							))}
-							{hasMoreReplies && (
-								<div className="flex justify-center mt-2">
-									<Button
-										variant="ghost"
-										size="sm"
-										onClick={handleLoadMoreReplies}
-										disabled={isFetchingNextPage}
-									>
-										{isFetchingNextPage && <LoadingSpinner size="sm" />}
-										Load more replies
-									</Button>
-								</div>
-							)}
-						</>
-					)}
-				</div>
-			)}
+			<CommentReplies
+				showReplies={showReplies}
+				replies={replies}
+				isLoadingReplies={isLoadingReplies}
+				hasMoreReplies={hasMoreReplies}
+				isFetchingNextPage={isFetchingNextPage}
+				articleId={articleId}
+				level={level}
+				onLoadMore={handleLoadMoreReplies}
+			/>
 		</div>
 	);
 }
-
