@@ -12,13 +12,13 @@ import {
 	Search,
 	Star,
 } from "lucide-react";
+import { useAuthStore } from "@/app/store/auth.store";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
-import { useCurrentUser } from "@/hooks/useCurrentUser";
-import { useAuthStore } from "@/store/auth.store";
+import { useCurrentUser } from "@/shared/hooks/useCurrentUser";
 import {
 	dummyArticles,
 	dummyMentors,

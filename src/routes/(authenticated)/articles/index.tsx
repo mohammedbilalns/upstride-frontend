@@ -1,12 +1,14 @@
 import { useInfiniteQuery } from "@tanstack/react-query";
 import { createFileRoute, Link, useNavigate } from "@tanstack/react-router";
 import { useState } from "react";
+import { useAuthStore } from "@/app/store/auth.store";
 import { Button } from "@/components/ui/button";
-import { useDebounce } from "@/hooks/useDebounce";
-import { useAuthStore } from "@/store/auth.store";
-import { ArticleGrid, ArticlesSearchBar, FilterSidebar } from "./-components";
-import { fetchArticles } from "./-services/article.service";
-import { articlesParamsSchema } from "./-validations/articleParams.validation";
+import { ArticleGrid } from "@/features/articles/components/ArticleGrid";
+import { ArticlesSearchBar } from "@/features/articles/components/ArticlesSearchBar";
+import { FilterSidebar } from "@/features/articles/components/FilterSideBar";
+import { fetchArticles } from "@/features/articles/services/article.service";
+import { useDebounce } from "@/shared/hooks/useDebounce";
+import { articlesParamsSchema } from "../../../features/articles/schemas/article-params.schema";
 
 export const Route = createFileRoute("/(authenticated)/articles/")({
 	component: RouteComponent,

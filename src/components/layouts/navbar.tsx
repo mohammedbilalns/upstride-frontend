@@ -1,6 +1,7 @@
 import { Link, useRouter } from "@tanstack/react-router";
 import { Bell, Menu, Zap } from "lucide-react";
 import { useState } from "react";
+import { useAuthStore } from "@/app/store/auth.store";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Button } from "@/components/ui/button";
 import {
@@ -10,9 +11,8 @@ import {
 	DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import { Separator } from "@/components/ui/separator";
-import { useLogout } from "@/routes/auth/-hooks";
-import { useAuthStore } from "@/store/auth.store";
-import ThemeToggle from "../theme-toggle";
+import { useLogout } from "@/features/auth/hooks";
+import ThemeToggle from "../common/theme-toggle";
 
 // Navigation Links
 const navLinks = [

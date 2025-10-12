@@ -1,6 +1,7 @@
 import { createFileRoute, useNavigate } from "@tanstack/react-router";
 import { UserCheck, UserX } from "lucide-react";
-import { ConfirmDialog, Pagination } from "@/components";
+import { ConfirmDialog } from "@/components/common/confirm";
+import { Pagination } from "@/components/common/pagination";
 import { Button } from "@/components/ui/button";
 import {
 	Table,
@@ -10,15 +11,18 @@ import {
 	TableHeader,
 	TableRow,
 } from "@/components/ui/table";
+import {
+	useBlockUser,
+	useUnBlockUser,
+} from "@/features/admin/user-management/hooks";
 import { queryClient } from "@/main";
-import type { User } from "@/types";
-import SearchBar from "../-components/searchBar";
+import type { User } from "@/shared/types";
+import SearchBar from "../../../features/admin/components/SearchBar";
 import {
 	paramsSchema,
 	type RowsPerPage,
-} from "../-validations/searchParamsSchema";
-import { useBlockUser, useUnBlockUser } from "./-hooks";
-import { fetchUsers } from "./-services/usermangement.service";
+} from "../../../features/admin/schemas/searchParamsSchema";
+import { fetchUsers } from "../../../features/admin/user-management/services/user-mangement.service";
 
 export const Route = createFileRoute("/admin/usermanagement/")({
 	component: RouteComponent,

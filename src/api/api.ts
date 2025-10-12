@@ -1,6 +1,6 @@
 import type { InternalAxiosRequestConfig } from "axios";
 import axios, { type AxiosError } from "axios";
-import { useAuthStore } from "@/store/auth.store";
+import { useAuthStore } from "@/app/store/auth.store";
 
 interface CustomAxiosRequestConfig extends InternalAxiosRequestConfig {
 	_retry?: boolean;

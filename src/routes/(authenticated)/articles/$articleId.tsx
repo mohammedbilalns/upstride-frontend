@@ -1,6 +1,7 @@
 import { useQuery } from "@tanstack/react-query";
 import { createFileRoute, Link, useNavigate } from "@tanstack/react-router";
 import { ArrowLeft, Edit, MoreHorizontal, User } from "lucide-react";
+import { useAuthStore } from "@/app/store/auth.store";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
@@ -11,13 +12,12 @@ import {
 	DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import { Separator } from "@/components/ui/separator";
+import CommentsList from "@/features/articles/comments/components/CommentsList";
+import ArticleEngagementBar from "@/features/articles/components/ArticleEngagementBar";
+import { ArticleNotFound } from "@/features/articles/components/ArticleNotFound";
+import { fetchArticle } from "@/features/articles/services/article.service";
 import { queryClient } from "@/main";
-import { useAuthStore } from "@/store/auth.store";
-import type { Article, Tag } from "@/types/article";
-import ArticleEngagementBar from "./-components/ArticleEngagementBar";
-import { ArticleNotFound } from "./-components/ArticleNotFound";
-import CommentsList from "./-components/CommentsList";
-import { fetchArticle } from "./-services/article.service";
+import type { Article, Tag } from "@/shared/types/article";
 
 export const Route = createFileRoute("/(authenticated)/articles/$articleId")({
 	component: RouteComponent,

@@ -3,7 +3,7 @@ import { TanStackRouterDevtools } from "@tanstack/react-router-devtools";
 import * as React from "react";
 import { useEffect } from "react";
 import { Toaster } from "sonner";
-import { useThemeStore } from "@/store/theme.store";
+import { useThemeStore } from "@/app/store/theme.store";
 
 export const Route = createRootRoute({
 	component: RootComponent,

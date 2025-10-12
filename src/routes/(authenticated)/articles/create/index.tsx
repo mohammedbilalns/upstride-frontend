@@ -4,18 +4,18 @@ import { ArrowLeft, FileText } from "lucide-react";
 import { useState } from "react";
 import { Controller, type SubmitHandler, useForm } from "react-hook-form";
 import type { z } from "zod";
-import { authGuard } from "@/components/guards/auth-gaurd";
+import { authGuard } from "@/app/guards/auth-gaurd";
 import RichTextEditor from "@/components/rich-text-editor";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import type { CloudinaryResponse } from "@/types/cloudinaryResponse";
-import { useCreateArticle } from "../-hooks/useCreateArticle";
-import { articleCreateSchema } from "../-validations/article.validations";
-import { FeaturedImageUpload } from "./-components/featuredImage";
-import PublishInfo from "./-components/publishInfo";
-import TagSelector from "./-components/tagSelector";
+import type { CloudinaryResponse } from "@/shared/types/cloudinaryResponse";
+import { FeaturedImageUpload } from "../../../../features/articles/create-article/components/featuredImage";
+import PublishInfo from "../../../../features/articles/create-article/components/publishInfo";
+import TagSelector from "../../../../features/articles/create-article/components/tagSelector";
+import { articleCreateSchema } from "../../../../features/articles/schemas/article.schema";
+import { useCreateArticle } from "@/features/articles/create-article/-hooks/useCreateArticle";
 
 type ArticleFormData = z.infer<typeof articleCreateSchema>;
 
