@@ -5,13 +5,14 @@ import type { CreateCommentData } from "@/types/comment";
 import { createComment } from "../-services/comment.service";
 
 export const useCreateComment = () => {
-	const queryclient = useQueryClient()
+	const queryclient = useQueryClient();
 	return useMutation({
 		mutationFn: ({ articleId, content, parentCommentId }: CreateCommentData) =>
 			createComment(articleId, content, parentCommentId),
 		onSuccess: (_respsonse, variables) => {
-			queryclient.invalidateQueries({queryKey:["comments",variables.articleId]})
-
+			queryclient.invalidateQueries({
+				queryKey: ["comments", variables.articleId],
+			});
 		},
 		onError: (error: ApiError) => {
 			const message =

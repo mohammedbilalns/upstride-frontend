@@ -3,5 +3,3 @@ export const sortOptions = [
 	{ value: "popular", label: "Most Popular" },
 	{ value: "commented", label: "Most Commented" },
 ];
-
-

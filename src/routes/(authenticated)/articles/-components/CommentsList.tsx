@@ -1,9 +1,9 @@
-import { useMemo } from "react";
-import CommentItem from "./CommentItem";
 import { Loader2 } from "lucide-react";
+import { useMemo } from "react";
 import { Button } from "@/components/ui";
-import CommentForm from "./CommentForm";
 import { useFetchComments } from "../-hooks/useFetchComments";
+import CommentForm from "./CommentForm";
+import CommentItem from "./CommentItem";
 
 const COMMENTS_PER_PAGE = 2;
 
@@ -17,19 +17,15 @@ export default function CommentsList({ articleId }: { articleId: string }) {
 		error,
 	} = useFetchComments(articleId, COMMENTS_PER_PAGE);
 
-	const allComments = useMemo(() => 
-		data?.pages.flatMap(page => page.comments) || [], 
-		[data]
+	const allComments = useMemo(
+		() => data?.pages.flatMap((page) => page.comments) || [],
+		[data],
 	);
 
 	const totalComments = data?.pages[0]?.total || 0;
 
 	const handleReply = (commentId: string) => {
 		console.log(`Replying to comment ${commentId}`);
-	};
-
-	const handleReact = (commentId: string) => {
-		console.log(`Reacting to comment ${commentId}`);
 	};
 
 	return (
@@ -40,7 +36,11 @@ export default function CommentsList({ articleId }: { articleId: string }) {
 			<CommentForm articleId={articleId} />
 
 			{isLoading && <p className="text-center py-4">Loading comments...</p>}
-			{error && <p className="text-center py-4 text-red-500">Failed to load comments.</p>}
+			{error && (
+				<p className="text-center py-4 text-red-500">
+					Failed to load comments.
+				</p>
+			)}
 
 			<div className="space-y-6">
 				{allComments.map((comment) => (
@@ -49,7 +49,6 @@ export default function CommentsList({ articleId }: { articleId: string }) {
 						comment={comment}
 						articleId={articleId}
 						onReply={handleReply}
-						onReact={handleReact}
 					/>
 				))}
 			</div>
@@ -68,8 +67,8 @@ export default function CommentsList({ articleId }: { articleId: string }) {
 								Loading...
 							</>
 						) : (
-								"Load More Comments"
-							)}
+							"Load More Comments"
+						)}
 					</Button>
 				</div>
 			)}

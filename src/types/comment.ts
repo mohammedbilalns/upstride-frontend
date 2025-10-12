@@ -4,15 +4,15 @@ export interface CreateCommentData {
 	parentCommentId?: string;
 }
 
-
 export interface Comment {
 	id: string;
 	articleId: string;
 	userId: string;
 	userName: string;
-	userImage?: string; 
+	userImage?: string;
 	likes: number;
 	replies: number;
-	content: string; 
+	content: string;
 	createdAt: string;
+	isLiked: boolean;
 }
