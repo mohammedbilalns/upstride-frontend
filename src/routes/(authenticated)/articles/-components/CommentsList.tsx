@@ -1,51 +1,78 @@
-import { Avatar, AvatarFallback, AvatarImage } from "@radix-ui/react-avatar";
-import { Heart, User } from "lucide-react";
+import { useMemo } from "react";
+import CommentItem from "./CommentItem";
+import { Loader2 } from "lucide-react";
 import { Button } from "@/components/ui";
-import { dummyComments as comments } from "../-dummy-data";
 import CommentForm from "./CommentForm";
+import { useFetchComments } from "../-hooks/useFetchComments";
+
+const COMMENTS_PER_PAGE = 2;
 
 export default function CommentsList({ articleId }: { articleId: string }) {
-	// fetch comments from api
-	const fetchComments = () => {
-		console.log("fetching comments for articleId", articleId);
+	const {
+		data,
+		fetchNextPage,
+		hasNextPage,
+		isFetchingNextPage,
+		isLoading,
+		error,
+	} = useFetchComments(articleId, COMMENTS_PER_PAGE);
+
+	const allComments = useMemo(() => 
+		data?.pages.flatMap(page => page.comments) || [], 
+		[data]
+	);
+
+	const totalComments = data?.pages[0]?.total || 0;
+
+	const handleReply = (commentId: string) => {
+		console.log(`Replying to comment ${commentId}`);
+	};
+
+	const handleReact = (commentId: string) => {
+		console.log(`Reacting to comment ${commentId}`);
 	};
 
 	return (
 		<section>
 			<h2 className="text-2xl font-bold mb-6 tracking-tight">
-				Comments ({comments.length})
+				Comments ({totalComments})
 			</h2>
 			<CommentForm articleId={articleId} />
+
+			{isLoading && <p className="text-center py-4">Loading comments...</p>}
+			{error && <p className="text-center py-4 text-red-500">Failed to load comments.</p>}
+
 			<div className="space-y-6">
-				{comments.map((comment) => (
-					<div key={comment.id} className="flex gap-3">
-						<Avatar className="h-10 w-10">
-							<AvatarImage
-								src={comment.author.imageUrl}
-								alt={comment.author.name}
-							/>
-							<AvatarFallback>
-								<User className="h-5 w-5" />
-							</AvatarFallback>
-						</Avatar>
-						<div className="flex-1 space-y-2">
-							<div className="flex items-center justify-between">
-								<p className="font-semibold text-sm">{comment.author.name}</p>
-								<span className="text-xs text-muted-foreground">
-									{comment.timestamp}
-								</span>
-							</div>
-							<p className="text-sm text-muted-foreground leading-relaxed">
-								{comment.content}
-							</p>
-							<Button variant="ghost" size="sm" className="text-xs h-8 px-2">
-								<Heart className="h-3 w-3 mr-1" />
-								{comment.likes}
-							</Button>
-						</div>
-					</div>
+				{allComments.map((comment) => (
+					<CommentItem
+						key={comment.id}
+						comment={comment}
+						articleId={articleId}
+						onReply={handleReply}
+						onReact={handleReact}
+					/>
 				))}
 			</div>
+
+			{hasNextPage && (
+				<div className="flex justify-center mt-8">
+					<Button
+						onClick={() => fetchNextPage()}
+						className="cursor-pointer"
+						disabled={isFetchingNextPage}
+						variant="outline"
+					>
+						{isFetchingNextPage ? (
+							<>
+								<Loader2 className="mr-2 h-4 w-4 animate-spin" />
+								Loading...
+							</>
+						) : (
+								"Load More Comments"
+							)}
+					</Button>
+				</div>
+			)}
 		</section>
 	);
 }

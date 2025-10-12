@@ -25,13 +25,13 @@ export async function fetchComments(
 
 export async function createComment(
 	articleId: string,
-	comment: string,
+	content: string,
 	parentCommentId?: string,
 ) {
 	try {
 		const response = await api.post(API_ROUTES.COMMENT.BASE, {
 			articleId,
-			comment,
+			content,
 			parentCommentId,
 		});
 		return response.data;

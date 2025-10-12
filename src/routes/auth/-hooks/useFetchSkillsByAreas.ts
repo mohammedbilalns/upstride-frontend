@@ -1,3 +1,5 @@
+// not used yet 
+
 // import { useQuery } from "@tanstack/react-query";
 
 // export const useFetchSkillsByAreas = (areas: string[]) => {
