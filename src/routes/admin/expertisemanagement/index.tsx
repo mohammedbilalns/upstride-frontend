@@ -29,7 +29,7 @@ import { fetchExpertises } from "./-services/expertiseManagement.service";
 
 export const Route = createFileRoute("/admin/expertisemanagement/")({
 	component: RouteComponent,
-	validateSearch: paramsSchema ,
+	validateSearch: paramsSchema,
 	loaderDeps: ({ search }) => ({
 		page: search.page,
 		rowsPerPage: search.rowsPerPage,

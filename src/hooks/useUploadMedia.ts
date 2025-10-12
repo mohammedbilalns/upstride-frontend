@@ -75,7 +75,7 @@ export const useUploadMedia = () => {
 		try {
 			setIsUploading(true);
 			setUploadProgress(0);
-			const resourceType = file.type == "application/pdf" ? "raw" : "image";
+			const resourceType = file.type === "application/pdf" ? "raw" : "image";
 
 			const tokenData = await generateTokenMutation.mutateAsync(resourceType);
 

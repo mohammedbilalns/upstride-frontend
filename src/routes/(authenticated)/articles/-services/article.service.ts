@@ -1,29 +1,27 @@
+import { notFound } from "@tanstack/react-router";
 import api from "@/api/api";
 import { API_ROUTES } from "@/constants/routes";
-import { notFound } from "@tanstack/react-router";
 import type { articleCreateData } from "../-validations/article.validations";
 
 export async function fetchArticles(
 	page: number,
 	query: string,
 	category?: string,
-	tag?: string, 
-	sortBy?: string
+	tag?: string,
+	sortBy?: string,
 ) {
-
 	try {
-		let response 
-		if(category){
+		let response;
+		if (category) {
 			response = await api.get(API_ROUTES.ARTICLES.ARTICLES_BY_CATEGORY, {
 				params: { page, query, category, sortBy },
 			});
-		}else {
+		} else {
 			response = await api.get(API_ROUTES.ARTICLES.ARTICLES, {
 				params: { page, query, tag, sortBy },
 			});
 		}
 		return response.data;
-
 	} catch (error) {
 		console.error("Error while fetching articles", error);
 		throw error;
@@ -68,10 +66,10 @@ export async function fetchArticle(articleId: string) {
 		const response = await api.get(API_ROUTES.ARTICLES.READ(articleId));
 		return response.data;
 	} catch (error) {
-		if(error?.status == 404){
-			throw notFound()
+		if (error?.status == 404) {
+			throw notFound();
 		}
-		
+
 		throw error;
 	}
 }

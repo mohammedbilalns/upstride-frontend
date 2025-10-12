@@ -57,8 +57,8 @@ export const API_ROUTES = {
 	REACT: {
 		REACT_RESOURCE: "/reactions",
 		GET_REACTIONS: "/reactions",
-	}, 
-	COMMENT:{
+	},
+	COMMENT: {
 		BASE: "/comments",
-	}
+	},
 };

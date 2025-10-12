@@ -1,10 +1,8 @@
-
 export const sortOptions = [
 	{ value: "newest", label: "Newest First" },
 	{ value: "popular", label: "Most Popular" },
 	{ value: "commented", label: "Most Commented" },
-]; 
-
+];
 
 export interface Comment {
 	id: number;
@@ -17,7 +15,6 @@ export interface Comment {
 	likes: number;
 }
 
- 
 export const dummyComments: Comment[] = [
 	{
 		id: 1,
@@ -53,5 +50,3 @@ export const dummyComments: Comment[] = [
 		likes: 15,
 	},
 ];
-
-

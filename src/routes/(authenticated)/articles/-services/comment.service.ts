@@ -1,66 +1,67 @@
-import api from "@/api/api"
-import { API_ROUTES } from "@/constants/routes"
+import api from "@/api/api";
+import { API_ROUTES } from "@/constants/routes";
 
-
-export async function fetchComments(articleId: string,page: number, limit: number, parentCommentId?: string) {
-	try{
+export async function fetchComments(
+	articleId: string,
+	page: number,
+	limit: number,
+	parentCommentId?: string,
+) {
+	try {
 		const response = await api.get(API_ROUTES.COMMENT.BASE, {
-			params:{
+			params: {
 				articleId,
 				page,
 				limit,
-				parentCommentId
-			}
-		})
-		return response.data
-
-	}catch(error){
-		console.error("Error while fetching comments", error)
-		throw error
-	}	
+				parentCommentId,
+			},
+		});
+		return response.data;
+	} catch (error) {
+		console.error("Error while fetching comments", error);
+		throw error;
+	}
 }
 
-
-export async function createComment(articleId: string, comment: string, parentCommentId?: string) {
-	try{
+export async function createComment(
+	articleId: string,
+	comment: string,
+	parentCommentId?: string,
+) {
+	try {
 		const response = await api.post(API_ROUTES.COMMENT.BASE, {
 			articleId,
 			comment,
-			parentCommentId
-		})
-		return response.data
-
-	}catch(error){
-		console.error("Error while creating comment", error)
-		throw error
+			parentCommentId,
+		});
+		return response.data;
+	} catch (error) {
+		console.error("Error while creating comment", error);
+		throw error;
 	}
-
 }
 
-export async function updateComment(commentId: string,content: string) {
+export async function updateComment(commentId: string, content: string) {
 	try {
 		const response = await api.put(API_ROUTES.COMMENT.BASE, {
 			commentId,
-			content
-		})
-		return response.data
-
+			content,
+		});
+		return response.data;
 	} catch (error) {
 		console.error("Error while updating comment", error);
 		throw error;
-
 	}
 }
 
 export async function deleteComment(commentId: string) {
 	try {
-		const response = await api.delete(API_ROUTES.COMMENT.BASE,{params:{commentId}})
-		return response.data
-		
+		const response = await api.delete(API_ROUTES.COMMENT.BASE, {
+			params: { commentId },
+		});
+		return response.data;
 	} catch (error) {
 		console.error("Error while deleting comment", error);
 		throw error;
-		
 	}
-
 }

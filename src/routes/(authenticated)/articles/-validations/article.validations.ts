@@ -14,14 +14,16 @@ const tagsSchema = z
 	.array(z.string())
 	.max(5, "You can have a maximum of 5 tags");
 
-const featuredImageSchema = z.object({
-	public_id: z.string(),
-	original_filename: z.string(),
-	resource_type: z.string(),
-	secure_url: z.url(),
-	bytes: z.number(),
-	asset_folder: z.string(),
-}).optional();
+const featuredImageSchema = z
+	.object({
+		public_id: z.string(),
+		original_filename: z.string(),
+		resource_type: z.string(),
+		secure_url: z.url(),
+		bytes: z.number(),
+		asset_folder: z.string(),
+	})
+	.optional();
 
 const baseArticleSchema = z.object({
 	title: titleSchema,

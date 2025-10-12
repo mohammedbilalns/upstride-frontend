@@ -1,8 +1,8 @@
 import Highlight from "@tiptap/extension-highlight";
 import { EditorContent, useEditor } from "@tiptap/react";
 import StarterKit from "@tiptap/starter-kit";
-import MenuBar from "./menuBar";
 import { useState } from "react";
+import MenuBar from "./menuBar";
 
 interface RichTextEditorProps {
 	content: string;
@@ -10,8 +10,7 @@ interface RichTextEditorProps {
 }
 
 function RichTextEditor({ content, onChange }: RichTextEditorProps) {
-
-	const [selectionKey, setSelectionKey] = useState(0)
+	const [selectionKey, setSelectionKey] = useState(0);
 	const editor = useEditor({
 		extensions: [
 			StarterKit.configure({
@@ -35,24 +34,23 @@ function RichTextEditor({ content, onChange }: RichTextEditorProps) {
 		content,
 		editorProps: {
 			attributes: {
-				class: "prose prose-sm sm:prose lg:prose-lg xl:prose-2xl mx-auto focus:outline-none h-full overflow-y-auto py-2 px-3",
-
+				class:
+					"prose prose-sm sm:prose lg:prose-lg xl:prose-2xl mx-auto focus:outline-none h-full overflow-y-auto py-2 px-3",
 			},
 		},
 		onUpdate: ({ editor }) => {
 			onChange(editor.getHTML());
 		},
-		onSelectionUpdate: () =>{
-			setSelectionKey(prev => prev + 1)
-		}
+		onSelectionUpdate: () => {
+			setSelectionKey((prev) => prev + 1);
+		},
 	});
 
 	return (
 		<div>
 			<MenuBar key={selectionKey} editor={editor} />
-			<div className="flex-1 overflow-hidden" >
-
-			<EditorContent editor={editor} className="h-full" />
+			<div className="flex-1 overflow-hidden">
+				<EditorContent editor={editor} className="h-full" />
 			</div>
 		</div>
 	);

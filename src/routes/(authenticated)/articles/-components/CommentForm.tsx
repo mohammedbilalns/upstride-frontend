@@ -1,18 +1,42 @@
-import { Button, Textarea } from "@/components/ui";
-import { useAuthStore } from "@/store/auth.store";
+import { zodResolver } from "@hookform/resolvers/zod";
 import { Avatar, AvatarFallback, AvatarImage } from "@radix-ui/react-avatar";
 import { User } from "lucide-react";
-import { useState } from "react";
+import { useForm } from "react-hook-form";
+import { Button, Textarea } from "@/components/ui";
+import { useAuthStore } from "@/store/auth.store";
+import { useCreateComment } from "../-hooks/useCreateComment";
+import {
+	type CreateCommentData,
+	commentSchema,
+} from "../-validations/comment.validation";
 
+export default function CommentForm({ articleId }: { articleId: string }) {
+	const { user } = useAuthStore();
+	const createCommentMutation = useCreateComment();
 
-export default function CommentForm({articleId}:{articleId: string}){
-	const [newComment, setNewComment] = useState("");
-	const  {user} = useAuthStore()
+	const {
+		register,
+		handleSubmit,
+		formState: { errors, isSubmitting },
+		reset,
+		watch,
+	} = useForm<CreateCommentData>({
+		resolver: zodResolver(commentSchema),
+		defaultValues: {
+			content: "",
+		},
+	});
 
-	const handleSubmitComment = () => {
-		if (newComment.trim()) {
-			console.log("Submitting comment:", newComment, articleId);
-			setNewComment("");
+	const commentValue = watch("content");
+	const onSubmit = async (data: CreateCommentData) => {
+		try {
+			await createCommentMutation.mutateAsync({
+				articleId,
+				...data,
+			});
+			reset();
+		} catch (error) {
+			console.error("Failed to post comment:", error);
 		}
 	};
 
@@ -25,19 +49,30 @@ export default function CommentForm({articleId}:{articleId: string}){
 				</AvatarFallback>
 			</Avatar>
 			<div className="flex-1">
-				<Textarea
-					placeholder="Share your thoughts..."
-					value={newComment}
-					onChange={(e) => setNewComment(e.target.value)}
-					rows={3}
-				/>
-				<div className="flex justify-end mt-3">
-					<Button onClick={handleSubmitComment} disabled={!newComment.trim()}>
-						Post Comment
-					</Button>
-				</div>
+				<form onSubmit={handleSubmit(onSubmit)}>
+					<div>
+						<Textarea
+							{...register("content")}
+							placeholder="Share your thoughts..."
+							rows={3}
+							className={errors.content ? "border-red-500" : ""}
+						/>
+						{errors.content && (
+							<p className="text-red-500 text-sm mt-1">
+								{errors.content.message}
+							</p>
+						)}
+					</div>
+					<div className="flex justify-end mt-3">
+						<Button
+							type="submit"
+							disabled={!commentValue?.trim() || isSubmitting}
+						>
+							{isSubmitting ? "Posting..." : "Post Comment"}
+						</Button>
+					</div>
+				</form>
 			</div>
 		</div>
-	)
-
+	);
 }

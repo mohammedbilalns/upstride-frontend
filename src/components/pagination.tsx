@@ -89,7 +89,7 @@ export function Pagination({
 							{p}
 						</Button>
 					) : (
-						<span key={i} className="px-2 text-muted-foreground">
+						<span key={p} className="px-2 text-muted-foreground">
 							…
 						</span>
 					),

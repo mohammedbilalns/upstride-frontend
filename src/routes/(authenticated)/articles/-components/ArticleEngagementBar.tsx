@@ -1,6 +1,6 @@
 import { Bookmark, Eye, Heart, MessageCircle, Share } from "lucide-react";
-import { Button } from "@/components/ui";
 import { useState } from "react";
+import { Button } from "@/components/ui";
 import { useReactResource } from "../-hooks/useReactResource";
 
 interface ArticleEngagementBarProps {
@@ -8,16 +8,21 @@ interface ArticleEngagementBarProps {
 	initialLikes: number;
 	comments: number;
 	views: number;
-	isLiked: boolean; 
-	isBookmarked: boolean; 
-
+	isLiked: boolean;
+	isBookmarked: boolean;
 }
-export default function ArticleEngagementBar({articleId,views,initialLikes,comments , isLiked , isBookmarked}:ArticleEngagementBarProps){
-
+export default function ArticleEngagementBar({
+	articleId,
+	views,
+	initialLikes,
+	comments,
+	isLiked,
+	isBookmarked,
+}: ArticleEngagementBarProps) {
 	const [liked, setLiked] = useState(isLiked);
 	const [likes, setLikes] = useState(initialLikes);
 	const [bookmarked, setBookmarked] = useState(isBookmarked);
-	const reactResourceMutation = useReactResource()
+	const reactResourceMutation = useReactResource();
 
 	const handleLike = () => {
 		if (reactResourceMutation.isPending) return;
@@ -28,14 +33,14 @@ export default function ArticleEngagementBar({articleId,views,initialLikes,comme
 		setLikes(newLikesCount);
 
 		reactResourceMutation.mutate(
-			{resourceId: articleId, reaction, resourceType:"article"},
+			{ resourceId: articleId, reaction, resourceType: "article" },
 			{
-				onError: ()=>{
-					setLiked(!newLikedState)
-					setLikes(newLikedState ? newLikesCount - 1: newLikesCount +1 )
+				onError: () => {
+					setLiked(!newLikedState);
+					setLikes(newLikedState ? newLikesCount - 1 : newLikesCount + 1);
 				},
-			}
-		)
+			},
+		);
 	};
 
 	const handleBookmark = () => {
@@ -64,9 +69,14 @@ export default function ArticleEngagementBar({articleId,views,initialLikes,comme
 					disabled={reactResourceMutation.isPending}
 				>
 					<Heart className={`h-4 w-4 mr-1 ${liked ? "fill-current" : ""}`} />
-					{likes}	
+					{likes}
 				</Button>
-				<Button className="cursor-pointer" variant="outline" size="sm" onClick={handleBookmark}>
+				<Button
+					className="cursor-pointer"
+					variant="outline"
+					size="sm"
+					onClick={handleBookmark}
+				>
 					<Bookmark className={`h-4 w-4 ${bookmarked ? "fill-current" : ""}`} />
 				</Button>
 				<Button className="cursor-pointer" variant="outline" size="sm">
@@ -74,6 +84,5 @@ export default function ArticleEngagementBar({articleId,views,initialLikes,comme
 				</Button>
 			</div>
 		</div>
-
-	)
+	);
 }

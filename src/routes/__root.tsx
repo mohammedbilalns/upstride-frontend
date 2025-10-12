@@ -1,10 +1,9 @@
 import { createRootRoute, Outlet } from "@tanstack/react-router";
+import { TanStackRouterDevtools } from "@tanstack/react-router-devtools";
 import * as React from "react";
 import { useEffect } from "react";
 import { Toaster } from "sonner";
 import { useThemeStore } from "@/store/theme.store";
-import { TanStackRouterDevtools } from '@tanstack/react-router-devtools'
-
 
 export const Route = createRootRoute({
 	component: RootComponent,

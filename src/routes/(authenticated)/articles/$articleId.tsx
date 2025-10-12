@@ -1,10 +1,6 @@
+import { useQuery } from "@tanstack/react-query";
 import { createFileRoute, Link, useNavigate } from "@tanstack/react-router";
-import {
-	ArrowLeft,
-	Edit,
-	MoreHorizontal,
-	User,
-} from "lucide-react";
+import { ArrowLeft, Edit, MoreHorizontal, User } from "lucide-react";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
@@ -15,14 +11,13 @@ import {
 	DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import { Separator } from "@/components/ui/separator";
-import { useAuthStore } from "@/store/auth.store";
 import { queryClient } from "@/main";
-import { fetchArticle } from "./-services/article.service";
+import { useAuthStore } from "@/store/auth.store";
 import type { Article, Tag } from "@/types/article";
-import CommentsList from "./-components/CommentsList";
 import ArticleEngagementBar from "./-components/ArticleEngagementBar";
 import { ArticleNotFound } from "./-components/ArticleNotFound";
-import { useQuery } from "@tanstack/react-query";
+import CommentsList from "./-components/CommentsList";
+import { fetchArticle } from "./-services/article.service";
 
 export const Route = createFileRoute("/(authenticated)/articles/$articleId")({
 	component: RouteComponent,
@@ -44,7 +39,7 @@ function RouteComponent() {
 	const { data } = useQuery({
 		queryKey: ["article", articleId],
 		queryFn: () => fetchArticle(articleId),
-		staleTime: 5 * 60 * 1000, 
+		staleTime: 5 * 60 * 1000,
 	});
 
 	const article: Article = data?.article;
@@ -73,7 +68,11 @@ function RouteComponent() {
 	return (
 		<div className="container mx-auto px-4 py-6 max-w-6xl">
 			{/* Back Button */}
-			<Button variant="ghost" className="mb-4 -ml-2 cursor-pointer" onClick={handleGoBack}>
+			<Button
+				variant="ghost"
+				className="mb-4 -ml-2 cursor-pointer"
+				onClick={handleGoBack}
+			>
 				<ArrowLeft className="h-4  w-4 mr-2" />
 				Back
 			</Button>
@@ -119,7 +118,7 @@ function RouteComponent() {
 									</Link>
 								</DropdownMenuItem>
 							</DropdownMenuContent>
-						</DropdownMenu>	
+						</DropdownMenu>
 					)}
 				</div>
 			</header>
@@ -136,13 +135,13 @@ function RouteComponent() {
 
 			{/* Article Content */}
 			<div
-				className="prose-custom max-w-none mb-6" 
+				className="prose-custom max-w-none mb-6"
 				dangerouslySetInnerHTML={{ __html: article.content }}
 			/>
 
 			{/* Tags */}
 			<div className="flex flex-wrap gap-2 mb-6">
-				{article.tags.map((tag:Tag) => (
+				{article.tags.map((tag: Tag) => (
 					<Badge key={tag._id} variant="secondary">
 						{tag.name}
 					</Badge>
@@ -151,7 +150,14 @@ function RouteComponent() {
 
 			<Separator className="my-6" />
 			{/* ement Bar */}
-			<ArticleEngagementBar articleId={articleId} initialLikes={article.likes} comments={article.comments} views={article.views} isLiked={isLiked} isBookmarked={false} />
+			<ArticleEngagementBar
+				articleId={articleId}
+				initialLikes={article.likes}
+				comments={article.comments}
+				views={article.views}
+				isLiked={isLiked}
+				isBookmarked={false}
+			/>
 			<Separator className="my-8" />
 			<CommentsList articleId={article.id} />
 		</div>
