@@ -31,16 +31,13 @@ export default function TagSelector({
 			</CardHeader>
 			<CardContent className="space-y-4">
 				<div className="flex flex-wrap gap-2">
-					{tags.map((tag, index) => (
-						<Badge
-							key={index}
-							variant="secondary"
-							className="flex items-center"
-						>
+					{tags.map((tag) => (
+						<Badge key={tag} variant="secondary" className="flex items-center">
 							{tag}
 							<button
 								onClick={() => removeTag(tag)}
 								className="ml-2 hover:text-destructive"
+								type="button"
 							>
 								<X className="h-3 w-3" />
 							</button>
@@ -52,7 +49,7 @@ export default function TagSelector({
 						placeholder="Add tag..."
 						value={newTag}
 						onChange={(e) => setNewTag(e.target.value)}
-						onKeyPress={(e) => {
+						onKeyDown={(e) => {
 							if (e.key === "Enter" && newTag.trim()) {
 								addTag();
 								setNewTag("");

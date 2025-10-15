@@ -1,8 +1,8 @@
+import { zodResolver } from "@hookform/resolvers/zod";
 import { createFileRoute, useNavigate } from "@tanstack/react-router";
 import { ArrowLeft, FileText } from "lucide-react";
 import { useEffect, useId, useMemo, useState } from "react";
 import { Controller, type SubmitHandler, useForm } from "react-hook-form";
-import { zodResolver } from "@hookform/resolvers/zod";
 import type { z } from "zod";
 import RichTextEditor from "@/components/rich-text-editor";
 import { Button } from "@/components/ui/button";
@@ -62,7 +62,10 @@ function RouteComponent() {
 		if (!article?.featuredImage) return undefined;
 
 		// If it's already an object, return it
-		if (typeof article.featuredImage === "object" && article.featuredImage.secure_url) {
+		if (
+			typeof article.featuredImage === "object" &&
+			article.featuredImage.secure_url
+		) {
 			return article.featuredImage as CloudinaryResponse;
 		}
 

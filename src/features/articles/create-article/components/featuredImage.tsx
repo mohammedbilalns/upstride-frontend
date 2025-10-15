@@ -20,7 +20,7 @@ export function FeaturedImageUpload({
 	className,
 }: FeaturedImageUploadProps) {
 	const [previewUrl, setPreviewUrl] = useState<string | null>(
-		initialImage?.secure_url || null
+		initialImage?.secure_url || null,
 	);
 	const [initialImageLoaded, setInitialImageLoaded] = useState(false);
 
@@ -49,7 +49,7 @@ export function FeaturedImageUpload({
 	}, [fileDetails, previewUrl, onImageChange]);
 
 	const handleFileChange = async (
-		event: React.ChangeEvent<HTMLInputElement>
+		event: React.ChangeEvent<HTMLInputElement>,
 	) => {
 		const file = event.target.files?.[0];
 		if (file) {
@@ -85,7 +85,7 @@ export function FeaturedImageUpload({
 		onImageChange(null);
 
 		const fileInput = document.getElementById(
-			"file-upload"
+			"file-upload",
 		) as HTMLInputElement;
 		if (fileInput) {
 			fileInput.value = "";
@@ -132,8 +132,8 @@ export function FeaturedImageUpload({
 										Uploading...
 									</>
 								) : (
-										"Change Image"
-									)}
+									"Change Image"
+								)}
 							</Button>
 							<Button
 								variant="destructive"
@@ -145,38 +145,38 @@ export function FeaturedImageUpload({
 								{isDeleting ? (
 									<Loader2 className="h-4 w-4 animate-spin" />
 								) : (
-										<X className="h-4 w-4" />
-									)}
+									<X className="h-4 w-4" />
+								)}
 							</Button>
 						</div>
 					</div>
 				) : (
-						// Upload state
-						<div
-							className="border-2 border-dashed border-border rounded-md p-6 text-center cursor-pointer hover:border-foreground/20 transition-colors"
-							onClick={() => document.getElementById("file-upload")?.click()}
-						>
-							{isUploading ? (
-								<div className="space-y-2">
-									<Loader2 className="mx-auto h-12 w-12 text-muted-foreground animate-spin" />
-									<Progress value={uploadProgress} className="w-full" />
-									<p className="text-sm text-muted-foreground">
-										Uploading... {uploadProgress}%
-									</p>
-								</div>
-							) : (
-									<>
-										<Upload className="mx-auto h-12 w-12 text-muted-foreground" />
-										<p className="mt-2 text-sm text-muted-foreground">
-											Click to upload an image
-										</p>
-										<p className="text-xs text-muted-foreground/70">
-											PNG, JPG, GIF up to 5MB
-										</p>
-									</>
-								)}
-						</div>
-					)}
+					// Upload state
+					<div
+						className="border-2 border-dashed border-border rounded-md p-6 text-center cursor-pointer hover:border-foreground/20 transition-colors"
+						onClick={() => document.getElementById("file-upload")?.click()}
+					>
+						{isUploading ? (
+							<div className="space-y-2">
+								<Loader2 className="mx-auto h-12 w-12 text-muted-foreground animate-spin" />
+								<Progress value={uploadProgress} className="w-full" />
+								<p className="text-sm text-muted-foreground">
+									Uploading... {uploadProgress}%
+								</p>
+							</div>
+						) : (
+							<>
+								<Upload className="mx-auto h-12 w-12 text-muted-foreground" />
+								<p className="mt-2 text-sm text-muted-foreground">
+									Click to upload an image
+								</p>
+								<p className="text-xs text-muted-foreground/70">
+									PNG, JPG, GIF up to 5MB
+								</p>
+							</>
+						)}
+					</div>
+				)}
 				<input
 					id="file-upload"
 					type="file"

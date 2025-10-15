@@ -51,10 +51,7 @@ export async function getArticle(articleId: string) {
 
 export async function updateArticle(article: any) {
 	try {
-		const response = await api.put(
-			API_ROUTES.ARTICLES.UPDATE,
-			article,
-		);
+		const response = await api.put(API_ROUTES.ARTICLES.UPDATE, article);
 		return response.data;
 	} catch (error) {
 		console.error("Error while updating article", error);
