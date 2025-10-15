@@ -15,7 +15,7 @@ export const useGoogleLogin = (callbacks: {
 		mutationFn: (credentials: CredentialResponse) => googleLogin(credentials),
 		onSuccess: (response) => {
 			toast.success(response.message);
-			if (response.message == "Registered successfully") {
+			if (response.message === "Registered successfully") {
 				callbacks.onRegisterSuccess?.(response.email);
 			} else {
 				setUser(response.user);

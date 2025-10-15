@@ -181,8 +181,8 @@ export default function LandingPage() {
 
 				{/* Stats */}
 				<div className="grid grid-cols-2 md:grid-cols-4 gap-8 max-w-2xl mx-auto">
-					{stats.map((stat, index) => (
-						<div key={index} className="text-center">
+					{stats.map((stat) => (
+						<div key={stat.number} className="text-center">
 							<div className="text-3xl font-bold bg-gradient-to-r from-primary to-secondary bg-clip-text text-transparent">
 								{stat.number}
 							</div>
@@ -208,9 +208,9 @@ export default function LandingPage() {
 				</div>
 
 				<div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6">
-					{features.map((feature, index) => (
+					{features.map((feature) => (
 						<Card
-							key={index}
+							key={feature.title}
 							className="bg-gradient-to-br from-card/80 to-card/60 backdrop-blur-sm border-border/50 hover:border-primary/30 transition-all duration-300 hover:shadow-lg hover:-translate-y-1"
 						>
 							<CardHeader>
@@ -285,9 +285,9 @@ export default function LandingPage() {
 				</div>
 
 				<div className="grid md:grid-cols-3 gap-6">
-					{testimonials.map((testimonial, index) => (
+					{testimonials.map((testimonial) => (
 						<Card
-							key={index}
+							key={testimonial.name}
 							className="bg-gradient-to-br from-card/80 to-card/60 backdrop-blur-sm border-border/50"
 						>
 							<CardContent className="p-6">

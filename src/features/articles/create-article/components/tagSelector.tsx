@@ -9,7 +9,7 @@ interface TagSelectorProps {
 	addTag: () => void;
 	removeTag: (tag: string) => void;
 	newTag: string;
-	setNewTag: any;
+	setNewTag: React.Dispatch<React.SetStateAction<string>>;
 	error?: string;
 }
 

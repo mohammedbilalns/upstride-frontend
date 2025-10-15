@@ -53,7 +53,7 @@ export function TopicSelectionStep({
 					<ChevronLeft className="mr-1 h-4 w-4" /> Previous
 				</Button>
 				<div className="flex items-center space-x-2">
-					{Array.from({ length: totalAreas }).map((_, index) => (
+					{Array.from({ length: totalAreas }).map((area, index) => (
 						<div
 							key={index}
 							className={`w-3 h-3 rounded-full ${

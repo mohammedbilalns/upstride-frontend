@@ -52,7 +52,7 @@ export default function AuthCarousel() {
 				<div className="relative w-full h-full rounded-2xl overflow-hidden">
 					{carouselImages.map((image, index) => (
 						<div
-							key={index}
+							key={image.alt}
 							className={`absolute inset-0 transition-opacity duration-500 ${
 								index === currentImage ? "opacity-100" : "opacity-0"
 							}`}
@@ -90,10 +90,12 @@ export default function AuthCarousel() {
 					size="icon"
 					className="absolute left-3 top-1/2 -translate-y-1/2 text-white hover:bg-white/20"
 					onClick={prevImage}
+					type="button"
 				>
 					<ChevronLeft className="h-5 w-5" />
 				</Button>
 				<Button
+					type="button"
 					variant="ghost"
 					size="icon"
 					className="absolute right-3 top-1/2 -translate-y-1/2 text-white hover:bg-white/20"
@@ -104,9 +106,10 @@ export default function AuthCarousel() {
 
 				{/* Carousel Indicators */}
 				<div className="absolute bottom-6 left-1/2 -translate-x-1/2 flex space-x-2">
-					{carouselImages.map((_, index) => (
+					{carouselImages.map((image, index) => (
 						<button
-							key={index}
+							type="button"
+							key={image.alt}
 							className={`w-2.5 h-2.5 rounded-full transition-colors ${
 								index === currentImage ? "bg-white" : "bg-white/50"
 							}`}
