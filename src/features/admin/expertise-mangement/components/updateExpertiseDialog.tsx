@@ -1,5 +1,5 @@
 import { zodResolver } from "@hookform/resolvers/zod";
-import { useState } from "react";
+import { useId, useState } from "react";
 import { useForm } from "react-hook-form";
 import { Button } from "@/components/ui/button";
 import {
@@ -29,6 +29,7 @@ export function UpdateExpertiseDialog({
 	description: string;
 }) {
 	const [open, setOpen] = useState(false);
+	const baseId = useId();
 
 	const updateExpertiseMutation = useUpdateExpertise({
 		onUpdateSuccess: (updatedExpertise) => {
@@ -84,11 +85,11 @@ export function UpdateExpertiseDialog({
 						</DialogDescription>
 					</DialogHeader>
 					<div className="flex flex-col gap-4">
-						<Label htmlFor="name" className="text-sm">
+						<Label htmlFor={`${baseId}-name`} className="text-sm">
 							Name
 						</Label>
 						<Input
-							id="name"
+							id={`${baseId}-name`}
 							type="text"
 							placeholder="Name"
 							{...register("name")}
@@ -98,11 +99,11 @@ export function UpdateExpertiseDialog({
 						)}
 					</div>
 					<div className="flex flex-col gap-4">
-						<Label htmlFor="description" className="text-sm">
+						<Label htmlFor={`${baseId}-description`} className="text-sm">
 							Description
 						</Label>
 						<Textarea
-							id="description"
+							id={`${baseId}-description`}
 							placeholder="Description"
 							{...register("description")}
 						/>

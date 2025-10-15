@@ -77,11 +77,11 @@ export function Pagination({
 					Previous
 				</Button>
 
-				{getPaginationRange().map((p, i) =>
+				{getPaginationRange().map((p) =>
 					typeof p === "number" ? (
 						<Button
 							className="cursor-pointer"
-							key={i}
+							key={p}
 							size="sm"
 							variant={p === page ? "default" : "outline"}
 							onClick={() => setPage(p)}

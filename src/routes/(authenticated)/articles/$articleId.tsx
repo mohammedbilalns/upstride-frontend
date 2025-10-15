@@ -106,14 +106,17 @@ function RouteComponent() {
 					{isAuthor && (
 						<DropdownMenu>
 							<DropdownMenuTrigger asChild>
-								<Button variant="ghost" size="sm">
+								<Button className="cursor-pointer" variant="ghost" size="sm">
 									<MoreHorizontal className="h-4 w-4" />
 								</Button>
 							</DropdownMenuTrigger>
 							<DropdownMenuContent align="end">
 								<DropdownMenuItem asChild>
-									<Link to={`/articles/edit/${article.id}`}>
-										<Edit className="h-4 w-4 mr-2" />
+									<Link
+										className="cursor-pointer"
+										to={`/articles/edit/${article.id}`}
+									>
+										<Edit className="h-4 w-4 mr-2 " />
 										Edit Article
 									</Link>
 								</DropdownMenuItem>

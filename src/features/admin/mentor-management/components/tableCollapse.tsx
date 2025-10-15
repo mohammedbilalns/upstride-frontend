@@ -52,9 +52,9 @@ export default function TableCollapse({ mentor }: TableCollapseProps) {
 									Education
 								</h4>
 								<div className="space-y-1">
-									{mentor.educationalQualifications.map((qual, idx) => (
+									{mentor.educationalQualifications.map((qual) => (
 										<span
-											key={idx}
+											key={qual}
 											className="block bg-background px-3 py-2 rounded border border-border/50 text-sm"
 										>
 											{qual}

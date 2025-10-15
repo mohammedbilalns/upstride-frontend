@@ -1,4 +1,5 @@
 import { Upload } from "lucide-react";
+import { useId } from "react";
 import { Button } from "@/components/ui/button";
 
 interface FileUploadProps {
@@ -6,6 +7,7 @@ interface FileUploadProps {
 }
 
 export default function FileUpload({ handleFileChange }: FileUploadProps) {
+	const baseId = useId();
 	return (
 		<div>
 			<Upload className="h-10 w-10 text-muted-foreground mx-auto mb-3" />
@@ -20,7 +22,7 @@ export default function FileUpload({ handleFileChange }: FileUploadProps) {
 				Browse File
 			</Button>
 			<input
-				id="resume-upload"
+				id={`${baseId}-resume-upload`}
 				type="file"
 				accept=".pdf,application/pdf"
 				className="hidden"

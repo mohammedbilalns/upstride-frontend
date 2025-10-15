@@ -41,7 +41,8 @@ export const API_ROUTES = {
 	ARTICLES: {
 		ARTICLES: "/articles",
 		CREATE: "/articles",
-		UPDATE: (id: string) => `/articles/${id}`,
+		FETCH: (id: string) => `/articles/${id}`,
+		UPDATE:  `/articles`,
 		DELETE: (id: string) => `/articles/${id}`,
 		READ: (id: string) => `/articles/${id}`,
 		ARTICLES_BY_CATEGORY: "/articles/by-category",

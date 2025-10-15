@@ -1,5 +1,5 @@
 import { zodResolver } from "@hookform/resolvers/zod";
-import { useState } from "react";
+import { useId, useState } from "react";
 import { Controller, useForm } from "react-hook-form";
 import { Button } from "@/components/ui/button";
 import {
@@ -22,6 +22,7 @@ import { createExpertiseSchema } from "../schemas/expertise.schema";
 
 export function CreateExpertiseDialog() {
 	const [open, setOpen] = useState(false);
+	const baseId = useId();
 
 	const createExpertiseMutation = useCreateExpertise({
 		onCreateSuccess: () => {
@@ -78,16 +79,19 @@ export function CreateExpertiseDialog() {
 					</DialogHeader>
 
 					<div className="grid gap-3">
-						<Label htmlFor="name">Name</Label>
-						<Input id="name" {...register("name")} />
+						<Label htmlFor={`${baseId}-name`}>Name</Label>
+						<Input id={`${baseId}-name`} {...register("name")} />
 						{errors.name && (
 							<p className="text-sm text-red-500">{errors.name.message}</p>
 						)}
 					</div>
 
 					<div className="grid gap-3">
-						<Label htmlFor="description">Description</Label>
-						<Textarea id="description" {...register("description")} />
+						<Label htmlFor={`${baseId}-description`}>Description</Label>
+						<Textarea
+							id={`${baseId}-description`}
+							{...register("description")}
+						/>
 						{errors.description && (
 							<p className="text-sm text-red-500">
 								{errors.description.message}

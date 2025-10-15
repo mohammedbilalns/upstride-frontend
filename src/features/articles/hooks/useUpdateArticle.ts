@@ -16,13 +16,16 @@ export const useUpdateArticle = (callbacks?: {
 		}: {
 			articleId: string;
 			data: articleUpdateData;
-		}) => updateArticle(articleId, data),
-		onSuccess: (response) => {
+		}) => updateArticle({id: articleId, ...data}),
+		onSuccess: (response, {articleId}) => {
 			toast.success(response.message);
 			callbacks?.onUpdateSuccess?.();
 			queryClient.invalidateQueries({
 				queryKey: ["articles"],
 			});
+			queryClient.invalidateQueries({
+				queryKey:["article", articleId]
+			})
 		},
 		onError: (error: ApiError) => {
 			const errorMessage =

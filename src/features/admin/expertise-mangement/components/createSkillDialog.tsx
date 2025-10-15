@@ -1,5 +1,5 @@
 import { zodResolver } from "@hookform/resolvers/zod";
-import { useState } from "react";
+import { useId, useState } from "react";
 import { useForm } from "react-hook-form";
 import { Button } from "@/components/ui/button";
 import {
@@ -23,6 +23,7 @@ interface CreateSkillDialogProps {
 }
 export function CreateSkillDialog({ expertiseId }: CreateSkillDialogProps) {
 	const [open, setOpen] = useState(false);
+	const baseId = useId();
 	const createSkillMutation = useCreateSkill({
 		onCreateSuccess: () => {
 			reset();
@@ -74,8 +75,8 @@ export function CreateSkillDialog({ expertiseId }: CreateSkillDialogProps) {
 					</DialogHeader>
 
 					<div className="grid gap-3">
-						<Label htmlFor="name">Name</Label>
-						<Input id="name" {...register("name")} />
+						<Label htmlFor={`${baseId}-name`}>Name</Label>
+						<Input id={`${baseId}-name`} {...register("name")} />
 						{errors.name && (
 							<p className="text-sm text-red-500">{errors.name.message}</p>
 						)}

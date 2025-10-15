@@ -49,6 +49,7 @@ export function CommentActions({
 				<Button
 					variant={liked ? "default" : "outline"}
 					size="sm"
+					className="cursor-pointer"
 					onClick={onReact}
 					disabled={isPending}
 					aria-label={liked ? "Unlike comment" : "Like comment"}
@@ -59,7 +60,7 @@ export function CommentActions({
 				<Button
 					variant="ghost"
 					size="sm"
-					className="text-xs h-8 px-2"
+					className=" cursor-pointer text-xs h-8 px-2"
 					onClick={onReply}
 				>
 					Reply

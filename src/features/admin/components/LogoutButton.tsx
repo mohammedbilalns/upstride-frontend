@@ -21,6 +21,7 @@ export default function LogoutButton({ isCollapsed }: LogoutProps) {
            ${isCollapsed ? "justify-center p-3" : "space-x-3 px-4 py-3"}
          `}
 				title={isCollapsed ? "Logout" : undefined}
+				type="button"
 			>
 				<div className="flex items-center justify-center min-w-[20px]">
 					<LogOut className="h-5 w-5 flex-shrink-0" />

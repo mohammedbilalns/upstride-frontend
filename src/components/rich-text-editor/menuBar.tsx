@@ -11,7 +11,7 @@ import {
 	Strikethrough,
 } from "lucide-react";
 import { useEffect, useState } from "react";
-import { Toggle } from "../ui";
+import { Toggle } from "../ui/toggle";
 
 function MenuBar({ editor }: { editor: Editor }) {
 	const [, forceUpdate] = useState({});

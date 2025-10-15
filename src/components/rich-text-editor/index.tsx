@@ -1,7 +1,7 @@
 import Highlight from "@tiptap/extension-highlight";
 import { EditorContent, useEditor } from "@tiptap/react";
 import StarterKit from "@tiptap/starter-kit";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import MenuBar from "./menuBar";
 
 interface RichTextEditorProps {
@@ -45,6 +45,12 @@ function RichTextEditor({ content, onChange }: RichTextEditorProps) {
 			setSelectionKey((prev) => prev + 1);
 		},
 	});
+
+	useEffect(() => {
+		if (editor && content !== editor.getHTML()) {
+			editor.commands.setContent(content);
+		}
+	}, [content, editor]);
 
 	return (
 		<div>

@@ -118,7 +118,7 @@ export const useUploadMedia = () => {
 		setFileDetails({
 			public_id: "",
 			original_filename: "",
-			resuource_type: "",
+			resource_type: "",
 			secure_url: "",
 			bytes: 0,
 			asset_folder: "",

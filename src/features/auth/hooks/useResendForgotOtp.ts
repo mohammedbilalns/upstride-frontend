@@ -4,28 +4,28 @@ import type { ApiError } from "@/shared/types";
 import { resendResetOtp } from "../services/auth.service";
 
 export interface ResendOtpData {
-  email: string;
+	email: string;
 }
 
 export interface ResendOtpResponse {
-  success: boolean;
-  message: string;
+	success: boolean;
+	message: string;
 }
 
 export const useResendForgotOtp = (callbacks?: {
-  onOtpExpired?: () => void;
+	onOtpExpired?: () => void;
 }) => {
-  return useMutation<ResendOtpResponse, ApiError, ResendOtpData>({
-    mutationFn: (data: ResendOtpData) => resendResetOtp(data),
-    onSuccess: (response: ResendOtpResponse) => {
-      toast.success(response.message);
-    },
-    onError: (error: ApiError) => {
-      const errorMessage = error?.response?.data?.message;
-      toast.error(errorMessage);
-      if (error.response?.status === 429) {
-        callbacks?.onOtpExpired?.();
-      }
-    },
-  });
+	return useMutation<ResendOtpResponse, ApiError, ResendOtpData>({
+		mutationFn: (data: ResendOtpData) => resendResetOtp(data),
+		onSuccess: (response: ResendOtpResponse) => {
+			toast.success(response.message);
+		},
+		onError: (error: ApiError) => {
+			const errorMessage = error?.response?.data?.message;
+			toast.error(errorMessage);
+			if (error.response?.status === 429) {
+				callbacks?.onOtpExpired?.();
+			}
+		},
+	});
 };

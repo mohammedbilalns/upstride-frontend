@@ -39,10 +39,20 @@ export async function createArticle(article: articleCreateData) {
 	}
 }
 
-export async function updateArticle(articleId: string, article: any) {
+export async function getArticle(articleId: string) {
+	try {
+		const response = await api.get(API_ROUTES.ARTICLES.FETCH(articleId));
+		return response.data;
+	} catch (error) {
+		console.error("Error while fetching article", error);
+		throw error;
+	}
+}
+
+export async function updateArticle(article: any) {
 	try {
 		const response = await api.put(
-			API_ROUTES.ARTICLES.UPDATE(articleId),
+			API_ROUTES.ARTICLES.UPDATE,
 			article,
 		);
 		return response.data;

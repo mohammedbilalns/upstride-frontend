@@ -1,7 +1,7 @@
 import { zodResolver } from "@hookform/resolvers/zod";
 import { createFileRoute, useNavigate } from "@tanstack/react-router";
 import { ArrowLeft, FileText } from "lucide-react";
-import { useState } from "react";
+import { useId, useState } from "react";
 import { Controller, type SubmitHandler, useForm } from "react-hook-form";
 import type { z } from "zod";
 import { authGuard } from "@/app/guards/auth-gaurd";
@@ -10,14 +10,14 @@ import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
+import { useCreateArticle } from "@/features/articles/create-article/-hooks/useCreateArticle";
 import type { CloudinaryResponse } from "@/shared/types/cloudinaryResponse";
 import { FeaturedImageUpload } from "../../../../features/articles/create-article/components/featuredImage";
 import PublishInfo from "../../../../features/articles/create-article/components/publishInfo";
 import TagSelector from "../../../../features/articles/create-article/components/tagSelector";
-import { articleCreateSchema } from "../../../../features/articles/schemas/article.schema";
-import { useCreateArticle } from "@/features/articles/create-article/-hooks/useCreateArticle";
+import { articleUpdateSchema } from "../../../../features/articles/schemas/article.schema";
 
-type ArticleFormData = z.infer<typeof articleCreateSchema>;
+type ArticleFormData = z.infer<typeof articleUpdateSchema>;
 
 export const Route = createFileRoute("/(authenticated)/articles/create/")({
 	component: RouteComponent,
@@ -26,6 +26,7 @@ export const Route = createFileRoute("/(authenticated)/articles/create/")({
 
 function RouteComponent() {
 	const [newTag, setNewTag] = useState("");
+	const baseId = useId();
 	const navigate = useNavigate();
 
 	const handleCreateSuccess = () => {
@@ -40,7 +41,7 @@ function RouteComponent() {
 	});
 
 	const form = useForm<ArticleFormData>({
-		resolver: zodResolver(articleCreateSchema),
+		resolver: zodResolver(articleUpdateSchema),
 		defaultValues: {
 			title: "",
 			content: "",
@@ -59,13 +60,13 @@ function RouteComponent() {
 
 	const addTag = () => {
 		const currentTags = form.getValues("tags");
-		if (currentTags.length >= 5) {
+		if (currentTags && currentTags?.length >= 5) {
 			form.setError("tags", {
 				message: "You can have a maximum of 5 tags",
 			});
 			return;
 		}
-		if (newTag.trim() && !currentTags.includes(newTag.trim())) {
+		if (newTag.trim() && !currentTags?.includes(newTag.trim())) {
 			form.clearErrors("tags");
 			form.setValue("tags", [...currentTags, newTag.trim()], {
 				shouldValidate: true,
@@ -108,7 +109,7 @@ function RouteComponent() {
 	};
 
 	return (
-		<div className="container mx-auto px-4 py-6">
+		<div className="container mx-auto px-4 py-6 min-h-[calc(100vh-5rem)] flex flex-col">
 			{/* Header */}
 			<div className="flex items-center justify-between mb-6">
 				<div className="flex items-center space-x-4">
@@ -124,7 +125,7 @@ function RouteComponent() {
 				</div>
 			</div>
 
-			<div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
+			<div className="grid grid-cols-1 lg:grid-cols-3 gap-6 flex-1 overflow-hidden">
 				{/* Main Content */}
 				<div className="lg:col-span-2">
 					<Card className="h-full flex flex-col">
@@ -136,9 +137,9 @@ function RouteComponent() {
 						</CardHeader>
 						<CardContent className="flex-1 flex flex-col space-y-4">
 							<div>
-								<Label htmlFor="title">Title</Label>
+								<Label htmlFor={`${baseId}-title`}>Title</Label>
 								<Input
-									id="title"
+									id={`${baseId}-title`}
 									placeholder="Enter article title..."
 									{...form.register("title")}
 									className="text-lg mt-2"

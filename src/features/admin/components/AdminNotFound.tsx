@@ -1,4 +1,5 @@
 import { useRouter } from "@tanstack/react-router";
+import { Button } from "@/components/ui/button";
 
 export default function AdminNotFound() {
 	const router = useRouter();
@@ -10,12 +11,12 @@ export default function AdminNotFound() {
 					Oops! The page you’re looking for doesn’t exist.
 				</p>
 
-				<a
+				<Button
 					onClick={() => router.navigate({ to: "/admin/dashboard" })}
-					className="inline-block cursor-pointer px-6 py-3 bg-primary text-primary-foreground rounded-lg shadow hover:shadow-lg transition-all duration-200"
+					className="cursor-pointer"
 				>
 					Go back home
-				</a>
+				</Button>
 			</div>
 		</div>
 	);

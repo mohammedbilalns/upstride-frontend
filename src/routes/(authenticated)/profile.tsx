@@ -9,7 +9,7 @@ import {
 	User,
 	X,
 } from "lucide-react";
-import React from "react";
+import React, { useId } from "react";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
@@ -173,17 +173,14 @@ export const Route = createFileRoute("/(authenticated)/profile")({
 
 function RouteComponent() {
 	const [isMentor, setIsMentor] = React.useState(true);
-
 	const [profileData, setProfileData] =
 		React.useState<ProfileData>(dummyProfile);
-
 	const [isEditing, setIsEditing] = React.useState(false);
-
 	const [newExpertise, setNewExpertise] = React.useState("");
-
 	const [newSkills, setNewSkills] = React.useState<Record<number, string[]>>(
 		{},
 	);
+	const baseId = useId();
 
 	// Handle input changes
 	const handleInputChange = (
@@ -402,9 +399,9 @@ function RouteComponent() {
 						</CardHeader>
 						<CardContent className="space-y-4">
 							<div>
-								<Label htmlFor="name">Name</Label>
+								<Label htmlFor={`${baseId}-name`}>Name</Label>
 								<Input
-									id="name"
+									id={`${baseId}-name`}
 									value={profileData.name}
 									onChange={(e) => handleInputChange("name", e.target.value)}
 									disabled={!isEditing}
@@ -412,9 +409,9 @@ function RouteComponent() {
 							</div>
 
 							<div>
-								<Label htmlFor="email">Email</Label>
+								<Label htmlFor={`${baseId}-email`}>Email</Label>
 								<Input
-									id="email"
+									id={`${baseId}-email`}
 									type="email"
 									value={profileData.email}
 									disabled // Non-editable
@@ -422,9 +419,9 @@ function RouteComponent() {
 							</div>
 
 							<div>
-								<Label htmlFor="phone">Phone</Label>
+								<Label htmlFor={`${baseId}-phone`}>Phone</Label>
 								<Input
-									id="phone"
+									id={`${baseId}-phone`}
 									value={profileData.phone}
 									disabled // Non-editable
 								/>
@@ -434,9 +431,9 @@ function RouteComponent() {
 							{isMentor && (
 								<>
 									<div>
-										<Label htmlFor="bio">Bio</Label>
+										<Label htmlFor={`${baseId}-bio`}>Bio</Label>
 										<Textarea
-											id="bio"
+											id={`${baseId}-bio`}
 											rows={3}
 											value={profileData.bio}
 											onChange={(e) => handleInputChange("bio", e.target.value)}
@@ -445,9 +442,9 @@ function RouteComponent() {
 									</div>
 
 									<div>
-										<Label htmlFor="currentRole">Current Role</Label>
+										<Label htmlFor={`${baseId}-currentRole`}></Label>
 										<Input
-											id="currentRole"
+											id={`${baseId}-currentRole`}
 											value={profileData.currentRole}
 											onChange={(e) =>
 												handleInputChange("currentRole", e.target.value)
@@ -457,9 +454,9 @@ function RouteComponent() {
 									</div>
 
 									<div>
-										<Label htmlFor="institution">Institution</Label>
+										<Label htmlFor={`${baseId}-institution`}>Institution</Label>
 										<Input
-											id="institution"
+											id={`${baseId}-institution`}
 											value={profileData.institution}
 											onChange={(e) =>
 												handleInputChange("institution", e.target.value)
@@ -469,11 +466,11 @@ function RouteComponent() {
 									</div>
 
 									<div>
-										<Label htmlFor="yearsOfExperience">
+										<Label htmlFor={`${baseId}-yearsOfExperience`}>
 											Years of Experience
 										</Label>
 										<Input
-											id="yearsOfExperience"
+											id={`${baseId}-yearsOfExperience`}
 											type="number"
 											value={profileData.yearsOfExperience}
 											onChange={(e) =>
@@ -487,9 +484,11 @@ function RouteComponent() {
 									</div>
 
 									<div>
-										<Label htmlFor="personalWebsite">Personal Website</Label>
+										<Label htmlFor={`${baseId}-personalWebsite`}>
+											Personal Website
+										</Label>
 										<Input
-											id="personalWebsite"
+											id={`${baseId}-personalWebsite`}
 											value={profileData.personalWebsite}
 											onChange={(e) =>
 												handleInputChange("personalWebsite", e.target.value)
@@ -499,10 +498,10 @@ function RouteComponent() {
 									</div>
 
 									<div>
-										<Label htmlFor="resumePdf">Resume PDF</Label>
+										<Label htmlFor={`${baseId}-resumePdf`}>Resume PDF</Label>
 										<div className="flex items-center gap-2">
 											<Input
-												id="resumePdf"
+												id={`${baseId}-resumePdf`}
 												value={profileData.resumePdf}
 												onChange={(e) =>
 													handleInputChange("resumePdf", e.target.value)

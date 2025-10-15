@@ -11,6 +11,7 @@ import {
 	Video,
 	Zap,
 } from "lucide-react";
+import { useId } from "react";
 import { Avatar, AvatarFallback } from "@/components/ui/avatar";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
@@ -21,10 +22,11 @@ import {
 	CardHeader,
 	CardTitle,
 } from "@/components/ui/card";
-import ThemeToggle from "./theme-toggle";
+import ThemeToggle from "./common/theme-toggle";
 
 export default function LandingPage() {
 	const router = useRouter();
+	const baseId = useId();
 	const features = [
 		{
 			icon: <Users className="h-8 w-8" />,
@@ -192,7 +194,7 @@ export default function LandingPage() {
 
 			{/* Features Section */}
 			<section
-				id="features"
+				id={`features-${baseId}`}
 				className="relative z-10 container mx-auto px-6 py-20"
 			>
 				<div className="text-center mb-16">
@@ -270,7 +272,7 @@ export default function LandingPage() {
 
 			{/* Testimonials */}
 			<section
-				id="testimonials"
+				id={`testimonials-${baseId}`}
 				className="relative z-10 container mx-auto px-6 py-20"
 			>
 				<div className="text-center mb-16">
