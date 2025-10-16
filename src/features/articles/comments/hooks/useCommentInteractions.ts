@@ -3,8 +3,8 @@ import type { Comment } from "@/shared/types/comment";
 import { useReactResource } from "../../hooks/useReactResource";
 
 export function useCommentInteractions(comment: Comment) {
-	const [liked, setLiked] = useState(comment.isLiked);
-	const [likes, setLikes] = useState(comment.likes);
+	const [liked, setLiked] = useState(comment?.isLiked);
+	const [likes, setLikes] = useState(comment?.likes);
 	const reactCommentMutation = useReactResource();
 
 	const handleReact = useCallback(() => {
@@ -19,7 +19,7 @@ export function useCommentInteractions(comment: Comment) {
 		setLikes(newLikesCount);
 
 		reactCommentMutation.mutate(
-			{ resourceId: comment.id, reaction, resourceType: "comment" },
+			{ resourceId: comment?.id, reaction, resourceType: "comment" },
 			{
 				onError: () => {
 					// Revert on error
@@ -28,7 +28,7 @@ export function useCommentInteractions(comment: Comment) {
 				},
 			},
 		);
-	}, [liked, likes, comment.id, reactCommentMutation]);
+	}, [liked, likes, comment?.id, reactCommentMutation]);
 
 	return {
 		liked,

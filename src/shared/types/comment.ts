@@ -13,6 +13,7 @@ export interface Comment {
 	likes: number;
 	replies: number;
 	content: string;
+	isDeleted?: boolean;
 	createdAt: string;
 	isLiked: boolean;
 }
