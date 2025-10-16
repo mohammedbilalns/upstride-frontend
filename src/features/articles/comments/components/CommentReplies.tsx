@@ -12,6 +12,7 @@ interface CommentRepliesProps {
 	articleId: string;
 	level: number;
 	onLoadMore: () => void;
+	parentCommentId: string;
 }
 
 export function CommentReplies({
@@ -23,9 +24,11 @@ export function CommentReplies({
 	articleId,
 	level,
 	onLoadMore,
+	parentCommentId, 
 }: CommentRepliesProps) {
-	if (!showReplies) return null;
 
+	if (!showReplies) return null;
+	
 	return (
 		<div className="mt-4 space-y-4">
 			{isLoadingReplies && replies.length === 0 ? (
@@ -34,6 +37,7 @@ export function CommentReplies({
 				<>
 					{replies.map((reply) => (
 						<CommentItem
+							parentCommentId={parentCommentId} 
 							key={reply.id}
 							comment={reply}
 							articleId={articleId}

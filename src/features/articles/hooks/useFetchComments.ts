@@ -1,4 +1,4 @@
-import { useInfiniteQuery } from "@tanstack/react-query";
+import { keepPreviousData, useInfiniteQuery } from "@tanstack/react-query";
 import { fetchComments } from "../services/comment.service";
 
 export const useFetchComments = (
@@ -8,7 +8,7 @@ export const useFetchComments = (
 	enabled: boolean = true,
 ) => {
 	return useInfiniteQuery({
-		queryKey: ["comments", articleId, limit, parentCommentId],
+		queryKey: ["comments", articleId, parentCommentId, limit],
 		queryFn: ({ pageParam = 1 }) =>
 			fetchComments(articleId, pageParam, limit, parentCommentId),
 		getNextPageParam: (lastPage, allPages) => {
@@ -20,7 +20,7 @@ export const useFetchComments = (
 		},
 		initialPageParam: 1,
 		refetchOnWindowFocus: false,
-		// enable query only  if there is no parentId or non null parentId
+		placeholderData: keepPreviousData,
 		enabled: enabled && (parentCommentId ? !!parentCommentId : true),
 	});
 };
