@@ -18,7 +18,6 @@ import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
-import { useCurrentUser } from "@/shared/hooks/useCurrentUser";
 import {
 	dummyArticles,
 	dummyMentors,
@@ -32,10 +31,9 @@ export const Route = createFileRoute("/(authenticated)/home/")({
 });
 function RouteComponent() {
 	const { user } = useAuthStore();
-	const { data: currentUser } = useCurrentUser();
 	const isUser = true;
 	const isMentor = user?.role === "mentor";
-	const isExceededLimit = currentUser?.mentorRegistrationCount >= 3;
+	const isExceededLimit =  false // temp for now 
 
 	return (
 		<div className="min-h-screen bg-background">
