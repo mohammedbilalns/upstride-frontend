@@ -39,7 +39,13 @@ function RouteComponent() {
 	const [viewMode, setViewMode] = useState<"grid" | "list">("grid");
 	const debouncedSearchInput = useDebounce(searchInput, 500);
 
-	const { data, fetchNextPage, isFetchingNextPage } = useInfiniteQuery({
+	const { 
+		data, 
+		fetchNextPage, 
+		isFetchingNextPage,
+		isFetching, // Track the overall fetching state
+		isLoading // Track the initial loading state
+	} = useInfiniteQuery({
 		queryKey: ["articles", debouncedSearchInput, searchParams],
 		queryFn: ({ pageParam = 1 }) =>
 			fetchArticles(
@@ -59,6 +65,9 @@ function RouteComponent() {
 	const articles = data?.pages.flatMap((page) => page.articles) || [];
 	const total = data?.pages[0]?.total || 0;
 	const showLoadMore = articles.length < total;
+
+	// Determine if we should show loading state
+	const isDataLoading = isLoading || (isFetching && articles.length === 0);
 
 	const handleLoadMore = () => {
 		if (showLoadMore) {
@@ -133,6 +142,7 @@ function RouteComponent() {
 						viewMode={viewMode}
 						onLoadMore={handleLoadMore}
 						isLoading={isFetchingNextPage}
+						isDataLoading={isDataLoading}
 						hasMore={showLoadMore}
 					/>
 				</div>

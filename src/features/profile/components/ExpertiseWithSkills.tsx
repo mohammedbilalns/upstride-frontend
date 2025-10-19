@@ -1,3 +1,4 @@
+import { useState } from "react";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Label } from "@/components/ui/label";
@@ -27,6 +28,9 @@ export function ExpertiseWithSkills({
   const skillsOptions = skillsData?.data || [];
   const expertiseOptions = expertiseData?.expertises || [];
   
+  // State to track the currently selected skill in the dropdown
+  const [selectedSkillId, setSelectedSkillId] = useState<string>("");
+  
   const expertise = expertiseOptions.find((e: any) => e.id === expertiseId || e._id === expertiseId);
   const expertiseName = expertise?.name || "Unknown Expertise";
   
@@ -39,6 +43,8 @@ export function ExpertiseWithSkills({
     if (!selectedSkills.includes(skillId)) {
       const newSkills = [...selectedSkills, skillId];
       onUpdateSkills(newSkills);
+      // Reset the dropdown selection after adding
+      setSelectedSkillId("");
     }
   };
   
@@ -70,7 +76,13 @@ export function ExpertiseWithSkills({
             <Label className="text-sm font-medium">Skills</Label>
             {isEditing && (
               <div className="flex items-center gap-2">
-                <Select onValueChange={handleAddSkill}>
+                <Select 
+                  value={selectedSkillId} 
+                  onValueChange={(value) => {
+                    setSelectedSkillId(value);
+                    handleAddSkill(value);
+                  }}
+                >
                   <SelectTrigger className="w-48">
                     <SelectValue placeholder="Select skill" />
                   </SelectTrigger>
@@ -90,8 +102,12 @@ export function ExpertiseWithSkills({
                   size="sm"
                   onClick={() => {
                     if (skillsOptions.length > 0) {
-                      const firstSkill = skillsOptions[0];
-                      handleAddSkill(firstSkill.id);
+                      const firstAvailableSkill = skillsOptions.find(
+                        (skill: any) => !selectedSkills.includes(skill.id) && !selectedSkills.includes(skill._id)
+                      );
+                      if (firstAvailableSkill) {
+                        handleAddSkill(firstAvailableSkill.id);
+                      }
                     }
                   }}
                 >
