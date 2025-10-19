@@ -12,7 +12,22 @@ import { articlesParamsSchema } from "../../../features/articles/schemas/article
 
 export const Route = createFileRoute("/(authenticated)/articles/")({
 	component: RouteComponent,
-	validateSearch: articlesParamsSchema,
+	validateSearch: articlesParamsSchema,	
+	loaderDeps: ({search}) =>({
+		category: search.category,
+		sortBy: search.sortBy,
+		tag: search.tag
+	}),
+	loader: async ({ deps }) => {
+		const initialData = await fetchArticles(
+			1,
+			"",
+			deps.category ?? "",
+			deps.tag ?? "",
+			deps.sortBy ?? ""
+		);
+		return { initialData };
+	},
 });
 
 function RouteComponent() {

@@ -6,4 +6,4 @@ export const useFetchExpertiseAreas = () => {
 		queryKey: ["expertiseAreas"],
 		queryFn: () => fetchExpertiseAreas(),
 	});
-};
+}; 

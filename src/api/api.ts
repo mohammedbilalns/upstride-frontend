@@ -18,8 +18,8 @@ api.interceptors.response.use(
 
 		if (error.response?.status === 401 && !originalRequest._retry) {
 			const isAuthEndpoint =
-				originalRequest.url?.includes("/auth") ||
-				originalRequest.url?.includes("/expertise");
+				(originalRequest.url?.includes("/auth") && !originalRequest.url.includes("/me") ) ||
+					originalRequest.url?.includes("/expertise");
 
 			if (isAuthEndpoint) {
 				return Promise.reject(error);

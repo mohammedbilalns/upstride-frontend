@@ -33,7 +33,6 @@ export const useSocketStore = create<SocketState>((set, get)=>({
 			socket.onAny((event, ...args) => {
 				console.log(`[WS] Event received: ${event}`, args);
 			});
-
 			set({socket})
 		}catch(error){
 			console.log("[WS] Connection failed", error)
