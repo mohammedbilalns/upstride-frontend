@@ -13,6 +13,7 @@ export default function NotFoundComponent() {
 				</p>
 				<button
 					onClick={() => navigate({ to: "/" })}
+					type="button"
 					className="px-6 py-2 bg-blue-500 text-white rounded-lg hover:bg-blue-600 transition-colors cursor-pointer"
 				>
 					Go Home

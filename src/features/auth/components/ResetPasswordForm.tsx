@@ -1,0 +1,87 @@
+import { zodResolver } from "@hookform/resolvers/zod";
+import { useForm } from "react-hook-form";
+import { Button } from "@/components/ui/button";
+import {
+	Form,
+	FormControl,
+	FormField,
+	FormItem,
+	FormLabel,
+	FormMessage,
+} from "@/components/ui/form";
+import { Input } from "@/components/ui/input";
+import { useUpdatePassword } from "../hooks";
+import type { ResetPasswordFormValues } from "../schemas";
+import { resetPasswordSchema } from "../schemas";
+
+type ResetPasswordFormProps = { email: string; onSuccess: () => void };
+
+export function ResetPasswordForm({
+	email,
+	onSuccess,
+}: ResetPasswordFormProps) {
+	const updatePasswordMutation = useUpdatePassword({ onSuccess });
+	const form = useForm<ResetPasswordFormValues>({
+		resolver: zodResolver(resetPasswordSchema),
+		defaultValues: {
+			password: "",
+			confirmPassword: "",
+		},
+	});
+
+	const handleReset = (values: ResetPasswordFormValues) => {
+		updatePasswordMutation.mutate({ email, newPassword: values.password });
+	};
+
+	return (
+		<Form {...form}>
+			<form onSubmit={form.handleSubmit(handleReset)} className="space-y-4">
+				<FormField
+					control={form.control}
+					name="password"
+					render={({ field }) => (
+						<FormItem>
+							<FormLabel>New Password</FormLabel>
+							<FormControl>
+								<Input
+									type="password"
+									placeholder="Enter new password"
+									{...field}
+									autoComplete="new-password"
+								/>
+							</FormControl>
+							<FormMessage />
+						</FormItem>
+					)}
+				/>
+
+				<FormField
+					control={form.control}
+					name="confirmPassword"
+					render={({ field }) => (
+						<FormItem>
+							<FormLabel>Confirm Password</FormLabel>
+							<FormControl>
+								<Input
+									type="password"
+									placeholder="Confirm new password"
+									{...field}
+									autoComplete="new-password"
+								/>
+							</FormControl>
+							<FormMessage />
+						</FormItem>
+					)}
+				/>
+
+				<Button
+					type="submit"
+					className="w-full cursor-pointer"
+					disabled={updatePasswordMutation.isPending}
+				>
+					{updatePasswordMutation.isPending ? "Resetting..." : "Reset Password"}
+				</Button>
+			</form>
+		</Form>
+	);
+}

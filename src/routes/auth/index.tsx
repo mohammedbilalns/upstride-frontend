@@ -1,16 +1,14 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { useState } from "react";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import {
-	ForgotPasswordForm,
-	ForgotPasswordOtpVerification,
-	LoginForm,
-	RegisterForm,
-	RegisterOtpVerification,
-	ResetPasswordForm,
-} from "./-components";
-import AuthCarousel from "./-components/auth-carousel";
-import ExpertiseSelection from "./-components/expertise-selection-form";
+import { ForgotPasswordForm } from "@/features/auth/components/ForgorPasswordForm";
+import { LoginForm } from "@/features/auth/components/LoginForm";
+import { RegisterForm } from "@/features/auth/components/RegisterForm";
+import { RegisterOtpVerification } from "@/features/auth/components/RegisterOtpVerification";
+import { ForgotPasswordOtpVerification } from "@/features/auth/components/ResetOtpVerification";
+import { ResetPasswordForm } from "@/features/auth/components/ResetPasswordForm";
+import AuthCarousel from "../../features/auth/components/AuthCarousal";
+import ExpertiseSelection from "../../features/auth/components/ExpertiseSelectionForm";
 
 export const Route = createFileRoute("/auth/")({
 	component: RouteComponent,

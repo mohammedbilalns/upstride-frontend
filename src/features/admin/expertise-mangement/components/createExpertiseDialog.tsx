@@ -1,0 +1,147 @@
+import { zodResolver } from "@hookform/resolvers/zod";
+import { useId, useState } from "react";
+import { Controller, useForm } from "react-hook-form";
+import { Button } from "@/components/ui/button";
+import {
+	Dialog,
+	DialogClose,
+	DialogContent,
+	DialogDescription,
+	DialogFooter,
+	DialogHeader,
+	DialogTitle,
+	DialogTrigger,
+} from "@/components/ui/dialog";
+import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
+import { MultiSelect } from "@/components/ui/mulit-select";
+import { Textarea } from "@/components/ui/textarea";
+import { useCreateExpertise } from "../hooks";
+import type { FormValues } from "../schemas/expertise.schema";
+import { createExpertiseSchema } from "../schemas/expertise.schema";
+
+export function CreateExpertiseDialog() {
+	const [open, setOpen] = useState(false);
+	const baseId = useId();
+
+	const createExpertiseMutation = useCreateExpertise({
+		onCreateSuccess: () => {
+			reset();
+			setOpen(false);
+		},
+	});
+	const {
+		control,
+		register,
+		handleSubmit,
+		formState: { errors },
+		reset,
+	} = useForm<FormValues>({
+		resolver: zodResolver(createExpertiseSchema),
+		defaultValues: {
+			name: "",
+			description: "",
+			skills: [],
+		},
+	});
+
+	const onSubmit = (data: FormValues) => {
+		const { skills, ...rest } = data;
+		const mappedSkills = skills.map((item) => item.value);
+		createExpertiseMutation.mutate({ ...rest, skills: mappedSkills });
+	};
+
+	return (
+		<Dialog
+			open={open}
+			onOpenChange={(isOpen) => {
+				setOpen(isOpen);
+				if (!isOpen) reset();
+			}}
+		>
+			<DialogTrigger asChild>
+				<Button
+					className="cursor-pointer"
+					size="sm"
+					variant="default"
+					onClick={() => setOpen(true)}
+				>
+					Add Expertise
+				</Button>
+			</DialogTrigger>
+			<DialogContent className="sm:max-w-[425px]">
+				<form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
+					<DialogHeader>
+						<DialogTitle>Add Expertise</DialogTitle>
+						<DialogDescription>
+							Fill out the details and click save when done.
+						</DialogDescription>
+					</DialogHeader>
+
+					<div className="grid gap-3">
+						<Label htmlFor={`${baseId}-name`}>Name</Label>
+						<Input id={`${baseId}-name`} {...register("name")} />
+						{errors.name && (
+							<p className="text-sm text-red-500">{errors.name.message}</p>
+						)}
+					</div>
+
+					<div className="grid gap-3">
+						<Label htmlFor={`${baseId}-description`}>Description</Label>
+						<Textarea
+							id={`${baseId}-description`}
+							{...register("description")}
+						/>
+						{errors.description && (
+							<p className="text-sm text-red-500">
+								{errors.description.message}
+							</p>
+						)}
+					</div>
+
+					<div className="grid gap-3">
+						<Label>Skills</Label>
+						<Controller
+							control={control}
+							name="skills"
+							render={({ field }) => (
+								<MultiSelect
+									value={field.value}
+									onChange={field.onChange}
+									options={[]}
+									creatable
+									onCreate={(newValue: string) => ({
+										label: newValue,
+										value: newValue,
+									})}
+								/>
+							)}
+						/>
+						{errors.skills && (
+							<p className="text-sm text-red-500">{errors.skills.message}</p>
+						)}
+					</div>
+
+					<DialogFooter>
+						<DialogClose asChild>
+							<Button
+								className="cursor-pointer"
+								type="button"
+								variant="outline"
+							>
+								Cancel
+							</Button>
+						</DialogClose>
+						<Button
+							className="cursor-pointer"
+							type="submit"
+							disabled={createExpertiseMutation.isPending}
+						>
+							{createExpertiseMutation.isPending ? "Saving..." : "Save"}
+						</Button>
+					</DialogFooter>
+				</form>
+			</DialogContent>
+		</Dialog>
+	);
+}

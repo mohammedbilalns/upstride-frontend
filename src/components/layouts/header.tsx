@@ -1,9 +1,9 @@
 import { Link } from "@tanstack/react-router";
+import { useAuthStore } from "@/app/store/auth.store";
 import { Button } from "@/components/ui/button";
-import { cn } from "@/lib/utils";
-import { useLogout } from "@/routes/auth/-hooks";
-import { useAuthStore } from "@/store/auth.store";
-import ThemeToggle from "../theme-toggle";
+import { useLogout } from "@/features/auth/hooks";
+import { cn } from "@/shared/utils/utils";
+import ThemeToggle from "../common/theme-toggle";
 
 export function Header() {
 	const logoutMutation = useLogout();

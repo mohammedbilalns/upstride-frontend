@@ -1,0 +1,22 @@
+import { useMutation } from "@tanstack/react-query";
+import { toast } from "sonner";
+import type { ApiError } from "@/shared/types";
+import { resendRegisterOtp } from "../services/auth.service";
+
+export const useResendRegisterOtp = (callbacks: {
+	onOtpExpired?: () => void;
+}) => {
+	return useMutation({
+		mutationFn: (data: { email: string }) => resendRegisterOtp(data),
+		onSuccess: (response) => {
+			toast.success(response.message);
+		},
+		onError: (error: ApiError) => {
+			const errorMessage = error?.response?.data?.message;
+			toast.error(errorMessage);
+			if (error.response?.status === 429) {
+				callbacks?.onOtpExpired?.();
+			}
+		},
+	});
+};

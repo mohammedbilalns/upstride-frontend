@@ -1,5 +1,5 @@
 import { createFileRoute, Outlet } from "@tanstack/react-router";
-import { authGuard } from "@/components/guards/auth-gaurd";
+import { authGuard } from "@/app/guards/auth-gaurd";
 import Navbar from "@/components/layouts/navbar";
 
 export const Route = createFileRoute("/(authenticated)")({
