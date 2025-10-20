@@ -1,19 +1,22 @@
 import { useMutation } from "@tanstack/react-query";
 import { useRouter } from "@tanstack/react-router";
 import { toast } from "sonner";
-import { useAuthStore } from "@/store/auth.store";
-import type { ApiError } from "@/types/api";
-import { userLogin } from "../-services/auth.service";
-import type { loginFormValues } from "../-validations";
+import { useAuthStore } from "@/app/store/auth.store";
+import { useSocketStore } from "@/app/store/socket.store";
+import type { ApiError } from "@/shared/types/api";
+import type { loginFormValues } from "../schemas";
+import { userLogin } from "../services/auth.service";
 
 export const useLogin = () => {
 	const router = useRouter();
 	const { setUser } = useAuthStore();
+	const { connect } = useSocketStore();
 
 	return useMutation({
 		mutationFn: (data: loginFormValues) => userLogin(data),
 		onSuccess: (response) => {
 			setUser(response.user);
+			connect();
 			toast.success(response.message);
 			router.navigate({ to: "/home" });
 		},

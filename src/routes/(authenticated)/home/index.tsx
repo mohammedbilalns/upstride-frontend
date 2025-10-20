@@ -35,7 +35,7 @@ function RouteComponent() {
 	const { data: currentUser } = useCurrentUser();
 	const isUser = true;
 	const isMentor = user?.role === "mentor";
-	const isExceededLimit = currentUser?.mentorRegistrationCount >= 3;
+	const isExceededLimit = false; // temp for now
 
 	return (
 		<div className="min-h-screen bg-background">

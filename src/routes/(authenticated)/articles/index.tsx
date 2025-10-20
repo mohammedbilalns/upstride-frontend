@@ -150,11 +150,92 @@ const popularTags = [
 
 export const Route = createFileRoute("/(authenticated)/articles/")({
 	component: RouteComponent,
+	validateSearch: articlesParamsSchema,
+	loaderDeps: ({ search }) => ({
+		category: search.category,
+		sortBy: search.sortBy,
+		tag: search.tag,
+	}),
+	loader: async ({ deps }) => {
+		const initialData = await fetchArticles(
+			1,
+			"",
+			deps.category ?? "",
+			deps.tag ?? "",
+			deps.sortBy ?? "",
+		);
+		return { initialData };
+	},
 });
 
 function RouteComponent() {
 	const { user } = useAuthStore();
 	const isMentor = user?.role === "mentor";
+	const searchParams = Route.useSearch();
+	const navigate = useNavigate({ from: Route.fullPath });
+	const [searchInput, setSearchInput] = useState("");
+	const [viewMode, setViewMode] = useState<"grid" | "list">("grid");
+	const debouncedSearchInput = useDebounce(searchInput, 500);
+
+	const {
+		data,
+		fetchNextPage,
+		isFetchingNextPage,
+		isFetching, // Track the overall fetching state
+		isLoading, // Track the initial loading state
+	} = useInfiniteQuery({
+		queryKey: ["articles", debouncedSearchInput, searchParams],
+		queryFn: ({ pageParam = 1 }) =>
+			fetchArticles(
+				pageParam,
+				debouncedSearchInput,
+				searchParams.category,
+				searchParams.tag,
+				searchParams.sortBy,
+			),
+		getNextPageParam: (lastPage, allPages) => {
+			const hasMore = lastPage.articles.length < lastPage.total;
+			return hasMore ? allPages.length + 1 : undefined;
+		},
+		initialPageParam: 1,
+	});
+
+	const articles = data?.pages.flatMap((page) => page.articles) || [];
+	const total = data?.pages[0]?.total || 0;
+	const showLoadMore = articles.length < total;
+
+	// Determine if we should show loading state
+	const isDataLoading = isLoading || (isFetching && articles.length === 0);
+
+	const handleLoadMore = () => {
+		if (showLoadMore) {
+			fetchNextPage();
+		}
+	};
+
+	const handleCategoryChange = (value: string) => {
+		const newCategoryValue = value === "All Categories" ? "" : value;
+		navigate({
+			search: (prev) => ({ ...prev, category: newCategoryValue }),
+		});
+	};
+
+	const handleSortByChange = (value: string) => {
+		navigate({
+			search: (prev) => ({ ...prev, sortBy: value }),
+		});
+	};
+
+	const handleTagClick = (tag: string) => {
+		navigate({
+			search: (prev) => ({ ...prev, tag }),
+		});
+	};
+
+	const handleClearFilters = () => {
+		setSearchInput("");
+		navigate({ search: {} });
+	};
 
 	return (
 		<div className="container mx-auto px-4 py-6">

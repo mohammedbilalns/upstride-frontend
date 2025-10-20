@@ -50,4 +50,16 @@ export const API_ROUTES = {
 		SAVE_MEDIA: "/media/save-media",
 		DELETE: (id: string, mediaType: string) => `/media/${id}/${mediaType}`,
 	},
+	REACT: {
+		REACT_RESOURCE: "/reactions",
+		GET_REACTIONS: "/reactions",
+	},
+	COMMENT: {
+		BASE: "/comments",
+	},
+	PROFILE: {
+		FETCH: (id: string) => `/profile/${id}`,
+		UPDATE: "/profile",
+		UPDATE_PASSWORD: "/profile/change-password",
+	},
 };

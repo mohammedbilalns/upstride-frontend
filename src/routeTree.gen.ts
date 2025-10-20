@@ -9,7 +9,6 @@
 // Additionally, you should also exclude this file from your linter and/or formatter to prevent it from being checked or modified.
 
 import { Route as rootRouteImport } from './routes/__root'
-import { Route as TestRouteImport } from './routes/test'
 import { Route as AboutRouteImport } from './routes/about'
 import { Route as AuthRouteRouteImport } from './routes/auth/route'
 import { Route as AdminRouteRouteImport } from './routes/admin/route'
@@ -33,12 +32,8 @@ import { Route as authenticatedChatsChatIdRouteImport } from './routes/(authenti
 import { Route as authenticatedArticlesArticleIdRouteImport } from './routes/(authenticated)/articles/$articleId'
 import { Route as authenticatedMentorRegisterIndexRouteImport } from './routes/(authenticated)/mentor/register/index'
 import { Route as authenticatedArticlesCreateIndexRouteImport } from './routes/(authenticated)/articles/create/index'
+import { Route as authenticatedArticlesEditArticleIdRouteImport } from './routes/(authenticated)/articles/edit/$articleId'
 
-const TestRoute = TestRouteImport.update({
-  id: '/test',
-  path: '/test',
-  getParentRoute: () => rootRouteImport,
-} as any)
 const AboutRoute = AboutRouteImport.update({
   id: '/about',
   path: '/about',
@@ -162,13 +157,18 @@ const authenticatedArticlesCreateIndexRoute =
     path: '/articles/create/',
     getParentRoute: () => authenticatedRouteRoute,
   } as any)
+const authenticatedArticlesEditArticleIdRoute =
+  authenticatedArticlesEditArticleIdRouteImport.update({
+    id: '/articles/edit/$articleId',
+    path: '/articles/edit/$articleId',
+    getParentRoute: () => authenticatedRouteRoute,
+  } as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof authenticatedRouteRouteWithChildren
   '/admin': typeof AdminRouteRouteWithChildren
   '/auth': typeof AuthRouteRouteWithChildren
   '/about': typeof AboutRoute
-  '/test': typeof TestRoute
   '/mentors': typeof authenticatedMentorsRoute
   '/notifications': typeof authenticatedNotificationsRoute
   '/profile': typeof authenticatedProfileRoute
@@ -185,13 +185,13 @@ export interface FileRoutesByFullPath {
   '/admin/expertisemanagement': typeof AdminExpertisemanagementIndexRoute
   '/admin/mentormanagement': typeof AdminMentormanagementIndexRoute
   '/admin/usermanagement': typeof AdminUsermanagementIndexRoute
+  '/articles/edit/$articleId': typeof authenticatedArticlesEditArticleIdRoute
   '/articles/create': typeof authenticatedArticlesCreateIndexRoute
   '/mentor/register': typeof authenticatedMentorRegisterIndexRoute
 }
 export interface FileRoutesByTo {
   '/': typeof authenticatedRouteRouteWithChildren
   '/about': typeof AboutRoute
-  '/test': typeof TestRoute
   '/mentors': typeof authenticatedMentorsRoute
   '/notifications': typeof authenticatedNotificationsRoute
   '/profile': typeof authenticatedProfileRoute
@@ -208,6 +208,7 @@ export interface FileRoutesByTo {
   '/admin/expertisemanagement': typeof AdminExpertisemanagementIndexRoute
   '/admin/mentormanagement': typeof AdminMentormanagementIndexRoute
   '/admin/usermanagement': typeof AdminUsermanagementIndexRoute
+  '/articles/edit/$articleId': typeof authenticatedArticlesEditArticleIdRoute
   '/articles/create': typeof authenticatedArticlesCreateIndexRoute
   '/mentor/register': typeof authenticatedMentorRegisterIndexRoute
 }
@@ -218,7 +219,6 @@ export interface FileRoutesById {
   '/admin': typeof AdminRouteRouteWithChildren
   '/auth': typeof AuthRouteRouteWithChildren
   '/about': typeof AboutRoute
-  '/test': typeof TestRoute
   '/(authenticated)/mentors': typeof authenticatedMentorsRoute
   '/(authenticated)/notifications': typeof authenticatedNotificationsRoute
   '/(authenticated)/profile': typeof authenticatedProfileRoute
@@ -235,6 +235,7 @@ export interface FileRoutesById {
   '/admin/expertisemanagement/': typeof AdminExpertisemanagementIndexRoute
   '/admin/mentormanagement/': typeof AdminMentormanagementIndexRoute
   '/admin/usermanagement/': typeof AdminUsermanagementIndexRoute
+  '/(authenticated)/articles/edit/$articleId': typeof authenticatedArticlesEditArticleIdRoute
   '/(authenticated)/articles/create/': typeof authenticatedArticlesCreateIndexRoute
   '/(authenticated)/mentor/register/': typeof authenticatedMentorRegisterIndexRoute
 }
@@ -245,7 +246,6 @@ export interface FileRouteTypes {
     | '/admin'
     | '/auth'
     | '/about'
-    | '/test'
     | '/mentors'
     | '/notifications'
     | '/profile'
@@ -262,13 +262,13 @@ export interface FileRouteTypes {
     | '/admin/expertisemanagement'
     | '/admin/mentormanagement'
     | '/admin/usermanagement'
+    | '/articles/edit/$articleId'
     | '/articles/create'
     | '/mentor/register'
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
     | '/about'
-    | '/test'
     | '/mentors'
     | '/notifications'
     | '/profile'
@@ -285,6 +285,7 @@ export interface FileRouteTypes {
     | '/admin/expertisemanagement'
     | '/admin/mentormanagement'
     | '/admin/usermanagement'
+    | '/articles/edit/$articleId'
     | '/articles/create'
     | '/mentor/register'
   id:
@@ -294,7 +295,6 @@ export interface FileRouteTypes {
     | '/admin'
     | '/auth'
     | '/about'
-    | '/test'
     | '/(authenticated)/mentors'
     | '/(authenticated)/notifications'
     | '/(authenticated)/profile'
@@ -311,6 +311,7 @@ export interface FileRouteTypes {
     | '/admin/expertisemanagement/'
     | '/admin/mentormanagement/'
     | '/admin/usermanagement/'
+    | '/(authenticated)/articles/edit/$articleId'
     | '/(authenticated)/articles/create/'
     | '/(authenticated)/mentor/register/'
   fileRoutesById: FileRoutesById
@@ -321,19 +322,11 @@ export interface RootRouteChildren {
   AdminRouteRoute: typeof AdminRouteRouteWithChildren
   AuthRouteRoute: typeof AuthRouteRouteWithChildren
   AboutRoute: typeof AboutRoute
-  TestRoute: typeof TestRoute
   UnauthorizedIndexRoute: typeof UnauthorizedIndexRoute
 }
 
 declare module '@tanstack/react-router' {
   interface FileRoutesByPath {
-    '/test': {
-      id: '/test'
-      path: '/test'
-      fullPath: '/test'
-      preLoaderRoute: typeof TestRouteImport
-      parentRoute: typeof rootRouteImport
-    }
     '/about': {
       id: '/about'
       path: '/about'
@@ -495,6 +488,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof authenticatedArticlesCreateIndexRouteImport
       parentRoute: typeof authenticatedRouteRoute
     }
+    '/(authenticated)/articles/edit/$articleId': {
+      id: '/(authenticated)/articles/edit/$articleId'
+      path: '/articles/edit/$articleId'
+      fullPath: '/articles/edit/$articleId'
+      preLoaderRoute: typeof authenticatedArticlesEditArticleIdRouteImport
+      parentRoute: typeof authenticatedRouteRoute
+    }
   }
 }
 
@@ -508,6 +508,7 @@ interface authenticatedRouteRouteChildren {
   authenticatedArticlesIndexRoute: typeof authenticatedArticlesIndexRoute
   authenticatedChatsIndexRoute: typeof authenticatedChatsIndexRoute
   authenticatedHomeIndexRoute: typeof authenticatedHomeIndexRoute
+  authenticatedArticlesEditArticleIdRoute: typeof authenticatedArticlesEditArticleIdRoute
   authenticatedArticlesCreateIndexRoute: typeof authenticatedArticlesCreateIndexRoute
   authenticatedMentorRegisterIndexRoute: typeof authenticatedMentorRegisterIndexRoute
 }
@@ -522,6 +523,8 @@ const authenticatedRouteRouteChildren: authenticatedRouteRouteChildren = {
   authenticatedArticlesIndexRoute: authenticatedArticlesIndexRoute,
   authenticatedChatsIndexRoute: authenticatedChatsIndexRoute,
   authenticatedHomeIndexRoute: authenticatedHomeIndexRoute,
+  authenticatedArticlesEditArticleIdRoute:
+    authenticatedArticlesEditArticleIdRoute,
   authenticatedArticlesCreateIndexRoute: authenticatedArticlesCreateIndexRoute,
   authenticatedMentorRegisterIndexRoute: authenticatedMentorRegisterIndexRoute,
 }
@@ -567,7 +570,6 @@ const rootRouteChildren: RootRouteChildren = {
   AdminRouteRoute: AdminRouteRouteWithChildren,
   AuthRouteRoute: AuthRouteRouteWithChildren,
   AboutRoute: AboutRoute,
-  TestRoute: TestRoute,
   UnauthorizedIndexRoute: UnauthorizedIndexRoute,
 }
 export const routeTree = rootRouteImport
