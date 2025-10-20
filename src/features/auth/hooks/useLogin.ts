@@ -8,21 +8,21 @@ import type { loginFormValues } from "../schemas";
 import { userLogin } from "../services/auth.service";
 
 export const useLogin = () => {
-  const router = useRouter();
-  const { setUser } = useAuthStore();
-  const { connect } = useSocketStore();
+	const router = useRouter();
+	const { setUser } = useAuthStore();
+	const { connect } = useSocketStore();
 
-  return useMutation({
-    mutationFn: (data: loginFormValues) => userLogin(data),
-    onSuccess: (response) => {
-      setUser(response.user);
-      connect();
-      toast.success(response.message);
-      router.navigate({ to: "/home" });
-    },
-    onError: (error: ApiError) => {
-      const errorMessage = error?.response?.data?.message || "Failed to login";
-      toast.error(errorMessage);
-    },
-  });
+	return useMutation({
+		mutationFn: (data: loginFormValues) => userLogin(data),
+		onSuccess: (response) => {
+			setUser(response.user);
+			connect();
+			toast.success(response.message);
+			router.navigate({ to: "/home" });
+		},
+		onError: (error: ApiError) => {
+			const errorMessage = error?.response?.data?.message || "Failed to login";
+			toast.error(errorMessage);
+		},
+	});
 };

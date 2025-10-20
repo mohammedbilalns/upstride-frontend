@@ -1,14 +1,14 @@
-import { useRouter, Link } from "@tanstack/react-router";
+import { Link, useRouter } from "@tanstack/react-router";
 import { Bell, Menu, Zap } from "lucide-react";
 import { useState } from "react";
 import { useAuthStore } from "@/app/store/auth.store";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Button } from "@/components/ui/button";
 import {
-  DropdownMenu,
-  DropdownMenuContent,
-  DropdownMenuItem,
-  DropdownMenuTrigger,
+	DropdownMenu,
+	DropdownMenuContent,
+	DropdownMenuItem,
+	DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import { Separator } from "@/components/ui/separator";
 import { useLogout } from "@/features/auth/hooks";
@@ -16,16 +16,16 @@ import ThemeToggle from "../common/theme-toggle";
 
 // Navigation Links
 const navLinks = [
-  { label: "Articles", href: "/articles", section: "articles" },
-  { label: "Mentors", href: "/mentors", section: "mentors" },
-  { label: "Sessions", href: "/sessions", section: "sessions" },
+	{ label: "Articles", href: "/articles", section: "articles" },
+	{ label: "Mentors", href: "/mentors", section: "mentors" },
+	{ label: "Sessions", href: "/sessions", section: "sessions" },
 ];
 
 export default function Navbar() {
-  const router = useRouter();
-  const [isOpen, setIsOpen] = useState(false);
-  const logoutMutation = useLogout();
-  const { user } = useAuthStore();
+	const router = useRouter();
+	const [isOpen, setIsOpen] = useState(false);
+	const logoutMutation = useLogout();
+	const { user } = useAuthStore();
 
 	return (
 		<header className="relative z-50 border-b border-border/50 bg-card/50 backdrop-blur-xl">
@@ -62,16 +62,16 @@ export default function Navbar() {
 					{/* Notification Bell */}
 					<Link
 						to="/notifications"
-						className="relative cursor-pointer flex items-center justify-center"
+						className="relative cursor-pointer flex items-center  justify-center"
 					>
-						<Button variant="ghost" size="icon">
+						<Button variant="ghost" size="icon" className="cursor-pointer">
 							<Bell className="h-5 w-5 text-muted-foreground" />
 							<span className="absolute top-1.5 right-1.5 h-2 w-2 bg-destructive rounded-full" />
 						</Button>
 					</Link>
 
-          {/* Theme Toggle */}
-          <ThemeToggle />
+					{/* Theme Toggle */}
+					<ThemeToggle />
 
 					{/* User Avatar (Dropdown) */}
 					<DropdownMenu>
@@ -108,17 +108,17 @@ export default function Navbar() {
 						</DropdownMenuContent>
 					</DropdownMenu>
 
-          {/* Mobile Menu Button */}
-          <Button
-            variant="ghost"
-            size="icon"
-            className="md:hidden"
-            onClick={() => setIsOpen(!isOpen)}
-          >
-            <Menu className="h-5 w-5" />
-          </Button>
-        </div>
-      </div>
+					{/* Mobile Menu Button */}
+					<Button
+						variant="ghost"
+						size="icon"
+						className="md:hidden"
+						onClick={() => setIsOpen(!isOpen)}
+					>
+						<Menu className="h-5 w-5" />
+					</Button>
+				</div>
+			</div>
 
 			{/* Mobile Menu */}
 			{isOpen && (
@@ -144,4 +144,3 @@ export default function Navbar() {
 		</header>
 	);
 }
-

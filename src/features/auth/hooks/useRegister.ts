@@ -7,7 +7,6 @@ import { userRegister } from "../services/auth.service";
 export const useRegister = (callbacks?: {
 	onRegisterSuccess?: (email: string) => void;
 }) => {
-
 	return useMutation({
 		mutationFn: (data: RegisterFormValues) => userRegister(data),
 		onSuccess: (response, variables) => {

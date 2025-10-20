@@ -67,4 +67,8 @@ export const API_ROUTES = {
 		UPDATE: "/profile",
 		UPDATE_PASSWORD: "/profile/change-password",
 	},
+	NOTIFICATIONS: {
+		MARK_READ: (notificationId: string) => `/notifications/${notificationId}`,
+		FETCH: "/notifications",
+	},
 };

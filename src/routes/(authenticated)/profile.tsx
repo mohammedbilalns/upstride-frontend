@@ -1,25 +1,26 @@
-import React, { useState } from "react";
-import { useForm, FormProvider } from "react-hook-form";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { createFileRoute } from "@tanstack/react-router";
+import { Save } from "lucide-react";
+import type React from "react";
+import { useState } from "react";
+import { FormProvider, useForm } from "react-hook-form";
+import { toast } from "sonner";
+import { useAuthStore } from "@/app/store/auth.store";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { useAuthStore } from "@/app/store/auth.store";
-import { ProfileSidebar } from "@/features/profile/components/ProfileSideBar";
-import { PersonalInfo } from "@/features/profile/components/PersonalInfo";
-import { ExpertiseSkills } from "@/features/profile/components/Expertises";
-import { QuickStats } from "@/features/profile/components/QuickStats";
 import { ImageCropper } from "@/components/ui/cropper";
-import type { ProfileFormData } from "@/features/profile/schemas/profile.schema";
-import { zodResolver } from "@hookform/resolvers/zod";
-import { profileSchema } from "@/features/profile/schemas/profile.schema";
-import { Save } from "lucide-react";
-import { useUpdateProfile } from "@/features/profile/hooks/useUpdateProfile";
-import { useUploadMedia } from "@/shared/hooks/useUploadMedia";
-import { useDeleteMedia } from "@/shared/hooks/useDeleteMedia";
-import { toast } from "sonner";
-import { queryClient } from "@/main";
-import { fetchProfile } from "@/features/profile/services/profile.service";
-import { createFileRoute } from "@tanstack/react-router";
 import { useFetchExpertiseAreas } from "@/features/auth/hooks";
+import { ExpertiseSkills } from "@/features/profile/components/Expertises";
+import { PersonalInfo } from "@/features/profile/components/PersonalInfo";
+import { ProfileSidebar } from "@/features/profile/components/ProfileSideBar";
+import { QuickStats } from "@/features/profile/components/QuickStats";
+import { useUpdateProfile } from "@/features/profile/hooks/useUpdateProfile";
+import type { ProfileFormData } from "@/features/profile/schemas/profile.schema";
+import { profileSchema } from "@/features/profile/schemas/profile.schema";
+import { fetchProfile } from "@/features/profile/services/profile.service";
+import { queryClient } from "@/main";
+import { useDeleteMedia } from "@/shared/hooks/useDeleteMedia";
+import { useUploadMedia } from "@/shared/hooks/useUploadMedia";
 import type { CloudinaryResponse } from "@/shared/types/cloudinaryResponse";
 
 export const Route = createFileRoute("/(authenticated)/profile")({
@@ -175,7 +176,9 @@ function RouteComponent() {
 						onImageSelect={handleImageSelect}
 						onToggleEdit={toggleEditMode}
 						onSave={form.handleSubmit(onSubmit)}
-						onTogglePasswordForm={() => setShowChangePassword(!showChangePassword)}
+						onTogglePasswordForm={() =>
+							setShowChangePassword(!showChangePassword)
+						}
 					/>
 
 					<QuickStats
@@ -183,7 +186,6 @@ function RouteComponent() {
 						skillsCount={form.watch("interestedSkills")?.length || 0}
 						role={loaderData.role}
 					/>
-
 				</div>
 
 				{/* Main Content */}
@@ -197,7 +199,10 @@ function RouteComponent() {
 						</CardHeader>
 						<CardContent>
 							<FormProvider {...form}>
-								<form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
+								<form
+									onSubmit={form.handleSubmit(onSubmit)}
+									className="space-y-6"
+								>
 									<PersonalInfo
 										email={loaderData.email}
 										phone={loaderData.phone}
@@ -213,12 +218,23 @@ function RouteComponent() {
 
 									{isEditing && (
 										<div className="flex justify-end space-x-2 pt-4">
-											<Button className="cursor-pointer" type="button" variant="outline" onClick={toggleEditMode}>
+											<Button
+												className="cursor-pointer"
+												type="button"
+												variant="outline"
+												onClick={toggleEditMode}
+											>
 												Cancel
 											</Button>
-											<Button className="cursor-pointer" type="submit" disabled={updateProfileMutation.isPending}>
+											<Button
+												className="cursor-pointer"
+												type="submit"
+												disabled={updateProfileMutation.isPending}
+											>
 												<Save className="h-4 w-4 mr-2" />
-												{updateProfileMutation.isPending ? "Saving..." : "Save Changes"}
+												{updateProfileMutation.isPending
+													? "Saving..."
+													: "Save Changes"}
 											</Button>
 										</div>
 									)}

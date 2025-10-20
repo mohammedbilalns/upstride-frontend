@@ -22,7 +22,7 @@ createRoot(document.getElementById("root")!).render(
 	<StrictMode>
 		<GoogleOAuthProvider clientId={GOOGLE_CLIENT_ID}>
 			<QueryClientProvider client={queryClient}>
-				<AppInitializer/>
+				<AppInitializer />
 				<RouterProvider router={router} />
 				<ReactQueryDevtools initialIsOpen={false} />
 			</QueryClientProvider>
