@@ -1,7 +1,8 @@
 import { createFileRoute, useNavigate } from "@tanstack/react-router";
 import { ChevronDown, ChevronRight } from "lucide-react";
 import { Fragment, useState } from "react";
-import { ConfirmDialog, Pagination } from "@/components";
+import { ConfirmDialog } from "@/components/common/confirm";
+import { Pagination } from "@/components/common/pagination";
 import { Button } from "@/components/ui/button";
 import {
 	Table,
@@ -11,29 +12,25 @@ import {
 	TableHeader,
 	TableRow,
 } from "@/components/ui/table";
+import {
+	CreateExpertiseDialog,
+	UpdateExpertiseDialog,
+} from "@/features/admin/expertise-mangement/components";
+import ExpertiseSkillsCollapse from "@/features/admin/expertise-mangement/components/skillsCollapse";
+import { useVerifyExpertise } from "@/features/admin/expertise-mangement/hooks";
 import { queryClient } from "@/main";
-import type { Expertise } from "@/types";
-import SearchBar from "../-components/searchBar";
+import type { Expertise } from "@/shared/types";
+import SearchBar from "../../../features/admin/components/SearchBar";
+import { fetchExpertises } from "../../../features/admin/expertise-mangement/services/expertise-management.service";
+import StatusBadge from "../../../features/admin/mentor-management/components/statusBadge";
 import {
 	paramsSchema,
 	type RowsPerPage,
-} from "../-validtations/searchParamsSchema";
-import {
-	CreateExpertiseDialog,
-	StatusBadge,
-	UpdateExpertiseDialog,
-} from "./-components";
-import ExpertiseSkillsCollapse from "./-components/skillsCollapse";
-import { useVerifyExpertise } from "./-hooks/useVerifyExpertise";
-import { fetchExpertises } from "./-services/expertiseManagement.service";
+} from "../../../features/admin/schemas/searchParamsSchema";
 
 export const Route = createFileRoute("/admin/expertisemanagement/")({
 	component: RouteComponent,
-	validateSearch: (input) => {
-		const result = paramsSchema.safeParse(input);
-		if (result.success) return result.data;
-		return { page: 1, rowsPerPage: 10, search: "" };
-	},
+	validateSearch: paramsSchema,
 	loaderDeps: ({ search }) => ({
 		page: search.page,
 		rowsPerPage: search.rowsPerPage,

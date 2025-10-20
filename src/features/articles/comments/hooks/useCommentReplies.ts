@@ -37,7 +37,7 @@ export function useCommentReplies(articleId: string, commentId: string) {
 
 		const allReplies = repliesData.pages.flatMap((page) => page.comments);
 
-		setReplies(allReplies);
+			setReplies(allReplies);
 
 		const total = repliesData.pages[0]?.total;
 		if (total !== undefined) {

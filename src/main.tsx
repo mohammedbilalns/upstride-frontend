@@ -5,7 +5,8 @@ import { GoogleOAuthProvider } from "@react-oauth/google";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { ReactQueryDevtools } from "@tanstack/react-query-devtools";
 import { RouterProvider } from "@tanstack/react-router";
-import { router } from "./lib/routerConfig";
+import { router } from "./app/router/routerConfig";
+import { AppInitializer } from "./shared/utils/initialiser";
 
 export const queryClient = new QueryClient();
 
@@ -21,7 +22,7 @@ createRoot(document.getElementById("root")!).render(
 	<StrictMode>
 		<GoogleOAuthProvider clientId={GOOGLE_CLIENT_ID}>
 			<QueryClientProvider client={queryClient}>
-				<AppInitializer />
+				<AppInitializer/>
 				<RouterProvider router={router} />
 				<ReactQueryDevtools initialIsOpen={false} />
 			</QueryClientProvider>

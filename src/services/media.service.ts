@@ -1,5 +1,5 @@
 import api from "@/api/api";
-import { API_ROUTES } from "@/constants/routes";
+import { API_ROUTES } from "@/shared/constants/routes";
 
 export async function generateToken(resource_type: string) {
 	try {

@@ -1,5 +1,5 @@
 import { createFileRoute } from "@tanstack/react-router";
-import { publicGuard } from "@/components/guards/public-guard";
+import { publicGuard } from "@/app/guards/public-guard";
 import LandingPage from "@/components/landing";
 
 export const Route = createFileRoute("/")({
