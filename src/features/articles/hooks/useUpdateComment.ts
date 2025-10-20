@@ -1,5 +1,5 @@
-import { useMutation, useQueryClient } from "@tanstack/react-query";
 import type { InfiniteData } from "@tanstack/react-query";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { toast } from "sonner";
 import type { ApiError } from "@/shared/types";
 import type { Comment } from "@/shared/types/comment";
@@ -41,9 +41,7 @@ export const useUpdateComment = (articleId: string) => {
 						pages: oldData.pages.map((page) => ({
 							...page,
 							comments: page.comments.map((comment) =>
-								comment.id === commentId
-									? { ...comment, content }
-									: comment,
+								comment.id === commentId ? { ...comment, content } : comment,
 							),
 						})),
 					};

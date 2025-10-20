@@ -55,7 +55,6 @@ export async function updateComment(commentId: string, content: string) {
 }
 
 export async function deleteComment(commentId: string) {
-	console.log("commentdi in client service,", commentId)
 	try {
 		const response = await api.delete(API_ROUTES.COMMENT.BASE, {
 			params: { commentId },

@@ -1,7 +1,6 @@
-
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { Award, BarChart3, Users } from "lucide-react";
 import { Badge } from "@/components/ui/badge";
-import { BarChart3, Users, Award, } from "lucide-react";
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 
 interface QuickStatsProps {
 	expertiseCount: number;
@@ -9,7 +8,11 @@ interface QuickStatsProps {
 	role: string;
 }
 
-export function QuickStats({ expertiseCount, skillsCount, role }: QuickStatsProps) {
+export function QuickStats({
+	expertiseCount,
+	skillsCount,
+	role,
+}: QuickStatsProps) {
 	return (
 		<Card className="h-fit">
 			<CardHeader>

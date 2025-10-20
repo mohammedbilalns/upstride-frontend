@@ -1,9 +1,8 @@
 import { useQuery } from "@tanstack/react-query";
 import { useEffect } from "react";
 import api from "@/api/api";
-import { useAuthStore } from "@/app/store/auth.store";
-import { useSocketStore } from "@/app/store/socket.store";
-import { API_ROUTES } from "@/shared/constants/routes";
+import { API_ROUTES } from "@/constants/routes";
+import { useAuthStore } from "@/store/auth.store";
 
 export function useCurrentUser() {
   const { setUser, clearUser, isLoggedIn } = useAuthStore((state) => state);

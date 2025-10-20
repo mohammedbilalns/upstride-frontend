@@ -1,12 +1,22 @@
+import { zodResolver } from "@hookform/resolvers/zod";
+import { Eye, EyeOff, Loader2 } from "lucide-react";
 import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { Button } from "@/components/ui/button";
+import {
+	Form,
+	FormControl,
+	FormField,
+	FormItem,
+	FormLabel,
+	FormMessage,
+} from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
-import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form";
-import { Eye, EyeOff, Loader2 } from "lucide-react";
-import { passwordSchema, type PasswordFormData } from "../schemas/password.schema";
 import { useChangePassword } from "../hooks/useChangePassword";
-import { zodResolver } from "@hookform/resolvers/zod";
+import {
+	type PasswordFormData,
+	passwordSchema,
+} from "../schemas/password.schema";
 
 interface ChangePasswordFormProps {
 	onSuccess?: () => void;
@@ -30,16 +40,16 @@ export function ChangePasswordForm({ onSuccess }: ChangePasswordFormProps) {
 
 	const onSubmit = (data: PasswordFormData) => {
 		updatePasswordMutation.mutate(
-			{ 
-				oldPassword: data.oldPassword, 
-				newPassword: data.newPassword 
+			{
+				oldPassword: data.oldPassword,
+				newPassword: data.newPassword,
 			},
 			{
 				onSuccess: () => {
 					form.reset();
 					onSuccess?.();
-				}
-			}
+				},
+			},
 		);
 	};
 
@@ -79,8 +89,8 @@ export function ChangePasswordForm({ onSuccess }: ChangePasswordFormProps) {
 											{showPasswords.old ? (
 												<EyeOff className="h-4 w-4" />
 											) : (
-													<Eye className="h-4 w-4" />
-												)}
+												<Eye className="h-4 w-4" />
+											)}
 										</Button>
 									</div>
 								</FormControl>
@@ -113,8 +123,8 @@ export function ChangePasswordForm({ onSuccess }: ChangePasswordFormProps) {
 											{showPasswords.new ? (
 												<EyeOff className="h-4 w-4" />
 											) : (
-													<Eye className="h-4 w-4" />
-												)}
+												<Eye className="h-4 w-4" />
+											)}
 										</Button>
 									</div>
 								</FormControl>
@@ -141,15 +151,14 @@ export function ChangePasswordForm({ onSuccess }: ChangePasswordFormProps) {
 											type="button"
 											variant="ghost"
 											size="sm"
-
 											className="cursor-pointer absolute right-0 top-0 h-full px-3 py-2 hover:bg-transparent"
 											onClick={() => togglePasswordVisibility("confirm")}
 										>
 											{showPasswords.confirm ? (
 												<EyeOff className="h-4 w-4" />
 											) : (
-													<Eye className="h-4 w-4" />
-												)}
+												<Eye className="h-4 w-4" />
+											)}
 										</Button>
 									</div>
 								</FormControl>
@@ -171,15 +180,19 @@ export function ChangePasswordForm({ onSuccess }: ChangePasswordFormProps) {
 						>
 							Cancel
 						</Button>
-						<Button type="submit" className="cursor-pointer" disabled={updatePasswordMutation.isPending}>
+						<Button
+							type="submit"
+							className="cursor-pointer"
+							disabled={updatePasswordMutation.isPending}
+						>
 							{updatePasswordMutation.isPending ? (
 								<>
 									<Loader2 className="h-4 w-4 mr-2 animate-spin" />
 									Updating...
 								</>
 							) : (
-									"Update Password"
-								)}
+								"Update Password"
+							)}
 						</Button>
 					</div>
 				</form>

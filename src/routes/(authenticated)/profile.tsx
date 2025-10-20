@@ -29,9 +29,9 @@ export const Route = createFileRoute("/(authenticated)/profile")({
 		if (!user) return;
 		return queryClient.fetchQuery({
 			queryKey: ["profile"],
-			queryFn: () => fetchProfile(user?.id)
+			queryFn: () => fetchProfile(user?.id),
 		});
-	}
+	},
 });
 
 function RouteComponent() {
@@ -40,11 +40,14 @@ function RouteComponent() {
 
 	const [isEditing, setIsEditing] = useState(false);
 	const [showChangePassword, setShowChangePassword] = useState(false);
-	const [uploadedImage, setUploadedImage] = useState<CloudinaryResponse | null>(null);
+	const [uploadedImage, setUploadedImage] = useState<CloudinaryResponse | null>(
+		null,
+	);
 	const [showCropper, setShowCropper] = useState(false);
 	const [selectedImage, setSelectedImage] = useState<string>("");
 
-	const expertiseIds = loaderData.interestedExpertises?.map((e: any) => e._id) || [];
+	const expertiseIds =
+		loaderData.interestedExpertises?.map((e: any) => e._id) || [];
 	const skillIds = loaderData.interestedSkills?.map((s: any) => s._id) || [];
 
 	const updateProfileMutation = useUpdateProfile();
@@ -147,7 +150,10 @@ function RouteComponent() {
 
 	const handleRemoveExpertise = (expertiseId: string) => {
 		const currentExpertises = form.getValues("interestedExpertises") || [];
-		form.setValue("interestedExpertises", currentExpertises.filter(id => id !== expertiseId));
+		form.setValue(
+			"interestedExpertises",
+			currentExpertises.filter((id) => id !== expertiseId),
+		);
 	};
 
 	const handleUpdateSkills = (skills: string[]) => {

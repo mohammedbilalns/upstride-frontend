@@ -12,11 +12,11 @@ import { articlesParamsSchema } from "../../../features/articles/schemas/article
 
 export const Route = createFileRoute("/(authenticated)/articles/")({
 	component: RouteComponent,
-	validateSearch: articlesParamsSchema,	
-	loaderDeps: ({search}) =>({
+	validateSearch: articlesParamsSchema,
+	loaderDeps: ({ search }) => ({
 		category: search.category,
 		sortBy: search.sortBy,
-		tag: search.tag
+		tag: search.tag,
 	}),
 	loader: async ({ deps }) => {
 		const initialData = await fetchArticles(
@@ -24,7 +24,7 @@ export const Route = createFileRoute("/(authenticated)/articles/")({
 			"",
 			deps.category ?? "",
 			deps.tag ?? "",
-			deps.sortBy ?? ""
+			deps.sortBy ?? "",
 		);
 		return { initialData };
 	},
@@ -39,12 +39,12 @@ function RouteComponent() {
 	const [viewMode, setViewMode] = useState<"grid" | "list">("grid");
 	const debouncedSearchInput = useDebounce(searchInput, 500);
 
-	const { 
-		data, 
-		fetchNextPage, 
+	const {
+		data,
+		fetchNextPage,
 		isFetchingNextPage,
 		isFetching, // Track the overall fetching state
-		isLoading // Track the initial loading state
+		isLoading, // Track the initial loading state
 	} = useInfiniteQuery({
 		queryKey: ["articles", debouncedSearchInput, searchParams],
 		queryFn: ({ pageParam = 1 }) =>

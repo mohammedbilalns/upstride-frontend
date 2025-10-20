@@ -1,7 +1,6 @@
 import api from "@/api/api";
 import { API_ROUTES } from "@/shared/constants/routes";
 
-
 export async function fetchProfile(id: string) {
 	try {
 		const response = await api.get(API_ROUTES.PROFILE.FETCH(id));
@@ -22,7 +21,10 @@ export async function updateProfile(data: unknown) {
 	}
 }
 
-export async function changePassword(data:{oldPassword:string, newPassword:string}) {
+export async function changePassword(data: {
+	oldPassword: string;
+	newPassword: string;
+}) {
 	try {
 		const response = await api.put(API_ROUTES.PROFILE.UPDATE_PASSWORD, data);
 		return response.data;

@@ -63,8 +63,8 @@ export const API_ROUTES = {
 		BASE: "/comments",
 	},
 	PROFILE: {
-		FETCH:(id:string)=>`/profile/${id}`,
+		FETCH: (id: string) => `/profile/${id}`,
 		UPDATE: "/profile",
 		UPDATE_PASSWORD: "/profile/change-password",
-	}
+	},
 };

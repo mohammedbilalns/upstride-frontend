@@ -28,6 +28,7 @@ import { Route as AdminDashboardIndexRouteImport } from './routes/admin/dashboar
 import { Route as authenticatedHomeIndexRouteImport } from './routes/(authenticated)/home/index'
 import { Route as authenticatedChatsIndexRouteImport } from './routes/(authenticated)/chats/index'
 import { Route as authenticatedArticlesIndexRouteImport } from './routes/(authenticated)/articles/index'
+import { Route as authenticatedMentorMentorIdRouteImport } from './routes/(authenticated)/mentor/$mentorId'
 import { Route as authenticatedChatsChatIdRouteImport } from './routes/(authenticated)/chats/$chatId'
 import { Route as authenticatedArticlesArticleIdRouteImport } from './routes/(authenticated)/articles/$articleId'
 import { Route as authenticatedMentorRegisterIndexRouteImport } from './routes/(authenticated)/mentor/register/index'
@@ -133,6 +134,12 @@ const authenticatedArticlesIndexRoute =
     path: '/articles/',
     getParentRoute: () => authenticatedRouteRoute,
   } as any)
+const authenticatedMentorMentorIdRoute =
+  authenticatedMentorMentorIdRouteImport.update({
+    id: '/mentor/$mentorId',
+    path: '/mentor/$mentorId',
+    getParentRoute: () => authenticatedRouteRoute,
+  } as any)
 const authenticatedChatsChatIdRoute =
   authenticatedChatsChatIdRouteImport.update({
     id: '/chats/$chatId',
@@ -178,6 +185,7 @@ export interface FileRoutesByFullPath {
   '/unauthorized': typeof UnauthorizedIndexRoute
   '/articles/$articleId': typeof authenticatedArticlesArticleIdRoute
   '/chats/$chatId': typeof authenticatedChatsChatIdRoute
+  '/mentor/$mentorId': typeof authenticatedMentorMentorIdRoute
   '/articles': typeof authenticatedArticlesIndexRoute
   '/chats': typeof authenticatedChatsIndexRoute
   '/home': typeof authenticatedHomeIndexRoute
@@ -201,6 +209,7 @@ export interface FileRoutesByTo {
   '/unauthorized': typeof UnauthorizedIndexRoute
   '/articles/$articleId': typeof authenticatedArticlesArticleIdRoute
   '/chats/$chatId': typeof authenticatedChatsChatIdRoute
+  '/mentor/$mentorId': typeof authenticatedMentorMentorIdRoute
   '/articles': typeof authenticatedArticlesIndexRoute
   '/chats': typeof authenticatedChatsIndexRoute
   '/home': typeof authenticatedHomeIndexRoute
@@ -228,6 +237,7 @@ export interface FileRoutesById {
   '/unauthorized/': typeof UnauthorizedIndexRoute
   '/(authenticated)/articles/$articleId': typeof authenticatedArticlesArticleIdRoute
   '/(authenticated)/chats/$chatId': typeof authenticatedChatsChatIdRoute
+  '/(authenticated)/mentor/$mentorId': typeof authenticatedMentorMentorIdRoute
   '/(authenticated)/articles/': typeof authenticatedArticlesIndexRoute
   '/(authenticated)/chats/': typeof authenticatedChatsIndexRoute
   '/(authenticated)/home/': typeof authenticatedHomeIndexRoute
@@ -255,6 +265,7 @@ export interface FileRouteTypes {
     | '/unauthorized'
     | '/articles/$articleId'
     | '/chats/$chatId'
+    | '/mentor/$mentorId'
     | '/articles'
     | '/chats'
     | '/home'
@@ -278,6 +289,7 @@ export interface FileRouteTypes {
     | '/unauthorized'
     | '/articles/$articleId'
     | '/chats/$chatId'
+    | '/mentor/$mentorId'
     | '/articles'
     | '/chats'
     | '/home'
@@ -304,6 +316,7 @@ export interface FileRouteTypes {
     | '/unauthorized/'
     | '/(authenticated)/articles/$articleId'
     | '/(authenticated)/chats/$chatId'
+    | '/(authenticated)/mentor/$mentorId'
     | '/(authenticated)/articles/'
     | '/(authenticated)/chats/'
     | '/(authenticated)/home/'
@@ -460,6 +473,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof authenticatedArticlesIndexRouteImport
       parentRoute: typeof authenticatedRouteRoute
     }
+    '/(authenticated)/mentor/$mentorId': {
+      id: '/(authenticated)/mentor/$mentorId'
+      path: '/mentor/$mentorId'
+      fullPath: '/mentor/$mentorId'
+      preLoaderRoute: typeof authenticatedMentorMentorIdRouteImport
+      parentRoute: typeof authenticatedRouteRoute
+    }
     '/(authenticated)/chats/$chatId': {
       id: '/(authenticated)/chats/$chatId'
       path: '/chats/$chatId'
@@ -505,6 +525,7 @@ interface authenticatedRouteRouteChildren {
   authenticatedSessionsRoute: typeof authenticatedSessionsRoute
   authenticatedArticlesArticleIdRoute: typeof authenticatedArticlesArticleIdRoute
   authenticatedChatsChatIdRoute: typeof authenticatedChatsChatIdRoute
+  authenticatedMentorMentorIdRoute: typeof authenticatedMentorMentorIdRoute
   authenticatedArticlesIndexRoute: typeof authenticatedArticlesIndexRoute
   authenticatedChatsIndexRoute: typeof authenticatedChatsIndexRoute
   authenticatedHomeIndexRoute: typeof authenticatedHomeIndexRoute
@@ -520,6 +541,7 @@ const authenticatedRouteRouteChildren: authenticatedRouteRouteChildren = {
   authenticatedSessionsRoute: authenticatedSessionsRoute,
   authenticatedArticlesArticleIdRoute: authenticatedArticlesArticleIdRoute,
   authenticatedChatsChatIdRoute: authenticatedChatsChatIdRoute,
+  authenticatedMentorMentorIdRoute: authenticatedMentorMentorIdRoute,
   authenticatedArticlesIndexRoute: authenticatedArticlesIndexRoute,
   authenticatedChatsIndexRoute: authenticatedChatsIndexRoute,
   authenticatedHomeIndexRoute: authenticatedHomeIndexRoute,

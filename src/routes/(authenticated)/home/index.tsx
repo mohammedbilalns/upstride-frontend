@@ -33,7 +33,7 @@ function RouteComponent() {
 	const { user } = useAuthStore();
 	const isUser = true;
 	const isMentor = user?.role === "mentor";
-	const isExceededLimit =  false // temp for now 
+	const isExceededLimit = false; // temp for now
 
 	return (
 		<div className="min-h-screen bg-background">

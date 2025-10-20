@@ -1,6 +1,12 @@
-import { FormControl, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form";
-import { Input } from "@/components/ui/input";
 import { useFormContext } from "react-hook-form";
+import {
+	FormControl,
+	FormField,
+	FormItem,
+	FormLabel,
+	FormMessage,
+} from "@/components/ui/form";
+import { Input } from "@/components/ui/input";
 
 interface PersonalInfoProps {
 	email: string;
@@ -39,11 +45,7 @@ export function PersonalInfo({ email, phone, isEditing }: PersonalInfoProps) {
 				</div>
 				<div>
 					<FormLabel>Phone</FormLabel>
-					<Input
-						className="mt-2"
-						value={phone || ""}
-						disabled={true}
-					/>
+					<Input className="mt-2" value={phone || ""} disabled={true} />
 				</div>
 			</div>
 		</div>

@@ -1,6 +1,6 @@
 import { Button } from "@/components/ui/button";
 import { Skeleton } from "@/components/ui/skeleton";
-import type { ArticleInList} from "@/shared/types/article";
+import type { ArticleInList } from "@/shared/types/article";
 import { cn } from "@/shared/utils/utils";
 import { ArticleCard } from "./ArticleCard";
 
@@ -33,9 +33,22 @@ export function ArticleGrid({
 					)}
 				>
 					{Array.from({ length: 8 }).map((_, index) => (
-						<div key={index} className={cn(viewMode === "grid" ? "space-y-3" : "flex gap-4")}>
-							<Skeleton className={cn(viewMode === "grid" ? "h-40 w-full" : "h-24 w-24 flex-shrink-0")} />
-							<div className={cn(viewMode === "grid" ? "space-y-2" : "flex-1 space-y-2")}>
+						<div
+							key={index}
+							className={cn(viewMode === "grid" ? "space-y-3" : "flex gap-4")}
+						>
+							<Skeleton
+								className={cn(
+									viewMode === "grid"
+										? "h-40 w-full"
+										: "h-24 w-24 flex-shrink-0",
+								)}
+							/>
+							<div
+								className={cn(
+									viewMode === "grid" ? "space-y-2" : "flex-1 space-y-2",
+								)}
+							>
 								<Skeleton className="h-4 w-3/4" />
 								<Skeleton className="h-4 w-1/2" />
 								<Skeleton className="h-3 w-full" />

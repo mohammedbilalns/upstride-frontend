@@ -1,9 +1,9 @@
-import React from "react";
+import { Edit, Lock, Save, Upload, User } from "lucide-react";
+import type React from "react";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
-import { Edit, Lock, Save, Upload, User } from "lucide-react";
 import { ChangePasswordForm } from "./ChangePasswordForm";
 
 interface ProfileSidebarProps {
@@ -42,10 +42,10 @@ export function ProfileSidebar({
 							className="w-24 h-24 rounded-full object-cover mb-4"
 						/>
 					) : (
-							<div className="w-24 h-24 rounded-full bg-muted flex items-center justify-center mb-4">
-								<User className="w-12 h-12 text-muted-foreground" />
-							</div>
-						)}
+						<div className="w-24 h-24 rounded-full bg-muted flex items-center justify-center mb-4">
+							<User className="w-12 h-12 text-muted-foreground" />
+						</div>
+					)}
 					{isEditing && (
 						<div className="mb-4">
 							<Input
@@ -60,7 +60,9 @@ export function ProfileSidebar({
 								variant="outline"
 								size="sm"
 								className="cursor-pointer"
-								onClick={() => document.getElementById('profile-picture-upload')?.click()}
+								onClick={() =>
+									document.getElementById("profile-picture-upload")?.click()
+								}
 								disabled={isUploading}
 							>
 								<Upload className="h-4 w-4 mr-1" />
@@ -69,12 +71,20 @@ export function ProfileSidebar({
 						</div>
 					)}
 					<h2 className="text-xl font-semibold mb-2">{name}</h2>
-					<Badge variant={role === "mentor" ? "default" : "secondary"} className="mb-4">
+					<Badge
+						variant={role === "mentor" ? "default" : "secondary"}
+						className="mb-4"
+					>
 						{role === "mentor" ? "Mentor" : "User"}
 					</Badge>
 					{isEditing ? (
 						<div className="flex space-x-2 mb-4">
-							<Button variant="outline" size="sm" className="cursor-pointer" onClick={onToggleEdit}>
+							<Button
+								variant="outline"
+								size="sm"
+								className="cursor-pointer"
+								onClick={onToggleEdit}
+							>
 								Cancel
 							</Button>
 							<Button className="cursor-pointer" size="sm" onClick={onSave}>
@@ -83,11 +93,16 @@ export function ProfileSidebar({
 							</Button>
 						</div>
 					) : (
-							<Button variant="outline" size="sm" onClick={onToggleEdit} className="mb-4 cursor-pointer">
-								<Edit className="h-4 w-4 mr-1" />
-								Edit Profile
-							</Button>
-						)}
+						<Button
+							variant="outline"
+							size="sm"
+							onClick={onToggleEdit}
+							className="mb-4 cursor-pointer"
+						>
+							<Edit className="h-4 w-4 mr-1" />
+							Edit Profile
+						</Button>
+					)}
 					<div className="w-full">
 						<h3 className="font-medium mb-2">Account Settings</h3>
 						<Button
@@ -101,9 +116,7 @@ export function ProfileSidebar({
 
 						{showChangePassword && (
 							<div className="mt-2 w-full">
-								<ChangePasswordForm
-									onSuccess={() => onTogglePasswordForm()}
-								/>
+								<ChangePasswordForm onSuccess={() => onTogglePasswordForm()} />
 							</div>
 						)}
 					</div>
