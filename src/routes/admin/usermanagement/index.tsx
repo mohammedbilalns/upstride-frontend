@@ -15,7 +15,6 @@ import {
 	useBlockUser,
 	useUnBlockUser,
 } from "@/features/admin/user-management/hooks";
-import { queryClient } from "@/main";
 import type { User } from "@/shared/types";
 import SearchBar from "../../../features/admin/components/SearchBar";
 import {
@@ -33,9 +32,9 @@ export const Route = createFileRoute("/admin/usermanagement/")({
 		search: search.search,
 	}),
 
-	loader: async ({ deps }) => {
+	loader: async ({ deps , context }) => {
 		const { page, rowsPerPage, search: query } = deps;
-		return queryClient.fetchQuery({
+		return context.queryClient.ensureQueryData({
 			queryKey: ["users", page, rowsPerPage, query],
 			queryFn: () => fetchUsers(String(page), String(rowsPerPage), query),
 		});
@@ -126,75 +125,75 @@ function RouteComponent() {
 										</TableCell>
 									</TableRow>
 								) : (
-									users.map((user: User) => (
-										<TableRow key={user.id}>
-											<TableCell className="font-medium">{user.name}</TableCell>
-											<TableCell>{user.email}</TableCell>
-											<TableCell className="hidden md:table-cell">
-												{user.role}
-											</TableCell>
-											<TableCell className="hidden sm:table-cell">
-												{user.createdAt
-													? new Date(user.createdAt).toLocaleDateString()
-													: "—"}
-											</TableCell>
-											<TableCell className="hidden sm:table-cell w-24">
-												{user.isBlocked ? (
-													<span className="text-red-500 font-medium ">
-														Blocked
-													</span>
-												) : (
-													<span className="text-green-600 font-medium">
-														Active
-													</span>
-												)}
-											</TableCell>
+										users.map((user: User) => (
+											<TableRow key={user.id}>
+												<TableCell className="font-medium">{user.name}</TableCell>
+												<TableCell>{user.email}</TableCell>
+												<TableCell className="hidden md:table-cell">
+													{user.role}
+												</TableCell>
+												<TableCell className="hidden sm:table-cell">
+													{user.createdAt
+														? new Date(user.createdAt).toLocaleDateString()
+														: "—"}
+												</TableCell>
+												<TableCell className="hidden sm:table-cell w-24">
+													{user.isBlocked ? (
+														<span className="text-red-500 font-medium ">
+															Blocked
+														</span>
+													) : (
+															<span className="text-green-600 font-medium">
+																Active
+															</span>
+														)}
+												</TableCell>
 
-											<TableCell className="text-right">
-												{user.isBlocked ? (
-													<ConfirmDialog
-														title="Unblock User"
-														description={`Are you sure you want to unblock ${user.name}? This user will regain access to their account.`}
-														confirmText="Unblock User"
-														icon={
-															<UserCheck className="h-5 w-5 text-green-500" />
-														}
-														onConfirm={() => handleUnblock(user.id)}
-														disabled={isActionLoading}
-													>
-														<Button
-															size="sm"
-															variant="secondary"
+												<TableCell className="text-right">
+													{user.isBlocked ? (
+														<ConfirmDialog
+															title="Unblock User"
+															description={`Are you sure you want to unblock ${user.name}? This user will regain access to their account.`}
+															confirmText="Unblock User"
+															icon={
+																<UserCheck className="h-5 w-5 text-green-500" />
+															}
+															onConfirm={() => handleUnblock(user.id)}
 															disabled={isActionLoading}
-															className="cursor-pointer w-20"
 														>
-															Unblock
-														</Button>
-													</ConfirmDialog>
-												) : (
-													<ConfirmDialog
-														title="Block User"
-														description={`Are you sure you want to block ${user.name}? This user will no longer be able to access their account.`}
-														confirmText="Block User"
-														variant="destructive"
-														icon={<UserX className="h-5 w-5 text-red-500" />}
-														onConfirm={() => handleBlock(user.id)}
-														disabled={isActionLoading}
-													>
-														<Button
-															size="sm"
-															variant="destructive"
-															disabled={isActionLoading}
-															className="cursor-pointer w-20"
-														>
-															Block
-														</Button>
-													</ConfirmDialog>
-												)}
-											</TableCell>
-										</TableRow>
-									))
-								)}
+															<Button
+																size="sm"
+																variant="secondary"
+																disabled={isActionLoading}
+																className="cursor-pointer w-20"
+															>
+																Unblock
+															</Button>
+														</ConfirmDialog>
+													) : (
+															<ConfirmDialog
+																title="Block User"
+																description={`Are you sure you want to block ${user.name}? This user will no longer be able to access their account.`}
+																confirmText="Block User"
+																variant="destructive"
+																icon={<UserX className="h-5 w-5 text-red-500" />}
+																onConfirm={() => handleBlock(user.id)}
+																disabled={isActionLoading}
+															>
+																<Button
+																	size="sm"
+																	variant="destructive"
+																	disabled={isActionLoading}
+																	className="cursor-pointer w-20"
+																>
+																	Block
+																</Button>
+															</ConfirmDialog>
+														)}
+												</TableCell>
+											</TableRow>
+										))
+									)}
 							</TableBody>
 						</Table>
 					</div>

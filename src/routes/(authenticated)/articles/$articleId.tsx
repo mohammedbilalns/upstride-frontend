@@ -22,15 +22,14 @@ import {
 	deleteArticle,
 	fetchArticle,
 } from "@/features/articles/services/article.service";
-import { queryClient } from "@/main";
 import type { Article, Tag } from "@/shared/types/article";
 
 export const Route = createFileRoute("/(authenticated)/articles/$articleId")({
 	component: RouteComponent,
 	notFoundComponent: ArticleNotFound,
-	loader: async ({ params }) => {
+	loader: async ({ params, context	}) => {
 		const { articleId } = params;
-		return queryClient.fetchQuery({
+		return context.queryClient.fetchQuery({
 			queryKey: ["article", articleId],
 			queryFn: () => fetchArticle(articleId),
 		});

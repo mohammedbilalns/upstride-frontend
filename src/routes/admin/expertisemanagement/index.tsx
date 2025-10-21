@@ -18,7 +18,6 @@ import {
 } from "@/features/admin/expertise-mangement/components";
 import ExpertiseSkillsCollapse from "@/features/admin/expertise-mangement/components/skillsCollapse";
 import { useVerifyExpertise } from "@/features/admin/expertise-mangement/hooks";
-import { queryClient } from "@/main";
 import type { Expertise } from "@/shared/types";
 import SearchBar from "../../../features/admin/components/SearchBar";
 import { fetchExpertises } from "../../../features/admin/expertise-mangement/services/expertise-management.service";
@@ -36,9 +35,9 @@ export const Route = createFileRoute("/admin/expertisemanagement/")({
 		rowsPerPage: search.rowsPerPage,
 		search: search.search,
 	}),
-	loader: async ({ deps }) => {
+	loader: async ({ deps, context }) => {
 		const { page, rowsPerPage, search: query } = deps;
-		return queryClient.fetchQuery({
+		return context.queryClient.fetchQuery({
 			queryKey: ["expertises", page, rowsPerPage, query],
 			queryFn: () => fetchExpertises(String(page), String(rowsPerPage), query),
 		});

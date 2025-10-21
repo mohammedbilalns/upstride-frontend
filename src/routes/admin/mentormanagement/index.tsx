@@ -21,7 +21,6 @@ import {
 	TableHeader,
 	TableRow,
 } from "@/components/ui/table";
-import { queryClient } from "@/main";
 import type { Mentor } from "@/shared/types/mentor";
 import SearchBar from "../../../features/admin/components/SearchBar";
 import StatusBadge from "../../../features/admin/mentor-management/components/statusBadge";
@@ -45,15 +44,16 @@ export const Route = createFileRoute("/admin/mentormanagement/")({
 		search: search.search,
 		filter: search.filter,
 	}),
-	loader: async ({ deps }) => {
+	loader: async ({ deps , context }) => {
 		const { page, rowsPerPage, search: query, filter } = deps;
-		return queryClient.fetchQuery({
+		return context.queryClient.fetchQuery({
 			queryKey: ["mentors", page, rowsPerPage, query, filter],
 			queryFn: () =>
 				fetchMentors(String(page), String(rowsPerPage), query, filter),
 		});
 	},
 });
+
 type MentorStatus = "pending" | "approved" | "rejected";
 
 function RouteComponent() {

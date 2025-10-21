@@ -1,11 +1,10 @@
 import { createFileRoute } from "@tanstack/react-router";
-import { queryClient } from "@/main";
 
 export const Route = createFileRoute("/(authenticated)/mentor/$mentorId")({
 	component: RouteComponent,
-	loader: async ({ params }) => {
+	loader: async ({ params, context }) => {
 		const { mentorId } = params;
-		return queryClient.fetchQuery({
+		return context.queryClient.fetchQuery({
 			queryKey: ["mentor", mentorId],
 			queryFn: () => fetchMentor(mentorId),
 		});

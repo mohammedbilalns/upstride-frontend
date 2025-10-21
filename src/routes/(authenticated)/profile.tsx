@@ -18,17 +18,16 @@ import { useUpdateProfile } from "@/features/profile/hooks/useUpdateProfile";
 import type { ProfileFormData } from "@/features/profile/schemas/profile.schema";
 import { profileSchema } from "@/features/profile/schemas/profile.schema";
 import { fetchProfile } from "@/features/profile/services/profile.service";
-import { queryClient } from "@/main";
 import { useDeleteMedia } from "@/shared/hooks/useDeleteMedia";
 import { useUploadMedia } from "@/shared/hooks/useUploadMedia";
 import type { CloudinaryResponse } from "@/shared/types/cloudinaryResponse";
 
 export const Route = createFileRoute("/(authenticated)/profile")({
 	component: RouteComponent,
-	loader: async () => {
-		const { user } = useAuthStore.getState();
+	loader: async ({context}) => {
+		const { user, } = useAuthStore.getState();
 		if (!user) return;
-		return queryClient.fetchQuery({
+		return context.queryClient.fetchQuery({
 			queryKey: ["profile"],
 			queryFn: () => fetchProfile(user?.id),
 		});
