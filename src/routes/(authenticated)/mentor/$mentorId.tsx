@@ -1,5 +1,5 @@
 import { createFileRoute } from "@tanstack/react-router";
-import { queryClient } from "@/main";
+import { queryClient } from "@/router";
 
 export const Route = createFileRoute("/(authenticated)/mentor/$mentorId")({
 	component: RouteComponent,

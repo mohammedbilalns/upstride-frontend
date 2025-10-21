@@ -1,4 +1,4 @@
-import { createFileRoute, useNavigate } from "@tanstack/react-router";
+import { createFileRoute, useNavigate, useRouteContext, useRouterState } from "@tanstack/react-router";
 import { UserCheck, UserX } from "lucide-react";
 import { ConfirmDialog } from "@/components/common/confirm";
 import { Pagination } from "@/components/common/pagination";
@@ -15,7 +15,7 @@ import {
 	useBlockUser,
 	useUnBlockUser,
 } from "@/features/admin/user-management/hooks";
-import { queryClient } from "@/main";
+import { queryClient } from "@/router";
 import type { User } from "@/shared/types";
 import SearchBar from "../../../features/admin/components/SearchBar";
 import {

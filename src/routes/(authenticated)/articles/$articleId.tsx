@@ -22,7 +22,7 @@ import {
 	deleteArticle,
 	fetchArticle,
 } from "@/features/articles/services/article.service";
-import { queryClient } from "@/main";
+import { queryClient } from "@/router";
 import type { Article, Tag } from "@/shared/types/article";
 
 export const Route = createFileRoute("/(authenticated)/articles/$articleId")({

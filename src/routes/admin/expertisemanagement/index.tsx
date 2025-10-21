@@ -18,7 +18,7 @@ import {
 } from "@/features/admin/expertise-mangement/components";
 import ExpertiseSkillsCollapse from "@/features/admin/expertise-mangement/components/skillsCollapse";
 import { useVerifyExpertise } from "@/features/admin/expertise-mangement/hooks";
-import { queryClient } from "@/main";
+import { queryClient } from "@/router";
 import type { Expertise } from "@/shared/types";
 import SearchBar from "../../../features/admin/components/SearchBar";
 import { fetchExpertises } from "../../../features/admin/expertise-mangement/services/expertise-management.service";

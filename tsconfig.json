@@ -6,6 +6,12 @@
 	],
 	"compilerOptions": {
 		"baseUrl": ".",
+		"jsx": "react-jsx",
+		"moduleResoution":"bundler",
+				"module": "ESNext",
+		"target": "ES2022",
+		"skipLibCheck": true,
+		"strictNullChecks": true,
 		"paths": {
 			"@/*": ["./src/*"]
 		}

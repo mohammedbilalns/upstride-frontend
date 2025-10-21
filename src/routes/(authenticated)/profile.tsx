@@ -18,7 +18,7 @@ import { useUpdateProfile } from "@/features/profile/hooks/useUpdateProfile";
 import type { ProfileFormData } from "@/features/profile/schemas/profile.schema";
 import { profileSchema } from "@/features/profile/schemas/profile.schema";
 import { fetchProfile } from "@/features/profile/services/profile.service";
-import { queryClient } from "@/main";
+import { queryClient } from "@/router";
 import { useDeleteMedia } from "@/shared/hooks/useDeleteMedia";
 import { useUploadMedia } from "@/shared/hooks/useUploadMedia";
 import type { CloudinaryResponse } from "@/shared/types/cloudinaryResponse";

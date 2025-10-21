@@ -1,3 +1,4 @@
+// app/hooks/useCurrentUser.ts
 import { useQuery } from "@tanstack/react-query";
 import { useCallback, useEffect, useRef } from "react";
 import api from "@/api/api";
@@ -6,61 +7,62 @@ import { useSocketStore } from "@/app/store/socket.store";
 import { API_ROUTES } from "@/shared/constants/routes";
 
 export function useCurrentUser() {
-	const { setUser, clearUser, isLoggedIn } = useAuthStore((state) => state);
-	const { connect, disconnect } = useSocketStore();
+  const { setUser, clearUser, isLoggedIn } = useAuthStore((state) => state);
+  const { connect, disconnect } = useSocketStore();
 
-	const hasHandledError = useRef(false);
+  const hasHandledError = useRef(false);
 
-	const handleConnect = useCallback(() => {
-		const { socket } = useSocketStore.getState();
-		if (!socket || !socket.connected) {
-			connect();
-		}
-	}, [connect]);
+  const handleConnect = useCallback(() => {
+    const { socket } = useSocketStore.getState();
+    if (!socket || !socket.connected) {
+      connect();
+    }
+  }, [connect]);
 
-	const handleDisconnect = useCallback(() => {
-		disconnect();
-	}, [disconnect]);
+  const handleDisconnect = useCallback(() => {
+    disconnect();
+  }, [disconnect]);
 
-	const query = useQuery({
-		queryKey: ["currentUser"],
-		queryFn: async () => {
-			const response = await api.get(API_ROUTES.AUTH.GET_USERS);
-			return response.data.user;
-		},
-		retry: false,
-		staleTime: 0,
-		enabled: isLoggedIn,
-	});
+  const query = useQuery({
+    queryKey: ["currentUser"],
+    queryFn: async () => {
+      const response = await api.get(API_ROUTES.AUTH.GET_USERS);
+      return response.data.user;
+    },
+    retry: false,
+    staleTime: 0,
+    // Only run the query if we're on the client side and the user is logged in
+    enabled: typeof window !== "undefined" && isLoggedIn,
+  });
 
-	useEffect(() => {
-		if (query.isSuccess && query.data) {
-			hasHandledError.current = false;
-			setUser(query.data);
-			handleConnect();
-		} else if (query.isError && !hasHandledError.current) {
-			hasHandledError.current = true;
-			clearUser();
-			handleDisconnect();
-		}
-	}, [
-		query.isSuccess,
-		query.isError,
-		query.data,
-		setUser,
-		handleConnect,
-		handleDisconnect,
-	]);
+  useEffect(() => {
+    if (query.isSuccess && query.data) {
+      hasHandledError.current = false;
+      setUser(query.data);
+      handleConnect();
+    } else if (query.isError && !hasHandledError.current) {
+      hasHandledError.current = true;
+      clearUser();
+      handleDisconnect();
+    }
+  }, [
+    query.isSuccess,
+    query.isError,
+    query.data,
+    setUser,
+    handleConnect,
+    handleDisconnect,
+  ]);
 
-	useEffect(() => {
-		const handleBeforeUnload = () => {
-			if (isLoggedIn) handleDisconnect();
-		};
-		window.addEventListener("beforeunload", handleBeforeUnload);
-		return () => {
-			window.removeEventListener("beforeunload", handleBeforeUnload);
-		};
-	}, [handleDisconnect, isLoggedIn]);
+  useEffect(() => {
+    const handleBeforeUnload = () => {
+      if (isLoggedIn) handleDisconnect();
+    };
+    window.addEventListener("beforeunload", handleBeforeUnload);
+    return () => {
+      window.removeEventListener("beforeunload", handleBeforeUnload);
+    };
+  }, [handleDisconnect, isLoggedIn]);
 
-	return query;
+  return query;
 }

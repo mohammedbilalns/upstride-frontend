@@ -21,7 +21,7 @@ import {
 	TableHeader,
 	TableRow,
 } from "@/components/ui/table";
-import { queryClient } from "@/main";
+import { queryClient } from "@/router";
 import type { Mentor } from "@/shared/types/mentor";
 import SearchBar from "../../../features/admin/components/SearchBar";
 import StatusBadge from "../../../features/admin/mentor-management/components/statusBadge";

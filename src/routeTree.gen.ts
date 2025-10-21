@@ -172,7 +172,7 @@ const authenticatedArticlesEditArticleIdRoute =
   } as any)
 
 export interface FileRoutesByFullPath {
-  '/': typeof authenticatedRouteRouteWithChildren
+  '/': typeof IndexRoute
   '/admin': typeof AdminRouteRouteWithChildren
   '/auth': typeof AuthRouteRouteWithChildren
   '/about': typeof AboutRoute
@@ -198,7 +198,7 @@ export interface FileRoutesByFullPath {
   '/mentor/register': typeof authenticatedMentorRegisterIndexRoute
 }
 export interface FileRoutesByTo {
-  '/': typeof authenticatedRouteRouteWithChildren
+  '/': typeof IndexRoute
   '/about': typeof AboutRoute
   '/mentors': typeof authenticatedMentorsRoute
   '/notifications': typeof authenticatedNotificationsRoute
@@ -363,8 +363,8 @@ declare module '@tanstack/react-router' {
     }
     '/(authenticated)': {
       id: '/(authenticated)'
-      path: '/'
-      fullPath: '/'
+      path: ''
+      fullPath: ''
       preLoaderRoute: typeof authenticatedRouteRouteImport
       parentRoute: typeof rootRouteImport
     }
@@ -597,3 +597,12 @@ const rootRouteChildren: RootRouteChildren = {
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
   ._addFileTypes<FileRouteTypes>()
+
+import type { getRouter } from './router.tsx'
+import type { createStart } from '@tanstack/react-start'
+declare module '@tanstack/react-start' {
+  interface Register {
+    ssr: true
+    router: Awaited<ReturnType<typeof getRouter>>
+  }
+}
