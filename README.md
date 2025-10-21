@@ -1,2 +1,2 @@
-# skillsphere-frontend
+# Upstride-frontend
  
