@@ -1,5 +1,4 @@
 import { type InfiniteData, useInfiniteQuery } from "@tanstack/react-query";
-import { useNavigate } from "@tanstack/react-router";
 import { Bell, Loader2 } from "lucide-react";
 import { useCallback, useState } from "react";
 import { Button } from "@/components/ui/button";
@@ -10,67 +9,48 @@ import {
 } from "@/components/ui/popover";
 import { Separator } from "@/components/ui/separator";
 import { NOTIFICATIONS_LIMIT } from "@/shared/constants/common";
+import { useInfiniteScroll } from "@/shared/hooks/useInfinteScroll";
 import type {
-	Notification,
 	NotificationsResponse,
 } from "@/shared/types/notifications";
-import { formatRelativeTime } from "@/shared/utils/dateUtil";
 import { cn } from "@/shared/utils/utils";
 import { useMarkAllNotificationsAsRead } from "../hooks/useMarkAllNotificationsAsRead";
-import { useMarkNotificationAsRead } from "../hooks/useMarkNotificationAsRead";
 import { fetchNotifications } from "../services/notification.service";
-import { getNotificationIcon } from "../utils/getNotificationIcon";
+import NotificationItem from "./NotificationItem";
 
 export function NotificationsDropdown() {
-	const [open, setOpen] = useState(false);
-	const navigate = useNavigate();
+	const [open, setOpen] = useState<boolean>(false);
 
 	const { data, fetchNextPage, hasNextPage, isFetchingNextPage, status } =
-		useInfiniteQuery<
-			NotificationsResponse,
-			Error,
-			InfiniteData<NotificationsResponse>,
-			string[],
-			number
-		>({
-			queryKey: ["notifications"],
-			queryFn: ({ pageParam }) =>
-				fetchNotifications(pageParam, NOTIFICATIONS_LIMIT),
-			initialPageParam: 1,
-			getNextPageParam: (lastPage, _allPages, lastPageParam) => {
-				if (lastPage.notifications.length < NOTIFICATIONS_LIMIT)
-					return undefined;
-				return lastPageParam + 1;
-			},
-		});
-
-	const markNotificationAsReadMutation = useMarkNotificationAsRead();
-	const markAllNotificationsAsReadMutation = useMarkAllNotificationsAsRead();
-
-	const handleMarkNotificationAsRead = useCallback(
-		(id: string) => {
-			markNotificationAsReadMutation.mutate(id);
+	useInfiniteQuery<
+	NotificationsResponse,
+	Error,
+	InfiniteData<NotificationsResponse>,
+	string[],
+	number
+>({
+		queryKey: ["notifications"],
+		queryFn: ({ pageParam }) =>
+			fetchNotifications(pageParam, NOTIFICATIONS_LIMIT),
+		initialPageParam: 1,
+		getNextPageParam: (lastPage, _allPages, lastPageParam) => {
+			if (lastPage.notifications.length < NOTIFICATIONS_LIMIT)
+				return undefined;
+			return lastPageParam + 1;
 		},
-		[markNotificationAsReadMutation],
-	);
+	});
+
+	const { setTarget } = useInfiniteScroll({
+		onIntersect: fetchNextPage,
+		hasNextPage: !!hasNextPage,
+		isFetching: !!isFetchingNextPage,
+	});
+
+	const markAllNotificationsAsReadMutation = useMarkAllNotificationsAsRead();
 
 	const handleMarkAllAsRead = useCallback(() => {
 		markAllNotificationsAsReadMutation.mutate();
 	}, [markAllNotificationsAsReadMutation]);
-
-	const handleNotificationClick = useCallback(
-		(notification: Notification) => {
-			if (!notification.isRead) {
-				handleMarkNotificationAsRead(notification.id);
-			}
-
-			if (notification.link) {
-				setOpen(false);
-				navigate({ to: notification.link });
-			}
-		},
-		[navigate, handleMarkNotificationAsRead, setOpen],
-	);
 
 	const unreadCount = data?.pages[0]?.unreadCount ?? 0;
 	const allNotifications =
@@ -125,69 +105,21 @@ export function NotificationsDropdown() {
 						</div>
 					)}
 					{allNotifications.map((notification) => {
-						const {
-							icon: Icon,
-							color,
-							bgColor,
-						} = getNotificationIcon(notification.type);
-						return (
-							<div
-								key={notification.id}
-								className={cn(
-									"p-4 hover:bg-muted/50 transition-colors cursor-pointer border-b",
-									!notification.isRead &&
-										"border-l-4 border-l-primary bg-muted/30",
-								)}
-								onClick={() => handleNotificationClick(notification)}
-							>
-								<div className="flex items-start space-x-3">
-									<div
-										className={cn("p-2 rounded-full flex-shrink-0", bgColor)}
-									>
-										<Icon className={cn("h-4 w-4", color)} />
-									</div>
-									<div className="flex-1 space-y-1">
-										<p
-											className={cn(
-												"text-sm",
-												!notification.isRead && "font-semibold",
-											)}
-										>
-											{notification.title}
-										</p>
-										<p className="text-sm text-muted-foreground">
-											{notification.content}
-										</p>
-										<p className="text-xs text-muted-foreground pt-1">
-											{formatRelativeTime(notification.createdAt)}
-										</p>
-									</div>
-									{!notification.isRead && (
-										<div className="h-2 w-2 bg-primary rounded-full flex-shrink-0 mt-2" />
-									)}
-								</div>
-							</div>
-						);
+						return  <NotificationItem
+							key={notification.id}
+							notification={notification}
+							setOpen={setOpen}
+						/>;
 					})}
-				</div>
-				{hasNextPage && (
-					<>
-						<Separator />
-						<div className="p-2">
-							<Button
-								variant="ghost"
-								className="w-full"
-								onClick={() => fetchNextPage()}
-								disabled={isFetchingNextPage}
-							>
-								{isFetchingNextPage ? (
-									<Loader2 className="mr-2 h-4 w-4 animate-spin" />
-								) : null}
-								Load More
-							</Button>
+
+					{hasNextPage && (
+						<div ref={setTarget} className="flex justify-center p-4">
+							{isFetchingNextPage && (
+								<Loader2 className="h-6 w-6 animate-spin" />
+							)}
 						</div>
-					</>
-				)}
+					)}
+				</div>
 			</PopoverContent>
 		</Popover>
 	);
