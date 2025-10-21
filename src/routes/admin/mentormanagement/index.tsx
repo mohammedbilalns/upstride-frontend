@@ -44,7 +44,7 @@ export const Route = createFileRoute("/admin/mentormanagement/")({
 		search: search.search,
 		filter: search.filter,
 	}),
-	loader: async ({ deps , context }) => {
+	loader: async ({ deps, context }) => {
 		const { page, rowsPerPage, search: query, filter } = deps;
 		return context.queryClient.fetchQuery({
 			queryKey: ["mentors", page, rowsPerPage, query, filter],

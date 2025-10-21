@@ -1,5 +1,5 @@
 import { Link, useRouter } from "@tanstack/react-router";
-import { Bell, Menu, Zap } from "lucide-react";
+import { Menu, Zap } from "lucide-react";
 import { useState } from "react";
 import { useAuthStore } from "@/app/store/auth.store";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
@@ -12,6 +12,7 @@ import {
 } from "@/components/ui/dropdown-menu";
 import { Separator } from "@/components/ui/separator";
 import { useLogout } from "@/features/auth/hooks";
+import { NotificationsDropdown } from "@/features/notifications/components/NotificationDropdown";
 import ThemeToggle from "../common/theme-toggle";
 
 // Navigation Links
@@ -40,7 +41,6 @@ export default function Navbar() {
 					</h1>
 				</Link>
 
-				{/* Desktop Nav Links */}
 				<nav className="hidden md:flex items-center space-x-8">
 					{navLinks.map((link) => (
 						<Link
@@ -59,21 +59,10 @@ export default function Navbar() {
 
 				{/* Right Side Actions */}
 				<div className="flex items-center space-x-4">
-					{/* Notification Bell */}
-					<Link
-						to="/notifications"
-						className="relative cursor-pointer flex items-center  justify-center"
-					>
-						<Button variant="ghost" size="icon" className="cursor-pointer">
-							<Bell className="h-5 w-5 text-muted-foreground" />
-							<span className="absolute top-1.5 right-1.5 h-2 w-2 bg-destructive rounded-full" />
-						</Button>
-					</Link>
+					<NotificationsDropdown />
 
 					{/* Theme Toggle */}
 					<ThemeToggle />
-
-					{/* User Avatar (Dropdown) */}
 					<DropdownMenu>
 						<DropdownMenuTrigger asChild>
 							<Button
@@ -108,7 +97,6 @@ export default function Navbar() {
 						</DropdownMenuContent>
 					</DropdownMenu>
 
-					{/* Mobile Menu Button */}
 					<Button
 						variant="ghost"
 						size="icon"
@@ -121,6 +109,7 @@ export default function Navbar() {
 			</div>
 
 			{/* Mobile Menu */}
+			{/* ... (Mobile Menu is unchanged) */}
 			{isOpen && (
 				<div className="md:hidden py-3 border-t border-border/50">
 					<nav className="flex flex-col space-y-2">

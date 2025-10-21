@@ -24,8 +24,8 @@ import type { CloudinaryResponse } from "@/shared/types/cloudinaryResponse";
 
 export const Route = createFileRoute("/(authenticated)/profile")({
 	component: RouteComponent,
-	loader: async ({context}) => {
-		const { user, } = useAuthStore.getState();
+	loader: async ({ context }) => {
+		const { user } = useAuthStore.getState();
 		if (!user) return;
 		return context.queryClient.fetchQuery({
 			queryKey: ["profile"],

@@ -5,11 +5,8 @@ import { GoogleOAuthProvider } from "@react-oauth/google";
 import { QueryClientProvider } from "@tanstack/react-query";
 import { ReactQueryDevtools } from "@tanstack/react-query-devtools";
 import { RouterProvider } from "@tanstack/react-router";
-import { router } from "./app/router/routerConfig";
+import { queryClient, router } from "./app/router/routerConfig";
 import { AppInitializer } from "./shared/utils/initialiser";
-import { queryClient } from "./app/router/routerConfig";
-
-
 
 declare module "@tanstack/react-router" {
 	interface Register {

@@ -19,7 +19,6 @@ import { Route as AuthIndexRouteImport } from './routes/auth/index'
 import { Route as AdminIndexRouteImport } from './routes/admin/index'
 import { Route as authenticatedSessionsRouteImport } from './routes/(authenticated)/sessions'
 import { Route as authenticatedProfileRouteImport } from './routes/(authenticated)/profile'
-import { Route as authenticatedNotificationsRouteImport } from './routes/(authenticated)/notifications'
 import { Route as authenticatedMentorsRouteImport } from './routes/(authenticated)/mentors'
 import { Route as AdminUsermanagementIndexRouteImport } from './routes/admin/usermanagement/index'
 import { Route as AdminMentormanagementIndexRouteImport } from './routes/admin/mentormanagement/index'
@@ -84,12 +83,6 @@ const authenticatedProfileRoute = authenticatedProfileRouteImport.update({
   path: '/profile',
   getParentRoute: () => authenticatedRouteRoute,
 } as any)
-const authenticatedNotificationsRoute =
-  authenticatedNotificationsRouteImport.update({
-    id: '/notifications',
-    path: '/notifications',
-    getParentRoute: () => authenticatedRouteRoute,
-  } as any)
 const authenticatedMentorsRoute = authenticatedMentorsRouteImport.update({
   id: '/mentors',
   path: '/mentors',
@@ -177,7 +170,6 @@ export interface FileRoutesByFullPath {
   '/auth': typeof AuthRouteRouteWithChildren
   '/about': typeof AboutRoute
   '/mentors': typeof authenticatedMentorsRoute
-  '/notifications': typeof authenticatedNotificationsRoute
   '/profile': typeof authenticatedProfileRoute
   '/sessions': typeof authenticatedSessionsRoute
   '/admin/': typeof AdminIndexRoute
@@ -201,7 +193,6 @@ export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/about': typeof AboutRoute
   '/mentors': typeof authenticatedMentorsRoute
-  '/notifications': typeof authenticatedNotificationsRoute
   '/profile': typeof authenticatedProfileRoute
   '/sessions': typeof authenticatedSessionsRoute
   '/admin': typeof AdminIndexRoute
@@ -229,7 +220,6 @@ export interface FileRoutesById {
   '/auth': typeof AuthRouteRouteWithChildren
   '/about': typeof AboutRoute
   '/(authenticated)/mentors': typeof authenticatedMentorsRoute
-  '/(authenticated)/notifications': typeof authenticatedNotificationsRoute
   '/(authenticated)/profile': typeof authenticatedProfileRoute
   '/(authenticated)/sessions': typeof authenticatedSessionsRoute
   '/admin/': typeof AdminIndexRoute
@@ -257,7 +247,6 @@ export interface FileRouteTypes {
     | '/auth'
     | '/about'
     | '/mentors'
-    | '/notifications'
     | '/profile'
     | '/sessions'
     | '/admin/'
@@ -281,7 +270,6 @@ export interface FileRouteTypes {
     | '/'
     | '/about'
     | '/mentors'
-    | '/notifications'
     | '/profile'
     | '/sessions'
     | '/admin'
@@ -308,7 +296,6 @@ export interface FileRouteTypes {
     | '/auth'
     | '/about'
     | '/(authenticated)/mentors'
-    | '/(authenticated)/notifications'
     | '/(authenticated)/profile'
     | '/(authenticated)/sessions'
     | '/admin/'
@@ -408,13 +395,6 @@ declare module '@tanstack/react-router' {
       path: '/profile'
       fullPath: '/profile'
       preLoaderRoute: typeof authenticatedProfileRouteImport
-      parentRoute: typeof authenticatedRouteRoute
-    }
-    '/(authenticated)/notifications': {
-      id: '/(authenticated)/notifications'
-      path: '/notifications'
-      fullPath: '/notifications'
-      preLoaderRoute: typeof authenticatedNotificationsRouteImport
       parentRoute: typeof authenticatedRouteRoute
     }
     '/(authenticated)/mentors': {
@@ -520,7 +500,6 @@ declare module '@tanstack/react-router' {
 
 interface authenticatedRouteRouteChildren {
   authenticatedMentorsRoute: typeof authenticatedMentorsRoute
-  authenticatedNotificationsRoute: typeof authenticatedNotificationsRoute
   authenticatedProfileRoute: typeof authenticatedProfileRoute
   authenticatedSessionsRoute: typeof authenticatedSessionsRoute
   authenticatedArticlesArticleIdRoute: typeof authenticatedArticlesArticleIdRoute
@@ -536,7 +515,6 @@ interface authenticatedRouteRouteChildren {
 
 const authenticatedRouteRouteChildren: authenticatedRouteRouteChildren = {
   authenticatedMentorsRoute: authenticatedMentorsRoute,
-  authenticatedNotificationsRoute: authenticatedNotificationsRoute,
   authenticatedProfileRoute: authenticatedProfileRoute,
   authenticatedSessionsRoute: authenticatedSessionsRoute,
   authenticatedArticlesArticleIdRoute: authenticatedArticlesArticleIdRoute,

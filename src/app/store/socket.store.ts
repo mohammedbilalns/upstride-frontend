@@ -34,9 +34,6 @@ export const useSocketStore = create<SocketState>((set, get) => ({
 			});
 
 			registerSocketEventHandlers(newSocket);
-			// newSocket.onAny((event, ...args) => {
-			// 	console.log(`[WS] Event received: ${event}`, args);
-			// });
 
 			set({ socket: newSocket });
 		} catch (error) {

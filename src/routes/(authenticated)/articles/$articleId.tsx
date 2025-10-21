@@ -27,7 +27,7 @@ import type { Article, Tag } from "@/shared/types/article";
 export const Route = createFileRoute("/(authenticated)/articles/$articleId")({
 	component: RouteComponent,
 	notFoundComponent: ArticleNotFound,
-	loader: async ({ params, context	}) => {
+	loader: async ({ params, context }) => {
 		const { articleId } = params;
 		return context.queryClient.fetchQuery({
 			queryKey: ["article", articleId],

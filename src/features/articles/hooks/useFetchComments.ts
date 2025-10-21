@@ -15,7 +15,6 @@ export const useFetchComments = (
 			if (lastPage.comments.length < limit) {
 				return undefined;
 			}
-
 			return allPages.length + 1;
 		},
 		initialPageParam: 1,
