@@ -74,4 +74,11 @@ export const API_ROUTES = {
 		MARK_ALL_AS_READ: "/notifications/mark-all",
 		FETCH: "/notifications",
 	},
+	CONNECTIONS: {
+
+		FOLLOW: "/connection/follow",
+		FETCH_FOLLOWERS: "/connection/followers",
+		FETCH_FOLLOWING: "/connection/following",
+		UNFOLLOW: "/connection/unfollow",
+	}
 };

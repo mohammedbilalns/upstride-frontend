@@ -1,5 +1,5 @@
 import { Check, CheckCheck } from "lucide-react";
-import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
+import UserAvatar from "@/components/common/UserAvatar";
 
 interface ChatMessageProps {
 	message: {
@@ -26,10 +26,7 @@ export function ChatMessage({ message, isOwn }: ChatMessageProps) {
 				className={`flex max-w-[80%] ${isOwn ? "flex-row-reverse" : "flex-row"}`}
 			>
 				{!isOwn && (
-					<Avatar className="h-8 w-8 mr-2">
-						<AvatarImage src="" alt="User" />
-						<AvatarFallback>U</AvatarFallback>
-					</Avatar>
+					<UserAvatar image="" name="User" size={8} />
 				)}
 
 				<div

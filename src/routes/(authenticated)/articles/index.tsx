@@ -1,6 +1,6 @@
 import { useInfiniteQuery } from "@tanstack/react-query";
 import { createFileRoute, Link } from "@tanstack/react-router";
-import { useState, useEffect } from "react";
+import { useEffect, useState } from "react";
 import { useAuthStore } from "@/app/store/auth.store";
 import { Button } from "@/components/ui/button";
 import { ArticleGrid } from "@/features/articles/components/ArticleGrid";
@@ -40,33 +40,37 @@ function RouteComponent() {
 	useEffect(() => {
 		if (debouncedSearchInput !== search.query) {
 			navigate({
-				search: (prev) => ({ ...prev, query: debouncedSearchInput || undefined }),
+				search: (prev) => ({
+					...prev,
+					query: debouncedSearchInput || undefined,
+				}),
 			});
 		}
 	}, [debouncedSearchInput, search.query, navigate]);
 
-	const {
-		data,
-		fetchNextPage,
-		isFetchingNextPage,
-		hasNextPage,
-		isLoading,
-	} = useInfiniteQuery({
-		queryKey: ["articles", search.query, search.category, search.tag, search.sortBy],
-		queryFn: ({ pageParam = 1 }) =>
-			fetchArticles(
-				pageParam,
-				search.query || "",
-				search.category || "",
-				search.tag || "",
-				search.sortBy || "",
-			),
-		getNextPageParam: (lastPage, allPages) => {
-			if (lastPage.articles.length < 4) return undefined;
-			return allPages.length + 1;
-		},
-		initialPageParam: 1,
-	});
+	const { data, fetchNextPage, isFetchingNextPage, hasNextPage, isLoading } =
+		useInfiniteQuery({
+			queryKey: [
+				"articles",
+				search.query,
+				search.category,
+				search.tag,
+				search.sortBy,
+			],
+			queryFn: ({ pageParam = 1 }) =>
+				fetchArticles(
+					pageParam,
+					search.query || "",
+					search.category || "",
+					search.tag || "",
+					search.sortBy || "",
+				),
+			getNextPageParam: (lastPage, allPages) => {
+				if (lastPage.articles.length < 4) return undefined;
+				return allPages.length + 1;
+			},
+			initialPageParam: 1,
+		});
 
 	const articles = data?.pages.flatMap((page) => page.articles) || [];
 	const total = data?.pages[0]?.total || 0;
@@ -79,27 +83,27 @@ function RouteComponent() {
 
 	const handleCategoryChange = (value: string) => {
 		navigate({
-			search: (prev) => ({ 
-				...prev, 
-				category: value === "all" ? undefined : value 
+			search: (prev) => ({
+				...prev,
+				category: value === "all" ? undefined : value,
 			}),
 		});
 	};
 
 	const handleSortByChange = (value: string) => {
 		navigate({
-			search: (prev) => ({ 
-				...prev, 
-				sortBy: value === "newest" ? undefined : value 
+			search: (prev) => ({
+				...prev,
+				sortBy: value === "newest" ? undefined : value,
 			}),
 		});
 	};
 
 	const handleTagClick = (tag: string) => {
 		navigate({
-			search: (prev) => ({ 
-				...prev, 
-				tag: tag === "all" ? undefined : tag 
+			search: (prev) => ({
+				...prev,
+				tag: tag === "all" ? undefined : tag,
 			}),
 		});
 	};

@@ -14,7 +14,6 @@ import {
 	Video,
 	XCircle,
 } from "lucide-react";
-import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
@@ -26,6 +25,7 @@ import {
 } from "@/components/ui/dropdown-menu";
 import { Input } from "@/components/ui/input";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import UserAvatar from "@/components/common/UserAvatar";
 
 // Define types for session data
 interface Mentor {
@@ -266,18 +266,8 @@ function RouteComponent() {
 										<CardContent className="p-6">
 											<div className="flex items-start justify-between mb-4">
 												<div className="flex items-start space-x-4">
-													<Avatar className="h-12 w-12">
-														<AvatarImage
-															src={session.mentor.imageUrl}
-															alt={session.mentor.name}
-														/>
-														<AvatarFallback>
-															{session.mentor.name
-																.split(" ")
-																.map((n) => n[0])
-																.join("")}
-														</AvatarFallback>
-													</Avatar>
+
+													<UserAvatar image={session.mentor.imageUrl} name={session.mentor.name} size={12} />
 													<div>
 														<h3 className="text-lg font-semibold">
 															{session.title}
@@ -375,18 +365,7 @@ function RouteComponent() {
 										<CardContent className="p-6">
 											<div className="flex items-start justify-between mb-4">
 												<div className="flex items-start space-x-4">
-													<Avatar className="h-12 w-12">
-														<AvatarImage
-															src={session.mentor.imageUrl}
-															alt={session.mentor.name}
-														/>
-														<AvatarFallback>
-															{session.mentor.name
-																.split(" ")
-																.map((n) => n[0])
-																.join("")}
-														</AvatarFallback>
-													</Avatar>
+														<UserAvatar image={session.mentor.imageUrl} name={session.mentor.name} size={12} />
 													<div>
 														<h3 className="text-lg font-semibold">
 															{session.title}
@@ -489,18 +468,7 @@ function RouteComponent() {
 										<CardContent className="p-6">
 											<div className="flex items-start justify-between mb-4">
 												<div className="flex items-start space-x-4">
-													<Avatar className="h-12 w-12">
-														<AvatarImage
-															src={session.mentor.imageUrl}
-															alt={session.mentor.name}
-														/>
-														<AvatarFallback>
-															{session.mentor.name
-																.split(" ")
-																.map((n) => n[0])
-																.join("")}
-														</AvatarFallback>
-													</Avatar>
+														<UserAvatar image={session.mentor.imageUrl} name={session.mentor.name} size={12} />
 													<div>
 														<h3 className="text-lg font-semibold">
 															{session.title}
@@ -655,18 +623,7 @@ function RouteComponent() {
 							{upcomingSessions.length > 0 ? (
 								<div className="space-y-3">
 									<div className="flex items-center space-x-3">
-										<Avatar className="h-10 w-10">
-											<AvatarImage
-												src={upcomingSessions[0].mentor.imageUrl}
-												alt={upcomingSessions[0].mentor.name}
-											/>
-											<AvatarFallback>
-												{upcomingSessions[0].mentor.name
-													.split(" ")
-													.map((n) => n[0])
-													.join("")}
-											</AvatarFallback>
-										</Avatar>
+										<UserAvatar image={upcomingSessions[0].mentor.imageUrl} name={upcomingSessions[0].mentor.name} size={10} />
 										<div className="flex-1">
 											<p className="text-sm font-medium">
 												{upcomingSessions[0].title}

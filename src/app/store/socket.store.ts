@@ -42,9 +42,9 @@ export const useSocketStore = create<SocketState>((set, get) => ({
 	},
 	disconnect: () => {
 		const sock = get().socket;
-		if (sock){
+		if (sock) {
 			sock.removeAllListeners();
-			if(sock.connected) sock.disconnect();
+			if (sock.connected) sock.disconnect();
 		}
 		set({ socket: null });
 	},

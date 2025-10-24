@@ -10,9 +10,7 @@ import {
 import { Separator } from "@/components/ui/separator";
 import { NOTIFICATIONS_LIMIT } from "@/shared/constants/common";
 import { useInfiniteScroll } from "@/shared/hooks/useInfinteScroll";
-import type {
-	NotificationsResponse,
-} from "@/shared/types/notifications";
+import type { NotificationsResponse } from "@/shared/types/notifications";
 import { cn } from "@/shared/utils/utils";
 import { useMarkAllNotificationsAsRead } from "../hooks/useMarkAllNotificationsAsRead";
 import { fetchNotifications } from "../services/notification.service";
@@ -22,23 +20,23 @@ export function NotificationsDropdown() {
 	const [open, setOpen] = useState<boolean>(false);
 
 	const { data, fetchNextPage, hasNextPage, isFetchingNextPage, status } =
-	useInfiniteQuery<
-	NotificationsResponse,
-	Error,
-	InfiniteData<NotificationsResponse>,
-	string[],
-	number
->({
-		queryKey: ["notifications"],
-		queryFn: ({ pageParam }) =>
-			fetchNotifications(pageParam, NOTIFICATIONS_LIMIT),
-		initialPageParam: 1,
-		getNextPageParam: (lastPage, _allPages, lastPageParam) => {
-			if (lastPage.notifications.length < NOTIFICATIONS_LIMIT)
-				return undefined;
-			return lastPageParam + 1;
-		},
-	});
+		useInfiniteQuery<
+			NotificationsResponse,
+			Error,
+			InfiniteData<NotificationsResponse>,
+			string[],
+			number
+		>({
+			queryKey: ["notifications"],
+			queryFn: ({ pageParam }) =>
+				fetchNotifications(pageParam, NOTIFICATIONS_LIMIT),
+			initialPageParam: 1,
+			getNextPageParam: (lastPage, _allPages, lastPageParam) => {
+				if (lastPage.notifications.length < NOTIFICATIONS_LIMIT)
+					return undefined;
+				return lastPageParam + 1;
+			},
+		});
 
 	const { setTarget } = useInfiniteScroll({
 		onIntersect: fetchNextPage,
@@ -105,11 +103,13 @@ export function NotificationsDropdown() {
 						</div>
 					)}
 					{allNotifications.map((notification) => {
-						return  <NotificationItem
-							key={notification.id}
-							notification={notification}
-							setOpen={setOpen}
-						/>;
+						return (
+							<NotificationItem
+								key={notification.id}
+								notification={notification}
+								setOpen={setOpen}
+							/>
+						);
 					})}
 
 					{hasNextPage && (

@@ -1,5 +1,4 @@
 import { ArrowLeft, Info, MoreHorizontal, Phone, Video } from "lucide-react";
-import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import {
@@ -8,6 +7,7 @@ import {
 	DropdownMenuItem,
 	DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
+import UserAvatar from "@/components/common/UserAvatar";
 
 interface ChatHeaderProps {
 	chat: {
@@ -34,15 +34,7 @@ export function ChatHeader({ chat, onBack }: ChatHeaderProps) {
 				</Button>
 
 				<div className="relative">
-					<Avatar className="h-10 w-10">
-						<AvatarImage src={chat.avatar} alt={chat.name} />
-						<AvatarFallback>
-							{chat.name
-								.split(" ")
-								.map((n) => n[0])
-								.join("")}
-						</AvatarFallback>
-					</Avatar>
+					<UserAvatar image={chat.avatar} name={chat.name} size={10} />
 					{chat.isOnline && (
 						<div className="absolute bottom-0 right-0 w-3 h-3 bg-green-500 rounded-full border-2 border-background"></div>
 					)}

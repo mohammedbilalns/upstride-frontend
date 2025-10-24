@@ -4,7 +4,6 @@ import { ArrowLeft, Edit, MoreHorizontal, Trash2, User } from "lucide-react";
 import { toast } from "sonner";
 import { useAuthStore } from "@/app/store/auth.store";
 import { ConfirmDialog } from "@/components/common/confirm";
-import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import {
@@ -23,6 +22,7 @@ import {
 	fetchArticle,
 } from "@/features/articles/services/article.service";
 import type { Article, Tag } from "@/shared/types/article";
+import UserAvatar from "@/components/common/UserAvatar";
 
 export const Route = createFileRoute("/(authenticated)/articles/$articleId")({
 	component: RouteComponent,
@@ -109,12 +109,7 @@ function RouteComponent() {
 				{/* Author Info & Date */}
 				<div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
 					<div className="flex items-center space-x-3">
-						<Avatar className="h-10 w-10">
-							<AvatarImage src={article.authorImage} alt={article.authorName} />
-							<AvatarFallback>
-								<User className="h-5 w-5" />
-							</AvatarFallback>
-						</Avatar>
+						<UserAvatar image={article.authorImage} name={article.authorName} size={10} />
 						<div>
 							<p className="font-medium text-base">{article.authorName}</p>
 							<p className="text-sm text-muted-foreground">

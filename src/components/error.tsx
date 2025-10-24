@@ -1,5 +1,5 @@
-import { getErrorDetails } from "@/shared/utils/getErrorDetails";
 import { useNavigate } from "@tanstack/react-router";
+import { getErrorDetails } from "@/shared/utils/getErrorDetails";
 
 interface ApiError extends Error {
 	status?: number;
@@ -11,10 +11,13 @@ interface ErrorComponentProps {
 	resetError?: () => void;
 }
 
-export default function ErrorComponent({ error, resetError }: ErrorComponentProps) {
+export default function ErrorComponent({
+	error,
+	resetError,
+}: ErrorComponentProps) {
 	const navigate = useNavigate();
 
-	const { title, message } = getErrorDetails(error)
+	const { title, message } = getErrorDetails(error);
 
 	return (
 		<div className="min-h-[92vh] flex flex-col justify-center items-center p-8 bg-gradient-to-b from-background to-muted/20">
@@ -38,13 +41,9 @@ export default function ErrorComponent({ error, resetError }: ErrorComponentProp
 					</div>
 				</div>
 
-				<h1 className="text-3xl font-bold mb-4 text-foreground">
-					{title}
-				</h1>
+				<h1 className="text-3xl font-bold mb-4 text-foreground">{title}</h1>
 
-				<p className="text-muted-foreground mb-6">
-					{message}
-				</p>
+				<p className="text-muted-foreground mb-6">{message}</p>
 
 				<div className="flex flex-col sm:flex-row gap-3 justify-center">
 					<button

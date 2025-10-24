@@ -4,14 +4,12 @@ type User = {
 	id: string;
 	name: string;
 	profilePicture: string;
-}
+};
 
 type Expertise = {
 	id: string;
 	name: string;
-}
-
-
+};
 
 export type Mentor = {
 	id: string;
@@ -30,6 +28,7 @@ export type Mentor = {
 		id: string;
 		name: string;
 		email: string;
+		profilePicture: string;
 	};
 	expertise: {
 		id: string;
@@ -39,7 +38,6 @@ export type Mentor = {
 	createdAt: Date;
 };
 
-
 export type MentorInList = {
 	id: string;
 	bio: string;
@@ -47,4 +45,4 @@ export type MentorInList = {
 	user: User;
 	expertise: Expertise;
 	skills: Skill[];
-}
+};

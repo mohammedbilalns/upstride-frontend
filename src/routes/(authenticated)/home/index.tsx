@@ -13,7 +13,6 @@ import {
 	Star,
 } from "lucide-react";
 import { useAuthStore } from "@/app/store/auth.store";
-import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
@@ -25,6 +24,7 @@ import {
 	dummyRecommendedArticles,
 	dummySessions,
 } from "./-dummyData";
+import UserAvatar from "@/components/common/UserAvatar";
 
 export const Route = createFileRoute("/(authenticated)/home/")({
 	component: RouteComponent,
@@ -99,18 +99,8 @@ function RouteComponent() {
 										>
 											<div className="flex items-center">
 												<div className="relative">
-													<Avatar className="h-10 w-10">
-														<AvatarImage
-															src={mentor.imageUrl}
-															alt={mentor.name}
-														/>
-														<AvatarFallback>
-															{mentor.name
-																.split(" ")
-																.map((n) => n[0])
-																.join("")}
-														</AvatarFallback>
-													</Avatar>
+													<UserAvatar image={mentor.imageUrl} name={mentor.name} size={10} />
+												
 													{mentor.isOnline && (
 														<div className="absolute bottom-0 right-0 w-3 h-3 bg-green-500 rounded-full border-2 border-background"></div>
 													)}
@@ -150,18 +140,7 @@ function RouteComponent() {
 										>
 											<div className="flex items-center">
 												<div className="relative">
-													<Avatar className="h-8 w-8">
-														<AvatarImage
-															src={mentor.imageUrl}
-															alt={mentor.name}
-														/>
-														<AvatarFallback>
-															{mentor.name
-																.split(" ")
-																.map((n) => n[0])
-																.join("")}
-														</AvatarFallback>
-													</Avatar>
+													<UserAvatar image={mentor.imageUrl} name={mentor.name} size={8} />
 													<div className="absolute bottom-0 right-0 w-2 h-2 bg-green-500 rounded-full border-2 border-background"></div>
 												</div>
 												<div className="ml-3">
@@ -193,18 +172,7 @@ function RouteComponent() {
 							>
 								<CardContent className="p-6">
 									<div className="flex items-center mb-4">
-										<Avatar className="h-10 w-10">
-											<AvatarImage
-												src={article.author.imageUrl}
-												alt={article.author.name}
-											/>
-											<AvatarFallback>
-												{article.author.name
-													.split(" ")
-													.map((n) => n[0])
-													.join("")}
-											</AvatarFallback>
-										</Avatar>
+										<UserAvatar image={article.author.imageUrl} name={article.author.name} size={10} />
 										<div className="ml-3">
 											<div className="flex items-center">
 												<p className="text-sm font-medium">

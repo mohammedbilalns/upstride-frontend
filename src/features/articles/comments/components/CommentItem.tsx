@@ -1,4 +1,3 @@
-import { Avatar, AvatarFallback, AvatarImage } from "@radix-ui/react-avatar";
 import {
 	ChevronDown,
 	ChevronUp,
@@ -6,7 +5,6 @@ import {
 	Heart,
 	MoreHorizontal,
 	Trash2,
-	User,
 } from "lucide-react";
 import { useState } from "react";
 import { useAuthStore } from "@/app/store/auth.store";
@@ -26,6 +24,7 @@ import { useCommentReplies } from "../hooks/useCommentReplies";
 import { useDeleteComment } from "../hooks/useDeleteComment";
 import CommentForm from "./CommentForm";
 import { CommentReplies } from "./CommentReplies";
+import UserAvatar from "@/components/common/UserAvatar";
 
 interface CommentItemProps {
 	comment: Comment;
@@ -112,15 +111,9 @@ export default function CommentItem({
 	return (
 		<div className={level > 0 ? "ml-6 mt-4" : ""}>
 			<div className="flex gap-3">
-				<Avatar className="h-10 w-10">
-					<AvatarImage
-						src={isDeleted ? "" : comment.userImage}
-						alt={isDeleted ? "" : comment.userName}
-					/>
-					<AvatarFallback>
-						<User className="h-5 w-5" />
-					</AvatarFallback>
-				</Avatar>
+				{isDeleted && 
+					<UserAvatar image={comment.userImage} name={comment.userName} size={10} />
+				}
 
 				<div className="flex-1 space-y-2">
 					{/* Header */}

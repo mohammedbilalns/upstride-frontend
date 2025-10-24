@@ -1,6 +1,4 @@
 import { zodResolver } from "@hookform/resolvers/zod";
-import { Avatar, AvatarFallback, AvatarImage } from "@radix-ui/react-avatar";
-import { User } from "lucide-react";
 import { useForm } from "react-hook-form";
 import { useAuthStore } from "@/app/store/auth.store";
 import { Button } from "@/components/ui/button";
@@ -10,6 +8,7 @@ import {
 	commentSchema,
 } from "../../schemas/comment.schema";
 import { useCreateComment } from "../hooks/useCreateComment";
+import UserAvatar from "@/components/common/UserAvatar";
 
 interface CommentFormProps {
 	articleId: string;
@@ -68,19 +67,21 @@ export default function CommentForm({
 	};
 
 	const isReply = !!commentId;
-	const avatarClass = avatarSize === "sm" ? "h-8 w-8" : "h-10 w-10";
-	const userIconClass = avatarSize === "sm" ? "h-4 w-4" : "h-5 w-5";
+	const avatarImageSize = avatarSize === "sm" ? 8 : 10;
 	const buttonSize = isReply ? "sm" : "default";
 	const containerClass = isReply ? "mt-4" : "mb-8";
 
 	return (
 		<div className={`flex gap-3 ${containerClass} ${className}`}>
-			<Avatar className={avatarClass}>
-				<AvatarImage src={user?.profilePicture} />
-				<AvatarFallback>
-					<User className={userIconClass} />
-				</AvatarFallback>
-			</Avatar>
+			{/* Avatar */}
+
+			{user && (
+				<UserAvatar
+					image={user.profilePicture}
+					name={user.name}
+					size={avatarImageSize}
+				/>
+			)}
 			<div className="flex-1">
 				<form onSubmit={handleSubmit(onSubmit)}>
 					<div>

@@ -1,5 +1,5 @@
 import { Loader2, Upload, X } from "lucide-react";
-import { useEffect, useState } from "react";
+import { useEffect, useId, useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Progress } from "@/components/ui/progress";
@@ -19,6 +19,8 @@ export function FeaturedImageUpload({
 	initialImage,
 	className,
 }: FeaturedImageUploadProps) {
+	const id = useId();
+	const fileInputId = `file-upload-${id}`;
 	const [previewUrl, setPreviewUrl] = useState<string | null>(
 		initialImage?.secure_url || null,
 	);
@@ -84,9 +86,7 @@ export function FeaturedImageUpload({
 		setPreviewUrl(null);
 		onImageChange(null);
 
-		const fileInput = document.getElementById(
-			"file-upload",
-		) as HTMLInputElement;
+		const fileInput = document.getElementById(fileInputId) as HTMLInputElement;
 		if (fileInput) {
 			fileInput.value = "";
 		}
@@ -104,7 +104,7 @@ export function FeaturedImageUpload({
 						<div className="relative overflow-hidden rounded-md border">
 							<img
 								src={previewUrl}
-								alt="Featured image preview"
+								alt="FeaturedImage preview"
 								className="w-full h-48 object-cover"
 							/>
 							{isUploading && (
@@ -152,22 +152,24 @@ export function FeaturedImageUpload({
 					</div>
 				) : (
 					// Upload state
-					<div
-						className="border-2 border-dashed border-border rounded-md p-6 text-center cursor-pointer hover:border-foreground/20 transition-colors"
+					<Button
+						variant="outline"
+						type="button"
 						onClick={() => document.getElementById("file-upload")?.click()}
+						className="w-full cursor-pointer h-auto border-dashed p-6 flex flex-col items-center justify-center text-center space-y-2 hover:border-foreground/20 transition-colors"
 					>
 						{isUploading ? (
-							<div className="space-y-2">
-								<Loader2 className="mx-auto h-12 w-12 text-muted-foreground animate-spin" />
+							<>
+								<Loader2 className="h-12 w-12 text-muted-foreground animate-spin" />
 								<Progress value={uploadProgress} className="w-full" />
 								<p className="text-sm text-muted-foreground">
 									Uploading... {uploadProgress}%
 								</p>
-							</div>
+							</>
 						) : (
 							<>
-								<Upload className="mx-auto h-12 w-12 text-muted-foreground" />
-								<p className="mt-2 text-sm text-muted-foreground">
+								<Upload className="h-12 w-12 text-muted-foreground" />
+								<p className="text-sm text-muted-foreground">
 									Click to upload an image
 								</p>
 								<p className="text-xs text-muted-foreground/70">
@@ -175,10 +177,10 @@ export function FeaturedImageUpload({
 								</p>
 							</>
 						)}
-					</div>
+					</Button>
 				)}
 				<input
-					id="file-upload"
+					id={fileInputId}
 					type="file"
 					onChange={handleFileChange}
 					accept="image/*"

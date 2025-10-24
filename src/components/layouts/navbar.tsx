@@ -2,7 +2,6 @@ import { Link, useRouter } from "@tanstack/react-router";
 import { Menu, Zap } from "lucide-react";
 import { useState } from "react";
 import { useAuthStore } from "@/app/store/auth.store";
-import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Button } from "@/components/ui/button";
 import {
 	DropdownMenu,
@@ -14,6 +13,7 @@ import { Separator } from "@/components/ui/separator";
 import { useLogout } from "@/features/auth/hooks";
 import { NotificationsDropdown } from "@/features/notifications/components/NotificationDropdown";
 import ThemeToggle from "../common/theme-toggle";
+import UserAvatar from "../common/UserAvatar";
 
 // Navigation Links
 const navLinks = [
@@ -69,15 +69,8 @@ export default function Navbar() {
 								variant="ghost"
 								className="cursor-pointer relative h-8 w-8 rounded-full"
 							>
-								<Avatar className="h-8 w-8">
-									<AvatarImage src={user?.profilePicture} alt={user?.name} />
-									<AvatarFallback>
-										{user?.name
-											?.split(" ")
-											.map((n) => n[0])
-											.join("")}
-									</AvatarFallback>
-								</Avatar>
+								{user && <UserAvatar   name={user.name} image={user.profilePicture} size={8} />}
+				
 							</Button>
 						</DropdownMenuTrigger>
 						<DropdownMenuContent align="end">

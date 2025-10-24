@@ -16,11 +16,21 @@ export function registerNotificationEvents(socket: Socket) {
 		//  Optimistically update the cache
 		queryClient.setQueryData(
 			["notifications"],
-			(oldData: { pages: { notifications: Notification[]; total: number; unreadCount: number }[] } | undefined) => {
+			(
+				oldData:
+					| {
+							pages: {
+								notifications: Notification[];
+								total: number;
+								unreadCount: number;
+							}[];
+					  }
+					| undefined,
+			) => {
 				if (!oldData || !oldData.pages || oldData.pages.length === 0) {
 					return oldData;
 				}
-				
+
 				// Get the current first page.
 				const firstPage = oldData.pages[0];
 
@@ -38,7 +48,7 @@ export function registerNotificationEvents(socket: Socket) {
 					...oldData,
 					pages: [newFirstPage, ...oldData.pages.slice(1)],
 				};
-			}
+			},
 		);
 	});
 }

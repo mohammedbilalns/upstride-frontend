@@ -1,6 +1,6 @@
 import { Check, CheckCheck } from "lucide-react";
-import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Badge } from "@/components/ui/badge";
+import UserAvatar from "@/components/common/UserAvatar";
 
 interface ChatItemProps {
 	chat: {
@@ -41,15 +41,7 @@ export function ChatItem({ chat }: ChatItemProps) {
 		<div className="p-4 cursor-pointer">
 			<div className="flex items-start space-x-3">
 				<div className="relative">
-					<Avatar className="h-12 w-12">
-						<AvatarImage src={chat.avatar} alt={chat.name} />
-						<AvatarFallback>
-							{chat.name
-								.split(" ")
-								.map((n) => n[0])
-								.join("")}
-						</AvatarFallback>
-					</Avatar>
+					<UserAvatar image={chat.avatar} name={chat.name} height={12} />
 					{chat.isOnline && (
 						<div className="absolute bottom-0 right-0 w-3 h-3 bg-green-500 rounded-full border-2 border-background"></div>
 					)}

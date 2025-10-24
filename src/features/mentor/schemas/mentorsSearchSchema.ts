@@ -6,6 +6,4 @@ export const MentorsSearchSchema = z.object({
 	skillId: z.string().optional(),
 });
 
-
 export type MentorsSearchSchema = z.infer<typeof MentorsSearchSchema>;
-

@@ -16,4 +16,4 @@ export const StarRating = ({ rating }: { rating: number }) => {
 			))}
 		</div>
 	);
-};	
+};

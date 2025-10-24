@@ -1,9 +1,9 @@
 import { QueryClient } from "@tanstack/react-query";
 import { createRouter } from "@tanstack/react-router";
 import Loading from "@/components/common/loading";
+import ErrorComponent from "@/components/error";
 import NotFoundComponent from "@/components/notFoundComponent";
 import { routeTree } from "@/routeTree.gen";
-import ErrorComponent from "@/components/error";
 
 export const queryClient = new QueryClient();
 
