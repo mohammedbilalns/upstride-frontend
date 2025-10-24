@@ -3,7 +3,7 @@ import { useNavigate } from "@tanstack/react-router";
 
 interface ApiError extends Error {
 	status?: number;
-	info?: { message?: string; [key: string]: any };
+	info?: { message?: string; [key: string]: unknown };
 }
 
 interface ErrorComponentProps {

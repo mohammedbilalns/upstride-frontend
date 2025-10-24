@@ -16,14 +16,11 @@ import {
 	useUnBlockUser,
 } from "@/features/admin/user-management/hooks";
 import type { User } from "@/shared/types";
-import SearchBar from "../../../features/admin/components/SearchBar";
-import {
-	paramsSchema,
-	type RowsPerPage,
-} from "../../../features/admin/schemas/searchParamsSchema";
-import { fetchUsers } from "../../../features/admin/user-management/services/user-mangement.service";
+import SearchBar from "@/features/admin/components/SearchBar";
+import { paramsSchema, type RowsPerPage } from "@/features/admin/schemas/searchParamsSchema";
+import { fetchUsers } from "@/features/admin/user-management/services/user-mangement.service";
 
-export const Route = createFileRoute("/admin/usermanagement/")({
+export const Route = createFileRoute("/(admin)/admin/usermanagement/")({
 	component: RouteComponent,
 	validateSearch: paramsSchema,
 	loaderDeps: ({ search }) => ({
@@ -37,7 +34,7 @@ export const Route = createFileRoute("/admin/usermanagement/")({
 		return context.queryClient.ensureQueryData({
 			queryKey: ["users", page, rowsPerPage, query],
 			queryFn: () => fetchUsers(String(page), String(rowsPerPage), query),
-		});
+		})
 	},
 });
 
@@ -59,8 +56,8 @@ function RouteComponent() {
 				search: newSearch,
 				page: prev.search === newSearch ? prev.page : 1,
 			}),
-		});
-	};
+		})
+	}
 
 	const setPage = (newPage: number) => {
 		navigate({
@@ -68,8 +65,8 @@ function RouteComponent() {
 				...prev,
 				page: newPage,
 			}),
-		});
-	};
+		})
+	}
 
 	const setRowsPerPage = (newRowsPerPage: RowsPerPage) => {
 		navigate({
@@ -78,15 +75,15 @@ function RouteComponent() {
 				rowsPerPage: newRowsPerPage,
 				page: 1,
 			}),
-		});
-	};
+		})
+	}
 
 	const handleBlock = (id: string) => {
 		blockUserMutation.mutate(id);
-	};
+	}
 	const handleUnblock = (id: string) => {
 		unblockUserMutation.mutate(id);
-	};
+	}
 	return (
 		<div className="flex-1 overflow-auto">
 			<div className="p-4 sm:p-6">
@@ -208,5 +205,5 @@ function RouteComponent() {
 				</div>
 			</div>
 		</div>
-	);
+	)
 }

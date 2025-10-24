@@ -1,5 +1,5 @@
 import { createFileRoute, Outlet } from "@tanstack/react-router";
-import { authGuard } from "@/app/guards/auth-gaurd";
+import { authGuard } from "@/shared/guards/auth-gaurd";
 import Navbar from "@/components/layouts/navbar";
 import { fetchNotifications } from "@/features/notifications/services/notification.service";
 

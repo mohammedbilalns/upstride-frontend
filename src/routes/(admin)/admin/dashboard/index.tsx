@@ -1,6 +1,6 @@
 import { createFileRoute } from "@tanstack/react-router";
 
-export const Route = createFileRoute("/admin/dashboard/")({
+export const Route = createFileRoute("/(admin)/admin/dashboard/")({
 	component: RouteComponent,
 });
 
@@ -28,5 +28,5 @@ function RouteComponent() {
 				</div>
 			</div>
 		</div>
-	);
+	)
 }

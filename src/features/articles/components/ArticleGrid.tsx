@@ -8,21 +8,21 @@ interface ArticleGridProps {
 	articles: ArticleInList[];
 	total: number;
 	viewMode: "grid" | "list";
-	onLoadMore: () => void;
 	isLoading?: boolean;
-	isDataLoading?: boolean;
-	hasMore?: boolean;
+	isFetchingNextPage?: boolean;
+	hasNextPage?: boolean;
+	setTarget?: (node: HTMLDivElement | null) => void;
 }
 
 export function ArticleGrid({
 	articles,
 	viewMode,
-	onLoadMore,
 	isLoading = false,
-	isDataLoading = false,
-	hasMore = false,
+	isFetchingNextPage = false,
+	hasNextPage = false,
+	setTarget,
 }: ArticleGridProps) {
-	if (isDataLoading) {
+	if (isLoading && articles.length === 0) {
 		return (
 			<div>
 				<div
@@ -62,7 +62,7 @@ export function ArticleGrid({
 	}
 
 	// Show no articles message only when not loading and there are no articles
-	if (articles.length === 0 && !isDataLoading) {
+	if (articles.length === 0 && !isLoading) {
 		return (
 			<div className="flex flex-col items-center justify-center py-12 text-center">
 				<h3 className="text-lg font-medium mb-2">No articles found</h3>
@@ -88,19 +88,19 @@ export function ArticleGrid({
 				))}
 			</div>
 
-			{/* Pagination / Load More */}
-			{hasMore && (
-				<div className="mt-8 flex justify-center">
-					<Button
-						className="cursor-pointer"
-						variant="outline"
-						onClick={onLoadMore}
-						disabled={isLoading}
-					>
-						{isLoading ? "Loading..." : "Load More Articles"}
-					</Button>
-				</div>
-			)}
+			{/* Intersection Observer Target for Infinite Scroll */}
+			<div ref={setTarget} className="mt-6 flex justify-center">
+				{isFetchingNextPage && (
+					<div className="flex items-center justify-center">
+						<div className="animate-spin rounded-full h-8 w-8 border-b-2 border-primary"></div>
+					</div>
+				)}
+				{!hasNextPage && articles.length > 0 && (
+					<p className="text-muted-foreground text-sm">
+						You've reached the end of the list
+					</p>
+				)}
+			</div>
 		</div>
 	);
 }

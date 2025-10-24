@@ -54,7 +54,7 @@ export default function CommentItem({
 
 	// Only use interaction hooks for non-deleted comments
 	const { liked, likes, handleReact, isPending } = useCommentInteractions(
-		isDeleted ? null : comment,
+		isDeleted ? undefined : comment,
 	);
 
 	const {

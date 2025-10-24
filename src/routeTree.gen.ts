@@ -10,43 +10,33 @@
 
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as AboutRouteImport } from './routes/about'
-import { Route as AuthRouteRouteImport } from './routes/auth/route'
-import { Route as AdminRouteRouteImport } from './routes/admin/route'
 import { Route as authenticatedRouteRouteImport } from './routes/(authenticated)/route'
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as UnauthorizedIndexRouteImport } from './routes/unauthorized/index'
-import { Route as AuthIndexRouteImport } from './routes/auth/index'
-import { Route as AdminIndexRouteImport } from './routes/admin/index'
 import { Route as authenticatedSessionsRouteImport } from './routes/(authenticated)/sessions'
 import { Route as authenticatedProfileRouteImport } from './routes/(authenticated)/profile'
 import { Route as authenticatedMentorsRouteImport } from './routes/(authenticated)/mentors'
-import { Route as AdminUsermanagementIndexRouteImport } from './routes/admin/usermanagement/index'
-import { Route as AdminMentormanagementIndexRouteImport } from './routes/admin/mentormanagement/index'
-import { Route as AdminExpertisemanagementIndexRouteImport } from './routes/admin/expertisemanagement/index'
-import { Route as AdminDashboardIndexRouteImport } from './routes/admin/dashboard/index'
+import { Route as publicAuthRouteRouteImport } from './routes/(public)/auth/route'
+import { Route as adminAdminRouteRouteImport } from './routes/(admin)/admin/route'
+import { Route as publicAuthIndexRouteImport } from './routes/(public)/auth/index'
 import { Route as authenticatedHomeIndexRouteImport } from './routes/(authenticated)/home/index'
 import { Route as authenticatedChatsIndexRouteImport } from './routes/(authenticated)/chats/index'
 import { Route as authenticatedArticlesIndexRouteImport } from './routes/(authenticated)/articles/index'
+import { Route as adminAdminIndexRouteImport } from './routes/(admin)/admin/index'
 import { Route as authenticatedMentorRegisterRouteImport } from './routes/(authenticated)/mentor/register'
 import { Route as authenticatedMentorMentorIdRouteImport } from './routes/(authenticated)/mentor/$mentorId'
 import { Route as authenticatedChatsChatIdRouteImport } from './routes/(authenticated)/chats/$chatId'
 import { Route as authenticatedArticlesArticleIdRouteImport } from './routes/(authenticated)/articles/$articleId'
 import { Route as authenticatedArticlesCreateIndexRouteImport } from './routes/(authenticated)/articles/create/index'
+import { Route as adminAdminUsermanagementIndexRouteImport } from './routes/(admin)/admin/usermanagement/index'
+import { Route as adminAdminMentormanagementIndexRouteImport } from './routes/(admin)/admin/mentormanagement/index'
+import { Route as adminAdminExpertisemanagementIndexRouteImport } from './routes/(admin)/admin/expertisemanagement/index'
+import { Route as adminAdminDashboardIndexRouteImport } from './routes/(admin)/admin/dashboard/index'
 import { Route as authenticatedArticlesEditArticleIdRouteImport } from './routes/(authenticated)/articles/edit/$articleId'
 
 const AboutRoute = AboutRouteImport.update({
   id: '/about',
   path: '/about',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const AuthRouteRoute = AuthRouteRouteImport.update({
-  id: '/auth',
-  path: '/auth',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const AdminRouteRoute = AdminRouteRouteImport.update({
-  id: '/admin',
-  path: '/admin',
   getParentRoute: () => rootRouteImport,
 } as any)
 const authenticatedRouteRoute = authenticatedRouteRouteImport.update({
@@ -63,16 +53,6 @@ const UnauthorizedIndexRoute = UnauthorizedIndexRouteImport.update({
   path: '/unauthorized/',
   getParentRoute: () => rootRouteImport,
 } as any)
-const AuthIndexRoute = AuthIndexRouteImport.update({
-  id: '/',
-  path: '/',
-  getParentRoute: () => AuthRouteRoute,
-} as any)
-const AdminIndexRoute = AdminIndexRouteImport.update({
-  id: '/',
-  path: '/',
-  getParentRoute: () => AdminRouteRoute,
-} as any)
 const authenticatedSessionsRoute = authenticatedSessionsRouteImport.update({
   id: '/sessions',
   path: '/sessions',
@@ -88,28 +68,20 @@ const authenticatedMentorsRoute = authenticatedMentorsRouteImport.update({
   path: '/mentors',
   getParentRoute: () => authenticatedRouteRoute,
 } as any)
-const AdminUsermanagementIndexRoute =
-  AdminUsermanagementIndexRouteImport.update({
-    id: '/usermanagement/',
-    path: '/usermanagement/',
-    getParentRoute: () => AdminRouteRoute,
-  } as any)
-const AdminMentormanagementIndexRoute =
-  AdminMentormanagementIndexRouteImport.update({
-    id: '/mentormanagement/',
-    path: '/mentormanagement/',
-    getParentRoute: () => AdminRouteRoute,
-  } as any)
-const AdminExpertisemanagementIndexRoute =
-  AdminExpertisemanagementIndexRouteImport.update({
-    id: '/expertisemanagement/',
-    path: '/expertisemanagement/',
-    getParentRoute: () => AdminRouteRoute,
-  } as any)
-const AdminDashboardIndexRoute = AdminDashboardIndexRouteImport.update({
-  id: '/dashboard/',
-  path: '/dashboard/',
-  getParentRoute: () => AdminRouteRoute,
+const publicAuthRouteRoute = publicAuthRouteRouteImport.update({
+  id: '/(public)/auth',
+  path: '/auth',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const adminAdminRouteRoute = adminAdminRouteRouteImport.update({
+  id: '/(admin)/admin',
+  path: '/admin',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const publicAuthIndexRoute = publicAuthIndexRouteImport.update({
+  id: '/',
+  path: '/',
+  getParentRoute: () => publicAuthRouteRoute,
 } as any)
 const authenticatedHomeIndexRoute = authenticatedHomeIndexRouteImport.update({
   id: '/home/',
@@ -127,6 +99,11 @@ const authenticatedArticlesIndexRoute =
     path: '/articles/',
     getParentRoute: () => authenticatedRouteRoute,
   } as any)
+const adminAdminIndexRoute = adminAdminIndexRouteImport.update({
+  id: '/',
+  path: '/',
+  getParentRoute: () => adminAdminRouteRoute,
+} as any)
 const authenticatedMentorRegisterRoute =
   authenticatedMentorRegisterRouteImport.update({
     id: '/mentor/register',
@@ -157,6 +134,30 @@ const authenticatedArticlesCreateIndexRoute =
     path: '/articles/create/',
     getParentRoute: () => authenticatedRouteRoute,
   } as any)
+const adminAdminUsermanagementIndexRoute =
+  adminAdminUsermanagementIndexRouteImport.update({
+    id: '/usermanagement/',
+    path: '/usermanagement/',
+    getParentRoute: () => adminAdminRouteRoute,
+  } as any)
+const adminAdminMentormanagementIndexRoute =
+  adminAdminMentormanagementIndexRouteImport.update({
+    id: '/mentormanagement/',
+    path: '/mentormanagement/',
+    getParentRoute: () => adminAdminRouteRoute,
+  } as any)
+const adminAdminExpertisemanagementIndexRoute =
+  adminAdminExpertisemanagementIndexRouteImport.update({
+    id: '/expertisemanagement/',
+    path: '/expertisemanagement/',
+    getParentRoute: () => adminAdminRouteRoute,
+  } as any)
+const adminAdminDashboardIndexRoute =
+  adminAdminDashboardIndexRouteImport.update({
+    id: '/dashboard/',
+    path: '/dashboard/',
+    getParentRoute: () => adminAdminRouteRoute,
+  } as any)
 const authenticatedArticlesEditArticleIdRoute =
   authenticatedArticlesEditArticleIdRouteImport.update({
     id: '/articles/edit/$articleId',
@@ -166,27 +167,27 @@ const authenticatedArticlesEditArticleIdRoute =
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
-  '/admin': typeof AdminRouteRouteWithChildren
-  '/auth': typeof AuthRouteRouteWithChildren
   '/about': typeof AboutRoute
+  '/admin': typeof adminAdminRouteRouteWithChildren
+  '/auth': typeof publicAuthRouteRouteWithChildren
   '/mentors': typeof authenticatedMentorsRoute
   '/profile': typeof authenticatedProfileRoute
   '/sessions': typeof authenticatedSessionsRoute
-  '/admin/': typeof AdminIndexRoute
-  '/auth/': typeof AuthIndexRoute
   '/unauthorized': typeof UnauthorizedIndexRoute
   '/articles/$articleId': typeof authenticatedArticlesArticleIdRoute
   '/chats/$chatId': typeof authenticatedChatsChatIdRoute
   '/mentor/$mentorId': typeof authenticatedMentorMentorIdRoute
   '/mentor/register': typeof authenticatedMentorRegisterRoute
+  '/admin/': typeof adminAdminIndexRoute
   '/articles': typeof authenticatedArticlesIndexRoute
   '/chats': typeof authenticatedChatsIndexRoute
   '/home': typeof authenticatedHomeIndexRoute
-  '/admin/dashboard': typeof AdminDashboardIndexRoute
-  '/admin/expertisemanagement': typeof AdminExpertisemanagementIndexRoute
-  '/admin/mentormanagement': typeof AdminMentormanagementIndexRoute
-  '/admin/usermanagement': typeof AdminUsermanagementIndexRoute
+  '/auth/': typeof publicAuthIndexRoute
   '/articles/edit/$articleId': typeof authenticatedArticlesEditArticleIdRoute
+  '/admin/dashboard': typeof adminAdminDashboardIndexRoute
+  '/admin/expertisemanagement': typeof adminAdminExpertisemanagementIndexRoute
+  '/admin/mentormanagement': typeof adminAdminMentormanagementIndexRoute
+  '/admin/usermanagement': typeof adminAdminUsermanagementIndexRoute
   '/articles/create': typeof authenticatedArticlesCreateIndexRoute
 }
 export interface FileRoutesByTo {
@@ -195,75 +196,75 @@ export interface FileRoutesByTo {
   '/mentors': typeof authenticatedMentorsRoute
   '/profile': typeof authenticatedProfileRoute
   '/sessions': typeof authenticatedSessionsRoute
-  '/admin': typeof AdminIndexRoute
-  '/auth': typeof AuthIndexRoute
   '/unauthorized': typeof UnauthorizedIndexRoute
   '/articles/$articleId': typeof authenticatedArticlesArticleIdRoute
   '/chats/$chatId': typeof authenticatedChatsChatIdRoute
   '/mentor/$mentorId': typeof authenticatedMentorMentorIdRoute
   '/mentor/register': typeof authenticatedMentorRegisterRoute
+  '/admin': typeof adminAdminIndexRoute
   '/articles': typeof authenticatedArticlesIndexRoute
   '/chats': typeof authenticatedChatsIndexRoute
   '/home': typeof authenticatedHomeIndexRoute
-  '/admin/dashboard': typeof AdminDashboardIndexRoute
-  '/admin/expertisemanagement': typeof AdminExpertisemanagementIndexRoute
-  '/admin/mentormanagement': typeof AdminMentormanagementIndexRoute
-  '/admin/usermanagement': typeof AdminUsermanagementIndexRoute
+  '/auth': typeof publicAuthIndexRoute
   '/articles/edit/$articleId': typeof authenticatedArticlesEditArticleIdRoute
+  '/admin/dashboard': typeof adminAdminDashboardIndexRoute
+  '/admin/expertisemanagement': typeof adminAdminExpertisemanagementIndexRoute
+  '/admin/mentormanagement': typeof adminAdminMentormanagementIndexRoute
+  '/admin/usermanagement': typeof adminAdminUsermanagementIndexRoute
   '/articles/create': typeof authenticatedArticlesCreateIndexRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
   '/(authenticated)': typeof authenticatedRouteRouteWithChildren
-  '/admin': typeof AdminRouteRouteWithChildren
-  '/auth': typeof AuthRouteRouteWithChildren
   '/about': typeof AboutRoute
+  '/(admin)/admin': typeof adminAdminRouteRouteWithChildren
+  '/(public)/auth': typeof publicAuthRouteRouteWithChildren
   '/(authenticated)/mentors': typeof authenticatedMentorsRoute
   '/(authenticated)/profile': typeof authenticatedProfileRoute
   '/(authenticated)/sessions': typeof authenticatedSessionsRoute
-  '/admin/': typeof AdminIndexRoute
-  '/auth/': typeof AuthIndexRoute
   '/unauthorized/': typeof UnauthorizedIndexRoute
   '/(authenticated)/articles/$articleId': typeof authenticatedArticlesArticleIdRoute
   '/(authenticated)/chats/$chatId': typeof authenticatedChatsChatIdRoute
   '/(authenticated)/mentor/$mentorId': typeof authenticatedMentorMentorIdRoute
   '/(authenticated)/mentor/register': typeof authenticatedMentorRegisterRoute
+  '/(admin)/admin/': typeof adminAdminIndexRoute
   '/(authenticated)/articles/': typeof authenticatedArticlesIndexRoute
   '/(authenticated)/chats/': typeof authenticatedChatsIndexRoute
   '/(authenticated)/home/': typeof authenticatedHomeIndexRoute
-  '/admin/dashboard/': typeof AdminDashboardIndexRoute
-  '/admin/expertisemanagement/': typeof AdminExpertisemanagementIndexRoute
-  '/admin/mentormanagement/': typeof AdminMentormanagementIndexRoute
-  '/admin/usermanagement/': typeof AdminUsermanagementIndexRoute
+  '/(public)/auth/': typeof publicAuthIndexRoute
   '/(authenticated)/articles/edit/$articleId': typeof authenticatedArticlesEditArticleIdRoute
+  '/(admin)/admin/dashboard/': typeof adminAdminDashboardIndexRoute
+  '/(admin)/admin/expertisemanagement/': typeof adminAdminExpertisemanagementIndexRoute
+  '/(admin)/admin/mentormanagement/': typeof adminAdminMentormanagementIndexRoute
+  '/(admin)/admin/usermanagement/': typeof adminAdminUsermanagementIndexRoute
   '/(authenticated)/articles/create/': typeof authenticatedArticlesCreateIndexRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
   fullPaths:
     | '/'
+    | '/about'
     | '/admin'
     | '/auth'
-    | '/about'
     | '/mentors'
     | '/profile'
     | '/sessions'
-    | '/admin/'
-    | '/auth/'
     | '/unauthorized'
     | '/articles/$articleId'
     | '/chats/$chatId'
     | '/mentor/$mentorId'
     | '/mentor/register'
+    | '/admin/'
     | '/articles'
     | '/chats'
     | '/home'
+    | '/auth/'
+    | '/articles/edit/$articleId'
     | '/admin/dashboard'
     | '/admin/expertisemanagement'
     | '/admin/mentormanagement'
     | '/admin/usermanagement'
-    | '/articles/edit/$articleId'
     | '/articles/create'
   fileRoutesByTo: FileRoutesByTo
   to:
@@ -272,56 +273,56 @@ export interface FileRouteTypes {
     | '/mentors'
     | '/profile'
     | '/sessions'
-    | '/admin'
-    | '/auth'
     | '/unauthorized'
     | '/articles/$articleId'
     | '/chats/$chatId'
     | '/mentor/$mentorId'
     | '/mentor/register'
+    | '/admin'
     | '/articles'
     | '/chats'
     | '/home'
+    | '/auth'
+    | '/articles/edit/$articleId'
     | '/admin/dashboard'
     | '/admin/expertisemanagement'
     | '/admin/mentormanagement'
     | '/admin/usermanagement'
-    | '/articles/edit/$articleId'
     | '/articles/create'
   id:
     | '__root__'
     | '/'
     | '/(authenticated)'
-    | '/admin'
-    | '/auth'
     | '/about'
+    | '/(admin)/admin'
+    | '/(public)/auth'
     | '/(authenticated)/mentors'
     | '/(authenticated)/profile'
     | '/(authenticated)/sessions'
-    | '/admin/'
-    | '/auth/'
     | '/unauthorized/'
     | '/(authenticated)/articles/$articleId'
     | '/(authenticated)/chats/$chatId'
     | '/(authenticated)/mentor/$mentorId'
     | '/(authenticated)/mentor/register'
+    | '/(admin)/admin/'
     | '/(authenticated)/articles/'
     | '/(authenticated)/chats/'
     | '/(authenticated)/home/'
-    | '/admin/dashboard/'
-    | '/admin/expertisemanagement/'
-    | '/admin/mentormanagement/'
-    | '/admin/usermanagement/'
+    | '/(public)/auth/'
     | '/(authenticated)/articles/edit/$articleId'
+    | '/(admin)/admin/dashboard/'
+    | '/(admin)/admin/expertisemanagement/'
+    | '/(admin)/admin/mentormanagement/'
+    | '/(admin)/admin/usermanagement/'
     | '/(authenticated)/articles/create/'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
   authenticatedRouteRoute: typeof authenticatedRouteRouteWithChildren
-  AdminRouteRoute: typeof AdminRouteRouteWithChildren
-  AuthRouteRoute: typeof AuthRouteRouteWithChildren
   AboutRoute: typeof AboutRoute
+  adminAdminRouteRoute: typeof adminAdminRouteRouteWithChildren
+  publicAuthRouteRoute: typeof publicAuthRouteRouteWithChildren
   UnauthorizedIndexRoute: typeof UnauthorizedIndexRoute
 }
 
@@ -332,20 +333,6 @@ declare module '@tanstack/react-router' {
       path: '/about'
       fullPath: '/about'
       preLoaderRoute: typeof AboutRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/auth': {
-      id: '/auth'
-      path: '/auth'
-      fullPath: '/auth'
-      preLoaderRoute: typeof AuthRouteRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/admin': {
-      id: '/admin'
-      path: '/admin'
-      fullPath: '/admin'
-      preLoaderRoute: typeof AdminRouteRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/(authenticated)': {
@@ -369,20 +356,6 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof UnauthorizedIndexRouteImport
       parentRoute: typeof rootRouteImport
     }
-    '/auth/': {
-      id: '/auth/'
-      path: '/'
-      fullPath: '/auth/'
-      preLoaderRoute: typeof AuthIndexRouteImport
-      parentRoute: typeof AuthRouteRoute
-    }
-    '/admin/': {
-      id: '/admin/'
-      path: '/'
-      fullPath: '/admin/'
-      preLoaderRoute: typeof AdminIndexRouteImport
-      parentRoute: typeof AdminRouteRoute
-    }
     '/(authenticated)/sessions': {
       id: '/(authenticated)/sessions'
       path: '/sessions'
@@ -404,33 +377,26 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof authenticatedMentorsRouteImport
       parentRoute: typeof authenticatedRouteRoute
     }
-    '/admin/usermanagement/': {
-      id: '/admin/usermanagement/'
-      path: '/usermanagement'
-      fullPath: '/admin/usermanagement'
-      preLoaderRoute: typeof AdminUsermanagementIndexRouteImport
-      parentRoute: typeof AdminRouteRoute
+    '/(public)/auth': {
+      id: '/(public)/auth'
+      path: '/auth'
+      fullPath: '/auth'
+      preLoaderRoute: typeof publicAuthRouteRouteImport
+      parentRoute: typeof rootRouteImport
     }
-    '/admin/mentormanagement/': {
-      id: '/admin/mentormanagement/'
-      path: '/mentormanagement'
-      fullPath: '/admin/mentormanagement'
-      preLoaderRoute: typeof AdminMentormanagementIndexRouteImport
-      parentRoute: typeof AdminRouteRoute
+    '/(admin)/admin': {
+      id: '/(admin)/admin'
+      path: '/admin'
+      fullPath: '/admin'
+      preLoaderRoute: typeof adminAdminRouteRouteImport
+      parentRoute: typeof rootRouteImport
     }
-    '/admin/expertisemanagement/': {
-      id: '/admin/expertisemanagement/'
-      path: '/expertisemanagement'
-      fullPath: '/admin/expertisemanagement'
-      preLoaderRoute: typeof AdminExpertisemanagementIndexRouteImport
-      parentRoute: typeof AdminRouteRoute
-    }
-    '/admin/dashboard/': {
-      id: '/admin/dashboard/'
-      path: '/dashboard'
-      fullPath: '/admin/dashboard'
-      preLoaderRoute: typeof AdminDashboardIndexRouteImport
-      parentRoute: typeof AdminRouteRoute
+    '/(public)/auth/': {
+      id: '/(public)/auth/'
+      path: '/'
+      fullPath: '/auth/'
+      preLoaderRoute: typeof publicAuthIndexRouteImport
+      parentRoute: typeof publicAuthRouteRoute
     }
     '/(authenticated)/home/': {
       id: '/(authenticated)/home/'
@@ -452,6 +418,13 @@ declare module '@tanstack/react-router' {
       fullPath: '/articles'
       preLoaderRoute: typeof authenticatedArticlesIndexRouteImport
       parentRoute: typeof authenticatedRouteRoute
+    }
+    '/(admin)/admin/': {
+      id: '/(admin)/admin/'
+      path: '/'
+      fullPath: '/admin/'
+      preLoaderRoute: typeof adminAdminIndexRouteImport
+      parentRoute: typeof adminAdminRouteRoute
     }
     '/(authenticated)/mentor/register': {
       id: '/(authenticated)/mentor/register'
@@ -487,6 +460,34 @@ declare module '@tanstack/react-router' {
       fullPath: '/articles/create'
       preLoaderRoute: typeof authenticatedArticlesCreateIndexRouteImport
       parentRoute: typeof authenticatedRouteRoute
+    }
+    '/(admin)/admin/usermanagement/': {
+      id: '/(admin)/admin/usermanagement/'
+      path: '/usermanagement'
+      fullPath: '/admin/usermanagement'
+      preLoaderRoute: typeof adminAdminUsermanagementIndexRouteImport
+      parentRoute: typeof adminAdminRouteRoute
+    }
+    '/(admin)/admin/mentormanagement/': {
+      id: '/(admin)/admin/mentormanagement/'
+      path: '/mentormanagement'
+      fullPath: '/admin/mentormanagement'
+      preLoaderRoute: typeof adminAdminMentormanagementIndexRouteImport
+      parentRoute: typeof adminAdminRouteRoute
+    }
+    '/(admin)/admin/expertisemanagement/': {
+      id: '/(admin)/admin/expertisemanagement/'
+      path: '/expertisemanagement'
+      fullPath: '/admin/expertisemanagement'
+      preLoaderRoute: typeof adminAdminExpertisemanagementIndexRouteImport
+      parentRoute: typeof adminAdminRouteRoute
+    }
+    '/(admin)/admin/dashboard/': {
+      id: '/(admin)/admin/dashboard/'
+      path: '/dashboard'
+      fullPath: '/admin/dashboard'
+      preLoaderRoute: typeof adminAdminDashboardIndexRouteImport
+      parentRoute: typeof adminAdminRouteRoute
     }
     '/(authenticated)/articles/edit/$articleId': {
       id: '/(authenticated)/articles/edit/$articleId'
@@ -532,44 +533,45 @@ const authenticatedRouteRouteChildren: authenticatedRouteRouteChildren = {
 const authenticatedRouteRouteWithChildren =
   authenticatedRouteRoute._addFileChildren(authenticatedRouteRouteChildren)
 
-interface AdminRouteRouteChildren {
-  AdminIndexRoute: typeof AdminIndexRoute
-  AdminDashboardIndexRoute: typeof AdminDashboardIndexRoute
-  AdminExpertisemanagementIndexRoute: typeof AdminExpertisemanagementIndexRoute
-  AdminMentormanagementIndexRoute: typeof AdminMentormanagementIndexRoute
-  AdminUsermanagementIndexRoute: typeof AdminUsermanagementIndexRoute
+interface adminAdminRouteRouteChildren {
+  adminAdminIndexRoute: typeof adminAdminIndexRoute
+  adminAdminDashboardIndexRoute: typeof adminAdminDashboardIndexRoute
+  adminAdminExpertisemanagementIndexRoute: typeof adminAdminExpertisemanagementIndexRoute
+  adminAdminMentormanagementIndexRoute: typeof adminAdminMentormanagementIndexRoute
+  adminAdminUsermanagementIndexRoute: typeof adminAdminUsermanagementIndexRoute
 }
 
-const AdminRouteRouteChildren: AdminRouteRouteChildren = {
-  AdminIndexRoute: AdminIndexRoute,
-  AdminDashboardIndexRoute: AdminDashboardIndexRoute,
-  AdminExpertisemanagementIndexRoute: AdminExpertisemanagementIndexRoute,
-  AdminMentormanagementIndexRoute: AdminMentormanagementIndexRoute,
-  AdminUsermanagementIndexRoute: AdminUsermanagementIndexRoute,
+const adminAdminRouteRouteChildren: adminAdminRouteRouteChildren = {
+  adminAdminIndexRoute: adminAdminIndexRoute,
+  adminAdminDashboardIndexRoute: adminAdminDashboardIndexRoute,
+  adminAdminExpertisemanagementIndexRoute:
+    adminAdminExpertisemanagementIndexRoute,
+  adminAdminMentormanagementIndexRoute: adminAdminMentormanagementIndexRoute,
+  adminAdminUsermanagementIndexRoute: adminAdminUsermanagementIndexRoute,
 }
 
-const AdminRouteRouteWithChildren = AdminRouteRoute._addFileChildren(
-  AdminRouteRouteChildren,
+const adminAdminRouteRouteWithChildren = adminAdminRouteRoute._addFileChildren(
+  adminAdminRouteRouteChildren,
 )
 
-interface AuthRouteRouteChildren {
-  AuthIndexRoute: typeof AuthIndexRoute
+interface publicAuthRouteRouteChildren {
+  publicAuthIndexRoute: typeof publicAuthIndexRoute
 }
 
-const AuthRouteRouteChildren: AuthRouteRouteChildren = {
-  AuthIndexRoute: AuthIndexRoute,
+const publicAuthRouteRouteChildren: publicAuthRouteRouteChildren = {
+  publicAuthIndexRoute: publicAuthIndexRoute,
 }
 
-const AuthRouteRouteWithChildren = AuthRouteRoute._addFileChildren(
-  AuthRouteRouteChildren,
+const publicAuthRouteRouteWithChildren = publicAuthRouteRoute._addFileChildren(
+  publicAuthRouteRouteChildren,
 )
 
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   authenticatedRouteRoute: authenticatedRouteRouteWithChildren,
-  AdminRouteRoute: AdminRouteRouteWithChildren,
-  AuthRouteRoute: AuthRouteRouteWithChildren,
   AboutRoute: AboutRoute,
+  adminAdminRouteRoute: adminAdminRouteRouteWithChildren,
+  publicAuthRouteRoute: publicAuthRouteRouteWithChildren,
   UnauthorizedIndexRoute: UnauthorizedIndexRoute,
 }
 export const routeTree = rootRouteImport

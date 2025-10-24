@@ -1,7 +1,8 @@
 import z from "zod";
 
 export const articlesParamsSchema = z.object({
-	category: z.string().trim().optional().default(""),
-	sortBy: z.string().trim().optional().default(""),
-	tag: z.string().trim().optional().default(""),
+	query: z.string().optional(),
+	category: z.string().trim().optional(),
+	sortBy: z.string().trim().optional(),
+	tag: z.string().trim().optional(),
 });

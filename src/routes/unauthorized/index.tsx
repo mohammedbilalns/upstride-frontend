@@ -1,5 +1,5 @@
 import { createFileRoute, useRouter } from "@tanstack/react-router";
-import { authGuard } from "@/app/guards/auth-gaurd";
+import { authGuard } from "@/shared/guards/auth-gaurd";
 import { Button } from "@/components/ui/button";
 
 export const Route = createFileRoute("/unauthorized/")({

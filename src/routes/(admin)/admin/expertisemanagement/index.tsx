@@ -19,15 +19,12 @@ import {
 import ExpertiseSkillsCollapse from "@/features/admin/expertise-mangement/components/skillsCollapse";
 import { useVerifyExpertise } from "@/features/admin/expertise-mangement/hooks";
 import type { Expertise } from "@/shared/types";
-import SearchBar from "../../../features/admin/components/SearchBar";
-import { fetchExpertises } from "../../../features/admin/expertise-mangement/services/expertise-management.service";
-import StatusBadge from "../../../features/admin/mentor-management/components/statusBadge";
-import {
-	paramsSchema,
-	type RowsPerPage,
-} from "../../../features/admin/schemas/searchParamsSchema";
+import SearchBar from "@/features/admin/components/SearchBar";
+import { fetchExpertises } from "@/features/admin/expertise-mangement/services/expertise-management.service";
+import { StatusBadge } from "@/features/admin/expertise-mangement/components";
+import { paramsSchema, type RowsPerPage } from "@/features/admin/schemas/searchParamsSchema";
 
-export const Route = createFileRoute("/admin/expertisemanagement/")({
+export const Route = createFileRoute("/(admin)/admin/expertisemanagement/")({
 	component: RouteComponent,
 	validateSearch: paramsSchema,
 	loaderDeps: ({ search }) => ({
@@ -40,7 +37,7 @@ export const Route = createFileRoute("/admin/expertisemanagement/")({
 		return context.queryClient.fetchQuery({
 			queryKey: ["expertises", page, rowsPerPage, query],
 			queryFn: () => fetchExpertises(String(page), String(rowsPerPage), query),
-		});
+		})
 	},
 });
 
@@ -62,8 +59,8 @@ function RouteComponent() {
 				newSet.add(id);
 			}
 			return newSet;
-		});
-	};
+		})
+	}
 
 	const setSearch = (newSearch: string) => {
 		navigate({
@@ -72,8 +69,8 @@ function RouteComponent() {
 				search: newSearch,
 				page: prev.search === newSearch ? prev.page : 1,
 			}),
-		});
-	};
+		})
+	}
 
 	const setPage = (newPage: number) => {
 		navigate({
@@ -81,8 +78,8 @@ function RouteComponent() {
 				...prev,
 				page: newPage,
 			}),
-		});
-	};
+		})
+	}
 
 	const setRowsPerPage = (newRowsPerPage: RowsPerPage) => {
 		navigate({
@@ -91,12 +88,12 @@ function RouteComponent() {
 				rowsPerPage: newRowsPerPage,
 				page: 1,
 			}),
-		});
-	};
+		})
+	}
 
 	const handleVerifyExpertise = (id: string) => {
 		verifyExpertiseMuation.mutate(id);
-	};
+	}
 	return (
 		<div className="flex-1 overflow-auto">
 			<div className="p-4 sm:p-6">
@@ -209,5 +206,5 @@ function RouteComponent() {
 				</div>
 			</div>
 		</div>
-	);
+	)
 }

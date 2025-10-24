@@ -1,7 +1,7 @@
 import { createFileRoute, Outlet } from "@tanstack/react-router";
-import { publicGuard } from "@/app/guards/public-guard";
+import { publicGuard } from "@/shared/guards/public-guard";
 
-export const Route = createFileRoute("/auth")({
+export const Route = createFileRoute("/(public)/auth")({
 	beforeLoad: publicGuard(),
 	component: RouteComponent,
 });
@@ -11,5 +11,5 @@ function RouteComponent() {
 		<div>
 			<Outlet />
 		</div>
-	);
+	)
 }

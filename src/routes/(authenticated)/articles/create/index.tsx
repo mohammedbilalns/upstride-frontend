@@ -4,7 +4,7 @@ import { ArrowLeft, FileText } from "lucide-react";
 import { useId, useState } from "react";
 import { Controller, type SubmitHandler, useForm } from "react-hook-form";
 import type { z } from "zod";
-import { authGuard } from "@/app/guards/auth-gaurd";
+import { authGuard } from "@/shared/guards/auth-gaurd";
 import RichTextEditor from "@/components/rich-text-editor";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";

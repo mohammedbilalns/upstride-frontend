@@ -130,7 +130,7 @@ export function Sidebar({ className = "" }: SidebarProps) {
 							return (
 								<li key={item.id}>
 									<Link
-										to={`/admin${item.href}`}
+										to={item.href}
 										onClick={handleItemClick}
 										className={`
                       w-full flex items-center space-x-3 px-4 py-3 rounded-xl text-left transition-all duration-200 group relative cursor-pointer

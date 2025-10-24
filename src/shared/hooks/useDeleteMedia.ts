@@ -1,6 +1,6 @@
 import { useMutation } from "@tanstack/react-query";
 import { toast } from "sonner";
-import { deleteFile } from "@/services/media.service";
+import { deleteFile } from "@/shared/services/media.service";
 import type { ApiError } from "@/shared/types";
 
 export const useDeleteMedia = () => {

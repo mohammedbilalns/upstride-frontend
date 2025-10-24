@@ -1,6 +1,6 @@
 import { useMutation } from "@tanstack/react-query";
 import { toast } from "sonner";
-import { generateToken } from "@/services/media.service";
+import { generateToken } from "@/shared/services/media.service";
 import type { ApiError } from "@/shared/types";
 
 export const useGenerateToken = () => {

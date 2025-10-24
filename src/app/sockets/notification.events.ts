@@ -14,28 +14,31 @@ export function registerNotificationEvents(socket: Socket) {
 		};
 
 		//  Optimistically update the cache
-		queryClient.setQueryData(["notifications"], (oldData: any) => {
-			if (!oldData || !oldData.pages || oldData.pages.length === 0) {
-				return oldData;
+		queryClient.setQueryData(
+			["notifications"],
+			(oldData: { pages: { notifications: Notification[]; total: number; unreadCount: number }[] } | undefined) => {
+				if (!oldData || !oldData.pages || oldData.pages.length === 0) {
+					return oldData;
+				}
+				
+				// Get the current first page.
+				const firstPage = oldData.pages[0];
+
+				// Create new first page with the prepended notification
+				const newFirstPage = {
+					...firstPage,
+					// Prepend the new notification to the existing array.
+					notifications: [newNotification, ...firstPage.notifications],
+					// Increment the total and unread counts.
+					total: firstPage.total + 1,
+					unreadCount: firstPage.unreadCount + 1,
+				};
+
+				return {
+					...oldData,
+					pages: [newFirstPage, ...oldData.pages.slice(1)],
+				};
 			}
-
-			// Get the current first page.
-			const firstPage = oldData.pages[0];
-
-			// Create new first page with the prepended notification
-			const newFirstPage = {
-				...firstPage,
-				// Prepend the new notification to the existing array.
-				notifications: [newNotification, ...firstPage.notifications],
-				// Increment the total and unread counts.
-				total: firstPage.total + 1,
-				unreadCount: firstPage.unreadCount + 1,
-			};
-
-			return {
-				...oldData,
-				pages: [newFirstPage, ...oldData.pages.slice(1)],
-			};
-		});
+		);
 	});
 }
