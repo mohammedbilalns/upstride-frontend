@@ -1,5 +1,18 @@
 import type { Skill } from "./skill";
 
+type User = {
+	id: string;
+	name: string;
+	profilePicture: string;
+}
+
+type Expertise = {
+	id: string;
+	name: string;
+}
+
+
+
 export type Mentor = {
 	id: string;
 	bio: string;
@@ -25,3 +38,13 @@ export type Mentor = {
 	skills: Omit<Skill, "isVerified">[];
 	createdAt: Date;
 };
+
+
+export type MentorInList = {
+	id: string;
+	bio: string;
+	yearOfExperience: number;
+	user: User;
+	expertise: Expertise;
+	skills: Skill[];
+}

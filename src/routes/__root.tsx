@@ -20,11 +20,13 @@ function RootComponent() {
 	useEffect(() => {
 		setTheme(isDarkMode);
 	}, [isDarkMode, setTheme]);
+
 	return (
 		<React.Fragment>
+			{/* <NetworkStatusIndicator/> */}
+
 			<Outlet />
 			<TanStackRouterDevtools />
-
 			<Toaster></Toaster>
 		</React.Fragment>
 	);

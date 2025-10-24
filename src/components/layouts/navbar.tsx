@@ -109,7 +109,6 @@ export default function Navbar() {
 			</div>
 
 			{/* Mobile Menu */}
-			{/* ... (Mobile Menu is unchanged) */}
 			{isOpen && (
 				<div className="md:hidden py-3 border-t border-border/50">
 					<nav className="flex flex-col space-y-2">

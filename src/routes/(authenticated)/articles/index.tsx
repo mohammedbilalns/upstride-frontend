@@ -43,8 +43,8 @@ function RouteComponent() {
 		data,
 		fetchNextPage,
 		isFetchingNextPage,
-		isFetching, // Track the overall fetching state
-		isLoading, // Track the initial loading state
+		isFetching, 
+		isLoading, 
 	} = useInfiniteQuery({
 		queryKey: ["articles", debouncedSearchInput, searchParams],
 		queryFn: ({ pageParam = 1 }) =>
@@ -66,7 +66,6 @@ function RouteComponent() {
 	const total = data?.pages[0]?.total || 0;
 	const showLoadMore = articles.length < total;
 
-	// Determine if we should show loading state
 	const isDataLoading = isLoading || (isFetching && articles.length === 0);
 
 	const handleLoadMore = () => {

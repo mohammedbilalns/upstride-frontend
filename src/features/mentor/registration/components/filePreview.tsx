@@ -18,7 +18,6 @@ export default function FilePreview({
 	isDeleting,
 	isUploading,
 }: FilePreviewProps) {
-	console.log("File Preview Rendered");
 	const isUploadSuccessful = fileDetails && fileDetails.secure_url;
 
 	return (

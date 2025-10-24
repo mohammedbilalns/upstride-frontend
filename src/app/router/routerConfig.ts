@@ -3,6 +3,7 @@ import { createRouter } from "@tanstack/react-router";
 import Loading from "@/components/common/loading";
 import NotFoundComponent from "@/components/notFoundComponent";
 import { routeTree } from "@/routeTree.gen";
+import ErrorComponent from "@/components/error";
 
 export const queryClient = new QueryClient();
 
@@ -11,6 +12,7 @@ export const router = createRouter({
 	context: { queryClient },
 	defaultNotFoundComponent: NotFoundComponent,
 	defaultPendingComponent: Loading,
+	defaultErrorComponent: ErrorComponent,
 	scrollRestoration: true,
 	defaultPreload: "intent",
 	defaultStaleTime: 5 * 60 * 1000,

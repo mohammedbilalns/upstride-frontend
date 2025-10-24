@@ -1,17 +1,12 @@
-import { createFileRoute } from "@tanstack/react-router";
 import { CheckCircle, XCircle } from "lucide-react";
 import { useState } from "react";
 import Loading from "@/components/common/loading";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { useCurrentUser } from "@/shared/hooks/useCurrentUser";
-import MentorRegisterForm from "../../../../features/mentor/registration/components/MentorRegisterForm";
+import MentorRegisterForm from "../registration/components/MentorRegisterForm";
 
-export const Route = createFileRoute("/(authenticated)/mentor/register/")({
-	component: RouteComponent,
-});
-
-function RouteComponent() {
+export default function MentorRegisterPage() {
 	const { data: user, isPending } = useCurrentUser();
 	const [showForm, setShowForm] = useState(false);
 

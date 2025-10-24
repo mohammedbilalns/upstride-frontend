@@ -1,6 +1,5 @@
 import { createFileRoute } from "@tanstack/react-router";
 import {
-	AlertCircle,
 	Calendar,
 	CalendarDays,
 	CheckCircle,

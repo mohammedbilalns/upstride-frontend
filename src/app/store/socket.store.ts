@@ -1,6 +1,6 @@
 import { io, type Socket } from "socket.io-client";
 import { create } from "zustand";
-import { registerSocketEventHandlers } from "@/sockets";
+import { registerSocketEventHandlers } from "@/app/sockets";
 import { useAuthStore } from "./auth.store";
 
 interface SocketState {
@@ -42,7 +42,10 @@ export const useSocketStore = create<SocketState>((set, get) => ({
 	},
 	disconnect: () => {
 		const sock = get().socket;
-		if (sock && sock.connected) sock.disconnect();
+		if (sock){
+			sock.removeAllListeners();
+			if(sock.connected) sock.disconnect();
+		}
 		set({ socket: null });
 	},
 

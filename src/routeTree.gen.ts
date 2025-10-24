@@ -27,10 +27,10 @@ import { Route as AdminDashboardIndexRouteImport } from './routes/admin/dashboar
 import { Route as authenticatedHomeIndexRouteImport } from './routes/(authenticated)/home/index'
 import { Route as authenticatedChatsIndexRouteImport } from './routes/(authenticated)/chats/index'
 import { Route as authenticatedArticlesIndexRouteImport } from './routes/(authenticated)/articles/index'
+import { Route as authenticatedMentorRegisterRouteImport } from './routes/(authenticated)/mentor/register'
 import { Route as authenticatedMentorMentorIdRouteImport } from './routes/(authenticated)/mentor/$mentorId'
 import { Route as authenticatedChatsChatIdRouteImport } from './routes/(authenticated)/chats/$chatId'
 import { Route as authenticatedArticlesArticleIdRouteImport } from './routes/(authenticated)/articles/$articleId'
-import { Route as authenticatedMentorRegisterIndexRouteImport } from './routes/(authenticated)/mentor/register/index'
 import { Route as authenticatedArticlesCreateIndexRouteImport } from './routes/(authenticated)/articles/create/index'
 import { Route as authenticatedArticlesEditArticleIdRouteImport } from './routes/(authenticated)/articles/edit/$articleId'
 
@@ -127,6 +127,12 @@ const authenticatedArticlesIndexRoute =
     path: '/articles/',
     getParentRoute: () => authenticatedRouteRoute,
   } as any)
+const authenticatedMentorRegisterRoute =
+  authenticatedMentorRegisterRouteImport.update({
+    id: '/mentor/register',
+    path: '/mentor/register',
+    getParentRoute: () => authenticatedRouteRoute,
+  } as any)
 const authenticatedMentorMentorIdRoute =
   authenticatedMentorMentorIdRouteImport.update({
     id: '/mentor/$mentorId',
@@ -143,12 +149,6 @@ const authenticatedArticlesArticleIdRoute =
   authenticatedArticlesArticleIdRouteImport.update({
     id: '/articles/$articleId',
     path: '/articles/$articleId',
-    getParentRoute: () => authenticatedRouteRoute,
-  } as any)
-const authenticatedMentorRegisterIndexRoute =
-  authenticatedMentorRegisterIndexRouteImport.update({
-    id: '/mentor/register/',
-    path: '/mentor/register/',
     getParentRoute: () => authenticatedRouteRoute,
   } as any)
 const authenticatedArticlesCreateIndexRoute =
@@ -178,6 +178,7 @@ export interface FileRoutesByFullPath {
   '/articles/$articleId': typeof authenticatedArticlesArticleIdRoute
   '/chats/$chatId': typeof authenticatedChatsChatIdRoute
   '/mentor/$mentorId': typeof authenticatedMentorMentorIdRoute
+  '/mentor/register': typeof authenticatedMentorRegisterRoute
   '/articles': typeof authenticatedArticlesIndexRoute
   '/chats': typeof authenticatedChatsIndexRoute
   '/home': typeof authenticatedHomeIndexRoute
@@ -187,7 +188,6 @@ export interface FileRoutesByFullPath {
   '/admin/usermanagement': typeof AdminUsermanagementIndexRoute
   '/articles/edit/$articleId': typeof authenticatedArticlesEditArticleIdRoute
   '/articles/create': typeof authenticatedArticlesCreateIndexRoute
-  '/mentor/register': typeof authenticatedMentorRegisterIndexRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
@@ -201,6 +201,7 @@ export interface FileRoutesByTo {
   '/articles/$articleId': typeof authenticatedArticlesArticleIdRoute
   '/chats/$chatId': typeof authenticatedChatsChatIdRoute
   '/mentor/$mentorId': typeof authenticatedMentorMentorIdRoute
+  '/mentor/register': typeof authenticatedMentorRegisterRoute
   '/articles': typeof authenticatedArticlesIndexRoute
   '/chats': typeof authenticatedChatsIndexRoute
   '/home': typeof authenticatedHomeIndexRoute
@@ -210,7 +211,6 @@ export interface FileRoutesByTo {
   '/admin/usermanagement': typeof AdminUsermanagementIndexRoute
   '/articles/edit/$articleId': typeof authenticatedArticlesEditArticleIdRoute
   '/articles/create': typeof authenticatedArticlesCreateIndexRoute
-  '/mentor/register': typeof authenticatedMentorRegisterIndexRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
@@ -228,6 +228,7 @@ export interface FileRoutesById {
   '/(authenticated)/articles/$articleId': typeof authenticatedArticlesArticleIdRoute
   '/(authenticated)/chats/$chatId': typeof authenticatedChatsChatIdRoute
   '/(authenticated)/mentor/$mentorId': typeof authenticatedMentorMentorIdRoute
+  '/(authenticated)/mentor/register': typeof authenticatedMentorRegisterRoute
   '/(authenticated)/articles/': typeof authenticatedArticlesIndexRoute
   '/(authenticated)/chats/': typeof authenticatedChatsIndexRoute
   '/(authenticated)/home/': typeof authenticatedHomeIndexRoute
@@ -237,7 +238,6 @@ export interface FileRoutesById {
   '/admin/usermanagement/': typeof AdminUsermanagementIndexRoute
   '/(authenticated)/articles/edit/$articleId': typeof authenticatedArticlesEditArticleIdRoute
   '/(authenticated)/articles/create/': typeof authenticatedArticlesCreateIndexRoute
-  '/(authenticated)/mentor/register/': typeof authenticatedMentorRegisterIndexRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
@@ -255,6 +255,7 @@ export interface FileRouteTypes {
     | '/articles/$articleId'
     | '/chats/$chatId'
     | '/mentor/$mentorId'
+    | '/mentor/register'
     | '/articles'
     | '/chats'
     | '/home'
@@ -264,7 +265,6 @@ export interface FileRouteTypes {
     | '/admin/usermanagement'
     | '/articles/edit/$articleId'
     | '/articles/create'
-    | '/mentor/register'
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
@@ -278,6 +278,7 @@ export interface FileRouteTypes {
     | '/articles/$articleId'
     | '/chats/$chatId'
     | '/mentor/$mentorId'
+    | '/mentor/register'
     | '/articles'
     | '/chats'
     | '/home'
@@ -287,7 +288,6 @@ export interface FileRouteTypes {
     | '/admin/usermanagement'
     | '/articles/edit/$articleId'
     | '/articles/create'
-    | '/mentor/register'
   id:
     | '__root__'
     | '/'
@@ -304,6 +304,7 @@ export interface FileRouteTypes {
     | '/(authenticated)/articles/$articleId'
     | '/(authenticated)/chats/$chatId'
     | '/(authenticated)/mentor/$mentorId'
+    | '/(authenticated)/mentor/register'
     | '/(authenticated)/articles/'
     | '/(authenticated)/chats/'
     | '/(authenticated)/home/'
@@ -313,7 +314,6 @@ export interface FileRouteTypes {
     | '/admin/usermanagement/'
     | '/(authenticated)/articles/edit/$articleId'
     | '/(authenticated)/articles/create/'
-    | '/(authenticated)/mentor/register/'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
@@ -453,6 +453,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof authenticatedArticlesIndexRouteImport
       parentRoute: typeof authenticatedRouteRoute
     }
+    '/(authenticated)/mentor/register': {
+      id: '/(authenticated)/mentor/register'
+      path: '/mentor/register'
+      fullPath: '/mentor/register'
+      preLoaderRoute: typeof authenticatedMentorRegisterRouteImport
+      parentRoute: typeof authenticatedRouteRoute
+    }
     '/(authenticated)/mentor/$mentorId': {
       id: '/(authenticated)/mentor/$mentorId'
       path: '/mentor/$mentorId'
@@ -472,13 +479,6 @@ declare module '@tanstack/react-router' {
       path: '/articles/$articleId'
       fullPath: '/articles/$articleId'
       preLoaderRoute: typeof authenticatedArticlesArticleIdRouteImport
-      parentRoute: typeof authenticatedRouteRoute
-    }
-    '/(authenticated)/mentor/register/': {
-      id: '/(authenticated)/mentor/register/'
-      path: '/mentor/register'
-      fullPath: '/mentor/register'
-      preLoaderRoute: typeof authenticatedMentorRegisterIndexRouteImport
       parentRoute: typeof authenticatedRouteRoute
     }
     '/(authenticated)/articles/create/': {
@@ -505,12 +505,12 @@ interface authenticatedRouteRouteChildren {
   authenticatedArticlesArticleIdRoute: typeof authenticatedArticlesArticleIdRoute
   authenticatedChatsChatIdRoute: typeof authenticatedChatsChatIdRoute
   authenticatedMentorMentorIdRoute: typeof authenticatedMentorMentorIdRoute
+  authenticatedMentorRegisterRoute: typeof authenticatedMentorRegisterRoute
   authenticatedArticlesIndexRoute: typeof authenticatedArticlesIndexRoute
   authenticatedChatsIndexRoute: typeof authenticatedChatsIndexRoute
   authenticatedHomeIndexRoute: typeof authenticatedHomeIndexRoute
   authenticatedArticlesEditArticleIdRoute: typeof authenticatedArticlesEditArticleIdRoute
   authenticatedArticlesCreateIndexRoute: typeof authenticatedArticlesCreateIndexRoute
-  authenticatedMentorRegisterIndexRoute: typeof authenticatedMentorRegisterIndexRoute
 }
 
 const authenticatedRouteRouteChildren: authenticatedRouteRouteChildren = {
@@ -520,13 +520,13 @@ const authenticatedRouteRouteChildren: authenticatedRouteRouteChildren = {
   authenticatedArticlesArticleIdRoute: authenticatedArticlesArticleIdRoute,
   authenticatedChatsChatIdRoute: authenticatedChatsChatIdRoute,
   authenticatedMentorMentorIdRoute: authenticatedMentorMentorIdRoute,
+  authenticatedMentorRegisterRoute: authenticatedMentorRegisterRoute,
   authenticatedArticlesIndexRoute: authenticatedArticlesIndexRoute,
   authenticatedChatsIndexRoute: authenticatedChatsIndexRoute,
   authenticatedHomeIndexRoute: authenticatedHomeIndexRoute,
   authenticatedArticlesEditArticleIdRoute:
     authenticatedArticlesEditArticleIdRoute,
   authenticatedArticlesCreateIndexRoute: authenticatedArticlesCreateIndexRoute,
-  authenticatedMentorRegisterIndexRoute: authenticatedMentorRegisterIndexRoute,
 }
 
 const authenticatedRouteRouteWithChildren =

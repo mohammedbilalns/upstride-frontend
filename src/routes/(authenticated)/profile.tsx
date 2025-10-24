@@ -137,7 +137,6 @@ function RouteComponent() {
 			form.setValue("profilePicture", result.secure_url);
 			form.setValue("profilePictureType", result.resource_type);
 			setUploadedImage(result);
-			toast.success("Profile picture uploaded successfully");
 
 			URL.revokeObjectURL(croppedImage);
 		} catch (error) {

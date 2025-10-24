@@ -22,7 +22,7 @@ export function registerNotificationEvents(socket: Socket) {
 			// Get the current first page.
 			const firstPage = oldData.pages[0];
 
-			// Create the new first page with the prepended notification
+			// Create new first page with the prepended notification
 			const newFirstPage = {
 				...firstPage,
 				// Prepend the new notification to the existing array.

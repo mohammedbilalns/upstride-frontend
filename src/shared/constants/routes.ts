@@ -22,6 +22,7 @@ export const API_ROUTES = {
 	EXPERTISE: {
 		CREATE: "/expertise/",
 		FETCH: "/expertise",
+		ACTIVE: "/expertise/active",
 		UPDATE: (id: string) => `/expertise/${id}`,
 		VERIFY: (id: string) => `/expertise/${id}/verify`,
 		CREATE_SKILL: (id: string) => `/expertise/${id}/skills`,
@@ -37,6 +38,7 @@ export const API_ROUTES = {
 		CREATE: "/mentor",
 		APPROVE: `/mentor/approve`,
 		REJECT: `/mentor/reject`,
+		FETCH_MENTORS_FOR_USER: "/mentor/user",
 	},
 	ARTICLES: {
 		ARTICLES: "/articles",

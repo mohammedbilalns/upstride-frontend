@@ -8,6 +8,8 @@ interface FileUploadProps {
 
 export default function FileUpload({ handleFileChange }: FileUploadProps) {
 	const baseId = useId();
+	const inputId = `${baseId}-resume-upload`;
+
 	return (
 		<div>
 			<Upload className="h-10 w-10 text-muted-foreground mx-auto mb-3" />
@@ -17,12 +19,12 @@ export default function FileUpload({ handleFileChange }: FileUploadProps) {
 				type="button"
 				variant="outline"
 				className="cursor-pointer"
-				onClick={() => document.getElementById("resume-upload")?.click()}
+				onClick={() => document.getElementById(inputId)?.click()}
 			>
 				Browse File
 			</Button>
 			<input
-				id={`${baseId}-resume-upload`}
+				id={inputId}
 				type="file"
 				accept=".pdf,application/pdf"
 				className="hidden"
