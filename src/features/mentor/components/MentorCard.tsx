@@ -7,6 +7,7 @@ import { StarRating } from "./StarRating";
 import FollowButton from "@/features/connnections/components/FollowButton";
 import { Link } from "@tanstack/react-router";
 import UserAvatar from "@/components/common/UserAvatar";
+import GoToChat from "@/components/common/GoToChat";
 
 const dummyRatings: Record<
 	string,
@@ -99,14 +100,8 @@ export default function MentorCard({ mentor }: { mentor: Mentor }) {
 
 				<div className="flex flex-wrap gap-2 w-full sm:w-auto">
 					{/* Message button */}
-					<Button
-						variant="outline"
-						size="sm"
-						className="cursor-pointer flex-1 sm:flex-initial"
-					>
-						<MessageCircle className="h-4 w-4 mr-1" />
-						Message
-					</Button>
+			
+					<GoToChat userId={mentor.id} isText={true} />
 
 					{/* Follow button */}
 					<FollowButton isFollowing={false} mentorId={mentor.id} />

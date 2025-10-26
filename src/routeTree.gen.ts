@@ -16,6 +16,7 @@ import { Route as UnauthorizedIndexRouteImport } from './routes/unauthorized/ind
 import { Route as authenticatedSessionsRouteImport } from './routes/(authenticated)/sessions'
 import { Route as authenticatedProfileRouteImport } from './routes/(authenticated)/profile'
 import { Route as authenticatedMentorsRouteImport } from './routes/(authenticated)/mentors'
+import { Route as authenticatedConnectionsRouteImport } from './routes/(authenticated)/connections'
 import { Route as publicAuthRouteRouteImport } from './routes/(public)/auth/route'
 import { Route as adminAdminRouteRouteImport } from './routes/(admin)/admin/route'
 import { Route as publicAuthIndexRouteImport } from './routes/(public)/auth/index'
@@ -68,6 +69,12 @@ const authenticatedMentorsRoute = authenticatedMentorsRouteImport.update({
   path: '/mentors',
   getParentRoute: () => authenticatedRouteRoute,
 } as any)
+const authenticatedConnectionsRoute =
+  authenticatedConnectionsRouteImport.update({
+    id: '/connections',
+    path: '/connections',
+    getParentRoute: () => authenticatedRouteRoute,
+  } as any)
 const publicAuthRouteRoute = publicAuthRouteRouteImport.update({
   id: '/(public)/auth',
   path: '/auth',
@@ -170,6 +177,7 @@ export interface FileRoutesByFullPath {
   '/about': typeof AboutRoute
   '/admin': typeof adminAdminRouteRouteWithChildren
   '/auth': typeof publicAuthRouteRouteWithChildren
+  '/connections': typeof authenticatedConnectionsRoute
   '/mentors': typeof authenticatedMentorsRoute
   '/profile': typeof authenticatedProfileRoute
   '/sessions': typeof authenticatedSessionsRoute
@@ -193,6 +201,7 @@ export interface FileRoutesByFullPath {
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/about': typeof AboutRoute
+  '/connections': typeof authenticatedConnectionsRoute
   '/mentors': typeof authenticatedMentorsRoute
   '/profile': typeof authenticatedProfileRoute
   '/sessions': typeof authenticatedSessionsRoute
@@ -220,6 +229,7 @@ export interface FileRoutesById {
   '/about': typeof AboutRoute
   '/(admin)/admin': typeof adminAdminRouteRouteWithChildren
   '/(public)/auth': typeof publicAuthRouteRouteWithChildren
+  '/(authenticated)/connections': typeof authenticatedConnectionsRoute
   '/(authenticated)/mentors': typeof authenticatedMentorsRoute
   '/(authenticated)/profile': typeof authenticatedProfileRoute
   '/(authenticated)/sessions': typeof authenticatedSessionsRoute
@@ -247,6 +257,7 @@ export interface FileRouteTypes {
     | '/about'
     | '/admin'
     | '/auth'
+    | '/connections'
     | '/mentors'
     | '/profile'
     | '/sessions'
@@ -270,6 +281,7 @@ export interface FileRouteTypes {
   to:
     | '/'
     | '/about'
+    | '/connections'
     | '/mentors'
     | '/profile'
     | '/sessions'
@@ -296,6 +308,7 @@ export interface FileRouteTypes {
     | '/about'
     | '/(admin)/admin'
     | '/(public)/auth'
+    | '/(authenticated)/connections'
     | '/(authenticated)/mentors'
     | '/(authenticated)/profile'
     | '/(authenticated)/sessions'
@@ -375,6 +388,13 @@ declare module '@tanstack/react-router' {
       path: '/mentors'
       fullPath: '/mentors'
       preLoaderRoute: typeof authenticatedMentorsRouteImport
+      parentRoute: typeof authenticatedRouteRoute
+    }
+    '/(authenticated)/connections': {
+      id: '/(authenticated)/connections'
+      path: '/connections'
+      fullPath: '/connections'
+      preLoaderRoute: typeof authenticatedConnectionsRouteImport
       parentRoute: typeof authenticatedRouteRoute
     }
     '/(public)/auth': {
@@ -500,6 +520,7 @@ declare module '@tanstack/react-router' {
 }
 
 interface authenticatedRouteRouteChildren {
+  authenticatedConnectionsRoute: typeof authenticatedConnectionsRoute
   authenticatedMentorsRoute: typeof authenticatedMentorsRoute
   authenticatedProfileRoute: typeof authenticatedProfileRoute
   authenticatedSessionsRoute: typeof authenticatedSessionsRoute
@@ -515,6 +536,7 @@ interface authenticatedRouteRouteChildren {
 }
 
 const authenticatedRouteRouteChildren: authenticatedRouteRouteChildren = {
+  authenticatedConnectionsRoute: authenticatedConnectionsRoute,
   authenticatedMentorsRoute: authenticatedMentorsRoute,
   authenticatedProfileRoute: authenticatedProfileRoute,
   authenticatedSessionsRoute: authenticatedSessionsRoute,

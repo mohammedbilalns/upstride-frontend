@@ -44,6 +44,7 @@ export function useFollowMentor() {
 		onSettled: (mentorId) => {
 			queryClient.invalidateQueries({ queryKey: ["mentors"] });
 			queryClient.invalidateQueries({ queryKey: ["mentor", mentorId] });
+			queryClient.invalidateQueries({ queryKey: ["following"] });
 		},
 	});
 }

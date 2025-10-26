@@ -9,21 +9,21 @@ import { queryClient, router } from "./app/router/routerConfig";
 import { AppInitializer } from "./shared/utils/initialiser";
 
 declare module "@tanstack/react-router" {
-	interface Register {
-		router: typeof router;
-	}
+  interface Register {
+    router: typeof router;
+  }
 }
 
 const GOOGLE_CLIENT_ID = import.meta.env.VITE_GOOGLE_CLIENT_ID as string;
 
 createRoot(document.getElementById("root")!).render(
-	<StrictMode>
-		<GoogleOAuthProvider clientId={GOOGLE_CLIENT_ID}>
-			<QueryClientProvider client={queryClient}>
-				<AppInitializer />
-				<RouterProvider router={router} />
-				<ReactQueryDevtools initialIsOpen={false} />
-			</QueryClientProvider>
-		</GoogleOAuthProvider>
-	</StrictMode>,
+  <StrictMode>
+    <GoogleOAuthProvider clientId={GOOGLE_CLIENT_ID}>
+      <QueryClientProvider client={queryClient}>
+        <AppInitializer />
+        <RouterProvider router={router} />
+        <ReactQueryDevtools initialIsOpen={false} />
+      </QueryClientProvider>
+    </GoogleOAuthProvider>
+  </StrictMode>,
 );

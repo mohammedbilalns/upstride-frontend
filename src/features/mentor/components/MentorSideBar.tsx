@@ -11,7 +11,7 @@ import {
 } from "@/components/ui/select";
 import { useFetchActiveExpertisesAndSkills } from "../hooks/useFetchActiveExpertisesAndSkills";
 import type { MentorsSearchSchema } from "../schemas/mentorsSearchSchema";
-import ConnectedMentors from "./ConnectedMentors";
+import FollowedMentors from "./FollowedMentors";
 
 interface MentorSideBarProps {
 	search: MentorsSearchSchema;
@@ -117,7 +117,7 @@ export default function MentorSideBar({
 					</div>
 				</CardContent>
 			</Card>
-			<ConnectedMentors />
+			<FollowedMentors />
 		</div>
 	);
 }

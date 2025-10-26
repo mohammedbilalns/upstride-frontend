@@ -42,3 +42,13 @@ export async function fetchFollowing(page: number, limit: number){
 	}
 }
 
+
+export async function fetchRecentActivity(){
+	try {
+		const response = await api.get(API_ROUTES.CONNECTIONS.RECENT_ACTIVITY);
+		return response.data;
+	} catch (error) {
+		console.error("error while fetching recent activity", error);
+		throw error;
+	}
+}

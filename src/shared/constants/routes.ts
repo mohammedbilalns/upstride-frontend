@@ -80,5 +80,6 @@ export const API_ROUTES = {
 		FETCH_FOLLOWERS: "/connection/followers",
 		FETCH_FOLLOWING: "/connection/following",
 		UNFOLLOW: "/connection/unfollow",
+		RECENT_ACTIVITY: "/connection/recent-activity"
 	}
 };

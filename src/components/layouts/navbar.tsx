@@ -20,6 +20,7 @@ const navLinks = [
 	{ label: "Articles", href: "/articles", section: "articles" },
 	{ label: "Mentors", href: "/mentors", section: "mentors" },
 	{ label: "Sessions", href: "/sessions", section: "sessions" },
+	{label: "Connections", href: "/connections", section: "connections"},
 ];
 
 export default function Navbar() {
