@@ -5,8 +5,8 @@ import { API_ROUTES } from "@/shared/constants/routes";
 import type { articleCreateData } from "../schemas/article.schema";
 
 export async function fetchArticles(
-	page: number,
-	query: string,
+	page = 1,
+	query?: string,
 	category?: string,
 	tag?: string,
 	sortBy?: string,

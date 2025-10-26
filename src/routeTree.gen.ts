@@ -15,8 +15,8 @@ import { Route as IndexRouteImport } from './routes/index'
 import { Route as UnauthorizedIndexRouteImport } from './routes/unauthorized/index'
 import { Route as authenticatedSessionsRouteImport } from './routes/(authenticated)/sessions'
 import { Route as authenticatedProfileRouteImport } from './routes/(authenticated)/profile'
+import { Route as authenticatedNetworkRouteImport } from './routes/(authenticated)/network'
 import { Route as authenticatedMentorsRouteImport } from './routes/(authenticated)/mentors'
-import { Route as authenticatedConnectionsRouteImport } from './routes/(authenticated)/connections'
 import { Route as publicAuthRouteRouteImport } from './routes/(public)/auth/route'
 import { Route as adminAdminRouteRouteImport } from './routes/(admin)/admin/route'
 import { Route as publicAuthIndexRouteImport } from './routes/(public)/auth/index'
@@ -64,17 +64,16 @@ const authenticatedProfileRoute = authenticatedProfileRouteImport.update({
   path: '/profile',
   getParentRoute: () => authenticatedRouteRoute,
 } as any)
+const authenticatedNetworkRoute = authenticatedNetworkRouteImport.update({
+  id: '/network',
+  path: '/network',
+  getParentRoute: () => authenticatedRouteRoute,
+} as any)
 const authenticatedMentorsRoute = authenticatedMentorsRouteImport.update({
   id: '/mentors',
   path: '/mentors',
   getParentRoute: () => authenticatedRouteRoute,
 } as any)
-const authenticatedConnectionsRoute =
-  authenticatedConnectionsRouteImport.update({
-    id: '/connections',
-    path: '/connections',
-    getParentRoute: () => authenticatedRouteRoute,
-  } as any)
 const publicAuthRouteRoute = publicAuthRouteRouteImport.update({
   id: '/(public)/auth',
   path: '/auth',
@@ -177,8 +176,8 @@ export interface FileRoutesByFullPath {
   '/about': typeof AboutRoute
   '/admin': typeof adminAdminRouteRouteWithChildren
   '/auth': typeof publicAuthRouteRouteWithChildren
-  '/connections': typeof authenticatedConnectionsRoute
   '/mentors': typeof authenticatedMentorsRoute
+  '/network': typeof authenticatedNetworkRoute
   '/profile': typeof authenticatedProfileRoute
   '/sessions': typeof authenticatedSessionsRoute
   '/unauthorized': typeof UnauthorizedIndexRoute
@@ -201,8 +200,8 @@ export interface FileRoutesByFullPath {
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/about': typeof AboutRoute
-  '/connections': typeof authenticatedConnectionsRoute
   '/mentors': typeof authenticatedMentorsRoute
+  '/network': typeof authenticatedNetworkRoute
   '/profile': typeof authenticatedProfileRoute
   '/sessions': typeof authenticatedSessionsRoute
   '/unauthorized': typeof UnauthorizedIndexRoute
@@ -229,8 +228,8 @@ export interface FileRoutesById {
   '/about': typeof AboutRoute
   '/(admin)/admin': typeof adminAdminRouteRouteWithChildren
   '/(public)/auth': typeof publicAuthRouteRouteWithChildren
-  '/(authenticated)/connections': typeof authenticatedConnectionsRoute
   '/(authenticated)/mentors': typeof authenticatedMentorsRoute
+  '/(authenticated)/network': typeof authenticatedNetworkRoute
   '/(authenticated)/profile': typeof authenticatedProfileRoute
   '/(authenticated)/sessions': typeof authenticatedSessionsRoute
   '/unauthorized/': typeof UnauthorizedIndexRoute
@@ -257,8 +256,8 @@ export interface FileRouteTypes {
     | '/about'
     | '/admin'
     | '/auth'
-    | '/connections'
     | '/mentors'
+    | '/network'
     | '/profile'
     | '/sessions'
     | '/unauthorized'
@@ -281,8 +280,8 @@ export interface FileRouteTypes {
   to:
     | '/'
     | '/about'
-    | '/connections'
     | '/mentors'
+    | '/network'
     | '/profile'
     | '/sessions'
     | '/unauthorized'
@@ -308,8 +307,8 @@ export interface FileRouteTypes {
     | '/about'
     | '/(admin)/admin'
     | '/(public)/auth'
-    | '/(authenticated)/connections'
     | '/(authenticated)/mentors'
+    | '/(authenticated)/network'
     | '/(authenticated)/profile'
     | '/(authenticated)/sessions'
     | '/unauthorized/'
@@ -383,18 +382,18 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof authenticatedProfileRouteImport
       parentRoute: typeof authenticatedRouteRoute
     }
+    '/(authenticated)/network': {
+      id: '/(authenticated)/network'
+      path: '/network'
+      fullPath: '/network'
+      preLoaderRoute: typeof authenticatedNetworkRouteImport
+      parentRoute: typeof authenticatedRouteRoute
+    }
     '/(authenticated)/mentors': {
       id: '/(authenticated)/mentors'
       path: '/mentors'
       fullPath: '/mentors'
       preLoaderRoute: typeof authenticatedMentorsRouteImport
-      parentRoute: typeof authenticatedRouteRoute
-    }
-    '/(authenticated)/connections': {
-      id: '/(authenticated)/connections'
-      path: '/connections'
-      fullPath: '/connections'
-      preLoaderRoute: typeof authenticatedConnectionsRouteImport
       parentRoute: typeof authenticatedRouteRoute
     }
     '/(public)/auth': {
@@ -520,8 +519,8 @@ declare module '@tanstack/react-router' {
 }
 
 interface authenticatedRouteRouteChildren {
-  authenticatedConnectionsRoute: typeof authenticatedConnectionsRoute
   authenticatedMentorsRoute: typeof authenticatedMentorsRoute
+  authenticatedNetworkRoute: typeof authenticatedNetworkRoute
   authenticatedProfileRoute: typeof authenticatedProfileRoute
   authenticatedSessionsRoute: typeof authenticatedSessionsRoute
   authenticatedArticlesArticleIdRoute: typeof authenticatedArticlesArticleIdRoute
@@ -536,8 +535,8 @@ interface authenticatedRouteRouteChildren {
 }
 
 const authenticatedRouteRouteChildren: authenticatedRouteRouteChildren = {
-  authenticatedConnectionsRoute: authenticatedConnectionsRoute,
   authenticatedMentorsRoute: authenticatedMentorsRoute,
+  authenticatedNetworkRoute: authenticatedNetworkRoute,
   authenticatedProfileRoute: authenticatedProfileRoute,
   authenticatedSessionsRoute: authenticatedSessionsRoute,
   authenticatedArticlesArticleIdRoute: authenticatedArticlesArticleIdRoute,

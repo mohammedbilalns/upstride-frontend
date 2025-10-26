@@ -23,7 +23,7 @@ import ConnectionStats from "@/features/connnections/components/ConnectionStats"
 import FollowedList from "@/features/connnections/components/FollowedList";
 
 
-export const Route = createFileRoute("/(authenticated)/connections")({
+export const Route = createFileRoute("/(authenticated)/network")({
 	component: RouteComponent,
 });
 
@@ -38,7 +38,7 @@ function RouteComponent() {
 	const handleClearFilters = () => {
 		setSearchQuery("");
 		setSortBy("newest");
-	};
+	}
 
 
 	return (
@@ -144,5 +144,5 @@ function RouteComponent() {
 				</div>
 			</main>
 		</div>
-	);
+	)
 }

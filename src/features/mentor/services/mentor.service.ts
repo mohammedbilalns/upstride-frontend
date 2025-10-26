@@ -2,11 +2,11 @@ import api from "@/api/api";
 import { API_ROUTES } from "@/shared/constants/routes";
 
 export async function getMentorsForUser(
-	page: string,
-	limit: string,
-	query: string,
-	expertiseId: string,
-	skillId: string,
+	page = "1",
+	limit = "3",
+	query?: string,
+	expertiseId?: string,
+	skillId?: string,
 ) {
 	try {
 		const response = await api.get(API_ROUTES.MENTOR.FETCH_MENTORS_FOR_USER, {

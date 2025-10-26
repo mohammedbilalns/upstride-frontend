@@ -18,9 +18,8 @@ import type { Article } from "@/shared/types/article";
 
 export const Route = createFileRoute("/(authenticated)/home/")({
   component: RouteComponent,
-  loader: async () => {
-    return fetchArticles(1, "", "", "", "");
-  }
+  loader: async () =>  fetchArticles()
+  
 });
 
 function RouteComponent() {

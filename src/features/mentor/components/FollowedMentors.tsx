@@ -5,17 +5,16 @@ import type { MentorInList } from "@/shared/types/mentor";
 import { useFetchFollowing } from "@/features/connnections/hooks/useFetchFollowed";
 import UserAvatar from "@/components/common/UserAvatar";
 import GoToChat from "@/components/common/GoToChat";
-import { ConfirmDialog } from "@/components/common/confirm";
 
 interface FollowedMentorProps {
 	count?: number;
 }
 
 export default function FollowedMentors({ count = 2 }: FollowedMentorProps) {
-	const { data, isLoading } = useFetchFollowing();
+	const { data, isPending } = useFetchFollowing();
 
 	const mentors = data?.pages.flatMap(page => page) || [];
-	const hasMoreToShow = mentors.length > count;
+	const hasMoreToShow = mentors?.length > count;
 
 	return (
 		<Card>
@@ -24,12 +23,12 @@ export default function FollowedMentors({ count = 2 }: FollowedMentorProps) {
 			</CardHeader>
 			<CardContent>
 				<div className="space-y-3">
-					{isLoading ? (
+					{isPending ? (
 						<div className="flex justify-center">
 							<div className="animate-spin rounded-full h-6 w-6 border-b-2 border-primary"></div>
 						</div>
 					) : mentors.length === 0 ? (
-							<p className="text-center text-muted-foreground">No Mentors Followed</p>
+							<p className="text-center text-muted-foreground">You&rsquo;re not following any mentors yet.</p>
 						) : (
 								mentors.slice(0, count).map((mentor: MentorInList) => (
 									<div key={mentor.id} className="flex items-center justify-between">
@@ -48,9 +47,9 @@ export default function FollowedMentors({ count = 2 }: FollowedMentorProps) {
 							)}
 				</div>
 
-				{!isLoading && mentors.length > 0 && hasMoreToShow && (
+				{!isPending && mentors.length > 0 && hasMoreToShow && (
 					<div className="mt-4 pt-4 border-t">
-						<Link to="/following">
+						<Link to="/network">
 							<Button variant="outline" className="w-full">
 								Show All
 							</Button>

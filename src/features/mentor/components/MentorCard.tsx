@@ -107,10 +107,11 @@ export default function MentorCard({ mentor }: { mentor: Mentor }) {
 					<FollowButton isFollowing={false} mentorId={mentor.id} />
 
 					<Link
-						to={`/mentor/${mentor.id}`}
+						to={`/mentor/$mentorId`}
+            params={{mentorId: mentor.id}}
 						className="flex-1 sm:flex-initial"
 					>
-						<Button size="sm" className="w-full">
+						<Button size="sm" className="w-full cursor-pointer">
 							View Profile
 						</Button>
 					</Link>
