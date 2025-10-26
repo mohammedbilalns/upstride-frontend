@@ -14,19 +14,21 @@ import { articlesParamsSchema } from "../../../features/articles/schemas/article
 export const Route = createFileRoute("/(authenticated)/articles/")({
 	component: RouteComponent,
 	validateSearch: (search: Record<string, string>) => {
-		return articlesParamsSchema.parse(search);
-	},
-	loaderDeps: ({ search }) => ({ search }),
-	loader: async ({ deps: { search } }) => {
-		return fetchArticles(
-			1,
-			search.query || "",
-			search.category || "",
-			search.tag || "",
-			search.sortBy || "",
-		);
-	},
+    return articlesParamsSchema.parse(search);
+  },
+  loaderDeps: ({ search }) => ({ search }),
+  loader: async ({ deps: { search } }) => {
+    return fetchArticles(
+      1,
+      search.query ,
+      search.category,
+      search.tag ,
+      search.sortBy,
+    );
+  },
 });
+
+// FIX: cache replication when changing the sort filters 
 
 function RouteComponent() {
 	const { user } = useAuthStore();
@@ -73,6 +75,9 @@ function RouteComponent() {
 		});
 
 	const articles = data?.pages.flatMap((page) => page.articles) || [];
+  const isSearch = Boolean(search.query || search.category || search.tag || search.sortBy)
+  
+
 	const total = data?.pages[0]?.total || 0;
 
 	const { setTarget } = useInfiniteScroll({
@@ -118,10 +123,10 @@ function RouteComponent() {
 			<div className="mb-8 flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
 				<div>
 					<h1 className="text-3xl font-bold mb-2">Articles</h1>
-					{/* <p className="text-muted-foreground"> */}
-					{/* 	Explore our collection of articles on career growth, leadership, and */}
-					{/* 	professional development. */}
-					{/* </p> */}
+          	<p className="text-muted-foreground">
+						Explore our collection of articles on career growth, leadership, and
+						professional development.
+					</p>
 				</div>
 				{isMentor && (
 					<div>
@@ -158,6 +163,9 @@ function RouteComponent() {
 						isFetchingNextPage={isFetchingNextPage}
 						hasNextPage={hasNextPage}
 						setTarget={setTarget}
+            isSearch={isSearch}
+            clearFilters={handleClearFilters}
+            
 					/>
 				</div>
 			</div>

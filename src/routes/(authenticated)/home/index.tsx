@@ -15,6 +15,7 @@ import { Activity } from "react";
 import ArticleFeed from "@/features/home/ArticleFeed";
 import { fetchArticles } from "@/features/articles/services/article.service";
 import type { Article } from "@/shared/types/article";
+import NoResource from "@/components/common/NoResource";
 
 export const Route = createFileRoute("/(authenticated)/home/")({
   component: RouteComponent,
@@ -48,8 +49,12 @@ function RouteComponent() {
 
           {/* Main Feed */}
           <div className="w-full lg:w-2/4 space-y-6">
-            {articles.map((article: Article) => (
-              <ArticleFeed article={article} />
+            { 
+              articles.length === 0 ? (
+                <NoResource resource="articles" isHome={true}/>
+              )
+                : articles.map((article: Article) => (
+                  <ArticleFeed article={article} />
             ))}
           </div>
 
