@@ -29,19 +29,32 @@ export default function NotificationItem({
 				navigate({ to: notification.link });
 			}
 		},
-		[navigate, setOpen],
+		[navigate, setOpen, markNotificationAsReadMutation],
+	);
+
+	const handleKeyDown = useCallback(
+		(e: React.KeyboardEvent) => {
+			if (e.key === "Enter" || e.key === " ") {
+				e.preventDefault();
+				handleNotificationClick(notification);
+			}
+		},
+		[handleNotificationClick, notification],
 	);
 
 	const { icon: Icon, color, bgColor } = getNotificationIcon(notification.type);
 
 	return (
-		<div
+		<button
+			type="button"
 			key={notification.id}
 			className={cn(
-				"p-4 hover:bg-muted/50 transition-colors cursor-pointer border-b",
+				"p-4 hover:bg-muted/50 transition-colors cursor-pointer border-b w-full text-left",
 				!notification.isRead && "border-l-4 border-l-primary bg-muted/30",
 			)}
 			onClick={() => handleNotificationClick(notification)}
+			onKeyDown={handleKeyDown}
+			aria-label={`Notification: ${notification.title}`}
 		>
 			<div className="flex items-start space-x-3">
 				<div className={cn("p-2 rounded-full flex-shrink-0", bgColor)}>
@@ -62,6 +75,6 @@ export default function NotificationItem({
 					<div className="h-2 w-2 bg-primary rounded-full flex-shrink-0 mt-2" />
 				)}
 			</div>
-		</div>
+		</button>
 	);
 }

@@ -17,7 +17,8 @@ export default function FollowedList({
 }: FollowedListProps) {
 	const { data, fetchNextPage, hasNextPage, isFetchingNextPage, isLoading } =
 		useFetchFollowing();
-	const mentors = data?.pages.flatMap((page) => page) || [];
+	// NOTE: replaced flatmap with flat
+	const mentors = data?.pages.flat() || [];
 
 	const { setTarget } = useInfiniteScroll({
 		onIntersect: () => fetchNextPage(),

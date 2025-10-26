@@ -1,5 +1,6 @@
 import { Edit, Lock, Save, Upload, User } from "lucide-react";
 import type React from "react";
+import { useId } from "react";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
@@ -31,6 +32,8 @@ export function ProfileSidebar({
 	onSave,
 	onTogglePasswordForm,
 }: ProfileSidebarProps) {
+	const id = useId();
+
 	return (
 		<Card className="lg:col-span-1 h-fit">
 			<CardContent className="pt-6">
@@ -54,7 +57,7 @@ export function ProfileSidebar({
 								onChange={onImageSelect}
 								disabled={isUploading}
 								className="hidden"
-								id="profile-picture-upload"
+								id={`profile-picture-upload-${id}`}
 							/>
 							<Button
 								variant="outline"

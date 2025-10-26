@@ -1,5 +1,5 @@
 import { Check, Loader2, RotateCw, X } from "lucide-react";
-import { useCallback, useState } from "react";
+import { useCallback, useId, useState } from "react"; // Import useId
 import Cropper, { type Area, type Point } from "react-easy-crop";
 import { Button } from "@/components/ui/button";
 import { Slider } from "@/components/ui/slider";
@@ -68,6 +68,9 @@ export function ImageCropper({
 	const [croppedAreaPixels, setCroppedAreaPixels] = useState<Area | null>(null);
 	const [rotation, setRotation] = useState(0);
 	const [isProcessing, setIsProcessing] = useState(false);
+
+	// Generate unique ID for the zoom slider
+	const zoomId = useId();
 
 	const onCropChange = useCallback((crop: Point) => {
 		setCrop(crop);
@@ -163,10 +166,16 @@ export function ImageCropper({
 				<div className="p-4 border-t border-border bg-card space-y-4">
 					{/* Zoom Slider */}
 					<div className="space-y-2">
-						<label className="text-sm font-medium text-foreground">Zoom</label>
+						<label
+							htmlFor={zoomId}
+							className="text-sm font-medium text-foreground"
+						>
+							Zoom
+						</label>
 						<div className="flex items-center gap-3">
 							<span className="text-xs text-muted-foreground">1x</span>
 							<Slider
+								id={zoomId}
 								value={[zoom]}
 								onValueChange={(value) => setZoom(value[0])}
 								min={1}

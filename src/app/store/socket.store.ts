@@ -9,6 +9,7 @@ interface SocketState {
 	disconnect: () => void;
 	reconnect: () => void;
 }
+// NOTE: Used optional chaining to avoid type errors
 
 export const useSocketStore = create<SocketState>((set, get) => ({
 	socket: null,
@@ -18,7 +19,7 @@ export const useSocketStore = create<SocketState>((set, get) => ({
 			const { socket } = get();
 
 			if (!isLoggedIn) return;
-			if (socket && socket.connected) return;
+			if (socket?.connected) return;
 
 			const newSocket = io(import.meta.env.VITE_SERVER_URL, {
 				transports: ["websocket"],

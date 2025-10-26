@@ -19,6 +19,7 @@ export default function FollowersList({
 			follower.expertise.name.toLowerCase().includes(searchQuery.toLowerCase()),
 	);
 
+	// FIX: specify the type
 	const sortConnections = (connections: any[]) => {
 		const sorted = [...connections];
 		switch (sortBy) {

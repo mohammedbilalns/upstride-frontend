@@ -1,6 +1,6 @@
 interface ApiError extends Error {
 	status?: number;
-	info?: { message?: string; [key: string]: any };
+	info?: { message?: string; [key: string]: unknown };
 }
 
 export const getErrorDetails = (error?: Error | ApiError | string) => {

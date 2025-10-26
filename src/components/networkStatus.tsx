@@ -16,7 +16,9 @@ export default function NetworkStatusIndicator() {
 				viewBox="0 0 24 24"
 				stroke="currentColor"
 				strokeWidth={2}
+				aria-hidden="true"
 			>
+				<title>Offline connection status</title>
 				<path
 					strokeLinecap="round"
 					strokeLinejoin="round"

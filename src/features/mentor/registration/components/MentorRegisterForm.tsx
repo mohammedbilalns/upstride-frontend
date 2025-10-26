@@ -1,5 +1,5 @@
 import { zodResolver } from "@hookform/resolvers/zod";
-import { Plus } from "lucide-react"; // This was used but not imported
+import { Plus } from "lucide-react";
 import { useState } from "react";
 import {
 	FormProvider,
@@ -9,7 +9,7 @@ import {
 } from "react-hook-form";
 import { toast } from "sonner";
 import { Button } from "@/components/ui/button";
-import { Checkbox } from "@/components/ui/checkbox"; // This was used but not imported
+import { Checkbox } from "@/components/ui/checkbox";
 import {
 	Form,
 	FormControl,
@@ -22,7 +22,7 @@ import {
 import { Input } from "@/components/ui/input";
 import {
 	Select,
-	SelectContent, // This was missing
+	SelectContent,
 	SelectItem,
 	SelectTrigger,
 	SelectValue,
@@ -87,7 +87,7 @@ export default function MentorRegisterForm() {
 		form.setValue("expertise", value);
 	};
 
-	const handleDragOver = (e: React.DragEvent<HTMLDivElement>) => {
+	const handleDragOver = (e: React.DragEvent<HTMLButtonElement>) => {
 		e.preventDefault();
 		setIsDragging(true);
 	};
@@ -96,11 +96,11 @@ export default function MentorRegisterForm() {
 		setIsDragging(false);
 	};
 
-	const handleDrop = (e: React.DragEvent<HTMLDivElement>) => {
+	const handleDrop = (e: React.DragEvent<HTMLButtonElement>) => {
 		e.preventDefault();
 		setIsDragging(false);
 
-		if (e.dataTransfer.files && e.dataTransfer.files[0]) {
+		if (e?.dataTransfer?.files[0]) {
 			const file = e.dataTransfer.files[0];
 			if (file.type === "application/pdf") {
 				setResumeFile(file);
@@ -118,7 +118,7 @@ export default function MentorRegisterForm() {
 	const MAX_FILE_SIZE = 2 * 1024 * 1024;
 
 	const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-		if (e.target.files && e.target.files[0]) {
+		if (e.target.files && e?.target?.files[0]) {
 			const file = e.target.files[0];
 
 			if (file.type !== "application/pdf") {
@@ -354,8 +354,10 @@ export default function MentorRegisterForm() {
 							Upload your resume (max 5MB)
 						</FormDescription>
 
-						<div
-							className={`border-2 border-dashed rounded-lg p-6 text-center cursor-pointer transition-colors ${
+						<button
+							type="button"
+							aria-label="Upload resume file"
+							className={`w-full border-2 border-dashed rounded-lg p-6 text-center cursor-pointer transition-colors focus:outline-none focus:ring-2 focus:ring-primary focus:ring-offset-2 ${
 								isDragging
 									? "border-primary bg-primary/5"
 									: "border-muted-foreground/25"
@@ -387,7 +389,7 @@ export default function MentorRegisterForm() {
 							) : (
 								<FileUpload handleFileChange={handleFileChange} />
 							)}
-						</div>
+						</button>
 
 						{form.formState.errors.resume && (
 							<p className="text-sm font-medium text-destructive mt-2">

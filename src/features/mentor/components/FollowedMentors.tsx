@@ -13,7 +13,8 @@ interface FollowedMentorProps {
 export default function FollowedMentors({ count = 2 }: FollowedMentorProps) {
 	const { data, isPending } = useFetchFollowing();
 
-	const mentors = data?.pages.flatMap((page) => page) || [];
+	// NOTE: replaced flatmap with flat
+	const mentors = data?.pages.flat() || [];
 	const hasMoreToShow = mentors?.length > count;
 
 	return (

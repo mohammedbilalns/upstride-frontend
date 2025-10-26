@@ -18,7 +18,7 @@ export default function FilePreview({
 	isDeleting,
 	isUploading,
 }: FilePreviewProps) {
-	const isUploadSuccessful = fileDetails && fileDetails.secure_url;
+	const isUploadSuccessful = fileDetails?.secure_url;
 
 	return (
 		<div className="space-y-4 mt-4">
