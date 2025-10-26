@@ -1,13 +1,18 @@
-import type { Mentor } from "@/shared/types/mentor";
+import { Link } from "@tanstack/react-router";
+import { Clock, MessageCircle } from "lucide-react";
+import GoToChat from "@/components/common/GoToChat";
+import UserAvatar from "@/components/common/UserAvatar";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
-import { Card, CardContent, CardFooter, CardHeader } from "@/components/ui/card";
-import { Clock, MessageCircle } from "lucide-react";
-import { StarRating } from "./StarRating";
+import {
+	Card,
+	CardContent,
+	CardFooter,
+	CardHeader,
+} from "@/components/ui/card";
 import FollowButton from "@/features/connnections/components/FollowButton";
-import { Link } from "@tanstack/react-router";
-import UserAvatar from "@/components/common/UserAvatar";
-import GoToChat from "@/components/common/GoToChat";
+import type { Mentor } from "@/shared/types/mentor";
+import { StarRating } from "./StarRating";
 
 const dummyRatings: Record<
 	string,
@@ -36,7 +41,10 @@ export default function MentorCard({ mentor }: { mentor: Mentor }) {
 				<div className="flex flex-wrap items-start justify-between gap-3">
 					<div className="flex flex-wrap items-start gap-3 min-w-0">
 						<div className="relative flex-shrink-0">
-							<UserAvatar image={mentor.user.profilePicture} name={mentor.user.name} />
+							<UserAvatar
+								image={mentor.user.profilePicture}
+								name={mentor.user.name}
+							/>
 							{dummyRating.isAvailable && (
 								<div className="absolute bottom-0 right-0 w-3 h-3 bg-green-500 rounded-full border-2 border-background" />
 							)}
@@ -84,7 +92,9 @@ export default function MentorCard({ mentor }: { mentor: Mentor }) {
 						</Badge>
 					))}
 					{mentor.skills.length > 5 && (
-						<span className="text-xs text-muted-foreground">+{mentor.skills.length - 5} more</span>
+						<span className="text-xs text-muted-foreground">
+							+{mentor.skills.length - 5} more
+						</span>
 					)}
 				</div>
 			</CardContent>
@@ -100,7 +110,7 @@ export default function MentorCard({ mentor }: { mentor: Mentor }) {
 
 				<div className="flex flex-wrap gap-2 w-full sm:w-auto">
 					{/* Message button */}
-			
+
 					<GoToChat userId={mentor.id} isText={true} />
 
 					{/* Follow button */}
@@ -108,7 +118,7 @@ export default function MentorCard({ mentor }: { mentor: Mentor }) {
 
 					<Link
 						to={`/mentor/$mentorId`}
-            params={{mentorId: mentor.id}}
+						params={{ mentorId: mentor.id }}
 						className="flex-1 sm:flex-initial"
 					>
 						<Button size="sm" className="w-full cursor-pointer">
@@ -120,4 +130,3 @@ export default function MentorCard({ mentor }: { mentor: Mentor }) {
 		</Card>
 	);
 }
-

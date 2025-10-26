@@ -1,4 +1,5 @@
 import { ArrowLeft, Info, MoreHorizontal, Phone, Video } from "lucide-react";
+import UserAvatar from "@/components/common/UserAvatar";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import {
@@ -7,7 +8,6 @@ import {
 	DropdownMenuItem,
 	DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
-import UserAvatar from "@/components/common/UserAvatar";
 
 interface ChatHeaderProps {
 	chat: {

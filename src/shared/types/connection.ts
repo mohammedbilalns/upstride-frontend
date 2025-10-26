@@ -3,4 +3,4 @@ export interface Activity {
 	userName: string;
 	avatarImage: string;
 	createdAt?: string;
-} 
+}

@@ -1,6 +1,6 @@
 import { useMutation, useQueryClient } from "@tanstack/react-query";
-import { followMentor } from "../services/connection.service";
 import type { Mentor } from "@/shared/types/mentor";
+import { followMentor } from "../services/connection.service";
 
 export function useFollowMentor() {
 	const queryClient = useQueryClient();
@@ -12,27 +12,28 @@ export function useFollowMentor() {
 
 			const previousMentors = queryClient.getQueryData(["mentors"]);
 
-			queryClient.setQueryData(
-				["mentors"],
-				(oldData: any) => {
-					if (!oldData) return oldData;
+			queryClient.setQueryData(["mentors"], (oldData: any) => {
+				if (!oldData) return oldData;
 
-					if (oldData.pages) {
-						return {
-							...oldData,
-							pages: oldData.pages.map((page: { mentors: Mentor[] }) => ({
-								...page,
-								mentors: page.mentors.filter((mentor: Mentor) => mentor.id !== mentorId)
-							}))
-						};
-					}
-
+				if (oldData.pages) {
 					return {
 						...oldData,
-						mentors: oldData.mentors.filter((mentor: Mentor) => mentor.id !== mentorId)
+						pages: oldData.pages.map((page: { mentors: Mentor[] }) => ({
+							...page,
+							mentors: page.mentors.filter(
+								(mentor: Mentor) => mentor.id !== mentorId,
+							),
+						})),
 					};
 				}
-			);
+
+				return {
+					...oldData,
+					mentors: oldData.mentors.filter(
+						(mentor: Mentor) => mentor.id !== mentorId,
+					),
+				};
+			});
 
 			return { previousMentors };
 		},

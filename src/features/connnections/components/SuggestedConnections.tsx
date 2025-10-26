@@ -1,8 +1,7 @@
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { Button } from "@/components/ui/button";
-import UserAvatar from "@/components/common/UserAvatar";
 import { UserPlus } from "lucide-react";
-
+import UserAvatar from "@/components/common/UserAvatar";
+import { Button } from "@/components/ui/button";
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 
 const dummySuggestions = [
 	{
@@ -20,18 +19,23 @@ const dummySuggestions = [
 ];
 
 export default function SuggestedConnections() {
-
 	return (
-
 		<Card>
 			<CardHeader>
 				<CardTitle>Suggested Connections</CardTitle>
 			</CardHeader>
 			<CardContent className="space-y-3">
 				{dummySuggestions.map((suggestion) => (
-					<div key={suggestion.id} className="flex items-center justify-between">
+					<div
+						key={suggestion.id}
+						className="flex items-center justify-between"
+					>
 						<div className="flex items-center">
-							<UserAvatar image={suggestion.user.profilePicture} name={suggestion.user.name} size={10} />
+							<UserAvatar
+								image={suggestion.user.profilePicture}
+								name={suggestion.user.name}
+								size={10}
+							/>
 							<div className="ml-3">
 								<p className="text-sm font-medium">{suggestion.user.name}</p>
 								<p className="text-xs text-muted-foreground">
@@ -47,6 +51,5 @@ export default function SuggestedConnections() {
 				))}
 			</CardContent>
 		</Card>
-	)
-
+	);
 }

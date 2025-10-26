@@ -1,8 +1,9 @@
-import { useState } from "react";
 import { createFileRoute } from "@tanstack/react-router";
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { Filter, Search, UserCheck, Users } from "lucide-react";
+import { useState } from "react";
+import { useAuthStore } from "@/app/store/auth.store";
 import { Button } from "@/components/ui/button";
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import {
 	Select,
@@ -11,17 +12,15 @@ import {
 	SelectTrigger,
 	SelectValue,
 } from "@/components/ui/select";
-import { Search, Users, UserCheck, Filter} from "lucide-react";
-import { useAuthStore } from "@/app/store/auth.store";
-import RecentActivityCard from "@/features/connnections/components/RecentActivityCard";
-import SuggestedConnections from "@/features/connnections/components/SuggestedConnections";
-import GrowthChart from "@/features/connnections/components/GrowthChart";
-import MutualConnections from "@/features/connnections/components/MutualConnections";
-import { sortOptions } from "@/features/connnections/data/sortOptions";
-import FollowersList from "@/features/connnections/components/FollowersList";
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import ConnectionStats from "@/features/connnections/components/ConnectionStats";
 import FollowedList from "@/features/connnections/components/FollowedList";
-
+import FollowersList from "@/features/connnections/components/FollowersList";
+import GrowthChart from "@/features/connnections/components/GrowthChart";
+import MutualConnections from "@/features/connnections/components/MutualConnections";
+import RecentActivityCard from "@/features/connnections/components/RecentActivityCard";
+import SuggestedConnections from "@/features/connnections/components/SuggestedConnections";
+import { sortOptions } from "@/features/connnections/data/sortOptions";
 
 export const Route = createFileRoute("/(authenticated)/network")({
 	component: RouteComponent,
@@ -30,7 +29,7 @@ export const Route = createFileRoute("/(authenticated)/network")({
 function RouteComponent() {
 	const { user } = useAuthStore();
 	const isAdmin = user?.role === "admin";
-	const isMentor = user?.role === "mentor"; 
+	const isMentor = user?.role === "mentor";
 	const [searchQuery, setSearchQuery] = useState("");
 	const [activeTab, setActiveTab] = useState("following");
 	const [sortBy, setSortBy] = useState("newest");
@@ -38,8 +37,7 @@ function RouteComponent() {
 	const handleClearFilters = () => {
 		setSearchQuery("");
 		setSortBy("newest");
-	}
-
+	};
 
 	return (
 		<div className="min-h-screen bg-background">
@@ -47,7 +45,8 @@ function RouteComponent() {
 				<div className="mb-6">
 					<h1 className="text-2xl font-bold mb-2">Connections</h1>
 					<p className="text-muted-foreground">
-						Manage your professional network and connect with mentors in your field.
+						Manage your professional network and connect with mentors in your
+						field.
 					</p>
 				</div>
 
@@ -74,7 +73,9 @@ function RouteComponent() {
 								</div>
 
 								<div>
-									<label className="block text-sm font-medium mb-2">Sort By</label>
+									<label className="block text-sm font-medium mb-2">
+										Sort By
+									</label>
 									<Select value={sortBy} onValueChange={setSortBy}>
 										<SelectTrigger>
 											<SelectValue placeholder="Newest First" />
@@ -103,21 +104,30 @@ function RouteComponent() {
 						</Card>
 
 						{/* Connection Stats */}
-						<ConnectionStats/>
+						<ConnectionStats />
 						{/* Suggested Connections */}
 						<SuggestedConnections />
-
 					</div>
 
 					{/* Main Content Area */}
 					<div className="w-full lg:w-2/4">
-						<Tabs value={activeTab} onValueChange={setActiveTab} className="w-full">
+						<Tabs
+							value={activeTab}
+							onValueChange={setActiveTab}
+							className="w-full"
+						>
 							<TabsList className="grid w-full grid-cols-2">
-								<TabsTrigger value="following" className="flex items-center gap-2 cursor-pointer ">
+								<TabsTrigger
+									value="following"
+									className="flex items-center gap-2 cursor-pointer "
+								>
 									<UserCheck className="h-4 w-4" />
 									Following
 								</TabsTrigger>
-								<TabsTrigger value="followers" className="flex items-center gap-2 cursor-pointer">
+								<TabsTrigger
+									value="followers"
+									className="flex items-center gap-2 cursor-pointer"
+								>
 									<Users className="h-4 w-4" />
 									Followers
 								</TabsTrigger>
@@ -144,5 +154,5 @@ function RouteComponent() {
 				</div>
 			</main>
 		</div>
-	)
+	);
 }

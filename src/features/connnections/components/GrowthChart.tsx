@@ -12,5 +12,5 @@ export default function GrowthChart() {
 				</div>
 			</CardContent>
 		</Card>
-	)
+	);
 }

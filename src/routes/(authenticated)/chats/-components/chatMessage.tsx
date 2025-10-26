@@ -25,9 +25,7 @@ export function ChatMessage({ message, isOwn }: ChatMessageProps) {
 			<div
 				className={`flex max-w-[80%] ${isOwn ? "flex-row-reverse" : "flex-row"}`}
 			>
-				{!isOwn && (
-					<UserAvatar image="" name="User" size={8} />
-				)}
+				{!isOwn && <UserAvatar image="" name="User" size={8} />}
 
 				<div
 					className={`rounded-lg px-4 py-2 ${

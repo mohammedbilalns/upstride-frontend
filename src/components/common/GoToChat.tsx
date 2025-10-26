@@ -1,6 +1,6 @@
-import { Button } from "@/components/ui/button";
-import { MessageCircle } from "lucide-react";
 import { useNavigate } from "@tanstack/react-router";
+import { MessageCircle } from "lucide-react";
+import { Button } from "@/components/ui/button";
 
 interface GoToChatProps {
 	userId: string;
@@ -31,7 +31,12 @@ export default function GoToChat({ userId, isText = false }: GoToChatProps) {
 	}
 
 	return (
-		<Button variant="ghost" className="cursor-pointer"  size="icon" onClick={handleGoToChat}>
+		<Button
+			variant="ghost"
+			className="cursor-pointer"
+			size="icon"
+			onClick={handleGoToChat}
+		>
 			<MessageCircle className="h-4 w-4" />
 		</Button>
 	);

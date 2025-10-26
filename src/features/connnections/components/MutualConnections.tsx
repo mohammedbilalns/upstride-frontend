@@ -1,6 +1,6 @@
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { Button } from "@/components/ui/button";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
+import { Button } from "@/components/ui/button";
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 
 export default function MutualConnections() {
 	return (
@@ -27,15 +27,16 @@ export default function MutualConnections() {
 						</div>
 						<div className="ml-3">
 							<p className="text-sm font-medium">3 mutual connections</p>
-							<p className="text-xs text-muted-foreground">with Sarah Williams</p>
+							<p className="text-xs text-muted-foreground">
+								with Sarah Williams
+							</p>
 						</div>
 					</div>
-					<Button size="sm" variant="outline" className="cursor-pointer" >
+					<Button size="sm" variant="outline" className="cursor-pointer">
 						View
 					</Button>
 				</div>
 			</CardContent>
 		</Card>
-
-	)
+	);
 }

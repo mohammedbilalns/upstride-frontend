@@ -1,6 +1,7 @@
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import { useAuthStore } from "@/app/store/auth.store";
+import UserAvatar from "@/components/common/UserAvatar";
 import { Button } from "@/components/ui/button";
 import { Textarea } from "@/components/ui/textarea";
 import {
@@ -8,7 +9,6 @@ import {
 	commentSchema,
 } from "../../schemas/comment.schema";
 import { useCreateComment } from "../hooks/useCreateComment";
-import UserAvatar from "@/components/common/UserAvatar";
 
 interface CommentFormProps {
 	articleId: string;

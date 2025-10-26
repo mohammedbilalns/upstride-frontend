@@ -5,7 +5,7 @@ export function useFetchFollowing() {
 	const limit = 10;
 
 	return useInfiniteQuery({
-		queryKey: ["following"], 
+		queryKey: ["following"],
 		queryFn: ({ pageParam = 1 }) => fetchFollowing(pageParam, limit),
 		getNextPageParam: (lastPage, allPages) => {
 			if (lastPage?.length < limit) return undefined;
@@ -15,16 +15,23 @@ export function useFetchFollowing() {
 		select: (data) => {
 			return {
 				...data,
-				pages: data.pages.map(page => 
-					page.map((mentor:{_id: string, userId: string, expertiseId: string, skillIds: string[]}) => ({
-						...mentor,
-						id: mentor._id,
-						user: mentor.userId, 
-						expertise: mentor.expertiseId, 
-						skills: mentor.skillIds, 
-					}))
-				)
+				pages: data.pages.map((page) =>
+					page.map(
+						(mentor: {
+							_id: string;
+							userId: string;
+							expertiseId: string;
+							skillIds: string[];
+						}) => ({
+							...mentor,
+							id: mentor._id,
+							user: mentor.userId,
+							expertise: mentor.expertiseId,
+							skills: mentor.skillIds,
+						}),
+					),
+				),
 			};
-		}
+		},
 	});
 }

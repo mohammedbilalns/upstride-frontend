@@ -1,16 +1,14 @@
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { TrendingUp } from "lucide-react";
-import { useFetchFollowing } from "../hooks/useFetchFollowed";
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { dummyFollowers } from "../data/dummyFollowers";
+import { useFetchFollowing } from "../hooks/useFetchFollowed";
 
 export default function ConnectionStats() {
-
-	const {data} = useFetchFollowing();
-  // TODO: show the followers list count here 
-	const mentors = data?.pages.flatMap(page => page) || [];
+	const { data } = useFetchFollowing();
+	// TODO: show the followers list count here
+	const mentors = data?.pages.flatMap((page) => page) || [];
 
 	return (
-
 		<Card>
 			<CardHeader>
 				<CardTitle className="flex items-center gap-2">
@@ -29,5 +27,5 @@ export default function ConnectionStats() {
 				</div>
 			</CardContent>
 		</Card>
-	)
+	);
 }

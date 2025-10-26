@@ -1,4 +1,4 @@
-import type  { Activity } from "@/shared/types/connection";
+import type { Activity } from "@/shared/types/connection";
 
 export function getActivityDisplay(activity: Activity) {
 	switch (activity.activityType) {

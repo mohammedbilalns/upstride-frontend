@@ -26,5 +26,3 @@ export const dummyFollowers = [
 		isOnline: false,
 	},
 ];
-
-

@@ -1,6 +1,6 @@
 import { Check, CheckCheck } from "lucide-react";
-import { Badge } from "@/components/ui/badge";
 import UserAvatar from "@/components/common/UserAvatar";
+import { Badge } from "@/components/ui/badge";
 
 interface ChatItemProps {
 	chat: {
