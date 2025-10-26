@@ -13,14 +13,12 @@ import {
 	TableRow,
 } from "@/components/ui/table";
 import SearchBar from "@/features/admin/components/SearchBar";
-import {
-	CreateExpertiseDialog,
-	StatusBadge,
-	UpdateExpertiseDialog,
-} from "@/features/admin/expertise-mangement/components";
+import { CreateExpertiseDialog } from "@/features/admin/expertise-mangement/components/createExpertiseDialog";
 import ExpertiseSkillsCollapse from "@/features/admin/expertise-mangement/components/skillsCollapse";
+import { UpdateExpertiseDialog } from "@/features/admin/expertise-mangement/components/updateExpertiseDialog";
 import { useVerifyExpertise } from "@/features/admin/expertise-mangement/hooks";
 import { fetchExpertises } from "@/features/admin/expertise-mangement/services/expertise-management.service";
+import StatusBadge from "@/features/admin/mentor-management/components/statusBadge";
 import {
 	paramsSchema,
 	type RowsPerPage,
@@ -159,7 +157,12 @@ function RouteComponent() {
 												</TableCell>
 												<TableCell>{item.description || "—"}</TableCell>
 												<TableCell>
-													{StatusBadge({ isVerified: item.isVerified })}
+													<StatusBadge
+														id={item.id}
+														isVerified={item.isVerified}
+														isPending={false}
+														isRejected={false}
+													/>
 												</TableCell>
 												<TableCell className="text-right">
 													<div className="flex justify-end gap-2">

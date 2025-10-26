@@ -23,7 +23,7 @@ export default function FindMentorsSection() {
 			<CardContent className="space-y-3">
 				{isPending ? (
 					<Pending resource="mentors" />
-				) : mentors.length == 0 ? (
+				) : mentors.length === 0 ? (
 					<p className="text-center text-muted-foreground">
 						No mentors in the Platform yet.
 					</p>

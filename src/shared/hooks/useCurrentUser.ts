@@ -47,6 +47,7 @@ export function useCurrentUser() {
 		query.isSuccess,
 		query.isError,
 		query.data,
+		clearUser, // NOTE: This is a hack to fix the linter error
 		setUser,
 		handleConnect,
 		handleDisconnect,

@@ -6,7 +6,7 @@ import { useFetchFollowing } from "../hooks/useFetchFollowed";
 export default function ConnectionStats() {
 	const { data } = useFetchFollowing();
 	// TODO: show the followers list count here
-	const mentors = data?.pages.flatMap((page) => page) || [];
+	const mentors = data?.pages.flat() || [];
 
 	return (
 		<Card>

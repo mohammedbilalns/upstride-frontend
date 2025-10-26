@@ -28,10 +28,9 @@ export function ArticleCard({ article }: { article: ArticleInList }) {
 					</div>
 				)}
 			</div>
-
 			<CardHeader className="pb-2 px-4 pt-3 flex-shrink-0">
-				<div className="flex items-center justify-between mb-1">
-					<div className="flex gap-1 flex-wrap">
+				<div className="flex items-start justify-between gap-2 mb-1">
+					<div className="flex gap-1 flex-wrap min-w-0 flex-1">
 						{article.tags.slice(0, 2).map((tag: Tag) => (
 							<Badge key={tag._id} variant="secondary" className="text-xs">
 								{tag.name}
@@ -43,16 +42,16 @@ export function ArticleCard({ article }: { article: ArticleInList }) {
 							</Badge>
 						)}
 					</div>
-					<span className="text-xs text-muted-foreground">
+					<span className="text-xs text-muted-foreground whitespace-nowrap flex-shrink-0">
 						{formatDate(article.createdAt)}
 					</span>
 				</div>
 				<h3 className="text-base font-semibold line-clamp-2">
 					{article.title}
 				</h3>
-
 				<Link
-					to={`/authors/${article.author}`}
+					to={"/mentor/$mentorId"}
+					params={{ mentorId: article.author }}
 					className="flex items-center gap-2 mt-2 hover:underline"
 				>
 					{article.authorImage ? (
@@ -71,13 +70,11 @@ export function ArticleCard({ article }: { article: ArticleInList }) {
 					</span>
 				</Link>
 			</CardHeader>
-
 			<CardContent className="pt-0 px-4 flex-grow min-h-[3rem]">
 				<p className="text-muted-foreground text-xs line-clamp-2">
 					{article.description}
 				</p>
 			</CardContent>
-
 			<CardFooter className="flex justify-between items-center pt-2 px-4 pb-3 flex-shrink-0 mt-auto">
 				<div className="flex space-x-3 text-xs text-muted-foreground">
 					<div className="flex items-center">
@@ -99,7 +96,7 @@ export function ArticleCard({ article }: { article: ArticleInList }) {
 						</span>
 					</div>
 				</div>
-				<Link to={`/articles/${article.id}`}>
+				<Link to={`/articles/$articleId`} params={{ articleId: article.id }}>
 					<Button variant="link" className="cursor-pointer text-xs p-0 h-auto">
 						Read More
 					</Button>

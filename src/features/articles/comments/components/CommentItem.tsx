@@ -46,7 +46,7 @@ export default function CommentItem({
 	const [isEditing, setIsEditing] = useState(false);
 	const [editContent, setEditContent] = useState(comment.content || "");
 	const { user } = useAuthStore();
-	const isAuthor = user?.id == comment.userId;
+	const isAuthor = user?.id === comment.userId;
 
 	// Check if the comment is deleted
 	const isDeleted = comment.isDeleted === true;

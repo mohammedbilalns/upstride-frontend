@@ -20,6 +20,9 @@ export function OtpInputField({
 	error,
 	isExpired,
 }: OtpInputFieldProps) {
+	// Create a static array of unique identifiers
+	const otpSlots = ["slot-1", "slot-2", "slot-3", "slot-4", "slot-5", "slot-6"];
+
 	return (
 		<div className="space-y-2">
 			<Label className="justify-center" htmlFor="otp">
@@ -33,8 +36,8 @@ export function OtpInputField({
 					disabled={disabled || isExpired}
 				>
 					<InputOTPGroup>
-						{Array.from({ length: 6 }).map((_, i) => (
-							<InputOTPSlot key={i} index={i} />
+						{otpSlots.map((id, index) => (
+							<InputOTPSlot key={id} index={index} />
 						))}
 					</InputOTPGroup>
 				</InputOTP>

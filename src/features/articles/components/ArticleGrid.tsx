@@ -26,6 +26,8 @@ export function ArticleGrid({
 	isSearch,
 	clearFilters,
 }: ArticleGridProps) {
+	const skeletonKeys = Array.from({ length: 8 }, (_, i) => `skeleton-${i}`);
+
 	if (isLoading && articles.length === 0) {
 		return (
 			<div>
@@ -36,9 +38,9 @@ export function ArticleGrid({
 							: "space-y-4",
 					)}
 				>
-					{Array.from({ length: 8 }).map((_, index) => (
+					{skeletonKeys.map((key) => (
 						<div
-							key={index}
+							key={key}
 							className={cn(viewMode === "grid" ? "space-y-3" : "flex gap-4")}
 						>
 							<Skeleton

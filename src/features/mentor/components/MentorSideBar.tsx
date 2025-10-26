@@ -1,5 +1,6 @@
 import type { NavigateOptions } from "@tanstack/react-router";
 import { Filter } from "lucide-react";
+import { useId } from "react";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader } from "@/components/ui/card";
 import {
@@ -24,6 +25,8 @@ export default function MentorSideBar({
 }: MentorSideBarProps) {
 	const { data: ExpertisesAndSkillsData, isLoading: isLoadingFilters } =
 		useFetchActiveExpertisesAndSkills();
+
+	const id = useId();
 
 	const handleExpertiseChange = (value: string) => {
 		navigate({
@@ -64,13 +67,18 @@ export default function MentorSideBar({
 				</CardHeader>
 				<CardContent className="space-y-4">
 					<div>
-						<label className="block text-sm font-medium mb-2">Expertise</label>
+						<label
+							htmlFor={`expertise-${id}`}
+							className="block text-sm font-medium mb-2"
+						>
+							Expertise
+						</label>
 						<Select
 							value={search.expertiseId || "all"}
 							onValueChange={handleExpertiseChange}
 							disabled={isLoadingFilters}
 						>
-							<SelectTrigger>
+							<SelectTrigger id={`expertise-${id}`}>
 								<SelectValue placeholder="All Expertise" />
 							</SelectTrigger>
 							<SelectContent>
@@ -86,13 +94,18 @@ export default function MentorSideBar({
 						</Select>
 					</div>
 					<div>
-						<label className="block text-sm font-medium mb-2">Skills</label>
+						<label
+							htmlFor={`skill-${id}`}
+							className="block text-sm font-medium mb-2"
+						>
+							Skills
+						</label>
 						<Select
 							value={search.skillId || "all"}
 							onValueChange={handleSkillChange}
 							disabled={isLoadingFilters}
 						>
-							<SelectTrigger>
+							<SelectTrigger id={`skill-${id}`}>
 								<SelectValue placeholder="All Skills" />
 							</SelectTrigger>
 							<SelectContent>

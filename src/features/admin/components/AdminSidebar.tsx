@@ -10,6 +10,7 @@ interface SidebarProps {
 	className?: string;
 }
 
+// TODO: Fix type error of `to` prop
 export function Sidebar({ className = "" }: SidebarProps) {
 	const [isOpen, setIsOpen] = useState(false);
 	const [isCollapsed, setIsCollapsed] = useState(false);
@@ -61,9 +62,11 @@ export function Sidebar({ className = "" }: SidebarProps) {
 
 			{/* Mobile overlay */}
 			{isOpen && (
-				<div
+				<button
+					type="button"
 					className="fixed inset-0 bg-black/40 backdrop-blur-sm z-30 md:hidden transition-opacity duration-300"
 					onClick={toggleSidebar}
+					aria-label="Close sidebar"
 				/>
 			)}
 
@@ -130,7 +133,7 @@ export function Sidebar({ className = "" }: SidebarProps) {
 							return (
 								<li key={item.id}>
 									<Link
-										to={item.href}
+										to={`/admin/${item.href}`}
 										onClick={handleItemClick}
 										className={`
                       w-full flex items-center space-x-3 px-4 py-3 rounded-xl text-left transition-all duration-200 group relative cursor-pointer

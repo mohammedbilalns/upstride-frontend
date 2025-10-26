@@ -14,7 +14,8 @@ export default function AdminDetails({ isCollapsed }: AdminDetailsProps) {
 			<div
 				className="w-10 h-10 bg-gradient-to-br from-primary to-primary/80
         rounded-full flex items-center justify-center shadow-lg"
-				aria-label={name}
+				role="img"
+				aria-label={`Avatar for ${name}`}
 			>
 				<span className="text-primary-foreground font-semibold text-sm">
 					{createFallbackAvatar(name)}

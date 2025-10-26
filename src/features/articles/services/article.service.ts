@@ -1,5 +1,5 @@
 import { notFound } from "@tanstack/react-router";
-import { isAxiosError } from "axios";
+import { type AxiosResponse, isAxiosError } from "axios";
 import api from "@/api/api";
 import { API_ROUTES } from "@/shared/constants/routes";
 import type { articleCreateData } from "../schemas/article.schema";
@@ -12,7 +12,7 @@ export async function fetchArticles(
 	sortBy?: string,
 ) {
 	try {
-		let response;
+		let response: AxiosResponse;
 		if (category) {
 			response = await api.get(API_ROUTES.ARTICLES.ARTICLES_BY_CATEGORY, {
 				params: { page, query, category, sortBy },

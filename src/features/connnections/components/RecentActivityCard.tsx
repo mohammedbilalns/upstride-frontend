@@ -23,14 +23,14 @@ export default function RecentActivityCard() {
 				{data.length === 0 ? (
 					<p className="text-sm text-muted-foreground">No recent activity</p>
 				) : (
-					data.map((activity: Activity, index: number) => {
+					data.map((activity: Activity) => {
 						const { message, color } = getActivityDisplay(activity);
 						const timeAgo = activity.createdAt
 							? formatRelativeTime(activity.createdAt)
 							: "";
 
 						return (
-							<div key={index} className="flex items-start space-x-3">
+							<div key={activity.id} className="flex items-start space-x-3">
 								<div className={`w-2 h-2 ${color} rounded-full mt-2`} />
 								<div>
 									<p className="text-sm">{message}</p>

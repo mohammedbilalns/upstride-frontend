@@ -1,5 +1,5 @@
 import { Link } from "@tanstack/react-router";
-import { Clock, MessageCircle } from "lucide-react";
+import { Clock } from "lucide-react";
 import GoToChat from "@/components/common/GoToChat";
 import UserAvatar from "@/components/common/UserAvatar";
 import { Badge } from "@/components/ui/badge";

@@ -5,7 +5,7 @@ import { useAuthStore } from "@/app/store/auth.store";
 interface CustomAxiosRequestConfig extends InternalAxiosRequestConfig {
 	_retry?: boolean;
 }
-
+// NOTE: Check token refreshing in logout end point
 const api = axios.create({
 	baseURL: import.meta.env.VITE_API_URL,
 	withCredentials: true,

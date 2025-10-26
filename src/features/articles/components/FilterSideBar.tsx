@@ -1,4 +1,5 @@
 import { AlertCircle, Filter, Loader2, RefreshCw } from "lucide-react";
+import { useId } from "react";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader } from "@/components/ui/card";
@@ -34,6 +35,8 @@ export function FilterSidebar({
 	onTagClick,
 	onClearFilters,
 }: FilterSidebarProps) {
+	const id = useId();
+
 	const {
 		isLoading: isLoadingTags,
 		isError: isTagsError,
@@ -65,7 +68,12 @@ export function FilterSidebar({
 				</CardHeader>
 				<CardContent className="space-y-4">
 					<div>
-						<label className="block text-sm font-medium mb-2">Category</label>
+						<label
+							htmlFor="category-select"
+							className="block text-sm font-medium mb-2"
+						>
+							Category
+						</label>
 						{isLoadingCategories ? (
 							<div className="flex items-center justify-center h-10 border rounded-md bg-muted">
 								<Loader2 className="h-4 w-4 animate-spin text-muted-foreground mr-2" />
@@ -94,7 +102,7 @@ export function FilterSidebar({
 								value={searchParams.category || "all"}
 								onValueChange={onCategoryChange}
 							>
-								<SelectTrigger>
+								<SelectTrigger id={`category-select-${id}`}>
 									<SelectValue placeholder="All Categories" />
 								</SelectTrigger>
 								<SelectContent>
@@ -120,12 +128,17 @@ export function FilterSidebar({
 					</div>
 
 					<div>
-						<label className="block text-sm font-medium mb-2">Sort By</label>
+						<label
+							htmlFor="sort-select"
+							className="block text-sm font-medium mb-2"
+						>
+							Sort By
+						</label>
 						<Select
 							value={searchParams.sortBy || "newest"}
 							onValueChange={onSortByChange}
 						>
-							<SelectTrigger>
+							<SelectTrigger id={`sort-select-${id}`}>
 								<SelectValue placeholder="Newest First" />
 							</SelectTrigger>
 							<SelectContent>

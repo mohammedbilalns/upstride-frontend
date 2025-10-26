@@ -29,15 +29,24 @@ export default function ArticleFeed({ article }: { article: Article }) {
 
 				<div className="flex items-center justify-between">
 					<div className="flex space-x-4 text-sm text-muted-foreground">
-						<button className="flex items-center hover:text-primary transition-colors">
+						<button
+							type="button"
+							className="flex items-center hover:text-primary transition-colors"
+						>
 							<Heart className="h-4 w-4 mr-1" />
 							<span>{article.likes}</span>
 						</button>
-						<button className="flex items-center hover:text-primary transition-colors">
+						<button
+							type="button"
+							className="flex items-center hover:text-primary transition-colors"
+						>
 							<MessageSquare className="h-4 w-4 mr-1" />
 							<span>{article.comments}</span>
 						</button>
-						<button className="flex items-center hover:text-primary transition-colors">
+						<button
+							type="button"
+							className="flex items-center hover:text-primary transition-colors"
+						>
 							<Bookmark className="h-4 w-4 mr-1" />
 						</button>
 					</div>

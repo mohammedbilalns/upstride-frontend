@@ -41,6 +41,10 @@ export function TopicSelectionStep({
 	const isTopicSelected = (topicId: string) => selectedTopics.includes(topicId);
 	const hasSelectedTopics = selectedTopics.length > 0;
 
+	const progressIndicators = useMemo(() => {
+		return Array.from({ length: totalAreas }, (_, i) => `progress-${i}`);
+	}, [totalAreas]);
+
 	return (
 		<>
 			<div className="flex items-center justify-between mb-4">
@@ -53,9 +57,9 @@ export function TopicSelectionStep({
 					<ChevronLeft className="mr-1 h-4 w-4" /> Previous
 				</Button>
 				<div className="flex items-center space-x-2">
-					{Array.from({ length: totalAreas }).map((area, index) => (
+					{progressIndicators.map((key, index) => (
 						<div
-							key={index}
+							key={key}
 							className={`w-3 h-3 rounded-full ${
 								index === currentAreaIndex
 									? "bg-primary"
