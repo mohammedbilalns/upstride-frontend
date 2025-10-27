@@ -9,11 +9,12 @@ import {
 	SelectTrigger,
 	SelectValue,
 } from "@/components/ui/select";
+import type { Expertise } from "@/shared/types";
 import { ExpertiseWithSkills } from "./ExpertiseWithSkills";
 
 interface ExpertiseSkillsProps {
 	isEditing: boolean;
-	expertiseOptions: any[];
+	expertiseOptions: Expertise[];
 	onUpdateSkills: (skills: string[]) => void;
 	onRemoveExpertise: (expertiseId: string) => void;
 }
@@ -54,12 +55,12 @@ export function ExpertiseSkills({
 							<SelectContent>
 								{expertiseOptions
 									.filter(
-										(option: any) =>
+										(option: Expertise) =>
 											!form
 												.getValues("interestedExpertises")
 												?.includes(option.id),
 									)
-									.map((option: any) => (
+									.map((option: Expertise) => (
 										<SelectItem key={option.id} value={option.id}>
 											{option.name}
 										</SelectItem>

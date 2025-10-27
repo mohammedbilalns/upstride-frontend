@@ -47,8 +47,9 @@ function RouteComponent() {
 	const [selectedImage, setSelectedImage] = useState<string>("");
 
 	const expertiseIds =
-		loaderData.interestedExpertises?.map((e: any) => e._id) || [];
-	const skillIds = loaderData.interestedSkills?.map((s: any) => s._id) || [];
+		loaderData.interestedExpertises?.map((e: { _id: string }) => e._id) || [];
+	const skillIds =
+		loaderData.interestedSkills?.map((s: { _id: string }) => s._id) || [];
 
 	const updateProfileMutation = useUpdateProfile();
 	const { handleUpload, isUploading } = useUploadMedia();
@@ -140,6 +141,7 @@ function RouteComponent() {
 
 			URL.revokeObjectURL(croppedImage);
 		} catch (error) {
+			console.error("Failed to upload profile picture", error);
 			toast.error("Failed to upload profile picture");
 		}
 

@@ -147,6 +147,7 @@ export function useChats() {
 	const [chats, setChats] = useState<Chat[]>(dummyChats);
 	const [isLoading, setIsLoading] = useState(false);
 
+	console.log(setChats, setIsLoading);
 	return {
 		chats,
 		isLoading,

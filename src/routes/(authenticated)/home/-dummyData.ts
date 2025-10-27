@@ -1,12 +1,4 @@
-import { Book, Calendar, UserPlus } from "lucide-react";
-
-interface Mentor {
-	id: number;
-	name: string;
-	title: string;
-	imageUrl: string;
-	isOnline: boolean;
-}
+import { Book, Calendar, type IconNode, UserPlus } from "lucide-react";
 
 interface Session {
 	id: number;
@@ -25,32 +17,9 @@ interface RecommendedArticle {
 interface QuickAction {
 	id: number;
 	title: string;
-	icon: any;
+	icon: IconNode;
 }
 
-export const dummyMentors: Mentor[] = [
-	{
-		id: 1,
-		name: "Sarah Williams",
-		title: "Leadership Coach",
-		imageUrl: "https://randomuser.me/api/portraits/women/44.jpg",
-		isOnline: true,
-	},
-	{
-		id: 2,
-		name: "Michael Chen",
-		title: "Tech Career Advisor",
-		imageUrl: "https://randomuser.me/api/portraits/men/22.jpg",
-		isOnline: true,
-	},
-	{
-		id: 3,
-		name: "Emma Thompson",
-		title: "Personal Branding",
-		imageUrl: "https://randomuser.me/api/portraits/women/68.jpg",
-		isOnline: false,
-	},
-];
 // Dummy data for sessions
 export const dummySessions: Session[] = [
 	{

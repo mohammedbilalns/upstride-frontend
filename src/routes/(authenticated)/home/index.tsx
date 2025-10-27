@@ -53,7 +53,7 @@ function RouteComponent() {
 							<NoResource resource="articles" isHome={true} />
 						) : (
 							articles.map((article: Article) => (
-								<ArticleFeed article={article} />
+								<ArticleFeed key={article.id} article={article} />
 							))
 						)}
 					</div>

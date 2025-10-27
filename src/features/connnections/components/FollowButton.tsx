@@ -39,19 +39,15 @@ export default function FollowButton({
 					<div className="animate-spin rounded-full h-4 w-4 border-b-2 border-current mr-1"></div>
 					{isFollowing ? "Unfollowing..." : "Following..."}
 				</div>
+			) : isFollowing ? (
+				<>
+					<UserMinus className="h-4 w-4 mr-1" />
+					Unfollow
+				</>
 			) : (
 				<>
-					{isFollowing ? (
-						<>
-							<UserMinus className="h-4 w-4 mr-1" />
-							Unfollow
-						</>
-					) : (
-						<>
-							<UserCheck className="h-4 w-4 mr-1" />
-							Follow
-						</>
-					)}
+					<UserCheck className="h-4 w-4 mr-1" />
+					Follow
 				</>
 			)}
 		</Button>

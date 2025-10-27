@@ -1,10 +1,11 @@
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { createFileRoute, Link, useNavigate } from "@tanstack/react-router";
-import { ArrowLeft, Edit, MoreHorizontal, Trash2, User } from "lucide-react";
+import { ArrowLeft, Edit, MoreHorizontal, Trash2 } from "lucide-react";
 import { toast } from "sonner";
 import { useAuthStore } from "@/app/store/auth.store";
 import { ConfirmDialog } from "@/components/common/confirm";
 import UserAvatar from "@/components/common/UserAvatar";
+import { TiptapRenderer } from "@/components/rich-text-editor/Renderer";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import {
@@ -136,7 +137,8 @@ function RouteComponent() {
 								<DropdownMenuItem asChild>
 									<Link
 										className="cursor-pointer"
-										to={`/articles/edit/${article.id}`}
+										to={`/articles/edit/$articleId`}
+										params={{ articleId }}
 									>
 										<Edit className="h-4 w-4 mr-2 " />
 										Edit Article
@@ -170,17 +172,16 @@ function RouteComponent() {
 				<div className="w-full aspect-video rounded-lg overflow-hidden mb-6">
 					<img
 						src={article.featuredImage}
-						alt={`Featured image for ${article.title}`}
+						alt={`Featured Thumbnail for ${article.title}`}
 						className="w-full h-full object-cover"
 					/>
 				</div>
 			)}
 
 			{/* Article Content */}
-			<div
-				className="prose-custom max-w-none mb-6"
-				dangerouslySetInnerHTML={{ __html: article.content }}
-			/>
+			<div className="prose-custom max-w-none mb-6">
+				<TiptapRenderer content={article.content} />
+			</div>
 
 			{/* Tags */}
 			<div className="flex flex-wrap gap-2 mb-6">

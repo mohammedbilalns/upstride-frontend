@@ -2,7 +2,10 @@ import { notFound } from "@tanstack/react-router";
 import { type AxiosResponse, isAxiosError } from "axios";
 import api from "@/api/api";
 import { API_ROUTES } from "@/shared/constants/routes";
-import type { articleCreateData } from "../schemas/article.schema";
+import type {
+	articleCreateData,
+	articleUpdatePayload,
+} from "../schemas/article.schema";
 
 export async function fetchArticles(
 	page = 1,
@@ -49,7 +52,7 @@ export async function getArticle(articleId: string) {
 	}
 }
 
-export async function updateArticle(article: any) {
+export async function updateArticle(article: articleUpdatePayload) {
 	try {
 		const response = await api.put(API_ROUTES.ARTICLES.UPDATE, article);
 		return response.data;

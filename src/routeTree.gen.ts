@@ -172,7 +172,7 @@ const authenticatedArticlesEditArticleIdRoute =
   } as any)
 
 export interface FileRoutesByFullPath {
-  '/': typeof IndexRoute
+  '/': typeof authenticatedRouteRouteWithChildren
   '/about': typeof AboutRoute
   '/admin': typeof adminAdminRouteRouteWithChildren
   '/auth': typeof publicAuthRouteRouteWithChildren
@@ -198,7 +198,7 @@ export interface FileRoutesByFullPath {
   '/articles/create': typeof authenticatedArticlesCreateIndexRoute
 }
 export interface FileRoutesByTo {
-  '/': typeof IndexRoute
+  '/': typeof authenticatedRouteRouteWithChildren
   '/about': typeof AboutRoute
   '/mentors': typeof authenticatedMentorsRoute
   '/network': typeof authenticatedNetworkRoute
@@ -349,8 +349,8 @@ declare module '@tanstack/react-router' {
     }
     '/(authenticated)': {
       id: '/(authenticated)'
-      path: ''
-      fullPath: ''
+      path: '/'
+      fullPath: '/'
       preLoaderRoute: typeof authenticatedRouteRouteImport
       parentRoute: typeof rootRouteImport
     }

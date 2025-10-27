@@ -242,7 +242,9 @@ export default function MentorRegisterForm() {
 									<Input
 										type="number"
 										{...field}
-										onChange={(e) => field.onChange(parseInt(e.target.value))}
+										onChange={(e) =>
+											field.onChange(parseInt(e.target.value, 10))
+										}
 									/>
 								</FormControl>
 								<FormMessage />

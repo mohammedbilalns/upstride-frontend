@@ -4,6 +4,7 @@ import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import FollowButton from "@/features/connnections/components/FollowButton";
 import { useInfiniteScroll } from "@/shared/hooks/useInfinteScroll";
+import type { Connection } from "@/shared/types/connection";
 import { useFetchFollowing } from "../hooks/useFetchFollowed";
 
 interface FollowedListProps {
@@ -32,7 +33,7 @@ export default function FollowedList({
 			mentor.expertise?.name?.toLowerCase().includes(searchQuery.toLowerCase()),
 	);
 
-	const sortConnections = (connections: any[]) => {
+	const sortConnections = (connections: Connection[]) => {
 		const sorted = [...connections];
 		switch (sortBy) {
 			case "newest":

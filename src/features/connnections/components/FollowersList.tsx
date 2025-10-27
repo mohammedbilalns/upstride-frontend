@@ -70,9 +70,9 @@ export default function FollowersList({
 											name={follower.user.name}
 											size={12}
 										/>
-										{follower.isOnline && (
-											<div className="absolute bottom-0 right-0 w-3 h-3 bg-green-500 rounded-full border-2 border-background"></div>
-										)}
+										{/* {follower.isOnline && ( */}
+										{/* 	<div className="absolute bottom-0 right-0 w-3 h-3 bg-green-500 rounded-full border-2 border-background"></div> */}
+										{/* )} */}
 									</div>
 									<div className="ml-4">
 										<h3 className="font-medium">{follower.user.name}</h3>
@@ -86,7 +86,7 @@ export default function FollowersList({
 									</div>
 								</div>
 								<div className="flex space-x-2">
-									<GoToChat userId={follower.user._id} isText={true} />
+									<GoToChat userId={follower.user.id} isText={true} />
 									<Button size="sm" variant="outline">
 										View Profile
 									</Button>

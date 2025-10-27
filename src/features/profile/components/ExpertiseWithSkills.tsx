@@ -13,6 +13,7 @@ import {
 } from "@/components/ui/select";
 import { useFetchSkills } from "@/features/admin/expertise-mangement/hooks";
 import { useFetchExpertiseAreas } from "@/features/auth/hooks";
+import type { Expertise, Skill } from "@/shared/types";
 
 interface ExpertiseWithSkillsProps {
 	expertiseId: string;
@@ -38,14 +39,12 @@ export function ExpertiseWithSkills({
 	const [selectedSkillId, setSelectedSkillId] = useState<string>("");
 
 	const expertise = expertiseOptions.find(
-		(e: any) => e.id === expertiseId || e._id === expertiseId,
+		(e: Expertise) => e.id === expertiseId,
 	);
 	const expertiseName = expertise?.name || "Unknown Expertise";
 
 	const expertiseSkills = selectedSkills.filter((skillId) => {
-		const skill = skillsOptions.find(
-			(s: any) => s.id === skillId || s._id === skillId,
-		);
+		const skill = skillsOptions.find((s: Expertise) => s.id === skillId);
 		return skill;
 	});
 
@@ -99,11 +98,9 @@ export function ExpertiseWithSkills({
 									<SelectContent>
 										{skillsOptions
 											.filter(
-												(skill: any) =>
-													!selectedSkills.includes(skill.id) &&
-													!selectedSkills.includes(skill._id),
+												(skill: Skill) => !selectedSkills.includes(skill.id),
 											)
-											.map((skill: any) => (
+											.map((skill: Skill) => (
 												<SelectItem key={skill.id} value={skill.id}>
 													{skill.name}
 												</SelectItem>
@@ -117,9 +114,7 @@ export function ExpertiseWithSkills({
 									onClick={() => {
 										if (skillsOptions.length > 0) {
 											const firstAvailableSkill = skillsOptions.find(
-												(skill: any) =>
-													!selectedSkills.includes(skill.id) &&
-													!selectedSkills.includes(skill._id),
+												(skill: Skill) => !selectedSkills.includes(skill.id),
 											);
 											if (firstAvailableSkill) {
 												handleAddSkill(firstAvailableSkill.id);
@@ -135,9 +130,7 @@ export function ExpertiseWithSkills({
 					</div>
 					<div className="flex flex-wrap gap-2 mt-2">
 						{expertiseSkills.map((skillId) => {
-							const skill = skillsOptions.find(
-								(s: any) => s.id === skillId || s._id === skillId,
-							);
+							const skill = skillsOptions.find((s: Skill) => s.id === skillId);
 							return (
 								<Badge
 									key={skillId}

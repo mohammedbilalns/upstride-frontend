@@ -12,6 +12,7 @@ export const Route = createFileRoute("/(authenticated)/chats/")({
 
 function RouteComponent() {
 	const { chats, isLoading } = useChats();
+	console.log(chats);
 
 	return (
 		<div className="container mx-auto px-4 py-6 h-[calc(100vh-5rem)] flex flex-col">

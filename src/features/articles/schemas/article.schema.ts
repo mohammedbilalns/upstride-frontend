@@ -37,3 +37,4 @@ export const articleUpdateSchema = baseArticleSchema.partial();
 
 export type articleCreateData = z.infer<typeof articleCreateSchema>;
 export type articleUpdateData = z.infer<typeof articleUpdateSchema>;
+export type articleUpdatePayload = articleUpdateData & { id: string };

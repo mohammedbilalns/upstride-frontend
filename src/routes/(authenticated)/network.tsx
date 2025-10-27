@@ -1,6 +1,6 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { Filter, Search, UserCheck, Users } from "lucide-react";
-import { useState } from "react";
+import { useId, useState } from "react";
 import { useAuthStore } from "@/app/store/auth.store";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
@@ -30,9 +30,13 @@ function RouteComponent() {
 	const { user } = useAuthStore();
 	const isAdmin = user?.role === "admin";
 	const isMentor = user?.role === "mentor";
+	console.log(isAdmin, isMentor);
 	const [searchQuery, setSearchQuery] = useState("");
 	const [activeTab, setActiveTab] = useState("following");
 	const [sortBy, setSortBy] = useState("newest");
+
+	// Generate unique IDs for form controls
+	const sortById = useId();
 
 	const handleClearFilters = () => {
 		setSearchQuery("");
@@ -73,11 +77,14 @@ function RouteComponent() {
 								</div>
 
 								<div>
-									<label className="block text-sm font-medium mb-2">
+									<label
+										htmlFor={sortById}
+										className="block text-sm font-medium mb-2"
+									>
 										Sort By
 									</label>
 									<Select value={sortBy} onValueChange={setSortBy}>
-										<SelectTrigger>
+										<SelectTrigger id={sortById}>
 											<SelectValue placeholder="Newest First" />
 										</SelectTrigger>
 										<SelectContent>

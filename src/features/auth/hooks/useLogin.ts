@@ -17,8 +17,8 @@ export const useLogin = () => {
 		onSuccess: (response) => {
 			setUser(response.user);
 			connect();
-			toast.success(response.message);
 			router.navigate({ to: "/home" });
+			toast.success(response.message);
 		},
 		onError: (error: ApiError) => {
 			const errorMessage = error?.response?.data?.message || "Failed to login";

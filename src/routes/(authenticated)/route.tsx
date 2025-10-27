@@ -7,13 +7,14 @@ const NOTIFICATIONS_LIMIT = 10;
 export const Route = createFileRoute("/(authenticated)")({
 	component: RouteComponent,
 	beforeLoad: authGuard(["user", "mentor"]),
+
 	loader: async ({ context }) => {
 		await context.queryClient.prefetchInfiniteQuery({
 			queryKey: ["notifications"],
 			queryFn: ({ pageParam = 1 }) =>
 				fetchNotifications(pageParam, NOTIFICATIONS_LIMIT),
 			initialPageParam: 1,
-			getNextPageParam: (lastPage, allPages, lastPageParam) => {
+			getNextPageParam: (lastPage, _allPages, lastPageParam) => {
 				if (lastPage.notifications.length < NOTIFICATIONS_LIMIT)
 					return undefined;
 				return lastPageParam + 1;
