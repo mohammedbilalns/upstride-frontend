@@ -7,21 +7,19 @@ export interface Activity {
 }
 
 export interface Connection {
-  id: string;
-  connectedAt: string;
-  user:{
-    id: string;
-    name: string;
-    profilePicture: string;
-  }
-  mentor?:{
-    id: string;
-    name: string;
-  }
-  expertise:{
-    id: string;
-    name: string;
-  }
-
-
+	id: string;
+	connectedAt: string;
+	user: {
+		id: string;
+		name: string;
+		profilePicture: string;
+	};
+	mentor?: {
+		id: string;
+		name: string;
+	};
+	expertise: {
+		id: string;
+		name: string;
+	};
 }

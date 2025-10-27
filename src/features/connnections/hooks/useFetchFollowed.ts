@@ -17,18 +17,32 @@ export function useFetchFollowing() {
 				...data,
 				pages: data.pages.map((page) =>
 					page.map(
-						(mentor: {
-							_id: string;
-							userId: string;
-							expertiseId: string;
-							skillIds: string[];
-						}) => ({
-							...mentor,
-							id: mentor._id,
-							user: mentor.userId,
-							expertise: mentor.expertiseId,
-							skills: mentor.skillIds,
-						}),
+						(following: {
+							mentorId: {
+								_id: string;
+								userId: string;
+								expertiseId: string;
+								currentRole: string;
+								yearsOfExperience: number;
+								bio: string;
+								skillIds: string[];
+							};
+							id: string;
+							createdAt: Date;
+						}) => {
+							const { mentorId } = following;
+							return {
+								id: mentorId._id,
+								user: mentorId.userId,
+								expertise: mentorId.expertiseId,
+								skills: mentorId.skillIds,
+								bio: mentorId.bio,
+								currentRole: mentorId.currentRole,
+								yearsOfExperience: mentorId.yearsOfExperience,
+								connectionId: following.id,
+								createdAt: following.createdAt,
+							};
+						},
 					),
 				),
 			};

@@ -6,7 +6,6 @@ export const Route = createFileRoute("/(authenticated)/mentor/$mentorId")({
 		const { mentorId } = params;
 		return context.queryClient.fetchQuery({
 			queryKey: ["mentor", mentorId],
-			queryFn: () => fetchMentor(mentorId),
 		});
 	},
 });

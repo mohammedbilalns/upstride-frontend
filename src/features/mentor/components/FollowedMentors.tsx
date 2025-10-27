@@ -12,8 +12,6 @@ interface FollowedMentorProps {
 
 export default function FollowedMentors({ count = 2 }: FollowedMentorProps) {
 	const { data, isPending } = useFetchFollowing();
-
-	// NOTE: replaced flatmap with flat
 	const mentors = data?.pages.flat() || [];
 	const hasMoreToShow = mentors?.length > count;
 
@@ -40,7 +38,7 @@ export default function FollowedMentors({ count = 2 }: FollowedMentorProps) {
 							>
 								<div className="flex items-center">
 									<UserAvatar
-										image={mentor.user?.profilePicture}
+										image={mentor?.user?.profilePicture}
 										name={mentor.user?.name}
 										size={8}
 									/>
