@@ -3,7 +3,6 @@ import { Image as ImageIcon } from "lucide-react";
 import Pending from "@/components/common/pending";
 import ErrorState from "@/components/common/ErrorState";
 import NoResource from "@/components/common/NoResource";
-import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import type { Article } from "@/shared/types/article";
 import { formatRelativeTime } from "@/shared/utils/dateUtil";

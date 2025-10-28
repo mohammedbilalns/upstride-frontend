@@ -1,8 +1,9 @@
-import { useMutation } from "@tanstack/react-query";
-import { queryClient } from "@/app/router/routerConfig";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { unfollowMentor } from "../services/connection.service";
 
 export function useUnfollowMentor() {
+	const queryClient = useQueryClient();
+
 	return useMutation({
 		mutationFn: (id: string) => unfollowMentor(id),
 		onSuccess: () => {
@@ -12,6 +13,10 @@ export function useUnfollowMentor() {
 		},
 		onError: () => {
 			console.log("Failed to unfollow mentor ");
+		},
+		onSettled: () => {
+			queryClient.invalidateQueries({ queryKey: ["following"] });
+			queryClient.invalidateQueries({ queryKey: ["suggestedMentors"] });
 		},
 	});
 }

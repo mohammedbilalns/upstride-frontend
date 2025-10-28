@@ -8,10 +8,12 @@ import { useFetchSuggestedMentors } from "../articles/hooks/useFetchSuggestedMen
 import ErrorState from "@/components/common/ErrorState";
 import ShowMoreContent from "@/components/common/ShowMore";
 
-export default function SuggestedMentors() {
-	const { data, isPending, isError, refetch } = useFetchSuggestedMentors();
+interface SuggestedMentorsProps {
+	count?: number;
+}
+export default function SuggestedMentors({ count }: SuggestedMentorsProps) {
+	const { data, isPending, isError, refetch } = useFetchSuggestedMentors(count);
 	const mentors = data?.pages.flat() || [];
-	console.log("mentors", mentors);
 
 	return (
 		<Card>

@@ -1,8 +1,7 @@
 import { fetchSuggestedMentors } from "@/features/connnections/services/connection.service";
 import { useInfiniteQuery } from "@tanstack/react-query";
 
-export const useFetchSuggestedMentors = () => {
-	const limit = 10;
+export const useFetchSuggestedMentors = (limit = 10) => {
 	return useInfiniteQuery({
 		queryKey: ["suggestedMentors"],
 		queryFn: ({ pageParam = 1 }) => fetchSuggestedMentors(pageParam, limit),

@@ -1,7 +1,7 @@
 import { TrendingUp } from "lucide-react";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { dummyFollowers } from "../data/dummyFollowers";
-import { useFetchFollowing } from "../hooks/useFetchFollowed";
+import { useFetchFollowing } from "../hooks/useFetchFollowing";
 
 export default function ConnectionStats() {
 	const { data } = useFetchFollowing();

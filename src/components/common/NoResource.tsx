@@ -9,7 +9,12 @@ interface NoResourceProps {
 	isHome?: boolean;
 }
 
-type ResourceType = "mentors" | "articles" | "sessions";
+type ResourceType =
+	| "mentors"
+	| "articles"
+	| "sessions"
+	| "followers"
+	| "following";
 
 const resourceConfig = {
 	mentors: {
@@ -26,6 +31,16 @@ const resourceConfig = {
 		icon: Calendar,
 		defaultMessage: "Get started by exploring our upcoming sessions.",
 		searchMessage: "Try adjusting your search filters or browse all sessions.",
+	},
+	followers: {
+		icon: UsersRound,
+		defaultMessage: "Get started by exploring mentors",
+		searchMessage: "Try adjusting your search filters or browse all followers.",
+	},
+	following: {
+		icon: UsersRound,
+		defaultMessage: "Get started by exploring mentors",
+		searchMessage: "Try adjusting your search filters or browse all following.",
 	},
 };
 

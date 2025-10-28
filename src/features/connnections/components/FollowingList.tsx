@@ -1,23 +1,14 @@
 import GoToChat from "@/components/common/GoToChat";
 import UserAvatar from "@/components/common/UserAvatar";
-import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import FollowButton from "@/features/connnections/components/FollowButton";
 import { useInfiniteScroll } from "@/shared/hooks/useInfinteScroll";
-import type { Connection } from "@/shared/types/connection";
-import { useFetchFollowing } from "../hooks/useFetchFollowed";
+import { useFetchFollowing } from "../hooks/useFetchFollowing";
 import Pending from "@/components/common/pending";
 import ErrorState from "@/components/common/ErrorState";
+import NoResource from "@/components/common/NoResource";
 
-interface FollowedListProps {
-	searchQuery: string;
-	sortBy: string;
-}
-
-export default function FollowingList({
-	searchQuery,
-	sortBy,
-}: FollowedListProps) {
+export default function FollowingList() {
 	const {
 		data,
 		fetchNextPage,
@@ -36,38 +27,6 @@ export default function FollowingList({
 		isFetching: isFetchingNextPage,
 	});
 
-	const filteredFollowing = mentors.filter(
-		(mentor) =>
-			mentor.user?.name?.toLowerCase().includes(searchQuery.toLowerCase()) ||
-			mentor.expertise?.name?.toLowerCase().includes(searchQuery.toLowerCase()),
-	);
-
-	const sortConnections = (connections: Connection[]) => {
-		const sorted = [...connections];
-		switch (sortBy) {
-			case "newest":
-				return sorted.sort(
-					(a, b) =>
-						new Date(b.connectedAt || 0).getTime() -
-						new Date(a.connectedAt || 0).getTime(),
-				);
-			case "oldest":
-				return sorted.sort(
-					(a, b) =>
-						new Date(a.connectedAt || 0).getTime() -
-						new Date(b.connectedAt || 0).getTime(),
-				);
-			case "name":
-				return sorted.sort((a, b) => a.user.name.localeCompare(b.user.name));
-			case "name-desc":
-				return sorted.sort((a, b) => b.user.name.localeCompare(a.user.name));
-			default:
-				return sorted;
-		}
-	};
-
-	const sortedFollowing = sortConnections(filteredFollowing);
-
 	return (
 		<Card>
 			<CardHeader>
@@ -81,14 +40,11 @@ export default function FollowingList({
 						message="Failed to load following mentors. Please try again."
 						onRetry={() => refetch()}
 					/>
-				) : sortedFollowing.length === 0 ? (
-					<div className="text-center py-8">
-						<p className="text-muted-foreground">No mentors followed yet</p>
-						<Button className="mt-4">Find Mentors</Button>
-					</div>
+				) : mentors.length === 0 ? (
+					<NoResource resource="following" />
 				) : (
 					<div className="space-y-4">
-						{sortedFollowing.map((mentor) => (
+						{mentors.map((mentor) => (
 							<div
 								key={mentor.id}
 								className="flex items-center justify-between p-4 border rounded-lg"

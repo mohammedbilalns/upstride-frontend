@@ -3,9 +3,10 @@ import GoToChat from "@/components/common/GoToChat";
 import UserAvatar from "@/components/common/UserAvatar";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader } from "@/components/ui/card";
-import { useFetchFollowing } from "@/features/connnections/hooks/useFetchFollowed";
+import { useFetchFollowing } from "@/features/connnections/hooks/useFetchFollowing";
 import type { MentorInList } from "@/shared/types/mentor";
 import ErrorState from "@/components/common/ErrorState";
+import NoResource from "@/components/common/NoResource";
 
 interface FollowedMentorProps {
 	count?: number;
@@ -34,9 +35,7 @@ export default function FollowedMentors({ count = 2 }: FollowedMentorProps) {
 							variant="compact"
 						/>
 					) : mentors.length === 0 ? (
-						<p className="text-center text-muted-foreground">
-							You&rsquo;re not following any mentors yet.
-						</p>
+						<NoResource resource="followers" isHome={true} />
 					) : (
 						mentors.slice(0, count).map((mentor: MentorInList) => (
 							<Link
