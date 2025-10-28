@@ -36,7 +36,7 @@ function RouteComponent() {
 					<div className="w-full lg:w-1/4 space-y-6">
 						{/* Connection Stats */}
 						<ConnectionStats />
-						{/* Suggested Connections - Only show for non-mentors */}
+						{/* Suggested Connections - Only for non-mentors */}
 						{!isMentor && <SuggestedMentors />}
 					</div>
 

@@ -22,7 +22,7 @@ export const Route = createFileRoute("/(authenticated)/home/")({
 function RouteComponent() {
 	const { user } = useAuthStore();
 	const data = Route.useLoaderData();
-	const articles = data?.articles.slice(0, 3);
+	const articles = data?.articles.slice(0, 4);
 	const isUser = true;
 	const isMentor = user?.role === "mentor";
 	const isExceededLimit = false;
@@ -31,9 +31,9 @@ function RouteComponent() {
 	return (
 		<div className="min-h-screen bg-background">
 			<main className="container mx-auto px-4 sm:px-6 lg:px-8 py-6">
-				<div className="flex flex-col lg:flex-row gap-6">
+				<div className="flex flex-col lg:flex-row gap-6 relative">
 					{/* Left Sidebar */}
-					<div className="w-full lg:w-1/4 space-y-6">
+					<aside className="w-full lg:w-1/4 space-y-6 lg:sticky lg:top-6 self-start h-fit z-10">
 						<Activity
 							mode={
 								isUser && !isMentor && !isExceededLimit ? "visible" : "hidden"
@@ -44,11 +44,11 @@ function RouteComponent() {
 						{/* Find Mentors */}
 						<SuggestedMentors />
 						{/* My Mentors */}
-						<FollowedMentors count={4} />
-					</div>
+						<FollowedMentors count={2} />
+					</aside>
 
 					{/* Main Feed */}
-					<div className="w-full lg:w-2/4 space-y-6">
+					<section className="w-full lg:w-2/4 space-y-6 min-h-[800px]">
 						{articles.length === 0 ? (
 							<NoResource resource="articles" isHome={true} />
 						) : (
@@ -56,17 +56,15 @@ function RouteComponent() {
 								<ArticleFeed key={article.id} article={article} />
 							))
 						)}
-					</div>
+					</section>
 
 					{/* Right Sidebar */}
-					<div className="w-full lg:w-1/4 space-y-6">
+					<aside className="w-full lg:w-1/4 space-y-6 lg:sticky lg:top-6 self-start h-fit z-10">
 						{/* Upcoming Sessions */}
 						<UpcomingSessions />
 						{/* Recommended Articles */}
 						<RecommendedArticles />
-						{/* Quick Actions */}
-						<QuickActions />
-					</div>
+					</aside>
 				</div>
 			</main>
 

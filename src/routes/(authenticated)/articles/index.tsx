@@ -139,7 +139,7 @@ function RouteComponent() {
 			</div>
 
 			<div className="flex flex-col lg:flex-row gap-8">
-				<div className="w-full lg:w-1/4">
+				<div className="w-full lg:w-1/4 lg:sticky lg:top-6 lg:h-fit">
 					<FilterSidebar
 						searchParams={search}
 						onCategoryChange={handleCategoryChange}
