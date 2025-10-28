@@ -4,12 +4,11 @@ import type { Activity } from "@/shared/types/connection";
 import { formatRelativeTime } from "@/shared/utils/dateUtil";
 import { useFetchRecentActivity } from "../hooks/useFetchRecentActivity";
 import { getActivityDisplay } from "./GetActivityDisplay";
+import ErrorState from "@/components/common/ErrorState";
+import Pending from "@/components/common/pending";
 
 export default function RecentActivityCard() {
-	const { data = [] } = useFetchRecentActivity();
-
-	console.log("recent activity data", data);
-
+	const { data = [], isPending, isError, refetch } = useFetchRecentActivity();
 	return (
 		<Card>
 			<CardHeader>
@@ -20,7 +19,15 @@ export default function RecentActivityCard() {
 			</CardHeader>
 
 			<CardContent className="space-y-3">
-				{data.length === 0 ? (
+				{isPending ? (
+					<Pending resource="recent activities" />
+				) : isError ? (
+					<ErrorState
+						message="Failed to load recent activity. Please try again."
+						onRetry={() => refetch()}
+						variant="compact"
+					/>
+				) : data.length === 0 ? (
 					<p className="text-sm text-muted-foreground">No recent activity</p>
 				) : (
 					data.map((activity: Activity) => {

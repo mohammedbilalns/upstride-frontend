@@ -6,7 +6,7 @@ import NoResource from "@/components/common/NoResource";
 import { Button } from "@/components/ui/button";
 import { fetchArticles } from "@/features/articles/services/article.service";
 import ArticleFeed from "@/features/home/ArticleFeed";
-import FindMentorsSection from "@/features/home/FindMentorsSection";
+import SuggestedMentors from "@/features/home/SuggestedMentors";
 import QuickActions from "@/features/home/QuickActions";
 import RecommendedArticles from "@/features/home/RecommendedArticles";
 import RegisterMentorCard from "@/features/home/RegisterMentorCard";
@@ -42,7 +42,7 @@ function RouteComponent() {
 							<RegisterMentorCard />
 						</Activity>
 						{/* Find Mentors */}
-						<FindMentorsSection />
+						<SuggestedMentors />
 						{/* My Mentors */}
 						<FollowedMentors count={4} />
 					</div>

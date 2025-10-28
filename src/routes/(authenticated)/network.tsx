@@ -19,8 +19,8 @@ import FollowersList from "@/features/connnections/components/FollowersList";
 import GrowthChart from "@/features/connnections/components/GrowthChart";
 import MutualConnections from "@/features/connnections/components/MutualConnections";
 import RecentActivityCard from "@/features/connnections/components/RecentActivityCard";
-import SuggestedConnections from "@/features/connnections/components/SuggestedConnections";
 import { sortOptions } from "@/features/connnections/data/sortOptions";
+import SuggestedMentors from "@/features/home/SuggestedMentors";
 
 export const Route = createFileRoute("/(authenticated)/network")({
 	component: RouteComponent,
@@ -113,7 +113,7 @@ function RouteComponent() {
 						{/* Connection Stats */}
 						<ConnectionStats />
 						{/* Suggested Connections */}
-						<SuggestedConnections />
+						<SuggestedMentors />
 					</div>
 
 					{/* Main Content Area */}

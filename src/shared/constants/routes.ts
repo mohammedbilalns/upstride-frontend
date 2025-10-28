@@ -80,5 +80,7 @@ export const API_ROUTES = {
 		FETCH_FOLLOWING: "/connection/following",
 		UNFOLLOW: "/connection/unfollow",
 		RECENT_ACTIVITY: "/connection/recent-activity",
+		SUGGGESTED: "/connection/suggested",
+		MUTUAL: "/connection/mutual",
 	},
 };

@@ -5,13 +5,14 @@ import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader } from "@/components/ui/card";
 import { useFetchFollowing } from "@/features/connnections/hooks/useFetchFollowed";
 import type { MentorInList } from "@/shared/types/mentor";
+import ErrorState from "@/components/common/ErrorState";
 
 interface FollowedMentorProps {
 	count?: number;
 }
 
 export default function FollowedMentors({ count = 2 }: FollowedMentorProps) {
-	const { data, isPending } = useFetchFollowing();
+	const { data, isPending, isError, refetch } = useFetchFollowing();
 	const mentors = data?.pages.flat() || [];
 	const hasMoreToShow = mentors?.length > count;
 
@@ -26,36 +27,50 @@ export default function FollowedMentors({ count = 2 }: FollowedMentorProps) {
 						<div className="flex justify-center">
 							<div className="animate-spin rounded-full h-6 w-6 border-b-2 border-primary"></div>
 						</div>
+					) : isError ? (
+						<ErrorState
+							message="Failed to load followed mentors. Please try again."
+							onRetry={() => refetch()}
+							variant="compact"
+						/>
 					) : mentors.length === 0 ? (
 						<p className="text-center text-muted-foreground">
 							You&rsquo;re not following any mentors yet.
 						</p>
 					) : (
 						mentors.slice(0, count).map((mentor: MentorInList) => (
-							<div
+							<Link
 								key={mentor.id}
-								className="flex items-center justify-between"
+								to="/mentor/$mentorId"
+								params={{ mentorId: mentor.id }}
+								className="block"
 							>
-								<div className="flex items-center">
-									<UserAvatar
-										image={mentor?.user?.profilePicture}
-										name={mentor.user?.name}
-										size={8}
-									/>
-									<div className="ml-3">
-										<p className="text-sm font-medium">{mentor.user?.name}</p>
-										<p className="text-xs text-muted-foreground">
-											{mentor.expertise?.name}
-										</p>
+								<div className="flex items-center justify-between p-2 rounded-lg hover:bg-muted/50 transition-colors cursor-pointer group">
+									<div className="flex items-center flex-1">
+										<UserAvatar
+											image={mentor?.user?.profilePicture}
+											name={mentor.user?.name}
+											size={8}
+										/>
+										<div className="ml-3">
+											<p className="text-sm font-medium group-hover:text-primary transition-colors">
+												{mentor.user?.name}
+											</p>
+											<p className="text-xs text-muted-foreground">
+												{mentor.expertise?.name}
+											</p>
+										</div>
+									</div>
+									<div onClick={(e) => e.preventDefault()}>
+										<GoToChat userId={mentor.id} />
 									</div>
 								</div>
-								<GoToChat userId={mentor.id} />
-							</div>
+							</Link>
 						))
 					)}
 				</div>
 
-				{!isPending && mentors.length > 0 && hasMoreToShow && (
+				{!isPending && !isError && mentors.length > 0 && hasMoreToShow && (
 					<div className="mt-4 pt-4 border-t">
 						<Link to="/network">
 							<Button variant="outline" className="w-full">

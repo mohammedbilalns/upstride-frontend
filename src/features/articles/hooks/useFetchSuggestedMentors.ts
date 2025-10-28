@@ -1,10 +1,21 @@
-import { keepPreviousData, useQuery } from "@tanstack/react-query";
-import { getMentorsForUser } from "@/features/mentor/services/mentor.service";
+import { fetchSuggestedMentors } from "@/features/connnections/services/connection.service";
+import { useInfiniteQuery } from "@tanstack/react-query";
 
 export const useFetchSuggestedMentors = () => {
-	return useQuery({
+	const limit = 10;
+	return useInfiniteQuery({
 		queryKey: ["suggestedMentors"],
-		queryFn: () => getMentorsForUser(),
-		placeholderData: keepPreviousData,
+		queryFn: ({ pageParam = 1 }) => fetchSuggestedMentors(pageParam, limit),
+		getNextPageParam: (lastPage, allPages) => {
+			if (lastPage?.mentors?.length < limit) return undefined;
+			return allPages.length + 1;
+		},
+		initialPageParam: 1,
+		select: (data) => {
+			return {
+				pages: data.pages.map((page) => page.mentors),
+				pageParams: data.pageParams,
+			};
+		},
 	});
 };

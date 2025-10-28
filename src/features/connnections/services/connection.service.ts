@@ -58,3 +58,25 @@ export async function fetchRecentActivity() {
 		throw error;
 	}
 }
+
+export async function fetchSuggestedMentors(page?: number, limit?: number) {
+	try {
+		const response = await api.get(API_ROUTES.CONNECTIONS.SUGGGESTED, {
+			params: { page, limit },
+		});
+		return response.data;
+	} catch (error) {
+		console.error("error while fetching suggested mentors", error);
+		throw error;
+	}
+}
+
+export async function fetchMutualConnections() {
+	try {
+		const response = await api.get(API_ROUTES.CONNECTIONS.MUTUAL);
+		return response.data;
+	} catch (error) {
+		console.error("error while fetching mutual connections", error);
+		throw error;
+	}
+}
