@@ -25,7 +25,7 @@ export default function ErrorState({
 							onClick={onRetry}
 							className="mt-2 cursor-pointer"
 						>
-							<RefreshCw className="h-4 w-4 mr-2" />
+							<RefreshCw className="h-4 w-4 mr-2 cursor-pointer" />
 							Retry
 						</Button>
 					)}
@@ -39,8 +39,8 @@ export default function ErrorState({
 			<AlertCircle className="h-12 w-12 text-destructive mb-4" />
 			<p className="text-muted-foreground mb-4">{message}</p>
 			{onRetry && (
-				<Button variant="outline" onClick={onRetry}>
-					<RefreshCw className="h-4 w-4 mr-2" />
+				<Button variant="outline" className="cursor-pointer" onClick={onRetry}>
+					<RefreshCw className="h-4 w-4 mr-2 " />
 					Try Again
 				</Button>
 			)}

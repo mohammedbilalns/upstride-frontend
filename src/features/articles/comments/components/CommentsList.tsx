@@ -4,6 +4,8 @@ import { Button } from "@/components/ui/button";
 import { useFetchComments } from "../../hooks/useFetchComments";
 import CommentForm from "./CommentForm";
 import CommentItem from "./CommentItem";
+import Pending from "@/components/common/pending";
+import ErrorState from "@/components/common/ErrorState";
 
 interface CommentListProps {
 	articleId: string;
@@ -21,8 +23,9 @@ export default function CommentsList({
 		fetchNextPage,
 		hasNextPage,
 		isFetchingNextPage,
-		isLoading,
-		error,
+		isPending,
+		isError,
+		refetch,
 	} = useFetchComments(articleId, COMMENTS_PER_PAGE, undefined, true);
 
 	const allComments = useMemo(
@@ -39,23 +42,24 @@ export default function CommentsList({
 			</h2>
 			<CommentForm articleId={articleId} />
 
-			{isLoading && <p className="text-center py-4">Loading comments...</p>}
-			{error && (
-				<p className="text-center py-4 text-red-500">
-					Failed to load comments.
-				</p>
+			{isPending ? (
+				<Pending resource="comments" />
+			) : isError ? (
+				<ErrorState
+					message="Failed to load comments"
+					onRetry={() => refetch()}
+				/>
+			) : (
+				<div className="space-y-6">
+					{allComments.map((comment) => (
+						<CommentItem
+							key={comment.id}
+							comment={comment}
+							articleId={articleId}
+						/>
+					))}
+				</div>
 			)}
-
-			<div className="space-y-6">
-				{allComments.map((comment) => (
-					<CommentItem
-						key={comment.id}
-						comment={comment}
-						articleId={articleId}
-					/>
-				))}
-			</div>
-
 			{hasNextPage && (
 				<div className="flex justify-center mt-8">
 					<Button

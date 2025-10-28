@@ -14,7 +14,7 @@ import {
 } from "@/components/ui/select";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import ConnectionStats from "@/features/connnections/components/ConnectionStats";
-import FollowedList from "@/features/connnections/components/FollowedList";
+import FollowingList from "@/features/connnections/components/FollowingList";
 import FollowersList from "@/features/connnections/components/FollowersList";
 import GrowthChart from "@/features/connnections/components/GrowthChart";
 import MutualConnections from "@/features/connnections/components/MutualConnections";
@@ -141,7 +141,7 @@ function RouteComponent() {
 							</TabsList>
 
 							<TabsContent value="following" className="mt-6">
-								<FollowedList searchQuery={searchQuery} sortBy={sortBy} />
+								<FollowingList searchQuery={searchQuery} sortBy={sortBy} />
 							</TabsContent>
 							<TabsContent value="followers" className="mt-6">
 								<FollowersList searchQuery={searchQuery} sortBy={sortBy} />

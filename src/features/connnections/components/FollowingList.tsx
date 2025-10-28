@@ -6,18 +6,27 @@ import FollowButton from "@/features/connnections/components/FollowButton";
 import { useInfiniteScroll } from "@/shared/hooks/useInfinteScroll";
 import type { Connection } from "@/shared/types/connection";
 import { useFetchFollowing } from "../hooks/useFetchFollowed";
+import Pending from "@/components/common/pending";
+import ErrorState from "@/components/common/ErrorState";
 
 interface FollowedListProps {
 	searchQuery: string;
 	sortBy: string;
 }
 
-export default function FollowedList({
+export default function FollowingList({
 	searchQuery,
 	sortBy,
 }: FollowedListProps) {
-	const { data, fetchNextPage, hasNextPage, isFetchingNextPage, isLoading } =
-		useFetchFollowing();
+	const {
+		data,
+		fetchNextPage,
+		hasNextPage,
+		isFetchingNextPage,
+		isPending,
+		isError,
+		refetch,
+	} = useFetchFollowing();
 	// NOTE: replaced flatmap with flat
 	const mentors = data?.pages.flat() || [];
 
@@ -65,10 +74,13 @@ export default function FollowedList({
 				<CardTitle>Followed Mentors</CardTitle>
 			</CardHeader>
 			<CardContent>
-				{isLoading ? (
-					<div className="flex justify-center py-8">
-						<div className="animate-spin rounded-full h-8 w-8 border-b-2 border-primary"></div>
-					</div>
+				{isPending ? (
+					<Pending resource="following mentors" />
+				) : isError ? (
+					<ErrorState
+						message="Failed to load following mentors. Please try again."
+						onRetry={() => refetch()}
+					/>
 				) : sortedFollowing.length === 0 ? (
 					<div className="text-center py-8">
 						<p className="text-muted-foreground">No mentors followed yet</p>
