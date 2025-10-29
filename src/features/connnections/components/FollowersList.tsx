@@ -1,12 +1,12 @@
+import ErrorState from "@/components/common/ErrorState";
 import GoToChat from "@/components/common/GoToChat";
+import NoResource from "@/components/common/NoResource";
+import Pending from "@/components/common/pending";
 import UserAvatar from "@/components/common/UserAvatar";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { useInfiniteScroll } from "@/shared/hooks/useInfinteScroll";
 import { useFetchFollowers } from "../hooks/useFetchFollowers";
-import Pending from "@/components/common/pending";
-import ErrorState from "@/components/common/ErrorState";
-import NoResource from "@/components/common/NoResource";
 
 export default function FollowersList() {
 	const {

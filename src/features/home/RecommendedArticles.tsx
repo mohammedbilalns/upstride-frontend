@@ -1,13 +1,13 @@
 import { Link } from "@tanstack/react-router";
 import { Image as ImageIcon } from "lucide-react";
-import Pending from "@/components/common/pending";
 import ErrorState from "@/components/common/ErrorState";
 import NoResource from "@/components/common/NoResource";
+import Pending from "@/components/common/pending";
+import ShowMoreContent from "@/components/common/ShowMore";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import type { Article } from "@/shared/types/article";
 import { formatRelativeTime } from "@/shared/utils/dateUtil";
 import { useFetchArticles } from "../articles/hooks/useFetchArticles";
-import ShowMoreContent from "@/components/common/ShowMore";
 
 export default function RecommendedArticles() {
 	const { data: articles, isPending, isError, refetch } = useFetchArticles();

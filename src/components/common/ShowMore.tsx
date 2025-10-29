@@ -1,5 +1,5 @@
-import { Button } from "../ui/button";
 import { Link } from "@tanstack/react-router";
+import { Button } from "../ui/button";
 
 interface ShowMoreProps {
 	resource: string;

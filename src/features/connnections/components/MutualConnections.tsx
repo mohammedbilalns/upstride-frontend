@@ -1,8 +1,11 @@
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { useFetchMutualMentors } from "@/features/articles/hooks/useFetchMutualMentors";
 
 export default function MutualConnections() {
+	const { data, isPending, isError, refetch } = useFetchMutualMentors();
+	console.log("data", data);
 	return (
 		<Card>
 			<CardHeader>

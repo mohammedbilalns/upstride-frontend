@@ -1,10 +1,10 @@
 import { TrendingUp } from "lucide-react";
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { useFetchFollowing } from "../hooks/useFetchFollowing";
 import { useAuthStore } from "@/app/store/auth.store";
-import { useFetchFollowers } from "../hooks/useFetchFollowers";
 import ErrorState from "@/components/common/ErrorState";
 import Pending from "@/components/common/pending";
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { useFetchFollowers } from "../hooks/useFetchFollowers";
+import { useFetchFollowing } from "../hooks/useFetchFollowing";
 
 export default function ConnectionStats() {
 	const { user } = useAuthStore();

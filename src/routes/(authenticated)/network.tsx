@@ -1,15 +1,15 @@
-import FollowingList from "@/features/connnections/components/FollowingList";
+import { createFileRoute } from "@tanstack/react-router";
+import { UserCheck, Users } from "lucide-react";
+import { useState } from "react";
+import { useAuthStore } from "@/app/store/auth.store";
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import ConnectionStats from "@/features/connnections/components/ConnectionStats";
 import FollowersList from "@/features/connnections/components/FollowersList";
+import FollowingList from "@/features/connnections/components/FollowingList";
 import GrowthChart from "@/features/connnections/components/GrowthChart";
 import MutualConnections from "@/features/connnections/components/MutualConnections";
 import RecentActivityCard from "@/features/connnections/components/RecentActivityCard";
 import SuggestedMentors from "@/features/home/SuggestedMentors";
-import { createFileRoute } from "@tanstack/react-router";
-import { useAuthStore } from "@/app/store/auth.store";
-import { useState } from "react";
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import { UserCheck, Users } from "lucide-react";
-import ConnectionStats from "@/features/connnections/components/ConnectionStats";
 
 export const Route = createFileRoute("/(authenticated)/network")({
 	component: RouteComponent,

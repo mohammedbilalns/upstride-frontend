@@ -1,11 +1,11 @@
 import { Loader2 } from "lucide-react";
 import { useMemo } from "react";
+import ErrorState from "@/components/common/ErrorState";
+import Pending from "@/components/common/pending";
 import { Button } from "@/components/ui/button";
 import { useFetchComments } from "../../hooks/useFetchComments";
 import CommentForm from "./CommentForm";
 import CommentItem from "./CommentItem";
-import Pending from "@/components/common/pending";
-import ErrorState from "@/components/common/ErrorState";
 
 interface CommentListProps {
 	articleId: string;

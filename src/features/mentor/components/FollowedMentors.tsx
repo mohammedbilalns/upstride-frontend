@@ -1,12 +1,12 @@
 import { Link } from "@tanstack/react-router";
+import ErrorState from "@/components/common/ErrorState";
 import GoToChat from "@/components/common/GoToChat";
+import NoResource from "@/components/common/NoResource";
 import UserAvatar from "@/components/common/UserAvatar";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader } from "@/components/ui/card";
 import { useFetchFollowing } from "@/features/connnections/hooks/useFetchFollowing";
 import type { MentorInList } from "@/shared/types/mentor";
-import ErrorState from "@/components/common/ErrorState";
-import NoResource from "@/components/common/NoResource";
 
 interface FollowedMentorProps {
 	count?: number;

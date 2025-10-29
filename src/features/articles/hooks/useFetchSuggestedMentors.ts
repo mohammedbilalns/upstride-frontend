@@ -1,5 +1,5 @@
-import { fetchSuggestedMentors } from "@/features/connnections/services/connection.service";
 import { useInfiniteQuery } from "@tanstack/react-query";
+import { fetchSuggestedMentors } from "@/features/connnections/services/connection.service";
 
 export const useFetchSuggestedMentors = (limit = 10) => {
 	return useInfiniteQuery({

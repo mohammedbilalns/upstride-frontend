@@ -1,11 +1,11 @@
 import { Calendar } from "lucide-react";
+import ErrorState from "@/components/common/ErrorState";
+import Pending from "@/components/common/pending";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import type { Activity } from "@/shared/types/connection";
 import { formatRelativeTime } from "@/shared/utils/dateUtil";
 import { useFetchRecentActivity } from "../hooks/useFetchRecentActivity";
 import { getActivityDisplay } from "./GetActivityDisplay";
-import ErrorState from "@/components/common/ErrorState";
-import Pending from "@/components/common/pending";
 
 export default function RecentActivityCard() {
 	const { data = [], isPending, isError, refetch } = useFetchRecentActivity();
