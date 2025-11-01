@@ -1,4 +1,4 @@
-import { ArrowLeft, Info, MoreHorizontal, Phone, Video } from "lucide-react";
+import { ArrowLeft, Info, MoreHorizontal } from "lucide-react";
 import UserAvatar from "@/components/common/UserAvatar";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
@@ -8,6 +8,7 @@ import {
 	DropdownMenuItem,
 	DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
+import { useMediaQuery } from "@/shared/hooks/useMediaQuery";
 
 interface ChatHeaderProps {
 	chat: {
@@ -21,17 +22,16 @@ interface ChatHeaderProps {
 }
 
 export function ChatHeader({ chat, onBack }: ChatHeaderProps) {
+	const isMobile = useMediaQuery("(max-width: 768px)");
+
 	return (
 		<div className="flex items-center justify-between">
 			<div className="flex items-center space-x-3">
-				<Button
-					variant="ghost"
-					size="icon"
-					onClick={onBack}
-					className="md:hidden"
-				>
-					<ArrowLeft className="h-5 w-5" />
-				</Button>
+				{isMobile && (
+					<Button variant="ghost" size="icon" onClick={onBack}>
+						<ArrowLeft className="h-5 w-5" />
+					</Button>
+				)}
 
 				<div className="relative">
 					<UserAvatar image={chat?.avatar} name={chat?.name} size={10} />
@@ -56,13 +56,6 @@ export function ChatHeader({ chat, onBack }: ChatHeaderProps) {
 			</div>
 
 			<div className="flex items-center space-x-2">
-				<Button variant="ghost" size="icon">
-					<Phone className="h-4 w-4" />
-				</Button>
-				<Button variant="ghost" size="icon">
-					<Video className="h-4 w-4" />
-				</Button>
-
 				<DropdownMenu>
 					<DropdownMenuTrigger asChild>
 						<Button variant="ghost" size="icon">
@@ -73,14 +66,6 @@ export function ChatHeader({ chat, onBack }: ChatHeaderProps) {
 						<DropdownMenuItem>
 							<Info className="h-4 w-4 mr-2" />
 							View Profile
-						</DropdownMenuItem>
-						<DropdownMenuItem>
-							<Phone className="h-4 w-4 mr-2" />
-							Call
-						</DropdownMenuItem>
-						<DropdownMenuItem>
-							<Video className="h-4 w-4 mr-2" />
-							Video Call
 						</DropdownMenuItem>
 					</DropdownMenuContent>
 				</DropdownMenu>

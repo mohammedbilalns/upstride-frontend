@@ -18,6 +18,11 @@ interface Message {
 	timestamp: string;
 	isOwn: boolean;
 	isRead?: boolean;
+	attachments?: {
+		type: "image" | "file" | "audio";
+		url?: string;
+		name?: string;
+	}[];
 }
 
 // Dummy data for chats
@@ -147,7 +152,6 @@ export function useChats() {
 	const [chats, setChats] = useState<Chat[]>(dummyChats);
 	const [isLoading, setIsLoading] = useState(false);
 
-	console.log(setChats, setIsLoading);
 	return {
 		chats,
 		isLoading,
@@ -178,13 +182,46 @@ export function useChat(chatId: string) {
 		fetchChat();
 	}, [chatId]);
 
-	const sendMessage = (content: string) => {
+	const sendMessage = (content: string, files?: File[], audioBlob?: Blob) => {
+		const attachments: {
+			type: "image" | "file" | "audio";
+			url?: string;
+			name?: string;
+		}[] = [];
+
+		// Process files
+		if (files && files.length > 0) {
+			files.forEach((file) => {
+				if (file.type.startsWith("image/")) {
+					attachments.push({
+						type: "image",
+						url: URL.createObjectURL(file),
+						name: file.name,
+					});
+				} else {
+					attachments.push({
+						type: "file",
+						name: file.name,
+					});
+				}
+			});
+		}
+
+		// Process audio
+		if (audioBlob) {
+			attachments.push({
+				type: "audio",
+				url: URL.createObjectURL(audioBlob),
+			});
+		}
+
 		const newMessage: Message = {
 			id: `${chatId}-${Date.now()}`,
 			content,
 			timestamp: new Date().toISOString(),
 			isOwn: true,
 			isRead: false,
+			attachments: attachments.length > 0 ? attachments : undefined,
 		};
 
 		setMessages((prev) => [...prev, newMessage]);

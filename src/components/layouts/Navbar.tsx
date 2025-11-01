@@ -21,6 +21,7 @@ const navLinks = [
 	{ label: "Mentors", href: "/mentors", section: "mentors" },
 	{ label: "Sessions", href: "/sessions", section: "sessions" },
 	{ label: "Network", href: "/network", section: "Network" },
+	{ label: "Chats", href: "/chats", section: "chats" },
 ];
 
 export default function Navbar() {

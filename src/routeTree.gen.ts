@@ -17,8 +17,8 @@ import { Route as authenticatedSessionsRouteImport } from './routes/(authenticat
 import { Route as authenticatedProfileRouteImport } from './routes/(authenticated)/profile'
 import { Route as authenticatedNetworkRouteImport } from './routes/(authenticated)/network'
 import { Route as authenticatedMentorsRouteImport } from './routes/(authenticated)/mentors'
-import { Route as authenticatedChatRouteImport } from './routes/(authenticated)/chat'
 import { Route as publicAuthRouteRouteImport } from './routes/(public)/auth/route'
+import { Route as authenticatedChatsRouteRouteImport } from './routes/(authenticated)/chats/route'
 import { Route as adminAdminRouteRouteImport } from './routes/(admin)/admin/route'
 import { Route as publicAuthIndexRouteImport } from './routes/(public)/auth/index'
 import { Route as authenticatedHomeIndexRouteImport } from './routes/(authenticated)/home/index'
@@ -75,15 +75,15 @@ const authenticatedMentorsRoute = authenticatedMentorsRouteImport.update({
   path: '/mentors',
   getParentRoute: () => authenticatedRouteRoute,
 } as any)
-const authenticatedChatRoute = authenticatedChatRouteImport.update({
-  id: '/chat',
-  path: '/chat',
-  getParentRoute: () => authenticatedRouteRoute,
-} as any)
 const publicAuthRouteRoute = publicAuthRouteRouteImport.update({
   id: '/(public)/auth',
   path: '/auth',
   getParentRoute: () => rootRouteImport,
+} as any)
+const authenticatedChatsRouteRoute = authenticatedChatsRouteRouteImport.update({
+  id: '/chats',
+  path: '/chats',
+  getParentRoute: () => authenticatedRouteRoute,
 } as any)
 const adminAdminRouteRoute = adminAdminRouteRouteImport.update({
   id: '/(admin)/admin',
@@ -101,9 +101,9 @@ const authenticatedHomeIndexRoute = authenticatedHomeIndexRouteImport.update({
   getParentRoute: () => authenticatedRouteRoute,
 } as any)
 const authenticatedChatsIndexRoute = authenticatedChatsIndexRouteImport.update({
-  id: '/chats/',
-  path: '/chats/',
-  getParentRoute: () => authenticatedRouteRoute,
+  id: '/',
+  path: '/',
+  getParentRoute: () => authenticatedChatsRouteRoute,
 } as any)
 const authenticatedArticlesIndexRoute =
   authenticatedArticlesIndexRouteImport.update({
@@ -130,9 +130,9 @@ const authenticatedMentorMentorIdRoute =
   } as any)
 const authenticatedChatsChatIdRoute =
   authenticatedChatsChatIdRouteImport.update({
-    id: '/chats/$chatId',
-    path: '/chats/$chatId',
-    getParentRoute: () => authenticatedRouteRoute,
+    id: '/$chatId',
+    path: '/$chatId',
+    getParentRoute: () => authenticatedChatsRouteRoute,
   } as any)
 const authenticatedArticlesArticleIdRoute =
   authenticatedArticlesArticleIdRouteImport.update({
@@ -181,8 +181,8 @@ export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/about': typeof AboutRoute
   '/admin': typeof adminAdminRouteRouteWithChildren
+  '/chats': typeof authenticatedChatsRouteRouteWithChildren
   '/auth': typeof publicAuthRouteRouteWithChildren
-  '/chat': typeof authenticatedChatRoute
   '/mentors': typeof authenticatedMentorsRoute
   '/network': typeof authenticatedNetworkRoute
   '/profile': typeof authenticatedProfileRoute
@@ -194,7 +194,7 @@ export interface FileRoutesByFullPath {
   '/mentor/register': typeof authenticatedMentorRegisterRoute
   '/admin/': typeof adminAdminIndexRoute
   '/articles': typeof authenticatedArticlesIndexRoute
-  '/chats': typeof authenticatedChatsIndexRoute
+  '/chats/': typeof authenticatedChatsIndexRoute
   '/home': typeof authenticatedHomeIndexRoute
   '/auth/': typeof publicAuthIndexRoute
   '/articles/edit/$articleId': typeof authenticatedArticlesEditArticleIdRoute
@@ -207,7 +207,6 @@ export interface FileRoutesByFullPath {
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/about': typeof AboutRoute
-  '/chat': typeof authenticatedChatRoute
   '/mentors': typeof authenticatedMentorsRoute
   '/network': typeof authenticatedNetworkRoute
   '/profile': typeof authenticatedProfileRoute
@@ -235,8 +234,8 @@ export interface FileRoutesById {
   '/(authenticated)': typeof authenticatedRouteRouteWithChildren
   '/about': typeof AboutRoute
   '/(admin)/admin': typeof adminAdminRouteRouteWithChildren
+  '/(authenticated)/chats': typeof authenticatedChatsRouteRouteWithChildren
   '/(public)/auth': typeof publicAuthRouteRouteWithChildren
-  '/(authenticated)/chat': typeof authenticatedChatRoute
   '/(authenticated)/mentors': typeof authenticatedMentorsRoute
   '/(authenticated)/network': typeof authenticatedNetworkRoute
   '/(authenticated)/profile': typeof authenticatedProfileRoute
@@ -264,8 +263,8 @@ export interface FileRouteTypes {
     | '/'
     | '/about'
     | '/admin'
+    | '/chats'
     | '/auth'
-    | '/chat'
     | '/mentors'
     | '/network'
     | '/profile'
@@ -277,7 +276,7 @@ export interface FileRouteTypes {
     | '/mentor/register'
     | '/admin/'
     | '/articles'
-    | '/chats'
+    | '/chats/'
     | '/home'
     | '/auth/'
     | '/articles/edit/$articleId'
@@ -290,7 +289,6 @@ export interface FileRouteTypes {
   to:
     | '/'
     | '/about'
-    | '/chat'
     | '/mentors'
     | '/network'
     | '/profile'
@@ -317,8 +315,8 @@ export interface FileRouteTypes {
     | '/(authenticated)'
     | '/about'
     | '/(admin)/admin'
+    | '/(authenticated)/chats'
     | '/(public)/auth'
-    | '/(authenticated)/chat'
     | '/(authenticated)/mentors'
     | '/(authenticated)/network'
     | '/(authenticated)/profile'
@@ -408,19 +406,19 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof authenticatedMentorsRouteImport
       parentRoute: typeof authenticatedRouteRoute
     }
-    '/(authenticated)/chat': {
-      id: '/(authenticated)/chat'
-      path: '/chat'
-      fullPath: '/chat'
-      preLoaderRoute: typeof authenticatedChatRouteImport
-      parentRoute: typeof authenticatedRouteRoute
-    }
     '/(public)/auth': {
       id: '/(public)/auth'
       path: '/auth'
       fullPath: '/auth'
       preLoaderRoute: typeof publicAuthRouteRouteImport
       parentRoute: typeof rootRouteImport
+    }
+    '/(authenticated)/chats': {
+      id: '/(authenticated)/chats'
+      path: '/chats'
+      fullPath: '/chats'
+      preLoaderRoute: typeof authenticatedChatsRouteRouteImport
+      parentRoute: typeof authenticatedRouteRoute
     }
     '/(admin)/admin': {
       id: '/(admin)/admin'
@@ -445,10 +443,10 @@ declare module '@tanstack/react-router' {
     }
     '/(authenticated)/chats/': {
       id: '/(authenticated)/chats/'
-      path: '/chats'
-      fullPath: '/chats'
+      path: '/'
+      fullPath: '/chats/'
       preLoaderRoute: typeof authenticatedChatsIndexRouteImport
-      parentRoute: typeof authenticatedRouteRoute
+      parentRoute: typeof authenticatedChatsRouteRoute
     }
     '/(authenticated)/articles/': {
       id: '/(authenticated)/articles/'
@@ -480,10 +478,10 @@ declare module '@tanstack/react-router' {
     }
     '/(authenticated)/chats/$chatId': {
       id: '/(authenticated)/chats/$chatId'
-      path: '/chats/$chatId'
+      path: '/$chatId'
       fullPath: '/chats/$chatId'
       preLoaderRoute: typeof authenticatedChatsChatIdRouteImport
-      parentRoute: typeof authenticatedRouteRoute
+      parentRoute: typeof authenticatedChatsRouteRoute
     }
     '/(authenticated)/articles/$articleId': {
       id: '/(authenticated)/articles/$articleId'
@@ -537,35 +535,47 @@ declare module '@tanstack/react-router' {
   }
 }
 
+interface authenticatedChatsRouteRouteChildren {
+  authenticatedChatsChatIdRoute: typeof authenticatedChatsChatIdRoute
+  authenticatedChatsIndexRoute: typeof authenticatedChatsIndexRoute
+}
+
+const authenticatedChatsRouteRouteChildren: authenticatedChatsRouteRouteChildren =
+  {
+    authenticatedChatsChatIdRoute: authenticatedChatsChatIdRoute,
+    authenticatedChatsIndexRoute: authenticatedChatsIndexRoute,
+  }
+
+const authenticatedChatsRouteRouteWithChildren =
+  authenticatedChatsRouteRoute._addFileChildren(
+    authenticatedChatsRouteRouteChildren,
+  )
+
 interface authenticatedRouteRouteChildren {
-  authenticatedChatRoute: typeof authenticatedChatRoute
+  authenticatedChatsRouteRoute: typeof authenticatedChatsRouteRouteWithChildren
   authenticatedMentorsRoute: typeof authenticatedMentorsRoute
   authenticatedNetworkRoute: typeof authenticatedNetworkRoute
   authenticatedProfileRoute: typeof authenticatedProfileRoute
   authenticatedSessionsRoute: typeof authenticatedSessionsRoute
   authenticatedArticlesArticleIdRoute: typeof authenticatedArticlesArticleIdRoute
-  authenticatedChatsChatIdRoute: typeof authenticatedChatsChatIdRoute
   authenticatedMentorMentorIdRoute: typeof authenticatedMentorMentorIdRoute
   authenticatedMentorRegisterRoute: typeof authenticatedMentorRegisterRoute
   authenticatedArticlesIndexRoute: typeof authenticatedArticlesIndexRoute
-  authenticatedChatsIndexRoute: typeof authenticatedChatsIndexRoute
   authenticatedHomeIndexRoute: typeof authenticatedHomeIndexRoute
   authenticatedArticlesEditArticleIdRoute: typeof authenticatedArticlesEditArticleIdRoute
   authenticatedArticlesCreateIndexRoute: typeof authenticatedArticlesCreateIndexRoute
 }
 
 const authenticatedRouteRouteChildren: authenticatedRouteRouteChildren = {
-  authenticatedChatRoute: authenticatedChatRoute,
+  authenticatedChatsRouteRoute: authenticatedChatsRouteRouteWithChildren,
   authenticatedMentorsRoute: authenticatedMentorsRoute,
   authenticatedNetworkRoute: authenticatedNetworkRoute,
   authenticatedProfileRoute: authenticatedProfileRoute,
   authenticatedSessionsRoute: authenticatedSessionsRoute,
   authenticatedArticlesArticleIdRoute: authenticatedArticlesArticleIdRoute,
-  authenticatedChatsChatIdRoute: authenticatedChatsChatIdRoute,
   authenticatedMentorMentorIdRoute: authenticatedMentorMentorIdRoute,
   authenticatedMentorRegisterRoute: authenticatedMentorRegisterRoute,
   authenticatedArticlesIndexRoute: authenticatedArticlesIndexRoute,
-  authenticatedChatsIndexRoute: authenticatedChatsIndexRoute,
   authenticatedHomeIndexRoute: authenticatedHomeIndexRoute,
   authenticatedArticlesEditArticleIdRoute:
     authenticatedArticlesEditArticleIdRoute,

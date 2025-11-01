@@ -1,9 +1,13 @@
-// src/routes/chats/-components/ChatList.tsx
 import { Link } from "@tanstack/react-router";
 import { MessageSquare } from "lucide-react";
 import { useChats } from "../-hooks/useChat";
 import { ChatItem } from "./chatItem";
-export function ChatList() {
+
+interface ChatListProps {
+	onItemClick?: () => void;
+}
+
+export function ChatList({ onItemClick }: ChatListProps) {
 	const { chats } = useChats();
 
 	if (chats.length === 0) {
@@ -23,8 +27,10 @@ export function ChatList() {
 			{chats.map((chat) => (
 				<Link
 					key={chat.id}
-					to={`/chats/${chat.id}`}
+					to="/chats/$chatId"
+					params={{ chatId: chat.id }}
 					className="block hover:bg-muted/50 transition-colors"
+					onClick={onItemClick}
 				>
 					<ChatItem chat={chat} />
 				</Link>

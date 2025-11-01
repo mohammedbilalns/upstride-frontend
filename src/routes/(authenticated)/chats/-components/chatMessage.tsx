@@ -1,4 +1,4 @@
-import { Check, CheckCheck } from "lucide-react";
+import { Check, CheckCheck, Image, File, Mic } from "lucide-react";
 import UserAvatar from "@/components/common/UserAvatar";
 
 interface ChatMessageProps {
@@ -8,6 +8,11 @@ interface ChatMessageProps {
 		timestamp: string;
 		isOwn: boolean;
 		isRead?: boolean;
+		attachments?: {
+			type: "image" | "file" | "audio";
+			url?: string;
+			name?: string;
+		}[];
 	};
 	isOwn: boolean;
 }
@@ -32,7 +37,37 @@ export function ChatMessage({ message, isOwn }: ChatMessageProps) {
 						isOwn ? "bg-primary text-primary-foreground" : "bg-muted"
 					}`}
 				>
-					<p className="text-sm">{message.content}</p>
+					{message.content && <p className="text-sm">{message.content}</p>}
+
+					{message.attachments && message.attachments.length > 0 && (
+						<div className="mt-2 space-y-2">
+							{message.attachments.map((attachment, index) => (
+								<div
+									key={index}
+									className="flex items-center space-x-2 p-2 bg-background/20 rounded"
+								>
+									{attachment.type === "image" ? (
+										<>
+											<Image className="h-4 w-4" />
+											<span className="text-xs">Image</span>
+										</>
+									) : attachment.type === "file" ? (
+										<>
+											<File className="h-4 w-4" />
+											<span className="text-xs truncate">
+												{attachment.name}
+											</span>
+										</>
+									) : (
+										<>
+											<Mic className="h-4 w-4" />
+											<span className="text-xs">Audio</span>
+										</>
+									)}
+								</div>
+							))}
+						</div>
+					)}
 
 					<div
 						className={`flex items-center mt-1 space-x-1 ${
