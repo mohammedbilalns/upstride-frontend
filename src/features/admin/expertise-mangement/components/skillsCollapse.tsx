@@ -1,5 +1,5 @@
 import { Check, X } from "lucide-react";
-import { ConfirmDialog } from "@/components/common/confirm";
+import { ConfirmDialog } from "@/components/common/Confirm";
 import { Button } from "@/components/ui/button";
 import type { Skill } from "@/shared/types";
 import { useFetchSkills, useVerifySkill } from "../hooks";

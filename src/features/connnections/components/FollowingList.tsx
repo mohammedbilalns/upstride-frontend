@@ -1,7 +1,7 @@
 import ErrorState from "@/components/common/ErrorState";
 import GoToChat from "@/components/common/GoToChat";
 import NoResource from "@/components/common/NoResource";
-import Pending from "@/components/common/pending";
+import Pending from "@/components/common/Pending";
 import UserAvatar from "@/components/common/UserAvatar";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import FollowButton from "@/features/connnections/components/FollowButton";

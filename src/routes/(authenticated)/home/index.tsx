@@ -6,7 +6,6 @@ import NoResource from "@/components/common/NoResource";
 import { Button } from "@/components/ui/button";
 import { fetchArticles } from "@/features/articles/services/article.service";
 import ArticleFeed from "@/features/home/ArticleFeed";
-import QuickActions from "@/features/home/QuickActions";
 import RecommendedArticles from "@/features/home/RecommendedArticles";
 import RegisterMentorCard from "@/features/home/RegisterMentorCard";
 import SuggestedMentors from "@/features/home/SuggestedMentors";

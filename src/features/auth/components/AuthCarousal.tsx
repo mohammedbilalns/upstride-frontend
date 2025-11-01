@@ -46,8 +46,8 @@ export default function AuthCarousel() {
 	};
 
 	return (
-		<div className="hidden lg:flex items-center justify-center p-8 bg-gradient-to-br bg-transparent">
-			<div className="relative w-full max-w-2xl h-[32rem] rounded-2xl overflow-hidden shadow-2xl bg-transparent">
+		<div className="hidden lg:flex items-center justify-center p-8 bg-linear-to-br bg-transparent">
+			<div className="relative w-full max-w-2xl h-128 rounded-2xl overflow-hidden shadow-2xl bg-transparent">
 				{/* Carousel Images */}
 				<div className="relative w-full h-full rounded-2xl overflow-hidden">
 					{carouselImages.map((image, index) => (

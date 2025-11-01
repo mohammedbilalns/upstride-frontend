@@ -1,6 +1,6 @@
 import { Calendar } from "lucide-react";
 import ErrorState from "@/components/common/ErrorState";
-import Pending from "@/components/common/pending";
+import Pending from "@/components/common/Pending";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import type { Activity } from "@/shared/types/connection";
 import { formatRelativeTime } from "@/shared/utils/dateUtil";

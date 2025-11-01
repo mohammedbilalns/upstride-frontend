@@ -1,4 +1,4 @@
-import { LoadingSpinner } from "@/components/common/spinner";
+import { LoadingSpinner } from "@/components/common/Spinner";
 import { Button } from "@/components/ui/button";
 import type { Comment } from "@/shared/types/comment";
 import CommentItem from "./CommentItem";

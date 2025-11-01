@@ -1,7 +1,7 @@
 import { Link } from "@tanstack/react-router";
 import { Activity } from "react";
 import ErrorState from "@/components/common/ErrorState";
-import Pending from "@/components/common/pending";
+import Pending from "@/components/common/Pending";
 import ShowMoreContent from "@/components/common/ShowMore";
 import UserAvatar from "@/components/common/UserAvatar";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";

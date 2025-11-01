@@ -1,6 +1,6 @@
 import { CheckCircle, XCircle } from "lucide-react";
 import { useState } from "react";
-import Loading from "@/components/common/loading";
+import Loading from "@/components/common/Loading";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { useCurrentUser } from "@/shared/hooks/useCurrentUser";

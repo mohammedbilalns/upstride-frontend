@@ -109,7 +109,7 @@ export default function ExpertiseSelection({
 	return (
 		<div className="w-full max-w-2xl mx-auto pt-16 ">
 			<div className="text-center mb-8">
-				<h1 className="text-3xl font-bold mb-3 bg-gradient-to-r from-foreground via-foreground/90 to-foreground/80 bg-clip-text text-transparent">
+				<h1 className="text-3xl font-bold mb-3 bg-linear-to-r from-foreground via-foreground/90 to-foreground/80 bg-clip-text text-transparent">
 					Select Your Expertise
 				</h1>
 				<p className="text-muted-foreground text-lg">

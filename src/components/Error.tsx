@@ -20,7 +20,7 @@ export default function ErrorComponent({
 	const { title, message } = getErrorDetails(error);
 
 	return (
-		<div className="min-h-[92vh] flex flex-col justify-center items-center p-8 bg-gradient-to-b from-background to-muted/20">
+		<div className="min-h-[92vh] flex flex-col justify-center items-center p-8 bg-linear-to-b from-background to-muted/20">
 			<div className="bg-card rounded-xl shadow-lg border border-border/50 p-8 backdrop-blur-sm text-center max-w-md w-full">
 				<div className="mb-4 flex justify-center">
 					<div className="w-16 h-16 rounded-full bg-red-100 dark:bg-red-900/20 flex items-center justify-center">

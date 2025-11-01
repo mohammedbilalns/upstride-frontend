@@ -1,8 +1,8 @@
 import { createFileRoute, useNavigate } from "@tanstack/react-router";
 import { ChevronDown, ChevronRight } from "lucide-react";
 import { Fragment, useState } from "react";
-import { ConfirmDialog } from "@/components/common/confirm";
-import { Pagination } from "@/components/common/pagination";
+import { ConfirmDialog } from "@/components/common/Confirm";
+import { Pagination } from "@/components/common/Pagination";
 import { Button } from "@/components/ui/button";
 import {
 	Table,

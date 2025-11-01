@@ -6,25 +6,25 @@ import FeaturesSection from "@/features/landing/components/FeaturesSection";
 import FooterCTA from "@/features/landing/components/FooterCTA";
 import HeroSection from "@/features/landing/components/HeroSection";
 import TestimonialsSection from "@/features/landing/components/TestimonialsSection";
-import ThemeToggle from "./common/theme-toggle";
+import ThemeToggle from "./common/Theme-toggle";
 
 export default function LandingPage() {
 	const router = useRouter();
 
 	return (
-		<div className="min-h-screen bg-gradient-to-br from-background via-background/95 to-muted/30 relative overflow-hidden">
+		<div className="min-h-screen bg-linear-to-br from-background via-background/95 to-muted/30 relative overflow-hidden">
 			{/* Background decorative elements */}
-			<div className="absolute top-0 left-1/4 w-96 h-96 bg-gradient-to-br from-primary/10 to-transparent rounded-full blur-3xl opacity-30"></div>
-			<div className="absolute bottom-0 right-1/4 w-80 h-80 bg-gradient-to-tl from-secondary/15 to-transparent rounded-full blur-3xl opacity-40"></div>
+			<div className="absolute top-0 left-1/4 w-96 h-96 bg-linear-to-br from-primary/10 to-transparent rounded-full blur-3xl opacity-30"></div>
+			<div className="absolute bottom-0 right-1/4 w-80 h-80 bg-linear-to-tl from-secondary/15 to-transparent rounded-full blur-3xl opacity-40"></div>
 
 			{/* Header */}
 			<header className="relative z-10 border-b border-border/50 bg-card/50 backdrop-blur-xl">
 				<div className="container mx-auto px-6 py-4 flex justify-between items-center">
 					<div className="flex items-center space-x-2">
-						<div className="w-8 h-8 bg-gradient-to-br from-primary to-primary/80 rounded-lg flex items-center justify-center">
+						<div className="w-8 h-8 bg-linear-to-br from-primary to-primary/80 rounded-lg flex items-center justify-center">
 							<Zap className="h-5 w-5 text-primary-foreground" />
 						</div>
-						<h1 className="text-2xl font-bold bg-gradient-to-r from-foreground to-foreground/80 bg-clip-text text-transparent">
+						<h1 className="text-2xl font-bold bg-linear-to-r from-foreground to-foreground/80 bg-clip-text text-transparent">
 							UpStride
 						</h1>
 					</div>
@@ -53,7 +53,7 @@ export default function LandingPage() {
 
 						<Button
 							onClick={() => router.navigate({ to: "/auth" })}
-							className=" cursor-pointer bg-gradient-to-r from-primary to-primary/80"
+							className=" cursor-pointer bg-linear-to-r from-primary to-primary/80"
 						>
 							Get Started
 						</Button>
@@ -68,11 +68,11 @@ export default function LandingPage() {
 
 			{/* Mentor Registration CTA */}
 			<section className="relative z-10 container mx-auto px-6 py-20">
-				<Card className="bg-gradient-to-r from-primary/5 via-secondary/5 to-primary/5 border-primary/20 overflow-hidden relative">
-					<div className="absolute inset-0 bg-gradient-to-br from-primary/10 via-transparent to-secondary/10"></div>
+				<Card className="bg-linear-to-r from-primary/5 via-secondary/5 to-primary/5 border-primary/20 overflow-hidden relative">
+					<div className="absolute inset-0 bg-linear-to-br from-primary/10 via-transparent to-secondary/10"></div>
 					<CardContent className="relative z-10 p-12 text-center">
 						<Heart className="h-12 w-12 text-primary mx-auto mb-6" />
-						<h2 className="text-4xl font-bold mb-4 bg-gradient-to-r from-foreground to-foreground/80 bg-clip-text text-transparent">
+						<h2 className="text-4xl font-bold mb-4 bg-linear-to-r from-foreground to-foreground/80 bg-clip-text text-transparent">
 							Share Your Expertise
 						</h2>
 						<p className="text-xl text-muted-foreground mb-8 max-w-2xl mx-auto">
@@ -98,7 +98,7 @@ export default function LandingPage() {
 						<Button
 							onClick={() => router.navigate({ to: "/home" })}
 							size="lg"
-							className="cursor-pointer bg-gradient-to-r from-primary to-primary/80 hover:from-primary/90 hover:to-primary/70 text-lg px-8 py-6"
+							className="cursor-pointer bg-linear-to-r from-primary to-primary/80 hover:from-primary/90 hover:to-primary/70 text-lg px-8 py-6"
 						>
 							Register as a Mentor
 							<ChevronRight className="ml-2 h-5 w-5" />

@@ -34,23 +34,23 @@ export function ChatHeader({ chat, onBack }: ChatHeaderProps) {
 				</Button>
 
 				<div className="relative">
-					<UserAvatar image={chat.avatar} name={chat.name} size={10} />
-					{chat.isOnline && (
+					<UserAvatar image={chat?.avatar} name={chat?.name} size={10} />
+					{chat?.isOnline && (
 						<div className="absolute bottom-0 right-0 w-3 h-3 bg-green-500 rounded-full border-2 border-background"></div>
 					)}
 				</div>
 
 				<div>
 					<div className="flex items-center space-x-2">
-						<h2 className="font-semibold">{chat.name}</h2>
-						{chat.isMentor && (
+						<h2 className="font-semibold">{chat?.name}</h2>
+						{chat?.isMentor && (
 							<Badge variant="secondary" className="text-xs">
 								MENTOR
 							</Badge>
 						)}
 					</div>
 					<p className="text-xs text-muted-foreground">
-						{chat.isOnline ? "Online now" : "Offline"}
+						{chat?.isOnline ? "Online now" : "Offline"}
 					</p>
 				</div>
 			</div>

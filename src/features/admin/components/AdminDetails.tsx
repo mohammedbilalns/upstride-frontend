@@ -12,7 +12,7 @@ export default function AdminDetails({ isCollapsed }: AdminDetailsProps) {
 	const Avatar = (
 		<div className="relative">
 			<div
-				className="w-10 h-10 bg-gradient-to-br from-primary to-primary/80
+				className="w-10 h-10 bg-linear-to-br from-primary to-primary/80
         rounded-full flex items-center justify-center shadow-lg"
 				role="img"
 				aria-label={`Avatar for ${name}`}

@@ -12,7 +12,7 @@ import {
 import { Separator } from "@/components/ui/separator";
 import { useLogout } from "@/features/auth/hooks";
 import { NotificationsDropdown } from "@/features/notifications/components/NotificationDropdown";
-import ThemeToggle from "../common/theme-toggle";
+import ThemeToggle from "../common/Theme-toggle";
 import UserAvatar from "../common/UserAvatar";
 
 // Navigation Links
@@ -34,10 +34,10 @@ export default function Navbar() {
 			<div className="container mx-auto px-6 py-4 flex justify-between items-center">
 				{/* Logo */}
 				<Link to="/" className="flex items-center space-x-2">
-					<div className="w-8 h-8 bg-gradient-to-br from-primary to-primary/80 rounded-lg flex items-center justify-center shadow-lg shadow-primary/20">
+					<div className="w-8 h-8 bg-linear-to-br from-primary to-primary/80 rounded-lg flex items-center justify-center shadow-lg shadow-primary/20">
 						<Zap className="h-5 w-5 text-primary-foreground" />
 					</div>
-					<h1 className="text-2xl font-bold bg-gradient-to-r from-foreground to-foreground/80 bg-clip-text text-transparent">
+					<h1 className="text-2xl font-bold bg-linear-to-r from-foreground to-foreground/80 bg-clip-text text-transparent">
 						UpStride
 					</h1>
 				</Link>

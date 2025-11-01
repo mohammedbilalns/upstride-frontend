@@ -39,6 +39,7 @@
 		"@tiptap/extension-document": "^3.4.2",
 		"@tiptap/extension-highlight": "^3.5.2",
 		"@tiptap/extension-image": "^3.4.2",
+		"@tiptap/extension-link": "^3.10.1",
 		"@tiptap/extension-paragraph": "^3.4.2",
 		"@tiptap/extension-placeholder": "^3.4.2",
 		"@tiptap/extension-text": "^3.4.2",

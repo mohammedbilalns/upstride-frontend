@@ -1,5 +1,5 @@
 import { createFileRoute, Outlet } from "@tanstack/react-router";
-import Navbar from "@/components/layouts/navbar";
+import Navbar from "@/components/layouts/Navbar";
 import { fetchNotifications } from "@/features/notifications/services/notification.service";
 import { authGuard } from "@/shared/guards/auth-gaurd";
 
@@ -14,6 +14,7 @@ export const Route = createFileRoute("/(authenticated)")({
 			queryFn: ({ pageParam = 1 }) =>
 				fetchNotifications(pageParam, NOTIFICATIONS_LIMIT),
 			initialPageParam: 1,
+			// TODO: Specify proper types here
 			getNextPageParam: (lastPage, _allPages, lastPageParam) => {
 				if (lastPage.notifications.length < NOTIFICATIONS_LIMIT)
 					return undefined;

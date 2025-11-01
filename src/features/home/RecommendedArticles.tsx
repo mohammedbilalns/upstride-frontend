@@ -2,7 +2,7 @@ import { Link } from "@tanstack/react-router";
 import { Image as ImageIcon } from "lucide-react";
 import ErrorState from "@/components/common/ErrorState";
 import NoResource from "@/components/common/NoResource";
-import Pending from "@/components/common/pending";
+import Pending from "@/components/common/Pending";
 import ShowMoreContent from "@/components/common/ShowMore";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import type { Article } from "@/shared/types/article";

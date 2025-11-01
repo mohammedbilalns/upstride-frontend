@@ -1,7 +1,7 @@
 import { Link, useLocation } from "@tanstack/react-router";
 import { ChevronLeft, ChevronRight, Menu, X } from "lucide-react";
 import { useEffect, useState } from "react";
-import ThemeToggle from "@/components/common/theme-toggle";
+import ThemeToggle from "@/components/common/Theme-toggle";
 import { type NavigationItem, navigationItems } from "../data/navigation-items";
 import AdminDetails from "./AdminDetails";
 import LogoutButton from "./LogoutButton";
@@ -72,7 +72,7 @@ export function Sidebar({ className = "" }: SidebarProps) {
 
 			<div
 				className={`
-          fixed top-0 left-0 h-screen bg-gradient-to-b from-background to-muted/20 border-r border-border/50 backdrop-blur-sm z-40 transition-all duration-300 ease-in-out flex flex-col
+          fixed top-0 left-0 h-screen bg-linear-to-b from-background to-muted/20 border-r border-border/50 backdrop-blur-sm z-40 transition-all duration-300 ease-in-out flex flex-col
           ${isOpen ? "translate-x-0" : "-translate-x-full"}
           ${isCollapsed ? "w-20" : "w-80"}
           md:translate-x-0 md:relative md:z-auto
@@ -155,10 +155,10 @@ export function Sidebar({ className = "" }: SidebarProps) {
 										preload="intent"
 										title={isCollapsed ? item.name : undefined}
 									>
-										<div className="flex items-center justify-center min-w-[20px]">
+										<div className="flex items-center justify-center min-w-5">
 											<Icon
 												className={`
-                          h-5 w-5 flex-shrink-0
+                          h-5 w-5 shrink-0
                           ${
 														active
 															? "text-primary"

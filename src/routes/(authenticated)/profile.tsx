@@ -167,6 +167,7 @@ function RouteComponent() {
 				{/* Left Sidebar */}
 				<div className="lg:col-span-1 space-y-6 lg:sticky lg:top-6 self-start h-fit">
 					<ProfileSidebar
+						// TODO: fix type error here
 						profilePicture={form.watch("profilePicture")}
 						name={form.watch("name")}
 						role={loaderData.role}

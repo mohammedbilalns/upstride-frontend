@@ -1,7 +1,7 @@
 import { Loader2 } from "lucide-react";
 import { useMemo } from "react";
 import ErrorState from "@/components/common/ErrorState";
-import Pending from "@/components/common/pending";
+import Pending from "@/components/common/Pending";
 import { Button } from "@/components/ui/button";
 import { useFetchComments } from "../../hooks/useFetchComments";
 import CommentForm from "./CommentForm";

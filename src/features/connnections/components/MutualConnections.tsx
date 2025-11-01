@@ -1,44 +1,74 @@
-import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
-import { Button } from "@/components/ui/button";
+import NoResource from "@/components/common/NoResource";
+import UserAvatar from "@/components/common/UserAvatar";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { Button } from "@/components/ui/button";
 import { useFetchMutualMentors } from "@/features/articles/hooks/useFetchMutualMentors";
+import ShowMoreContent from "@/components/common/ShowMore";
+import Pending from "@/components/common/Pending";
+import ErrorState from "@/components/common/ErrorState";
 
 export default function MutualConnections() {
 	const { data, isPending, isError, refetch } = useFetchMutualMentors();
-	console.log("data", data);
+	const connections = data?.connections || [];
+
 	return (
 		<Card>
 			<CardHeader>
-				<CardTitle>Mutual Connections</CardTitle>
+				<CardTitle className="flex items-center justify-between">
+					<span>Mutual Connections</span>
+				</CardTitle>
 			</CardHeader>
 			<CardContent className="space-y-3">
-				<div className="flex items-center justify-between">
-					<div className="flex items-center">
-						<div className="flex -space-x-2">
-							<Avatar className="h-8 w-8 border-2 border-background">
-								<AvatarImage src="https://randomuser.me/api/portraits/men/5.jpg" />
-								<AvatarFallback>JD</AvatarFallback>
-							</Avatar>
-							<Avatar className="h-8 w-8 border-2 border-background">
-								<AvatarImage src="https://randomuser.me/api/portraits/women/6.jpg" />
-								<AvatarFallback>SW</AvatarFallback>
-							</Avatar>
-							<Avatar className="h-8 w-8 border-2 border-background">
-								<AvatarImage src="https://randomuser.me/api/portraits/men/7.jpg" />
-								<AvatarFallback>MJ</AvatarFallback>
-							</Avatar>
-						</div>
-						<div className="ml-3">
-							<p className="text-sm font-medium">3 mutual connections</p>
-							<p className="text-xs text-muted-foreground">
-								with Sarah Williams
-							</p>
-						</div>
+				{isPending ? (
+					<Pending resource="mentors" />
+				) : isError ? (
+					<ErrorState
+						message="Failed to load mutual connections. Please try again."
+						onRetry={() => refetch()}
+						variant="compact"
+					/>
+				) : connections.length === 0 ? (
+					<NoResource resource="mentors" />
+				) : (
+					<div className="space-y-3">
+						{connections.map((connection) => (
+							<div
+								key={connection.id}
+								className="flex items-center justify-between p-3 border rounded-lg hover:bg-muted/50 transition-colors cursor-pointer group"
+							>
+								<div className="flex items-center">
+									<UserAvatar
+										image={connection?.user?.profilePicture}
+										name={connection.name}
+										size={10}
+									/>
+									<div className="ml-3">
+										<p className="text-sm font-medium group-hover:text-primary transition-colors">
+											{connection.name}
+										</p>
+										<p className="text-xs text-muted-foreground">
+											{connection.currentRole} at {connection.organisation}
+										</p>
+										<p className="text-xs text-muted-foreground">
+											{connection.mutualConnectionCount} mutual connection
+											{connection.mutualConnectionCount !== 1 ? "s" : ""}
+										</p>
+									</div>
+								</div>
+								<Button size="sm" variant="outline" className="cursor-pointer">
+									View
+								</Button>
+							</div>
+						))}
 					</div>
-					<Button size="sm" variant="outline" className="cursor-pointer">
-						View
-					</Button>
-				</div>
+				)}
+				{connections.length > 0 && (
+					<ShowMoreContent
+						resource="connections"
+						link="/mentors"
+						text="View all connections"
+					/>
+				)}
 			</CardContent>
 		</Card>
 	);

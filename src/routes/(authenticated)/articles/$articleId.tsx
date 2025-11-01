@@ -3,7 +3,7 @@ import { createFileRoute, Link, useNavigate } from "@tanstack/react-router";
 import { ArrowLeft, Edit, MoreHorizontal, Trash2 } from "lucide-react";
 import { toast } from "sonner";
 import { useAuthStore } from "@/app/store/auth.store";
-import { ConfirmDialog } from "@/components/common/confirm";
+import { ConfirmDialog } from "@/components/common/Confirm";
 import UserAvatar from "@/components/common/UserAvatar";
 import { TiptapRenderer } from "@/components/rich-text-editor/Renderer";
 import { Badge } from "@/components/ui/badge";

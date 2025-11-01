@@ -3,7 +3,7 @@ import { useAuthStore } from "@/app/store/auth.store";
 import { Button } from "@/components/ui/button";
 import { useLogout } from "@/features/auth/hooks";
 import { cn } from "@/shared/utils/utils";
-import ThemeToggle from "../common/theme-toggle";
+import ThemeToggle from "../common/Theme-toggle";
 
 export function Header() {
 	const logoutMutation = useLogout();

@@ -51,7 +51,7 @@ export function ChatItem({ chat }: ChatItemProps) {
 					<div className="flex items-center justify-between mb-1">
 						<div className="flex items-center space-x-2">
 							<h4 className="font-semibold truncate">{chat.name}</h4>
-							{chat.isMentor && (
+							{chat?.isMentor && (
 								<Badge variant="secondary" className="text-xs">
 									MENTOR
 								</Badge>

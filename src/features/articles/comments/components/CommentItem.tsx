@@ -8,7 +8,7 @@ import {
 } from "lucide-react";
 import { useState } from "react";
 import { useAuthStore } from "@/app/store/auth.store";
-import { ConfirmDialog } from "@/components/common/confirm";
+import { ConfirmDialog } from "@/components/common/Confirm";
 import UserAvatar from "@/components/common/UserAvatar";
 import { Button } from "@/components/ui/button";
 import {
