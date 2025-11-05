@@ -37,10 +37,10 @@ export default function MentorCard({ mentor }: { mentor: Mentor }) {
 			key={mentor.id}
 			className="relative grid grid-rows-[auto_1fr_auto] h-full overflow-hidden"
 		>
-			<CardHeader className="pb-3 flex-shrink-0">
+			<CardHeader className="pb-3 shrink-0">
 				<div className="flex flex-wrap items-start justify-between gap-3">
 					<div className="flex flex-wrap items-start gap-3 min-w-0">
-						<div className="relative flex-shrink-0">
+						<div className="relative shrink-0">
 							<UserAvatar
 								image={mentor.user.profilePicture}
 								name={mentor.user.name}
@@ -67,7 +67,7 @@ export default function MentorCard({ mentor }: { mentor: Mentor }) {
 					</div>
 
 					{!dummyRating.isAvailable && (
-						<Badge variant="outline" className="text-xs flex-shrink-0">
+						<Badge variant="outline" className="text-xs shrink-0">
 							<Clock className="h-3 w-3 mr-1" />
 							Busy
 						</Badge>
@@ -86,7 +86,7 @@ export default function MentorCard({ mentor }: { mentor: Mentor }) {
 						<Badge
 							key={skill.id}
 							variant="secondary"
-							className="text-xs flex-shrink-0"
+							className="text-xs shrink-0"
 						>
 							{skill.name}
 						</Badge>
@@ -111,7 +111,7 @@ export default function MentorCard({ mentor }: { mentor: Mentor }) {
 				<div className="flex flex-wrap gap-2 w-full sm:w-auto">
 					{/* Message button */}
 
-					<GoToChat userId={mentor.id} isText={true} />
+					<GoToChat userId={mentor.user.id} isText={true} />
 
 					{/* Follow button */}
 					<FollowButton isFollowing={false} mentorId={mentor.id} />

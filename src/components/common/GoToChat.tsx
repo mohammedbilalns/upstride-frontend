@@ -12,7 +12,7 @@ export default function GoToChat({ userId, isText = false }: GoToChatProps) {
 
 	const handleGoToChat = () => {
 		navigate({
-			to: `/messages/${userId}`,
+			to: `/chats/${userId}`,
 		});
 	};
 

@@ -1,0 +1,31 @@
+import { useInfiniteQuery } from "@tanstack/react-query";
+import { fetchChats } from "../../services/chat.service";
+import type { FetchChatsResponse, ChatsQueryResult } from "@/shared/types/chat";
+
+export const useChats = (initialData?: FetchChatsResponse) => {
+  const limit = 10;
+  
+  return useInfiniteQuery<FetchChatsResponse, Error, ChatsQueryResult>({
+    queryKey: ["chats"],
+    queryFn: ({ pageParam = 1 }) => fetchChats(pageParam, limit),
+    getNextPageParam: (lastPage, allPages) => {
+      if (!lastPage || lastPage.chats.length < limit) return undefined;
+      return allPages.length + 1;
+    },
+    initialPageParam: 1,
+    initialData: initialData ? {
+      pages: [initialData],
+      pageParams: [1]
+    } : undefined,
+    select: (data) => {
+      // Flatten all pages into a single array of chats
+      const allChats = data.pages.flatMap(page => page.chats);
+      
+      return {
+        pages: data.pages,
+        pageParams: data.pageParams,
+        chats: allChats
+      };
+    }
+  });
+};

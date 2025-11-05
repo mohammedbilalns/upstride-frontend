@@ -61,7 +61,7 @@ export default function FollowedMentors({ count = 2 }: FollowedMentorProps) {
 										</div>
 									</div>
 									<div onClick={(e) => e.preventDefault()}>
-										<GoToChat userId={mentor.id} />
+										<GoToChat userId={mentor.user._id} />
 									</div>
 								</div>
 							</Link>

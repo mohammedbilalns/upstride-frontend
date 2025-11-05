@@ -66,7 +66,7 @@ export default function FollowingList() {
 									</div>
 								</div>
 								<div className="flex space-x-2">
-									<GoToChat userId={mentor.id} isText={true} />
+									<GoToChat userId={mentor.user.id} isText={true} />
 									<FollowButton isFollowing={true} mentorId={mentor.id} />
 								</div>
 							</div>

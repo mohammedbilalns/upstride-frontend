@@ -64,7 +64,7 @@ export default function FollowersList() {
 									</div>
 								</div>
 								<div className="flex space-x-2">
-									<GoToChat userId={follower.followerId?.id} isText={true} />
+									<GoToChat userId={follower.user.id} isText={true} />
 									<Button size="sm" variant="outline">
 										View Profile
 									</Button>

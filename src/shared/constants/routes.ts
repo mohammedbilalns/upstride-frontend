@@ -10,7 +10,7 @@ export const API_ROUTES = {
 		RESEND_RESET_OTP: "/auth/resend-reset-otp",
 		UPDATE_PASSWORD: "/auth/update-password",
 		GOOGLE: "/auth/google",
-		REFRESH: "/auth/refresh",
+		REhomeFRESH: "/auth/refresh",
 		ADD_INTERESTS: "/auth/add-interests",
 		GET_USERS: "/auth/me",
 	},
@@ -83,4 +83,8 @@ export const API_ROUTES = {
 		SUGGGESTED: "/connection/suggested",
 		MUTUAL: "/connection/mutual",
 	},
+  CHATS: {
+    FETCH: "/chat",
+    FETCH_CHAT:(chatId: string) => `/chat/${chatId}`,
+  }
 };
