@@ -1,6 +1,6 @@
 import { Link } from "@tanstack/react-router";
 import { Clock } from "lucide-react";
-import GoToChat from "@/components/common/GoToChat";
+import GoToChat from "@/features/chats/components/GoToChat";
 import UserAvatar from "@/components/common/UserAvatar";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";

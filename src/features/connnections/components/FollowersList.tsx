@@ -1,5 +1,5 @@
 import ErrorState from "@/components/common/ErrorState";
-import GoToChat from "@/components/common/GoToChat";
+import GoToChat from "@/features/chats/components/GoToChat";
 import NoResource from "@/components/common/NoResource";
 import Pending from "@/components/common/Pending";
 import UserAvatar from "@/components/common/UserAvatar";

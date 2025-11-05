@@ -1,5 +1,5 @@
 import { useInfiniteQuery } from "@tanstack/react-query";
-import { fetchChat } from "../../services/chat.service";
+import { fetchChat } from "../services/chat.service";
 
 export const useFetchChat = (
   receiverId: string,

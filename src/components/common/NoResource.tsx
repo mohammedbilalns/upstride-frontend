@@ -1,6 +1,7 @@
 import { Link } from "@tanstack/react-router";
 import { Calendar, FileText, MessageCircle, UsersRound } from "lucide-react";
 import { Button } from "@/components/ui/button";
+import type { ResourceType, ResourceConfig } from "@/shared/types/resourceTypes";
 
 interface NoResourceProps {
   resource: ResourceType;
@@ -9,16 +10,7 @@ interface NoResourceProps {
   isHome?: boolean;
 }
 
-type ResourceType =
-| "mentors"
-| "articles"
-| "sessions"
-| "followers"
-| "following"
-| "chats"
-| "messages"
-
-const resourceConfig = {
+const resourceConfig: ResourceConfig = {
   mentors: {
     icon: UsersRound,
     defaultMessage: "Get started by exploring our mentorship program.",
@@ -53,18 +45,32 @@ const resourceConfig = {
     icon: MessageCircle,
     defaultMessage: "Get started by creating a chat.",
     searchMessage: "Try adjusting your search filters or browse all chats.",
-  }
-
+  },
 };
 
-export default function NoResource({
-  resource,
-  isSearch,
-  clearFilters,
-  isHome,
-}: NoResourceProps) {
+const NoResource: React.FC<NoResourceProps> = ({ resource, isSearch, clearFilters, isHome }) => {
   const config = resourceConfig[resource];
   const Icon = config.icon;
+
+  const renderActionButton = () => {
+    if (isSearch && clearFilters) {
+      return (
+        <Button className="cursor-pointer" variant="outline" onClick={clearFilters}>
+          Clear filters
+        </Button>
+      );
+    }
+
+    if (!isHome) {
+      return (
+        <Button asChild>
+          <Link to="/home">Go To Home</Link>
+        </Button>
+      );
+    }
+
+    return null; 
+  };
 
   return (
     <div className="col-span-full flex flex-col items-center justify-center py-12 text-center">
@@ -79,22 +85,11 @@ export default function NoResource({
       </p>
 
       <div className="flex gap-3">
-        {isSearch ? (
-          <Button
-            className="cursor-pointer"
-            variant="outline"
-            onClick={clearFilters}
-          >
-            Clear filters
-          </Button>
-        ) : (
-            !isHome && (
-              <Button asChild>
-                <Link to="/home">Go To Home</Link>
-              </Button>
-            )
-          )}
+        {renderActionButton()}
       </div>
     </div>
   );
-}
+};
+
+export default NoResource;
+

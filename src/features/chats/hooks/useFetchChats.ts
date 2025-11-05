@@ -1,5 +1,5 @@
 import { useInfiniteQuery } from "@tanstack/react-query";
-import { fetchChats } from "../../services/chat.service";
+import { fetchChats } from "../services/chat.service";
 import type { FetchChatsResponse, ChatsQueryResult } from "@/shared/types/chat";
 
 export const useChats = (initialData?: FetchChatsResponse) => {
