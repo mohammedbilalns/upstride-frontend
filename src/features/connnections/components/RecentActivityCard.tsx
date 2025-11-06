@@ -4,7 +4,7 @@ import Pending from "@/components/common/Pending";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import type { Activity } from "@/shared/types/connection";
 import { formatRelativeTime } from "@/shared/utils/dateUtil";
-import { useFetchRecentActivity } from "../hooks/useFetchRecentActivity";
+import { useFetchRecentActivity } from "../hooks/connections-queries.hooks";
 import { getActivityDisplay } from "./GetActivityDisplay";
 
 export default function RecentActivityCard() {

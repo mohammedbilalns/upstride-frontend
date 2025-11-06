@@ -28,10 +28,10 @@ import {
 	SelectValue,
 } from "@/components/ui/select";
 import { Textarea } from "@/components/ui/textarea";
-import { useFetchExpertises } from "@/features/admin/expertise-mangement/hooks";
+import { useFetchExpertises } from "@/shared/hooks/useFetchExperitses";
 import type { Expertise } from "@/shared/types";
 import { useUploadMedia } from "../../../../shared/hooks/useUploadMedia";
-import { useRegisterAsMentor } from "../hooks";
+import { useRegisterAsMentor } from "../hooks/mentor-registration.hooks";
 import {
 	type mentorRegistrationFormValues,
 	mentorRegistrationSchema,

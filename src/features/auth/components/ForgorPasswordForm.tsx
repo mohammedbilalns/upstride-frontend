@@ -10,7 +10,7 @@ import {
 	FormMessage,
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
-import { useForgotPassword } from "../hooks";
+import { useForgotPassword } from "../hooks/forgot-password.hooks";
 import type { ForgotPasswordFormValues } from "../schemas/forgot-password.schema";
 import { forgotPasswordSchema } from "../schemas/forgot-password.schema";
 

@@ -24,10 +24,7 @@ import {
 import SearchBar from "@/features/admin/components/SearchBar";
 import StatusBadge from "@/features/admin/mentor-management/components/statusBadge";
 import TableCollapse from "@/features/admin/mentor-management/components/tableCollapse";
-import {
-	useApproveMentor,
-	useRejectMentor,
-} from "@/features/admin/mentor-management/hooks";
+import { useRejectMentor, useApproveMentor } from "@/features/admin/mentor-management/hooks/mentormanagement.hooks";
 import { paramsSchema } from "@/features/admin/mentor-management/schemas/search-params.schema";
 import { fetchMentors } from "@/features/admin/mentor-management/services/mentor-management.service";
 import type { RowsPerPage } from "@/features/admin/schemas/searchParamsSchema";

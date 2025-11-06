@@ -1,6 +1,6 @@
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import type { Mentor } from "@/shared/types/mentor";
-import { followMentor } from "../services/connection.service";
+import { followMentor, unfollowMentor } from "../services/connection.service";
 
 export function useFollowMentor() {
 	const queryClient = useQueryClient();
@@ -49,3 +49,24 @@ export function useFollowMentor() {
 		},
 	});
 }
+
+export function useUnfollowMentor() {
+	const queryClient = useQueryClient();
+
+	return useMutation({
+		mutationFn: (id: string) => unfollowMentor(id),
+		onSuccess: () => {
+			// TODO: optimistically update later
+
+			queryClient.invalidateQueries({ queryKey: ["following"] });
+		},
+		onError: () => {
+			console.log("Failed to unfollow mentor ");
+		},
+		onSettled: () => {
+			queryClient.invalidateQueries({ queryKey: ["following"] });
+			queryClient.invalidateQueries({ queryKey: ["suggestedMentors"] });
+		},
+	});
+}
+

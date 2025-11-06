@@ -10,7 +10,7 @@ import {
 	FormMessage,
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
-import { useLogin } from "../hooks";
+import { useLogin } from "../hooks/login.hooks";
 import type { loginFormValues } from "../schemas";
 import { loginSchema } from "../schemas";
 import GoogleOAuthButton from "./GoogleOauthButton";

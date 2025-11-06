@@ -12,7 +12,7 @@ import { NOTIFICATIONS_LIMIT } from "@/shared/constants/common";
 import { useInfiniteScroll } from "@/shared/hooks/useInfinteScroll";
 import type { NotificationsResponse } from "@/shared/types/notifications";
 import { cn } from "@/shared/utils/utils";
-import { useMarkAllNotificationsAsRead } from "../hooks/useMarkAllNotificationsAsRead";
+import { useMarkAllNotificationsAsRead } from "../hooks/notifications.hooks";
 import { fetchNotifications } from "../services/notification.service";
 import NotificationItem from "./NotificationItem";
 

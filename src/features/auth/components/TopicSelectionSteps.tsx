@@ -2,7 +2,7 @@ import { AlertCircle, ChevronLeft, ChevronRight, Loader2 } from "lucide-react";
 import { useMemo } from "react";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
-import { useFetchSkills } from "@/features/admin/expertise-mangement/hooks/useFetchSkills";
+import { useFetchSkills } from "@/features/admin/expertise-mangement/hooks/skills.hooks";
 import type { ExpertiseArea, Topic } from "@/shared/types";
 
 interface TopicSelectionStepProps {

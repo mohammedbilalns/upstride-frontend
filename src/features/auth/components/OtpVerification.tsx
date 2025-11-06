@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { Button } from "@/components/ui/button";
-import { useOtpTimer } from "../hooks";
+import { useOtpTimer } from "../hooks/registration.hooks";
 import { OtpInputField } from "./OtpInputField";
 
 interface OtpVerificationBaseProps {

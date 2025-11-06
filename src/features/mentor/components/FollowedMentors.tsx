@@ -5,7 +5,7 @@ import NoResource from "@/components/common/NoResource";
 import UserAvatar from "@/components/common/UserAvatar";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader } from "@/components/ui/card";
-import { useFetchFollowing } from "@/features/connnections/hooks/useFetchFollowing";
+import { useFetchFollowing } from "@/features/connnections/hooks/connections-queries.hooks";
 import type { MentorInList } from "@/shared/types/mentor";
 
 interface FollowedMentorProps {

@@ -2,7 +2,7 @@ import { Check, X } from "lucide-react";
 import { ConfirmDialog } from "@/components/common/Confirm";
 import { Button } from "@/components/ui/button";
 import type { Skill } from "@/shared/types";
-import { useFetchSkills, useVerifySkill } from "../hooks";
+import { useFetchSkills, useVerifySkill } from "../hooks/skills.hooks";
 import { CreateSkillDialog } from "./createSkillDialog";
 
 interface Props {

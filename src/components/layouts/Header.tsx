@@ -1,7 +1,7 @@
 import { Link } from "@tanstack/react-router";
 import { useAuthStore } from "@/app/store/auth.store";
 import { Button } from "@/components/ui/button";
-import { useLogout } from "@/features/auth/hooks";
+import { useLogout } from "@/features/auth/hooks/logout.hooks";
 import { cn } from "@/shared/utils/utils";
 import ThemeToggle from "../common/Theme-toggle";
 

@@ -3,7 +3,7 @@ import { useCallback } from "react";
 import type { Notification } from "@/shared/types/notifications";
 import { formatRelativeTime } from "@/shared/utils/dateUtil";
 import { cn } from "@/shared/utils/utils";
-import { useMarkNotificationAsRead } from "../hooks/useMarkNotificationAsRead";
+import { useMarkNotificationAsRead } from "../hooks/notifications.hooks";
 import { getNotificationIcon } from "../utils/getNotificationIcon";
 
 interface NotificationItemProps {

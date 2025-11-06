@@ -1,6 +1,6 @@
 import type { CredentialResponse } from "@react-oauth/google";
 import { GoogleLogin } from "@react-oauth/google";
-import { useGoogleLogin } from "../hooks";
+import { useGoogleLogin } from "../hooks/login.hooks";
 
 export default function GoogleOAuthButton({
 	onRegisterSuccess,

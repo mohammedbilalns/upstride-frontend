@@ -1,5 +1,5 @@
 import { LogOut } from "lucide-react";
-import { useLogout } from "@/features/auth/hooks";
+import { useLogout } from "@/features/auth/hooks/logout.hooks";
 
 interface LogoutProps {
 	isCollapsed: boolean;

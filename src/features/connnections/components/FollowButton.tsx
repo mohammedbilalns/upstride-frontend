@@ -1,7 +1,6 @@
 import { UserCheck, UserMinus } from "lucide-react";
 import { Button } from "@/components/ui/button";
-import { useFollowMentor } from "../hooks/useFollowMentor";
-import { useUnfollowMentor } from "../hooks/useUnfollowMentor";
+import { useFollowMentor, useUnfollowMentor } from "../hooks/connections-mutations.hooks";
 
 interface FollowButtonProps {
 	isFollowing: boolean;

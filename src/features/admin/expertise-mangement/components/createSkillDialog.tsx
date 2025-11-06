@@ -14,7 +14,7 @@ import {
 } from "@/components/ui/dialog";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import { useCreateSkill } from "../hooks";
+import { useCreateSkill } from "../hooks/skills.hooks";
 import type { createSkillFormValues } from "../schemas/expertise.schema";
 import { createSkillSchema } from "../schemas/expertise.schema";
 

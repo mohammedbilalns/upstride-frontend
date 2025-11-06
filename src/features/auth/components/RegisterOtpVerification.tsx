@@ -1,4 +1,4 @@
-import { useResendRegisterOtp, useVerifyRegisterOtp } from "../hooks";
+import { useVerifyRegisterOtp, useResendRegisterOtp } from "../hooks/registration.hooks";
 import { OtpVerificationBase } from "./OtpVerification";
 
 export function RegisterOtpVerification({

@@ -1,10 +1,17 @@
-import { useMutation } from "@tanstack/react-query";
+import { useMutation, useQuery } from "@tanstack/react-query";
+import { fetchExpertiseAreas, saveInterests } from "../services/auth.service";
 import { useRouter } from "@tanstack/react-router";
+import {type  ApiError } from "@/shared/types";
 import { toast } from "sonner";
-import { useAuthStore } from "@/app/store/auth.store";
 import { useSocketStore } from "@/app/store/socket.store";
-import type { ApiError } from "@/shared/types";
-import { saveInterests } from "../services/auth.service";
+import { useAuthStore } from "@/app/store/auth.store";
+
+export const useFetchExpertiseAreas = () => {
+	return useQuery({
+		queryKey: ["expertiseAreas"],
+		queryFn: () => fetchExpertiseAreas(),
+	});
+};
 
 export const useSaveInterests = () => {
 	const { setUser } = useAuthStore();

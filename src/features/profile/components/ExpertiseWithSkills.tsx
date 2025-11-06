@@ -11,8 +11,8 @@ import {
 	SelectTrigger,
 	SelectValue,
 } from "@/components/ui/select";
-import { useFetchSkills } from "@/features/admin/expertise-mangement/hooks";
-import { useFetchExpertiseAreas } from "@/features/auth/hooks";
+import { useFetchSkills } from "@/features/admin/expertise-mangement/hooks/skills.hooks";
+import { useFetchExpertiseAreas } from "@/features/auth/hooks/onboarding.hooks";
 import type { Expertise, Skill } from "@/shared/types";
 
 interface ExpertiseWithSkillsProps {

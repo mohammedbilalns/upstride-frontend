@@ -12,12 +12,8 @@ import {
 	FormMessage,
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
-import { useChangePassword } from "../hooks/useChangePassword";
-import {
-	type PasswordFormData,
-	passwordSchema,
-} from "../schemas/password.schema";
-
+import { useChangePassword } from "../hooks/profile.hooks";
+import { type PasswordFormData , passwordSchema } from "../schemas/profile.schema";
 interface ChangePasswordFormProps {
 	onSuccess?: () => void;
 }

@@ -1,4 +1,4 @@
-import { useResendForgotOtp, useVerifyForgotOtp } from "../hooks";
+import { useResendForgotOtp , useVerifyForgotOtp } from "../hooks/forgot-password.hooks";
 import { OtpVerificationBase } from "./OtpVerification";
 
 export function ForgotPasswordOtpVerification({

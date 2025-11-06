@@ -6,7 +6,7 @@ import UserAvatar from "@/components/common/UserAvatar";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { useInfiniteScroll } from "@/shared/hooks/useInfinteScroll";
-import { useFetchFollowers } from "../hooks/useFetchFollowers";
+import { useFetchFollowers } from "../hooks/connections-queries.hooks";
 
 export default function FollowersList() {
 	const {
@@ -64,7 +64,7 @@ export default function FollowersList() {
 									</div>
 								</div>
 								<div className="flex space-x-2">
-									<GoToChat userId={follower.user.id} isText={true} />
+									<GoToChat userId={follower.followerId.id} isText={true} />
 									<Button size="sm" variant="outline">
 										View Profile
 									</Button>

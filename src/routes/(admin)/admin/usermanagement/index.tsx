@@ -16,10 +16,7 @@ import {
 	paramsSchema,
 	type RowsPerPage,
 } from "@/features/admin/schemas/searchParamsSchema";
-import {
-	useBlockUser,
-	useUnBlockUser,
-} from "@/features/admin/user-management/hooks";
+import { useBlockUser, useUnBlockUser } from "@/features/admin/user-management/hooks/user-mangement.hooks";
 import { fetchUsers } from "@/features/admin/user-management/services/user-mangement.service";
 import type { User } from "@/shared/types";
 

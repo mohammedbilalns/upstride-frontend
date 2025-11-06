@@ -1,8 +1,32 @@
 import { useMutation, useQueryClient } from "@tanstack/react-query";
-import { toast } from "sonner";
+import { changePassword, updateProfile } from "../services/profile.service";
 import { useAuthStore } from "@/app/store/auth.store";
+import { toast } from "sonner";
 import type { ProfileFormData } from "../schemas/profile.schema";
-import { updateProfile } from "../services/profile.service";
+import type { ApiError } from "@/shared/types";
+
+export const useChangePassword = () => {
+	return useMutation({
+		mutationFn: async ({
+			oldPassword,
+			newPassword,
+		}: {
+			oldPassword: string;
+			newPassword: string;
+		}) => {
+			return await changePassword({ oldPassword, newPassword });
+		},
+		onSuccess: (data) => {
+			toast.success("Password updated successfully");
+			console.log("Password updated successfully", data);
+		},
+		onError: (error: ApiError) => {
+			const errorMessage = error?.response?.data?.message;
+			toast.error(errorMessage);
+			console.error(errorMessage);
+		},
+	});
+};
 
 export const useUpdateProfile = () => {
 	const queryClient = useQueryClient();
@@ -17,6 +41,7 @@ export const useUpdateProfile = () => {
 			if (variables.profilePicture && user) {
 				const updatedUser = {
 					...user,
+          // TODO: fix type error here
 					profilePicture: variables.profilePicture?.secure_url,
 				};
 				setUser(updatedUser);

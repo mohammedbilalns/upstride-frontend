@@ -2,6 +2,7 @@ import js from "@eslint/js";
 import { globalIgnores } from "eslint/config";
 import reactHooks from "eslint-plugin-react-hooks";
 import reactRefresh from "eslint-plugin-react-refresh";
+import pluginQuery from '@tanstack/eslint-plugin-query'
 import globals from "globals";
 import tseslint from "typescript-eslint";
 
@@ -14,6 +15,7 @@ export default tseslint.config([
 			tseslint.configs.recommended,
 			reactHooks.configs["recommended-latest"],
 			reactRefresh.configs.vite,
+      pluginQuery.configs['flat/recommended']
 		],
 		languageOptions: {
 			ecmaVersion: 2020,

@@ -6,7 +6,7 @@ import UserAvatar from "@/components/common/UserAvatar";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import FollowButton from "@/features/connnections/components/FollowButton";
 import { useInfiniteScroll } from "@/shared/hooks/useInfinteScroll";
-import { useFetchFollowing } from "../hooks/useFetchFollowing";
+import { useFetchFollowing } from "../hooks/connections-queries.hooks";
 
 export default function FollowingList() {
 	const {

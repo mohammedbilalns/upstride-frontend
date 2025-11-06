@@ -3,8 +3,8 @@ import { useAuthStore } from "@/app/store/auth.store";
 import ErrorState from "@/components/common/ErrorState";
 import Pending from "@/components/common/Pending";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { useFetchFollowers } from "../hooks/useFetchFollowers";
-import { useFetchFollowing } from "../hooks/useFetchFollowing";
+import { useFetchFollowers } from "../hooks/connections-queries.hooks";
+import { useFetchFollowing } from "../hooks/connections-queries.hooks";
 
 export default function ConnectionStats() {
 	const { user } = useAuthStore();

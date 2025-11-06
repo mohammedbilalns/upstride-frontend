@@ -11,7 +11,7 @@ import {
 	SelectValue,
 } from "@/components/ui/select";
 import { sortOptions } from "@/features/articles/data/sort-options";
-import { useFetchExpertiseAreas } from "@/features/auth/hooks";
+import { useFetchExpertiseAreas } from "@/features/auth/hooks/onboarding.hooks";
 import type { Category } from "@/shared/types/category";
 import type { Tag } from "@/shared/types/tag";
 import { useFetchMostUsedTags } from "../hooks/useFetchMostUsedTags";

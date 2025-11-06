@@ -3,7 +3,6 @@ import type { Comment } from "@/shared/types/comment";
 import { useReactResource } from "../../hooks/useReactResource";
 
 export function useCommentInteractions(comment?: Comment) {
-	// 1. Initialize state with safe defaults if 'comment' is undefined
 	const [liked, setLiked] = useState(comment?.isLiked ?? false);
 	const [likes, setLikes] = useState(comment?.likes ?? 0);
 	const reactCommentMutation = useReactResource();

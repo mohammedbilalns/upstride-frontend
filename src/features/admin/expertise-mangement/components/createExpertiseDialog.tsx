@@ -16,7 +16,7 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { MultiSelect } from "@/components/ui/mulit-select";
 import { Textarea } from "@/components/ui/textarea";
-import { useCreateExpertise } from "../hooks";
+import { useCreateExpertise } from "../hooks/expertise.hooks";
 import type { FormValues } from "../schemas/expertise.schema";
 import { createExpertiseSchema } from "../schemas/expertise.schema";
 

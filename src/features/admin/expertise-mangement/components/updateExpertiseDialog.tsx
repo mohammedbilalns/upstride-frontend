@@ -15,7 +15,7 @@ import {
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
-import { useUpdateExpertise } from "../hooks";
+import { useUpdateExpertise } from "../hooks/expertise.hooks";
 import type { updateExpertiseFormValues } from "../schemas/expertise.schema";
 import { updateExpertiseSchema } from "../schemas/expertise.schema";
 

@@ -7,7 +7,7 @@ import {
 	CardTitle,
 } from "@/components/ui/card";
 import type { ExpertiseArea } from "@/shared/types";
-import { useFetchExpertiseAreas, useSaveInterests } from "../hooks";
+import { useFetchExpertiseAreas, useSaveInterests } from "../hooks/onboarding.hooks";
 import { AreaSelectionStep } from "./AreaSelection";
 import { TopicSelectionStep } from "./TopicSelectionSteps";
 

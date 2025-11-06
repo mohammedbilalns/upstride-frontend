@@ -7,7 +7,7 @@ import {
 	FormItem,
 	FormLabel,
 } from "@/components/ui/form";
-import { useFetchSkills } from "@/features/admin/expertise-mangement/hooks";
+import { useFetchSkills } from "@/features/admin/expertise-mangement/hooks/skills.hooks";
 import type { Skill } from "@/shared/types";
 import { SkillSkeleton } from "./skillSkeleton";
 

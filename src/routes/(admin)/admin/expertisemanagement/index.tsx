@@ -16,7 +16,7 @@ import SearchBar from "@/features/admin/components/SearchBar";
 import { CreateExpertiseDialog } from "@/features/admin/expertise-mangement/components/createExpertiseDialog";
 import ExpertiseSkillsCollapse from "@/features/admin/expertise-mangement/components/skillsCollapse";
 import { UpdateExpertiseDialog } from "@/features/admin/expertise-mangement/components/updateExpertiseDialog";
-import { useVerifyExpertise } from "@/features/admin/expertise-mangement/hooks";
+import { useVerifyExpertise } from "@/features/admin/expertise-mangement/hooks/expertise.hooks";
 import { fetchExpertises } from "@/features/admin/expertise-mangement/services/expertise-management.service";
 import StatusBadge from "@/features/admin/mentor-management/components/statusBadge";
 import {

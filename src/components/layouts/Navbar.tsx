@@ -10,7 +10,7 @@ import {
 	DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import { Separator } from "@/components/ui/separator";
-import { useLogout } from "@/features/auth/hooks";
+import { useLogout } from "@/features/auth/hooks/logout.hooks";
 import { NotificationsDropdown } from "@/features/notifications/components/NotificationDropdown";
 import ThemeToggle from "../common/Theme-toggle";
 import UserAvatar from "../common/UserAvatar";
