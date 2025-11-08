@@ -27,7 +27,7 @@ export const useFetchSuggestedMentors = (limit = 10) => {
 	});
 };
 
-// FIX: unused hook
+// NOTE: unused hook
 export const useFetchMentorsForUser = (
 	page: number,
 	limit: number,
