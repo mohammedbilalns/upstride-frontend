@@ -10,7 +10,7 @@ import {
 	SelectTrigger,
 	SelectValue,
 } from "@/components/ui/select";
-import { useFetchActiveExpertisesAndSkills } from "../hooks/useFetchActiveExpertisesAndSkills";
+import { useFetchActiveExpertisesAndSkills } from "../hooks/mentors-queries.hooks";
 import type { MentorsSearchSchema } from "../schemas/mentorsSearchSchema";
 import FollowedMentors from "./FollowedMentors";
 

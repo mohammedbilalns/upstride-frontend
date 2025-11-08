@@ -41,7 +41,7 @@ export const useUpdateProfile = () => {
 			if (variables.profilePicture && user) {
 				const updatedUser = {
 					...user,
-          // TODO: fix type error here
+          // FIX:  type error
 					profilePicture: variables.profilePicture?.secure_url,
 				};
 				setUser(updatedUser);

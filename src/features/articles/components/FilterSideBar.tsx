@@ -13,8 +13,7 @@ import {
 import { sortOptions } from "@/features/articles/data/sort-options";
 import { useFetchExpertiseAreas } from "@/features/auth/hooks/onboarding.hooks";
 import type { Category } from "@/shared/types/category";
-import type { Tag } from "@/shared/types/tag";
-import { useFetchMostUsedTags } from "../hooks/useFetchMostUsedTags";
+import { useFetchMostUsedTags } from "../hooks/article-queries.hooks";
 
 interface FilterSidebarProps {
 	searchParams: {
@@ -197,7 +196,7 @@ export function FilterSidebar({
 						) : (
 							<div className="flex flex-wrap gap-2">
 								{tags && tags.length > 0 ? (
-									tags.map((tag: Tag) => (
+									tags.map((tag) => (
 										<Badge
 											key={tag.id}
 											variant={

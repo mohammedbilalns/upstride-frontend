@@ -19,7 +19,7 @@ import {
 } from "@/components/ui/dropdown-menu";
 import type { Comment } from "@/shared/types/comment";
 import { formatRelativeTime } from "@/shared/utils/dateUtil";
-import { useUpdateComment } from "../../hooks/useUpdateComment";
+import { useUpdateComment } from "../../hooks/comment.hooks"; 
 import { useCommentInteractions } from "../hooks/useCommentInteractions";
 import { useCommentReplies } from "../hooks/useCommentReplies";
 import { useDeleteComment } from "../hooks/useDeleteComment";

@@ -1,7 +1,7 @@
 import { Bookmark, Eye, Heart, MessageCircle, Share } from "lucide-react";
 import { useState } from "react";
 import { Button } from "@/components/ui/button";
-import { useReactResource } from "../hooks/useReactResource";
+import { useReactResource } from "../hooks/reaction.hooks";
 
 interface ArticleEngagementBarProps {
 	articleId: string;

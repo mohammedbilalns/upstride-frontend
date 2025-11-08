@@ -1,4 +1,4 @@
-import type { ReactNode } from "react";
+import { useState, type ReactNode } from "react";
 import {
 	AlertDialog,
 	AlertDialogAction,
@@ -34,13 +34,20 @@ export function ConfirmDialog({
 	onConfirm,
 	disabled = false,
 }: ConfirmDialogProps) {
+	const [open, setOpen] = useState(false);
+
 	const actionClass =
 		variant === "destructive"
 			? "bg-destructive cursor-pointer text-destructive-foreground hover:bg-destructive/90"
 			: "bg-primary cursor-pointer text-primary-foreground hover:bg-primary/90";
 
+	const handleConfirm = () => {
+		onConfirm();
+		setOpen(false);
+	};
+
 	return (
-		<AlertDialog>
+		<AlertDialog open={open} onOpenChange={setOpen}>
 			<AlertDialogTrigger asChild disabled={disabled}>
 				{children}
 			</AlertDialogTrigger>
@@ -55,16 +62,16 @@ export function ConfirmDialog({
 				<AlertDialogFooter>
 					<AlertDialogCancel
 						className="
-            cursor-pointer
-              bg-muted
-              text-muted-foreground/80
-              hover:bg-muted/90
-              dark:text-muted-foreground
-            "
+							cursor-pointer
+							bg-muted
+							text-muted-foreground/80
+							hover:bg-muted/90
+							dark:text-muted-foreground
+						"
 					>
 						{cancelText}
 					</AlertDialogCancel>
-					<AlertDialogAction onClick={onConfirm} className={actionClass}>
+					<AlertDialogAction onClick={handleConfirm} className={actionClass}>
 						{confirmText}
 					</AlertDialogAction>
 				</AlertDialogFooter>

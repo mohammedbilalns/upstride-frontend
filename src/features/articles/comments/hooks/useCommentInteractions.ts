@@ -1,6 +1,6 @@
 import { useCallback, useState } from "react";
 import type { Comment } from "@/shared/types/comment";
-import { useReactResource } from "../../hooks/useReactResource";
+import { useReactResource } from "../../hooks/reaction.hooks";
 
 export function useCommentInteractions(comment?: Comment) {
 	const [liked, setLiked] = useState(comment?.isLiked ?? false);

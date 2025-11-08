@@ -20,3 +20,14 @@ export interface Article {
 }
 
 export interface ArticleInList extends Omit<Article, "content"> {}
+
+export type ArticlesResponse = {
+  articles: Article[]
+  total: number
+}
+
+export type ArticleResponse = {
+  article:Article,
+  isViewed:boolean,
+  isLiked: boolean
+}

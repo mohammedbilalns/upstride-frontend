@@ -6,6 +6,7 @@ import type {
 	articleCreateData,
 	articleUpdatePayload,
 } from "../schemas/article.schema";
+import { type ArticleResponse, type ArticlesResponse } from "@/shared/types/article";
 
 export async function fetchArticles(
 	page = 1,
@@ -17,11 +18,11 @@ export async function fetchArticles(
 	try {
 		let response: AxiosResponse;
 		if (category) {
-			response = await api.get(API_ROUTES.ARTICLES.ARTICLES_BY_CATEGORY, {
+			response = await api.get<ArticlesResponse>(API_ROUTES.ARTICLES.ARTICLES_BY_CATEGORY, {
 				params: { page, query, category, sortBy },
 			});
 		} else {
-			response = await api.get(API_ROUTES.ARTICLES.ARTICLES, {
+			response = await api.get<ArticlesResponse>(API_ROUTES.ARTICLES.ARTICLES, {
 				params: { page, query, tag, sortBy },
 			});
 		}
@@ -44,7 +45,7 @@ export async function createArticle(article: articleCreateData) {
 
 export async function getArticle(articleId: string) {
 	try {
-		const response = await api.get(API_ROUTES.ARTICLES.FETCH(articleId));
+		const response = await api.get<ArticleResponse>(API_ROUTES.ARTICLES.FETCH(articleId));
 		return response.data;
 	} catch (error) {
 		console.error("Error while fetching article", error);

@@ -1,6 +1,6 @@
 import { useCallback, useEffect, useMemo, useState } from "react";
 import type { Comment } from "@/shared/types/comment";
-import { useFetchComments } from "../../hooks/useFetchComments";
+import { useFetchComments } from "../../hooks/article-queries.hooks";
 
 export function useCommentReplies(articleId: string, commentId: string) {
 	const [showReplies, setShowReplies] = useState(false);

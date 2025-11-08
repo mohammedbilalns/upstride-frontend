@@ -55,6 +55,7 @@ export const Route = createFileRoute("/(admin)/admin/mentormanagement/")({
 
 type MentorStatus = "pending" | "approved" | "rejected";
 
+// FIX : Wrong mentor status for approved mentors
 function RouteComponent() {
 	const navigate = useNavigate({ from: Route.fullPath });
 	const { page, rowsPerPage, search, filter } = Route.useSearch();

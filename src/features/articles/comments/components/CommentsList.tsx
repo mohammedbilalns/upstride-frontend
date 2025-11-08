@@ -3,7 +3,7 @@ import { useMemo } from "react";
 import ErrorState from "@/components/common/ErrorState";
 import Pending from "@/components/common/Pending";
 import { Button } from "@/components/ui/button";
-import { useFetchComments } from "../../hooks/useFetchComments";
+import { useFetchComments } from "../../hooks/article-queries.hooks";
 import CommentForm from "./CommentForm";
 import CommentItem from "./CommentItem";
 

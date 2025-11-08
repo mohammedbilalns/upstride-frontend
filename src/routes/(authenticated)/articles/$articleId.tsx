@@ -1,7 +1,6 @@
-import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
+import {  useQuery } from "@tanstack/react-query";
 import { createFileRoute, Link, useNavigate } from "@tanstack/react-router";
 import { ArrowLeft, Edit, MoreHorizontal, Trash2 } from "lucide-react";
-import { toast } from "sonner";
 import { useAuthStore } from "@/app/store/auth.store";
 import { ConfirmDialog } from "@/components/common/Confirm";
 import UserAvatar from "@/components/common/UserAvatar";
@@ -20,10 +19,10 @@ import CommentsList from "@/features/articles/comments/components/CommentsList";
 import ArticleEngagementBar from "@/features/articles/components/ArticleEngagementBar";
 import { ArticleNotFound } from "@/features/articles/components/ArticleNotFound";
 import {
-	deleteArticle,
 	fetchArticle,
 } from "@/features/articles/services/article.service";
 import type { Article, Tag } from "@/shared/types/article";
+import { useDeleteArticle } from "@/features/articles/hooks/article-mutations.hooks";
 
 export const Route = createFileRoute("/(authenticated)/articles/$articleId")({
 	component: RouteComponent,
@@ -41,7 +40,6 @@ function RouteComponent() {
 	const { user } = useAuthStore();
 	const { articleId } = Route.useParams();
 	const navigate = useNavigate();
-	const queryClient = useQueryClient();
 
 	const { data } = useQuery({
 		queryKey: ["article", articleId],
@@ -49,18 +47,7 @@ function RouteComponent() {
 		staleTime: 5 * 60 * 1000,
 	});
 
-	const deleteArticleMutation = useMutation({
-		mutationFn: () => deleteArticle(articleId),
-		onSuccess: () => {
-			toast.success("Article deleted successfully");
-			queryClient.invalidateQueries({ queryKey: ["articles"] });
-			navigate({ to: "/articles" });
-		},
-		onError: (error) => {
-			toast.error("Failed to delete article");
-			console.error("Delete error:", error);
-		},
-	});
+  const deleteArticleMutation = useDeleteArticle()
 
 	const article: Article = data?.article;
 	const isLiked: boolean = data?.isLiked;
@@ -71,7 +58,7 @@ function RouteComponent() {
 	};
 
 	const handleDeleteArticle = () => {
-		deleteArticleMutation.mutate();
+		deleteArticleMutation.mutate(articleId);
 	};
 
 	if (!article) {

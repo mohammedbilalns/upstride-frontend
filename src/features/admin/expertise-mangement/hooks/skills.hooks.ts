@@ -8,6 +8,7 @@ export const useCreateSkill = (callbacks?: {
 	onCreateSuccess?: () => void;
 }) => {
 	const router = useRouter();
+  const queryClient = useQueryClient();
 	return useMutation({
 		mutationFn: ({
 			name,
@@ -20,6 +21,7 @@ export const useCreateSkill = (callbacks?: {
 			toast.success(response.message);
 			callbacks?.onCreateSuccess?.();
 			router.invalidate({ sync: true });
+      queryClient.invalidateQueries({ queryKey: ["skills"]});
 		},
 		onError: (error: ApiError) => {
 			const errorMessage =
