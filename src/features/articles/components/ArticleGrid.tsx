@@ -3,6 +3,7 @@ import { Skeleton } from "@/components/ui/skeleton";
 import type { ArticleInList } from "@/shared/types/article";
 import { cn } from "@/shared/utils/utils";
 import { ArticleCard } from "./ArticleCard";
+import { motion, AnimatePresence } from "framer-motion";
 
 interface ArticleGridProps {
 	articles: ArticleInList[];
@@ -28,67 +29,86 @@ export function ArticleGrid({
 }: ArticleGridProps) {
 	const skeletonKeys = Array.from({ length: 8 }, (_, i) => `skeleton-${i}`);
 
-	if (isLoading && articles.length === 0) {
-		return (
-			<div>
-				<div
-					className={cn(
-						viewMode === "grid"
-							? "grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6"
-							: "space-y-4",
-					)}
-				>
-					{skeletonKeys.map((key) => (
-						<div
-							key={key}
-							className={cn(viewMode === "grid" ? "space-y-3" : "flex gap-4")}
-						>
-							<Skeleton
-								className={cn(
-									viewMode === "grid"
-										? "h-40 w-full"
-										: "h-24 w-24 shrink-0",
-								)}
-							/>
-							<div
-								className={cn(
-									viewMode === "grid" ? "space-y-2" : "flex-1 space-y-2",
-								)}
-							>
-								<Skeleton className="h-4 w-3/4" />
-								<Skeleton className="h-4 w-1/2" />
-								<Skeleton className="h-3 w-full" />
-								<Skeleton className="h-3 w-5/6" />
-							</div>
-						</div>
-					))}
-				</div>
-			</div>
-		);
-	}
-
-	if (articles.length === 0 && !isLoading) {
-		return (
-			<NoResource
-				resource={"articles"}
-				isSearch={isSearch}
-				clearFilters={clearFilters}
-			/>
-		);
-	}
 	return (
 		<div>
-			<div
-				className={cn(
-					viewMode === "grid"
-						? "grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6"
-						: "space-y-4",
+			<AnimatePresence mode="wait">
+				{isLoading && articles.length === 0 ? (
+					<motion.div
+						key="skeleton"
+						initial={{ opacity: 0 }}
+						animate={{ opacity: 1 }}
+						exit={{ opacity: 0 }}
+						transition={{ duration: 0.2 }}
+					>
+						<div
+							className={cn(
+								viewMode === "grid"
+									? "grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6"
+									: "space-y-4",
+							)}
+						>
+							{skeletonKeys.map((key) => (
+								<div
+									key={key}
+									className={cn(viewMode === "grid" ? "space-y-3" : "flex gap-4")}
+								>
+									<Skeleton
+										className={cn(
+											viewMode === "grid"
+												? "h-40 w-full"
+												: "h-24 w-24 shrink-0",
+										)}
+									/>
+									<div
+										className={cn(
+											viewMode === "grid" ? "space-y-2" : "flex-1 space-y-2",
+										)}
+									>
+										<Skeleton className="h-4 w-3/4" />
+										<Skeleton className="h-4 w-1/2" />
+										<Skeleton className="h-3 w-full" />
+										<Skeleton className="h-3 w-5/6" />
+									</div>
+								</div>
+							))}
+						</div>
+					</motion.div>
+				) : articles.length === 0 ? (
+					<motion.div
+						key="no-resource"
+						initial={{ opacity: 0 }}
+						animate={{ opacity: 1 }}
+						exit={{ opacity: 0 }}
+						transition={{ duration: 0.2 }}
+					>
+						<NoResource
+							resource={"articles"}
+							isSearch={isSearch}
+							clearFilters={clearFilters}
+						/>
+					</motion.div>
+				) : (
+					<motion.div
+						key="articles"
+						initial={{ opacity: 0 }}
+						animate={{ opacity: 1 }}
+						exit={{ opacity: 0 }}
+						transition={{ duration: 0.2 }}
+					>
+						<div
+							className={cn(
+								viewMode === "grid"
+									? "grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6"
+									: "space-y-4",
+							)}
+						>
+							{articles.map((article) => (
+								<ArticleCard key={article.id} article={article} />
+							))}
+						</div>
+					</motion.div>
 				)}
-			>
-				{articles.map((article) => (
-					<ArticleCard key={article.id} article={article} />
-				))}
-			</div>
+			</AnimatePresence>
 
 			{/* Intersection Observer Target for Infinite Scroll */}
 			<div ref={setTarget} className="mt-6 flex justify-center">

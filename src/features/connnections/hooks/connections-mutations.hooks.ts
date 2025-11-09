@@ -9,6 +9,7 @@ export function useFollowMentor() {
 		mutationFn: async (id: string) => {
 			const [result] = await Promise.all([
 				followMentor(id),
+        //NOTE: Remove timeout in production
 				new Promise((resolve) => setTimeout(resolve, 500)),
 			]);
 			return result;
@@ -63,6 +64,7 @@ export function useUnfollowMentor() {
 		mutationFn: async (id: string) => {
 			const [result] = await Promise.all([
 				unfollowMentor(id),
+        //NOTE: Remove timeout in production
 				new Promise((resolve) => setTimeout(resolve, 500)),
 			]);
 			return result;

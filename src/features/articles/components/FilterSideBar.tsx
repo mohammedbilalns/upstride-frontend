@@ -27,6 +27,7 @@ interface FilterSidebarProps {
 	onClearFilters: () => void;
 }
 
+// FIX: layout shift when opening the dropdown
 export function FilterSidebar({
 	searchParams,
 	onCategoryChange,
