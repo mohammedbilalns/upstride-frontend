@@ -2,7 +2,7 @@ import { useInfiniteQuery } from "@tanstack/react-query";
 import { fetchChats } from "../services/chat.service";
 import type { FetchChatsResponse, ChatsQueryResult } from "@/shared/types/chat";
 
-export const useChats = (initialData?: FetchChatsResponse) => {
+export const useFetchChats = (initialData?: FetchChatsResponse) => {
   const limit = 10;
   
   return useInfiniteQuery<FetchChatsResponse, Error, ChatsQueryResult>({

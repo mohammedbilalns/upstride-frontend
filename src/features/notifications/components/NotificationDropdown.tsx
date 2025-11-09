@@ -80,6 +80,7 @@ export function NotificationsDropdown() {
 							size="sm"
 							onClick={handleMarkAllAsRead}
 							disabled={markAllNotificationsAsReadMutation.isPending}
+              className="cursor-pointer"
 						>
 							Mark all as read
 						</Button>

@@ -1,5 +1,5 @@
 import { Link } from "@tanstack/react-router";
-import { useChats } from "../hooks/useFetchChats";
+import { useFetchChats } from "../hooks/useFetchChats";
 import { ChatItem } from "./chatItem";
 import { Button } from "@/components/ui/button";
 import NoResource from "@/components/common/NoResource";
@@ -12,14 +12,14 @@ interface ChatListProps {
 
 export function ChatList({ onItemClick }: ChatListProps) {
   const { 
-    chats, 
+    data, 
     isLoading, 
     error, 
     fetchNextPage, 
     hasNextPage, 
     isFetchingNextPage,
     refetch 
-  } = useChats();
+  } = useFetchChats();
 
   if (isLoading) {
     return <Pending resource="conversations" />;
@@ -35,7 +35,7 @@ export function ChatList({ onItemClick }: ChatListProps) {
   }
 
   // Check if chats array exists and has items
-  if (!chats || chats.length === 0) {
+  if (!data || data.chats.length === 0) {
     return (
       <NoResource 
         resource="chats" 
@@ -46,7 +46,7 @@ export function ChatList({ onItemClick }: ChatListProps) {
 
   return (
     <div className="divide-y">
-      {chats.map((chat) => (
+      {data.chats.map((chat) => (
         <Link
           key={chat.id}
           to="/chats/$chatId"

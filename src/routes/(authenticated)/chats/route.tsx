@@ -5,7 +5,7 @@ import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { useMediaQuery } from "@/shared/hooks/useMediaQuery";
 import { fetchChats } from "@/features/chats/services/chat.service";
-import { useChats } from "@/features/chats/hooks/useFetchChats";
+import { useFetchChats } from "@/features/chats/hooks/useFetchChats";
 import { ChatList } from "@/features/chats/components/chatList";
 import Pending from "@/components/common/Pending";
 import ErrorState from "@/components/common/ErrorState";
@@ -33,7 +33,7 @@ export const Route = createFileRoute("/(authenticated)/chats")({
 
 function RouteComponent() {
   const { initialData } = useLoaderData({ from: "/(authenticated)/chats" });
-  const { chats, isLoading, error, refetch } = useChats(initialData);
+  const { chats, isLoading, error, refetch } = useFetchChats(initialData);
   const [showSidebar, setShowSidebar] = useState(false);
   const isMobile = useMediaQuery("(max-width: 768px)");
 
