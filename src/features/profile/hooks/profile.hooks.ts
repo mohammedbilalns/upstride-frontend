@@ -6,50 +6,53 @@ import type { ProfileFormData } from "../schemas/profile.schema";
 import type { ApiError } from "@/shared/types";
 
 export const useChangePassword = () => {
-	return useMutation({
-		mutationFn: async ({
-			oldPassword,
-			newPassword,
-		}: {
-			oldPassword: string;
-			newPassword: string;
-		}) => {
-			return await changePassword({ oldPassword, newPassword });
-		},
-		onSuccess: (data) => {
-			toast.success("Password updated successfully");
-			console.log("Password updated successfully", data);
-		},
-		onError: (error: ApiError) => {
-			const errorMessage = error?.response?.data?.message;
-			toast.error(errorMessage);
-			console.error(errorMessage);
-		},
-	});
+  return useMutation({
+    mutationFn: async ({
+      oldPassword,
+      newPassword,
+    }: {
+        oldPassword: string;
+        newPassword: string;
+      }) => {
+      return await changePassword({ oldPassword, newPassword });
+    },
+    onSuccess: (data) => {
+      toast.success("Password updated successfully");
+      console.log("Password updated successfully", data);
+    },
+    onError: (error: ApiError) => {
+      const errorMessage = error?.response?.data?.message;
+      toast.error(errorMessage);
+      console.error(errorMessage);
+    },
+  });
 };
 
 export const useUpdateProfile = () => {
-	const queryClient = useQueryClient();
-	const { user, setUser } = useAuthStore();
+  const queryClient = useQueryClient();
+  const { user, setUser } = useAuthStore();
 
-	return useMutation({
-		mutationFn: (data: ProfileFormData) => updateProfile(data),
-		onSuccess: (_, variables) => {
-			toast.success("Profile updated successfully");
-			queryClient.invalidateQueries({ queryKey: ["profile"] });
+  return useMutation({
+    mutationFn: (data: ProfileFormData) => updateProfile(data),
+    onSuccess: (_, variables) => {
+      toast.success("Profile updated successfully");
+      queryClient.invalidateQueries({ queryKey: ["profile"] });
 
-			if (variables.profilePicture && user) {
-				const updatedUser = {
-					...user,
-          // FIX:  type error
-					profilePicture: variables.profilePicture?.secure_url,
-				};
-				setUser(updatedUser);
-			}
-		},
-		onError: (error) => {
-			toast.error("Error while updating profile");
-			console.error("error while updating profile", error);
-		},
-	});
+      if (variables.profilePicture && user) {
+        const profilePictureUrl = 
+          typeof variables.profilePicture === 'string'
+            ? variables.profilePicture
+            : (variables.profilePicture as { secure_url: string }).secure_url;
+        const updatedUser = {
+          ...user,
+          profilePicture: profilePictureUrl,
+        };
+        setUser(updatedUser);
+      }
+    },
+    onError: (error) => {
+      toast.error("Error while updating profile");
+      console.error("error while updating profile", error);
+    },
+  });
 };

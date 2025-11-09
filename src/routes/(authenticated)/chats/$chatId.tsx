@@ -102,7 +102,6 @@ function RouteComponent() {
           <Pending resource="conversation" />
         ) : (
           <>
-            {/* ScrollArea with explicit height */}
             <div className="flex-1 overflow-hidden">
               <ScrollArea className="h-full">
                 <div className="p-4">
@@ -112,7 +111,7 @@ function RouteComponent() {
                         <ChatMessage
                           key={message.id}
                           message={message}
-                          isOwn={message.sender.id === user?.id}
+                          isOwn={message?.sender?.id === user?.id}
                         />
                       ))}
                       <div ref={messagesEndRef} />
@@ -131,7 +130,7 @@ function RouteComponent() {
 
             <Separator />
 
-            {/* Message Input - Fixed height */}
+            {/* Message Input */}
             <div className="shrink-0 p-4">
               <MessageInput onSend={sendMessage} />
             </div>

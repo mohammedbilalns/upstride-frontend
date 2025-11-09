@@ -1,42 +1,99 @@
+import { useSocketStore } from "@/app/store/socket.store";
+import { SOCKET_EVENTS } from "@/shared/constants/events";
 import { useFetchChat } from "./useFetchChat";
+import { queryClient } from "@/app/router/routerConfig";
+import { useAuthStore } from "@/app/store/auth.store";
 import { useMemo } from "react";
 
 export function useChat(chatId: string, initialData?: any) {
-  
+  const { socket } = useSocketStore();
+  const { user } = useAuthStore(); 
   const {
     data,
     isLoading,
     error,
     refetch,
   } = useFetchChat(chatId, initialData);
-  
-  // Extract chat info and messages from the query result
+
   const chatInfo = data?.chat;
   const messages = data?.messages || [];
-  
-  // Create a chat object that matches what ChatHeader expects
+
   const chat = useMemo(() => {
     if (!chatInfo?.participant) return null;
-    
     return {
       id: chatInfo.id,
       name: chatInfo.participant.name,
       avatar: chatInfo.participant.profilePicture,
-      // Default values for fields not in the API response
-      isOnline: false, // You might want to add this to the API response
-      isMentor: false, // You might want to add this to the API response
+      isOnline: false,
+      isMentor: false,
     };
   }, [chatInfo]);
-  
-  // Function to send a new message
-  const sendMessage = async (content: string, attachments?: any[], audioBlob?: Blob) => {
-    // This would call your API to send a message
-    console.log("Sending message:", content, attachments, audioBlob);
-    
-    // After sending, you should refetch the messages
-    refetch();
+
+
+const sendMessage = async (content: string, attachments?: File[], audioBlob?: Blob) => {
+  if (!socket || !content.trim()) return;
+
+  // ✅ Construct media if file exists
+  let media: { url: string; fileType?: string; size?: number } | undefined;
+  if (attachments && attachments.length > 0) {
+    const file = attachments[0];
+    const tempUrl = URL.createObjectURL(file);
+    media = {
+      url: tempUrl,
+      fileType: file.type,
+      size: file.size,
+    };
+  }
+
+  // ✅ Build payload dynamically
+  const payload: any = {
+    to: chatId,
+    message: content,
+    type: media ? "FILE" : "TEXT",
   };
-  
+
+  if (media) payload.media = media;
+  // ✅ Only add replyTo if there is one
+  // Example: if replying to a message, pass its ID
+  // if (replyMessageId) payload.replyTo = replyMessageId;
+
+  // ✅ Emit message
+  socket.emit(SOCKET_EVENTS.CHAT.SEND, payload);
+
+  // ✅ Optimistic UI update
+  queryClient.setQueryData(["chat", chatId], (oldData: any) => {
+    if (!oldData) return oldData;
+    return {
+      ...oldData,
+      messages: [
+        ...(oldData.messages || []),
+        {
+          id: `temp-${Date.now()}`,
+          content,
+          timestamp: new Date().toISOString(),
+          isRead: false,
+          sender: {
+            id: user?.id ?? "me",
+            name: user?.name ?? "You",
+          },
+          recipient: {
+            id: chatId,
+            name: chat?.name || "",
+          },
+          attachments: media
+            ? [
+                {
+                  type: media.fileType?.startsWith("image/") ? "image" : "file",
+                  url: media.url,
+                  name: media.fileType,
+                },
+              ]
+            : [],
+        },
+      ],
+    };
+  });
+};
   return {
     chat,
     messages,
@@ -46,3 +103,4 @@ export function useChat(chatId: string, initialData?: any) {
     refetch,
   };
 }
+

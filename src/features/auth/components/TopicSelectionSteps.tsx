@@ -5,6 +5,8 @@ import { Button } from "@/components/ui/button";
 import { useFetchSkills } from "@/features/admin/expertise-mangement/hooks/skills.hooks";
 import type { ExpertiseArea, Topic } from "@/shared/types";
 
+// BUG: after topic selection redirection is not working 
+// TODO: Add option to allow adding custom skills
 interface TopicSelectionStepProps {
 	currentArea: ExpertiseArea | undefined;
 	selectedTopics: string[];

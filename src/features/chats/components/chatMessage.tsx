@@ -1,11 +1,12 @@
 import { Check, CheckCheck, File, Image, Mic } from "lucide-react";
 import UserAvatar from "@/components/common/UserAvatar";
+import { formatChatTimestamp } from "@/shared/utils/dateUtil";
 
 interface ChatMessageProps {
   message: {
     id: string;
     content: string;
-    timestamp: string;
+    createdAt: string;
     sender: {
       id: string;
       name: string;
@@ -27,12 +28,7 @@ interface ChatMessageProps {
 }
 
 export function ChatMessage({ message, isOwn }: ChatMessageProps) {
-  const formatTime = (timestamp: string) => {
-    return new Date(timestamp).toLocaleTimeString("en-US", {
-      hour: "2-digit",
-      minute: "2-digit",
-    });
-  };
+ 
 
   return (
     <div className={`flex ${isOwn ? "justify-end" : "justify-start"}`}>
@@ -41,8 +37,8 @@ export function ChatMessage({ message, isOwn }: ChatMessageProps) {
       >
         {!isOwn && (
           <UserAvatar 
-            image={message.sender.avatar} 
-            name={message.sender.name} 
+            image={message?.sender?.avatar} 
+            name={message?.sender?.name} 
             size={8} 
           />
         )}
@@ -94,7 +90,7 @@ export function ChatMessage({ message, isOwn }: ChatMessageProps) {
                 isOwn ? "text-primary-foreground/70" : "text-muted-foreground"
               }`}
             >
-              {formatTime(message.timestamp)}
+              {formatChatTimestamp(message.createdAt)}
             </span>
 
             {isOwn && (

@@ -79,7 +79,6 @@ export const formatSmartDate = (dateString: string): string => {
 	const now = new Date();
 	const seconds = Math.floor((now.getTime() - date.getTime()) / 1000);
 
-	// For comments older than a week, show the exact date
 	if (seconds > 604800) {
 		return date.toLocaleDateString("en-US", {
 			year: "numeric",
@@ -88,6 +87,55 @@ export const formatSmartDate = (dateString: string): string => {
 		});
 	}
 
-	// For newer comments, use relative time
 	return formatRelativeTime(dateString);
 };
+
+export const formatChatTimestamp = (dateString: string): string => {
+	const date = new Date(dateString);
+	const now = new Date();
+
+	const isSameDay =
+		date.getDate() === now.getDate() &&
+		date.getMonth() === now.getMonth() &&
+		date.getFullYear() === now.getFullYear();
+
+	const isYesterday = (() => {
+		const yesterday = new Date(now);
+		yesterday.setDate(now.getDate() - 1);
+		return (
+			date.getDate() === yesterday.getDate() &&
+			date.getMonth() === yesterday.getMonth() &&
+			date.getFullYear() === yesterday.getFullYear()
+		);
+	})();
+
+	// 🕓 If the message is from today — show only time
+	if (isSameDay) {
+		return date.toLocaleTimeString([], {
+			hour: "2-digit",
+			minute: "2-digit",
+			hour12: true,
+		});
+	}
+
+	// 📅 If it’s from yesterday
+	if (isYesterday) {
+		return "Yesterday";
+	}
+
+	// 📆 If it’s from this week
+	const dayDiff = Math.floor((now.getTime() - date.getTime()) / (1000 * 60 * 60 * 24));
+	if (dayDiff < 7) {
+		return date.toLocaleDateString([], {
+			weekday: "short", // e.g., "Mon", "Tue"
+		});
+	}
+
+	// 📅 Otherwise show full date (short form)
+	return date.toLocaleDateString([], {
+		month: "short",
+		day: "numeric",
+		year: now.getFullYear() === date.getFullYear() ? undefined : "numeric",
+	});
+};
+

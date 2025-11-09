@@ -6,7 +6,6 @@ interface CustomAxiosRequestConfig extends InternalAxiosRequestConfig {
 	_retry?: boolean;
 }
 // NOTE: Check token refreshing in logout end point
-// FIX: : Refresh loop after user blocking
 const api = axios.create({
 	baseURL: import.meta.env.VITE_API_URL,
 	withCredentials: true,
@@ -41,7 +40,7 @@ api.interceptors.response.use(
 		if (error.response?.status === 403) {
 			const data = error.response.data as { message?: string };
 			if (data?.message?.toLowerCase().includes("blocked")) {
-				alert("Your account has been blocked. Contact support.");
+				useAuthStore.getState().clearUser();
 				window.location.href = "/auth/?error=blocked";
 				return Promise.reject(error);
 			}

@@ -10,7 +10,7 @@ interface SidebarProps {
 	className?: string;
 }
 
-// TODO: Fix type error of `to` prop
+// TODO: check type error after implementing all admin routes  
 export function Sidebar({ className = "" }: SidebarProps) {
 	const [isOpen, setIsOpen] = useState(false);
 	const [isCollapsed, setIsCollapsed] = useState(false);
