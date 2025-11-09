@@ -1,16 +1,17 @@
-import { useInfiniteQuery } from "@tanstack/react-query";
-import { createFileRoute } from "@tanstack/react-router";
-import { LayoutGrid, List, Search } from "lucide-react";
-import { useEffect, useState } from "react";
-import NoResource from "@/components/common/NoResource";
-import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
 import MentorCard from "@/features/mentor/components/MentorCard";
 import MentorSideBar from "@/features/mentor/components/MentorSideBar";
 import { MentorsSearchSchema } from "@/features/mentor/schemas/mentorsSearchSchema";
 import { getMentorsForUser } from "@/features/mentor/services/mentor.service";
 import { useDebounce } from "@/shared/hooks/useDebounce";
 import { useInfiniteScroll } from "@/shared/hooks/useInfinteScroll";
+import { useState, useEffect } from "react";
+import { createFileRoute } from "@tanstack/react-router";
+import { Search, LayoutGrid, List } from "lucide-react";
+import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
+import NoResource from "@/components/common/NoResource";
+import { useInfiniteQuery } from "@tanstack/react-query";
+import { useMediaQuery } from "@/shared/hooks/useMediaQuery";
 
 export const Route = createFileRoute("/(authenticated)/mentors")({
   validateSearch: (search: Record<string, string>) => {
@@ -34,6 +35,7 @@ function RouteComponent() {
   const [limit] = useState(10);
   const search = Route.useSearch();
   const navigate = Route.useNavigate();
+  const isMobile = useMediaQuery("(max-width: 1024px)");
 
   const [searchInput, setSearchInput] = useState(search.query || "");
   const debouncedSearchInput = useDebounce(searchInput, 500);
@@ -50,22 +52,22 @@ function RouteComponent() {
   }, [debouncedSearchInput, search.query, navigate]);
 
   const { data, isFetchingNextPage, fetchNextPage, hasNextPage } =
-    useInfiniteQuery({
-      queryKey: ["mentors", search.query, search.expertiseId, search.skillId],
-      queryFn: ({ pageParam = 1 }) =>
-        getMentorsForUser(
-          pageParam.toString(),
-          limit.toString(),
-          search.query || "",
-          search.expertiseId || "",
-          search.skillId || "",
-        ),
-      getNextPageParam: (lastPage, allPages) => {
-        if (lastPage.mentors.length < limit) return undefined;
-        return allPages.length + 1;
-      },
-      initialPageParam: 1,
-    });
+  useInfiniteQuery({
+    queryKey: ["mentors", search.query, search.expertiseId, search.skillId],
+    queryFn: ({ pageParam = 1 }) =>
+      getMentorsForUser(
+        pageParam.toString(),
+        limit.toString(),
+        search.query || "",
+        search.expertiseId || "",
+        search.skillId || "",
+      ),
+    getNextPageParam: (lastPage, allPages) => {
+      if (lastPage.mentors.length < limit) return undefined;
+      return allPages.length + 1;
+    },
+    initialPageParam: 1,
+  });
 
   const mentors = data?.pages.flatMap((page) => page.mentors) || [];
 
@@ -80,23 +82,31 @@ function RouteComponent() {
   };
 
   return (
-    <div className="min-h-screen bg-background">
+    <div className="min-h-[calc(100vh-5rem)] bg-background">
       <main className="container mx-auto px-4 sm:px-6 lg:px-8 py-6">
-        <div className="flex flex-col lg:flex-row gap-6 relative">
-          {/* Left Sidebar - Filters */}
-          <aside className="w-full lg:w-1/4 space-y-6 lg:sticky lg:top-6 self-start h-fit z-10">
+        <div className="flex flex-col lg:flex-row gap-6">
+          {/* Left Sidebar - Filters (Top on Mobile) */}
+          <aside className={`${
+isMobile ? "w-full" : "w-full lg:w-1/4"
+} space-y-6 lg:sticky lg:top-6 self-start h-fit z-10`}>
+            <div className="bg-card rounded-xl shadow-sm border border-border/50 p-4">
+              <h2 className="text-lg font-semibold mb-4">Filters</h2>
+            </div>
+
             <MentorSideBar search={search} navigate={navigate} />
           </aside>
 
           {/* Main Content - Mentors Grid */}
-          <section className="w-full lg:w-3/4 space-y-6 min-h-[800px]">
+          <section className={`${
+isMobile ? "w-full" : "w-full lg:w-3/4"
+} space-y-6`}>
             {/* Header */}
-            <div className="bg-card rounded-xl shadow-lg border border-border/50 p-6">
+            <div className="bg-card rounded-xl shadow-sm border border-border/50 p-6">
               <h1 className="text-2xl font-bold mb-2">Find Mentors</h1>
               <p className="text-muted-foreground mb-6">
                 Connect with experienced professionals who can guide you in your career journey.
               </p>
-              
+
               {/* Search Bar */}
               <div className="relative w-full mb-4">
                 <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-muted-foreground h-4 w-4" />
@@ -107,7 +117,7 @@ function RouteComponent() {
                   onChange={(e) => setSearchInput(e.target.value)}
                 />
               </div>
-              
+
               {/* View Toggle */}
               <div className="flex space-x-2">
                 <Button variant="outline" size="sm">
@@ -126,14 +136,16 @@ function RouteComponent() {
                   <MentorCard key={mentor.id} mentor={mentor} />
                 ))
               ) : (
-                <NoResource
-                  resource="mentors"
-                  clearFilters={clearFilters}
-                  isSearch={Boolean(
-                    search.query || search.expertiseId || search.skillId,
-                  )}
-                />
-              )}
+                  <div className="col-span-full">
+                    <NoResource
+                      resource="mentors"
+                      clearFilters={clearFilters}
+                      isSearch={Boolean(
+                        search.query || search.expertiseId || search.skillId,
+                      )}
+                    />
+                  </div>
+                )}
             </div>
 
             {/* Intersection Observer Target */}

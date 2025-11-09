@@ -21,7 +21,7 @@ function RouteComponent() {
 	const [activeTab, setActiveTab] = useState("following");
 
 	return (
-		<div className="min-h-screen bg-background">
+		<div className="min-h-[calc(100vh-5rem)] bg-background">
 			<main className="container mx-auto px-4 sm:px-6 lg:px-8 py-6">
 				<div className="mb-6">
 					<h1 className="text-2xl font-bold mb-2">Network</h1>

@@ -1,4 +1,4 @@
-import { ArrowLeft, Info, MoreHorizontal } from "lucide-react";
+import { Info, MoreHorizontal, Menu } from "lucide-react";
 import UserAvatar from "@/components/common/UserAvatar";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
@@ -25,11 +25,11 @@ export function ChatHeader({ chat, onBack }: ChatHeaderProps) {
     const isMobile = useMediaQuery("(max-width: 768px)");
 
     return (
-        <div className="flex items-center justify-between">
+        <div className="flex items-center justify-between p-4 border-b">
             <div className="flex items-center space-x-3">
                 {isMobile && (
                     <Button variant="ghost" size="icon" onClick={onBack}>
-                        <ArrowLeft className="h-5 w-5" />
+                        <Menu className="h-5 w-5" />
                     </Button>
                 )}
 

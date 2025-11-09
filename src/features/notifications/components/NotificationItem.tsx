@@ -57,7 +57,7 @@ export default function NotificationItem({
 			aria-label={`Notification: ${notification.title}`}
 		>
 			<div className="flex items-start space-x-3">
-				<div className={cn("p-2 rounded-full flex-shrink-0", bgColor)}>
+				<div className={cn("p-2 rounded-full shrink-0", bgColor)}>
 					<Icon className={cn("h-4 w-4", color)} />
 				</div>
 				<div className="flex-1 space-y-1">
@@ -72,7 +72,7 @@ export default function NotificationItem({
 					</p>
 				</div>
 				{!notification.isRead && (
-					<div className="h-2 w-2 bg-primary rounded-full flex-shrink-0 mt-2" />
+					<div className="h-2 w-2 bg-primary rounded-full shrink-0 mt-2" />
 				)}
 			</div>
 		</button>

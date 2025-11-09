@@ -1,16 +1,19 @@
-import { Link } from "@tanstack/react-router";
+import { Link, useParams } from "@tanstack/react-router";
 import { useFetchChats } from "../hooks/useFetchChats";
 import { ChatItem } from "./chatItem";
 import { Button } from "@/components/ui/button";
 import NoResource from "@/components/common/NoResource";
 import Pending from "@/components/common/Pending";
 import ErrorState from "@/components/common/ErrorState";
+import type { Chat } from "@/shared/types/chat";
 
 interface ChatListProps {
+  //FIX: Use proper type
+  chats?: Chat[];
   onItemClick?: () => void;
 }
 
-export function ChatList({ onItemClick }: ChatListProps) {
+export function ChatList({ chats, onItemClick }: ChatListProps) {
   const { 
     data, 
     isLoading, 
@@ -20,6 +23,10 @@ export function ChatList({ onItemClick }: ChatListProps) {
     isFetchingNextPage,
     refetch 
   } = useFetchChats();
+  const { chatId: activeChatId } = useParams({ strict: false });
+
+  // Use passed chats or fetch from hook
+  const chatData = chats || data;
 
   if (isLoading) {
     return <Pending resource="conversations" />;
@@ -35,35 +42,40 @@ export function ChatList({ onItemClick }: ChatListProps) {
   }
 
   // Check if chats array exists and has items
-  if (!data || data.chats.length === 0) {
+  if (!chatData || chatData.chats.length === 0) {
     return (
-      <NoResource 
-        resource="chats" 
-        isHome={false}
-      />
+      <div className="flex items-center justify-center h-full p-8">
+        <NoResource 
+          resource="chats" 
+          isHome={false}
+        />
+      </div>
     );
   }
 
   return (
-    <div className="divide-y">
-      {data.chats.map((chat) => (
-        <Link
-          key={chat.id}
-          to="/chats/$chatId"
-          params={{ chatId: chat.participant.id }}
-          className="block hover:bg-muted/50 transition-colors"
-          onClick={onItemClick}
-        >
-          <ChatItem chat={chat} />
-        </Link>
-      ))}
-      
+    <div className="h-full flex flex-col">
+      <div className="flex-1 overflow-y-auto divide-y">
+        {chatData.chats.map((chat:Chat) => (
+          <Link
+            key={chat.id}
+            to="/chats/$chatId"
+            params={{ chatId: chat.participant.id }}
+            className="block"
+            onClick={onItemClick}
+          >
+            <ChatItem chat={chat} isActive={chat.participant.id === activeChatId} />
+          </Link>
+        ))}
+      </div>
+
       {hasNextPage && (
-        <div className="p-4 text-center">
+        <div className="p-4 text-center border-t shrink-0">
           <Button
             variant="outline"
             onClick={() => fetchNextPage()}
             disabled={isFetchingNextPage}
+            className="w-full"
           >
             {isFetchingNextPage ? "Loading more..." : "Load more"}
           </Button>

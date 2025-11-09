@@ -62,6 +62,9 @@ importers:
       '@react-oauth/google':
         specifier: ^0.12.2
         version: 0.12.2(react-dom@19.2.0(react@19.2.0))(react@19.2.0)
+      '@sentry/browser':
+        specifier: ^10.23.0
+        version: 10.23.0
       '@tailwindcss/vite':
         specifier: ^4.1.12
         version: 4.1.16(vite@7.1.12(@types/node@24.9.2)(jiti@2.6.1)(lightningcss@1.30.2)(tsx@4.20.6))
@@ -1215,6 +1218,30 @@ packages:
     resolution: {integrity: sha512-TAcgQh2sSkykPRWLrdyy2AiceMckNf5loITqXxFI5VuQjS5tSuw3WlwdN8qv8vzjLAUTvYaH/mVjSFpbkFbpTg==}
     cpu: [x64]
     os: [win32]
+
+  '@sentry-internal/browser-utils@10.23.0':
+    resolution: {integrity: sha512-FUak8FH51TnGrx2i31tgqun0VsbDCVQS7dxWnUZHdi+0hpnFoq9+wBHY+qrOQjaInZSz3crIifYv3z7SEzD0Jg==}
+    engines: {node: '>=18'}
+
+  '@sentry-internal/feedback@10.23.0':
+    resolution: {integrity: sha512-+HWC9VTPICsFX/lIPoBU9GxTaJZVXJcukP+qGxj+j/8q/Dy1w22JHDWcJbZiaW4kWWlz7VbA0KVKS3grD+e9aA==}
+    engines: {node: '>=18'}
+
+  '@sentry-internal/replay-canvas@10.23.0':
+    resolution: {integrity: sha512-GLNY8JPcMI6xhQ5FHiYO/W/3flrwZMt4CI/E3jDRNujYWbCrca60MRke6k7Zm1qi9rZ1FuhVWZ6BAFc4vwXnSg==}
+    engines: {node: '>=18'}
+
+  '@sentry-internal/replay@10.23.0':
+    resolution: {integrity: sha512-5yPD7jVO2JY8+JEHXep0Bf/ugp4rmxv5BkHIcSAHQsKSPhziFks2x+KP+6M8hhbF1WydqAaDYlGjrkL2yspHqA==}
+    engines: {node: '>=18'}
+
+  '@sentry/browser@10.23.0':
+    resolution: {integrity: sha512-9hViLfYONxRJykOhJQ3ZHQ758t1wQIsxEC7mTsydbDm+m12LgbBtXbfgcypWHlom5Yvb+wg6W+31bpdGnATglw==}
+    engines: {node: '>=18'}
+
+  '@sentry/core@10.23.0':
+    resolution: {integrity: sha512-4aZwu6VnSHWDplY5eFORcVymhfvS/P6BRfK81TPnG/ReELaeoykKjDwR+wC4lO7S0307Vib9JGpszjsEZw245g==}
+    engines: {node: '>=18'}
 
   '@socket.io/component-emitter@3.1.2':
     resolution: {integrity: sha512-9BCxFwvbGg/RsZK9tjXd8s4UcwR0MWeFQ1XEKIQVVvAGJyINdrqKMcTRyLoK8Rse1GjzLV9cwjWV1olXRWEXVA==}
@@ -3799,6 +3826,34 @@ snapshots:
 
   '@rollup/rollup-win32-x64-msvc@4.52.5':
     optional: true
+
+  '@sentry-internal/browser-utils@10.23.0':
+    dependencies:
+      '@sentry/core': 10.23.0
+
+  '@sentry-internal/feedback@10.23.0':
+    dependencies:
+      '@sentry/core': 10.23.0
+
+  '@sentry-internal/replay-canvas@10.23.0':
+    dependencies:
+      '@sentry-internal/replay': 10.23.0
+      '@sentry/core': 10.23.0
+
+  '@sentry-internal/replay@10.23.0':
+    dependencies:
+      '@sentry-internal/browser-utils': 10.23.0
+      '@sentry/core': 10.23.0
+
+  '@sentry/browser@10.23.0':
+    dependencies:
+      '@sentry-internal/browser-utils': 10.23.0
+      '@sentry-internal/feedback': 10.23.0
+      '@sentry-internal/replay': 10.23.0
+      '@sentry-internal/replay-canvas': 10.23.0
+      '@sentry/core': 10.23.0
+
+  '@sentry/core@10.23.0': {}
 
   '@socket.io/component-emitter@3.1.2': {}
 

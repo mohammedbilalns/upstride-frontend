@@ -7,12 +7,16 @@ import { ReactQueryDevtools } from "@tanstack/react-query-devtools";
 import { RouterProvider } from "@tanstack/react-router";
 import { queryClient, router } from "./app/router/routerConfig";
 import { AppInitializer } from "./shared/utils/initialiser";
+import * as Sentry from "@sentry/browser"
 
 declare module "@tanstack/react-router" {
 	interface Register {
 		router: typeof router;
 	}
 }
+
+Sentry.init({ dsn: import.meta.env.VITE_GLICHTIP_ISN });
+
 
 const GOOGLE_CLIENT_ID = import.meta.env.VITE_GOOGLE_CLIENT_ID as string;
 

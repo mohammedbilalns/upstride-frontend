@@ -3,7 +3,7 @@ import { useNavigate } from "@tanstack/react-router";
 export default function NotFoundComponent() {
 	const navigate = useNavigate();
 	return (
-		<div className="min-h-[92vh] flex flex-col justify-center items-center p-8 bg-gradient-to-b from-background to-muted/20">
+		<div className="min-h-[92vh] flex flex-col justify-center items-center p-8 bg-linear-to-b from-background to-muted/20">
 			<div className="bg-card rounded-xl shadow-lg border border-border/50 p-8 backdrop-blur-sm text-center max-w-md w-full">
 				<h1 className="text-4xl font-bold mb-4 text-foreground">
 					404 - Page Not Found

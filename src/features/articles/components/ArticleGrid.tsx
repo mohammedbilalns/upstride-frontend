@@ -47,7 +47,7 @@ export function ArticleGrid({
 								className={cn(
 									viewMode === "grid"
 										? "h-40 w-full"
-										: "h-24 w-24 flex-shrink-0",
+										: "h-24 w-24 shrink-0",
 								)}
 							/>
 							<div

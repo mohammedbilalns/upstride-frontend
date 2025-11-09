@@ -28,7 +28,7 @@ export const Route = createFileRoute("/(authenticated)/profile")({
 		const { user } = useAuthStore.getState();
 		if (!user) return;
 		return context.queryClient.fetchQuery({
-			queryKey: ["profile"],
+			queryKey: ["profile",user.id],
 			queryFn: () => fetchProfile(user?.id),
 		});
 	},
@@ -86,6 +86,7 @@ function RouteComponent() {
 		};
 
 		if (uploadedImage) {
+      // FIX: : type error
 			payload.profilePicture = {
 				public_id: uploadedImage.public_id,
 				original_filename: uploadedImage.original_filename,
@@ -162,12 +163,12 @@ function RouteComponent() {
 	};
 
 	return (
-		<div className="container mx-auto p-4 md:p-6">
+		<div className=" min-h[calc(100vh-5rem)] container mx-auto p-4 md:p-6">
 			<div className="grid grid-cols-1 lg:grid-cols-4 gap-6">
 				{/* Left Sidebar */}
 				<div className="lg:col-span-1 space-y-6 lg:sticky lg:top-6 self-start h-fit">
 					<ProfileSidebar
-						// TODO: fix type error here
+						// FIX: : type error
 						profilePicture={form.watch("profilePicture")}
 						name={form.watch("name")}
 						role={loaderData.role}

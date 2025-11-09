@@ -11,7 +11,7 @@ export const Route = createFileRoute("/(admin)/admin")({
 
 function RouteComponent() {
 	return (
-		<div className="flex h-screen bg-gradient-to-b from-background to-muted/20">
+		<div className="flex h-screen bg-linear-to-b from-background to-muted/20">
 			<Sidebar />
 			<Outlet />
 		</div>

@@ -1,18 +1,10 @@
-import { Paperclip, Send, Smile, Mic, Image, File, X } from "lucide-react";
 import { useState, useRef } from "react";
+import { Send, Paperclip, Smile, Image, File, Mic, X } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-import {
-  Popover,
-  PopoverContent,
-  PopoverTrigger,
-} from "@/components/ui/popover";
-import {
-  DropdownMenu,
-  DropdownMenuContent,
-  DropdownMenuItem,
-  DropdownMenuTrigger,
-} from "@/components/ui/dropdown-menu";
+import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
+import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from "@/components/ui/dropdown-menu";
+import { useMediaQuery } from "@/shared/hooks/useMediaQuery";
 
 interface MessageInputProps {
   onSend: (message: string, files?: File[], audioBlob?: Blob) => void;
@@ -20,14 +12,17 @@ interface MessageInputProps {
 
 export function MessageInput({ onSend }: MessageInputProps) {
   const [message, setMessage] = useState("");
-  const [isRecording, setIsRecording] = useState(false);
-  const [audioBlob, setAudioBlob] = useState<Blob | null>(null);
   const [uploadedFiles, setUploadedFiles] = useState<File[]>([]);
+  const [audioBlob, setAudioBlob] = useState<Blob | null>(null);
+  const [isRecording, setIsRecording] = useState(false);
+  
   const fileInputRef = useRef<HTMLInputElement>(null);
   const imageInputRef = useRef<HTMLInputElement>(null);
   const audioInputRef = useRef<HTMLInputElement>(null);
   const mediaRecorderRef = useRef<MediaRecorder | null>(null);
   const audioChunksRef = useRef<Blob[]>([]);
+  
+  const isMobile = useMediaQuery("(max-width: 768px)");
 
   const handleSend = () => {
     if (message.trim() || uploadedFiles.length > 0 || audioBlob) {
@@ -108,10 +103,10 @@ export function MessageInput({ onSend }: MessageInputProps) {
   };
 
   return (
-    <div className="space-y-3">
+    <div className={`${isMobile ? 'p-3' : 'p-4'} border-t space-y-3 bg-card`}>
       {/* File Preview */}
       {(uploadedFiles.length > 0 || audioBlob) && (
-        <div className="p-2 bg-muted rounded-lg">
+        <div className="p-2 bg-muted rounded-lg max-h-24 overflow-y-auto">
           <div className="flex flex-wrap gap-2">
             {uploadedFiles.map((file, index) => (
               <div
@@ -158,7 +153,7 @@ export function MessageInput({ onSend }: MessageInputProps) {
         {/* Attachment Menu */}
         <DropdownMenu>
           <DropdownMenuTrigger asChild>
-            <Button variant="ghost" size="icon" className="cursor-pointer" >
+            <Button variant="ghost" size="icon" className="shrink-0">
               <Paperclip className="h-4 w-4" />
             </Button>
           </DropdownMenuTrigger>
@@ -186,14 +181,14 @@ export function MessageInput({ onSend }: MessageInputProps) {
           onMouseUp={stopRecording}
           onTouchStart={startRecording}
           onTouchEnd={stopRecording}
-          className={isRecording ? "text-destructive cursor-pointer" : "cursor-pointer"}
+          className={`shrink-0 ${isRecording ? "text-destructive" : ""}`}
         >
           <Mic className="h-4 w-4" />
         </Button>
 
         <Popover>
           <PopoverTrigger asChild>
-            <Button variant="ghost" className="cursor-pointer" size="icon">
+            <Button variant="ghost" size="icon" className="shrink-0">
               <Smile className="h-4 w-4" />
             </Button>
           </PopoverTrigger>
@@ -219,14 +214,14 @@ export function MessageInput({ onSend }: MessageInputProps) {
             onChange={(e) => setMessage(e.target.value)}
             onKeyPress={handleKeyPress}
             placeholder="Type a message..."
-            className="min-h-11"
+            className={`${isMobile ? 'min-h-9' : 'min-h-10'}`}
           />
         </div>
 
         <Button
           onClick={handleSend}
           disabled={!message.trim() && uploadedFiles.length === 0 && !audioBlob}
-          className="cursor-pointer"
+          className="shrink-0"
           size="icon"
         >
           <Send className="h-4 w-4" />
