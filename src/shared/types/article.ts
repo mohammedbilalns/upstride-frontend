@@ -19,7 +19,7 @@ export interface Article {
 	tags: Tag[];
 }
 
-export interface ArticleInList extends Omit<Article, "content"> {}
+export type ArticleInList = Omit<Article, "content">;
 
 export type ArticlesResponse = {
   articles: Article[]

@@ -46,3 +46,8 @@ export type MentorInList = {
 	expertise: Expertise;
 	skills: Skill[];
 };
+
+export interface MentorsQueryResult {
+  pages?: { mentors: Mentor[] }[];
+  mentors?: Mentor[];
+}

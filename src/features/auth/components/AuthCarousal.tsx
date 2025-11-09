@@ -33,7 +33,7 @@ export default function AuthCarousel() {
 			setCurrentImage((prev) => (prev + 1) % carouselImages.length);
 		}, 5000);
 		return () => clearInterval(timer);
-	}, []);
+	}, [carouselImages.length]);
 
 	const nextImage = () => {
 		setCurrentImage((prev) => (prev + 1) % carouselImages.length);

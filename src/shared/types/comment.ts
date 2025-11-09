@@ -17,3 +17,8 @@ export interface Comment {
 	createdAt: string;
 	isLiked: boolean;
 }
+
+export interface CommentsQueryResult {
+  pages?: { comments: Comment[] }[];
+  comments?: Comment[];
+}

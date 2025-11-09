@@ -2,7 +2,7 @@ import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { toast } from "sonner";
 import type { ApiError } from "@/shared/types";
 import type { Article } from "@/shared/types/article";
-import type { Comment } from "@/shared/types/comment";
+import type { Comment, CommentsQueryResult } from "@/shared/types/comment";
 import type { ReactionMutationParams } from "@/shared/types/reaction";
 import { reactResource } from "../services/reaction.service";
 
@@ -25,7 +25,7 @@ const getOptimisticArticleData = (
 };
 
 const getOptimisticCommentData = (
-	oldData: any,
+	oldData: CommentsQueryResult | undefined,
 	commentId: string,
 	reaction: "like" | "dislike",
 ) => {
@@ -82,12 +82,12 @@ export const useReactResource = () => {
 			const previousData = queryClient.getQueryData(queryKey);
 
 			//  update the cache
-			queryClient.setQueryData(queryKey, (oldData: any) => {
+			queryClient.setQueryData(queryKey, (oldData: ({ article: Article; isLiked: boolean } | CommentsQueryResult) | undefined) => {
 				if (resourceType === "article") {
-					return getOptimisticArticleData(oldData, reaction);
+					return getOptimisticArticleData(oldData as { article: Article; isLiked: boolean } | undefined, reaction);
 				}
 				if (resourceType === "comment") {
-					return getOptimisticCommentData(oldData, resourceId, reaction);
+					return getOptimisticCommentData(oldData as CommentsQueryResult | undefined, resourceId, reaction);
 				}
 				return oldData;
 			});

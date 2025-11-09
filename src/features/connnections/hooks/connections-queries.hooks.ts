@@ -4,7 +4,7 @@ import { fetchFollowing, fetchFolowers, fetchRecentActivity } from "../services/
 export function useFetchFollowers() {
 	const limit = 10;
 	return useInfiniteQuery({
-		queryKey: ["followers"],
+		queryKey: ["followers", limit],
 		queryFn: ({ pageParam = 1 }) => fetchFolowers(pageParam, limit),
 		getNextPageParam: (lastPage, allPages) => {
 			if (lastPage?.length < limit) return undefined;
@@ -18,7 +18,7 @@ export function useFetchFollowing() {
 	const limit = 10;
 
 	return useInfiniteQuery({
-		queryKey: ["following"],
+		queryKey: ["following", limit],
 		queryFn: ({ pageParam = 1 }) => fetchFollowing(pageParam, limit),
 		getNextPageParam: (lastPage, allPages) => {
 			if (lastPage?.length < limit) return undefined;

@@ -3,6 +3,7 @@ import { messagePayloadSchema, pendingMessageSchema } from "@/features/chats/val
 import { SOCKET_EVENTS } from "@/shared/constants/events";
 import type { Socket } from "socket.io-client";
 import { queryClient } from "../router/routerConfig";
+import { type ChatMessagesQueryResult } from "@/shared/types/chat";
 
 export function registerChatEvents(socket: Socket) {
   const { user } = useAuthStore.getState(); 
@@ -14,7 +15,7 @@ export function registerChatEvents(socket: Socket) {
       if (data.status === "pending") {
 
         const pending = pendingMessageSchema.parse(data);
-        queryClient.setQueryData(["chat", pending.to], (oldData: any) => {
+        queryClient.setQueryData(["chat", pending.to], (oldData: ChatMessagesQueryResult | undefined) => {
           if (!oldData) return oldData;
 
           const newMessage = {
@@ -53,7 +54,7 @@ export function registerChatEvents(socket: Socket) {
           ? messageData.receiverId
           : messageData.senderId;
 
-      queryClient.setQueryData(["chat", targetKey], (oldData: any) => {
+      queryClient.setQueryData(["chat", targetKey], (oldData: ChatMessagesQueryResult | undefined) => {
         if (!oldData) return oldData;
 
         const newMessage = {

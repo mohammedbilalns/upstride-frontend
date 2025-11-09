@@ -4,8 +4,9 @@ import { useFetchChat } from "./useFetchChat";
 import { queryClient } from "@/app/router/routerConfig";
 import { useAuthStore } from "@/app/store/auth.store";
 import { useMemo } from "react";
+import { type FetchChatResponse, type SendMessagePayload, type ChatMessagesQueryResult } from "@/shared/types/chat";
 
-export function useChat(chatId: string, initialData?: any) {
+export function useChat(chatId: string, initialData?: FetchChatResponse) {
   const { socket } = useSocketStore();
   const { user } = useAuthStore(); 
   const {
@@ -45,14 +46,25 @@ const sendMessage = async (content: string, attachments?: File[], audioBlob?: Bl
     };
   }
 
+  let audio: { url: string; fileType?: string; size?: number } | undefined;
+  if (audioBlob) {
+    const tempUrl = URL.createObjectURL(audioBlob);
+    audio = {
+      url: tempUrl,
+      fileType: audioBlob.type,
+      size: audioBlob.size,
+    };
+  }
+
   // ✅ Build payload dynamically
-  const payload: any = {
+  const payload: SendMessagePayload = {
     to: chatId,
     message: content,
-    type: media ? "FILE" : "TEXT",
+    type: media ? "FILE" : (audio ? "AUDIO" : "TEXT"),
   };
 
   if (media) payload.media = media;
+  if (audio) payload.audio = audio;
   // ✅ Only add replyTo if there is one
   // Example: if replying to a message, pass its ID
   // if (replyMessageId) payload.replyTo = replyMessageId;
@@ -61,7 +73,7 @@ const sendMessage = async (content: string, attachments?: File[], audioBlob?: Bl
   socket.emit(SOCKET_EVENTS.CHAT.SEND, payload);
 
   // ✅ Optimistic UI update
-  queryClient.setQueryData(["chat", chatId], (oldData: any) => {
+  queryClient.setQueryData(["chat", chatId], (oldData: ChatMessagesQueryResult | undefined) => {
     if (!oldData) return oldData;
     return {
       ...oldData,

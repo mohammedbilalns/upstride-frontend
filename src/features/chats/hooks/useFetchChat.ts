@@ -1,14 +1,15 @@
 import { useInfiniteQuery } from "@tanstack/react-query";
 import { fetchChat } from "../services/chat.service";
+import { type FetchChatResponse } from "@/shared/types/chat";
 
 export const useFetchChat = (
   receiverId: string,
-  initialData?: any
+  initialData?: FetchChatResponse
 ) => {
   const limit = 10;
 
   return useInfiniteQuery({
-    queryKey: ["chat", receiverId],
+    queryKey: ["chat", receiverId, limit],
     queryFn: ({ pageParam = 1 }) => fetchChat(receiverId, pageParam, limit),
     getNextPageParam: (lastPage, allPages) => {
       // Check if there are more messages to load
