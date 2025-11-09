@@ -39,7 +39,7 @@ export interface Message {
 export interface ChatMessage {
   id: string;
   content: string;
-  createdAt: string;
+  createdAt: string | Date;
   isRead: boolean;
   sender: {
     id: string;
@@ -77,6 +77,14 @@ export interface SendMessagePayload {
 }
 
 export interface FetchChatResponse {
+  chat: Chat;
+  messages: ChatMessage[];
+  total: number;
+}
+
+export interface TransformedChatQueryResult {
+  pages: ChatPage[];
+  pageParams: unknown[];
   chat: Chat;
   messages: ChatMessage[];
   total: number;

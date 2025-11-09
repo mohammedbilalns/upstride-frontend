@@ -21,7 +21,7 @@ export function registerChatEvents(socket: Socket) {
           const newMessage = {
             id: `temp-${Date.now()}`,
             content: pending.message,
-            createdAt: new Date().toISOString(),
+            createdAt: new Date().toISOString() as string,
             isRead: false,
             sender: {
               id: pending.from,

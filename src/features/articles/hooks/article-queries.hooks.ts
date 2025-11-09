@@ -39,7 +39,7 @@ export const useFetchComments = (
 	enabled: boolean = true,
 ) => {
 	return useInfiniteQuery({
-		queryKey: ["comments", articleId, parentCommentId, limit],
+		queryKey: ["comments", articleId, parentCommentId],
 		queryFn: ({ pageParam = 1 }) =>
 			fetchComments(articleId, pageParam, limit, parentCommentId),
 		getNextPageParam: (lastPage, allPages) => {

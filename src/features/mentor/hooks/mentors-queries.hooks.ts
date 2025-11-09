@@ -11,7 +11,7 @@ export function useFetchMutualMentors() {
 
 export const useFetchSuggestedMentors = (limit = 10) => {
 	return useInfiniteQuery({
-		queryKey: ["suggestedMentors", limit],
+		queryKey: ["suggestedMentors"],
 		queryFn: ({ pageParam = 1 }) => fetchSuggestedMentors(pageParam, limit),
 		getNextPageParam: (lastPage, allPages) => {
 			if (lastPage?.mentors?.length < limit) return undefined;

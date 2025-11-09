@@ -12,6 +12,7 @@ import { Input } from "@/components/ui/input";
 import NoResource from "@/components/common/NoResource";
 import { useInfiniteQuery } from "@tanstack/react-query";
 import { useMediaQuery } from "@/shared/hooks/useMediaQuery";
+import { motion, AnimatePresence } from "framer-motion";
 
 export const Route = createFileRoute("/(authenticated)/mentors")({
   validateSearch: (search: Record<string, string>) => {
@@ -131,11 +132,21 @@ isMobile ? "w-full" : "w-full lg:w-3/4"
 
             {/* Mentors Grid */}
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-              {mentors.length > 0 ? (
-                mentors.map((mentor) => (
-                  <MentorCard key={mentor.id} mentor={mentor} />
-                ))
-              ) : (
+              <AnimatePresence>
+                {mentors.length > 0 ? (
+                  mentors.map((mentor) => (
+                    <motion.div
+                      key={mentor.id}
+                      layout
+                      initial={{ opacity: 0, scale: 0.9 }}
+                      animate={{ opacity: 1, scale: 1 }}
+                      exit={{ opacity: 0, scale: 0.9 }}
+                      transition={{ duration: 0.2 }}
+                    >
+                      <MentorCard mentor={mentor} />
+                    </motion.div>
+                  ))
+                ) : (
                   <div className="col-span-full">
                     <NoResource
                       resource="mentors"
@@ -146,6 +157,7 @@ isMobile ? "w-full" : "w-full lg:w-3/4"
                     />
                   </div>
                 )}
+              </AnimatePresence>
             </div>
 
             {/* Intersection Observer Target */}

@@ -6,7 +6,7 @@ export const useFetchChats = (initialData?: FetchChatsResponse) => {
   const limit = 10;
   
   return useInfiniteQuery<FetchChatsResponse, Error, ChatsQueryResult>({
-    queryKey: ["chats", limit],
+    queryKey: ["chats"],
     queryFn: ({ pageParam = 1 }) => fetchChats(pageParam, limit),
     getNextPageParam: (lastPage, allPages) => {
       if (!lastPage || lastPage.chats.length < limit) return undefined;

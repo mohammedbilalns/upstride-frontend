@@ -6,7 +6,13 @@ export function useFollowMentor() {
 	const queryClient = useQueryClient();
 
 	return useMutation({
-		mutationFn: (id: string) => followMentor(id),
+		mutationFn: async (id: string) => {
+			const [result] = await Promise.all([
+				followMentor(id),
+				new Promise((resolve) => setTimeout(resolve, 500)),
+			]);
+			return result;
+		},
 		onMutate: async (mentorId) => {
 			await queryClient.cancelQueries({ queryKey: ["mentors"] });
 
@@ -29,7 +35,7 @@ export function useFollowMentor() {
 
 				return {
 					...oldData,
-					mentors: oldData.mentors.filter(
+					mentors: (oldData.mentors || []).filter(
 						(mentor: Mentor) => mentor.id !== mentorId,
 					),
 				};
@@ -54,7 +60,13 @@ export function useUnfollowMentor() {
 	const queryClient = useQueryClient();
 
 	return useMutation({
-		mutationFn: (id: string) => unfollowMentor(id),
+		mutationFn: async (id: string) => {
+			const [result] = await Promise.all([
+				unfollowMentor(id),
+				new Promise((resolve) => setTimeout(resolve, 500)),
+			]);
+			return result;
+		},
 		onSuccess: () => {
 			// TODO: optimistically update later
 

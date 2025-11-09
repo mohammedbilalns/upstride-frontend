@@ -4,7 +4,7 @@ import { useFetchChat } from "./useFetchChat";
 import { queryClient } from "@/app/router/routerConfig";
 import { useAuthStore } from "@/app/store/auth.store";
 import { useMemo } from "react";
-import { type FetchChatResponse, type SendMessagePayload, type ChatMessagesQueryResult } from "@/shared/types/chat";
+import { type FetchChatResponse, type SendMessagePayload, type TransformedChatQueryResult } from "@/shared/types/chat";
 
 export function useChat(chatId: string, initialData?: FetchChatResponse) {
   const { socket } = useSocketStore();
@@ -56,7 +56,7 @@ const sendMessage = async (content: string, attachments?: File[], audioBlob?: Bl
     };
   }
 
-  // ✅ Build payload dynamically
+  //  Build payload 
   const payload: SendMessagePayload = {
     to: chatId,
     message: content,
@@ -65,15 +65,11 @@ const sendMessage = async (content: string, attachments?: File[], audioBlob?: Bl
 
   if (media) payload.media = media;
   if (audio) payload.audio = audio;
-  // ✅ Only add replyTo if there is one
-  // Example: if replying to a message, pass its ID
-  // if (replyMessageId) payload.replyTo = replyMessageId;
-
-  // ✅ Emit message
+   //  Emit message
   socket.emit(SOCKET_EVENTS.CHAT.SEND, payload);
 
-  // ✅ Optimistic UI update
-  queryClient.setQueryData(["chat", chatId], (oldData: ChatMessagesQueryResult | undefined) => {
+  //  Optimistic UI update
+  queryClient.setQueryData(["chat", chatId], (oldData: TransformedChatQueryResult | undefined) => {
     if (!oldData) return oldData;
     return {
       ...oldData,

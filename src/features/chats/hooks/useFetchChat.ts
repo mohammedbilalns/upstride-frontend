@@ -9,7 +9,7 @@ export const useFetchChat = (
   const limit = 10;
 
   return useInfiniteQuery({
-    queryKey: ["chat", receiverId, limit],
+    queryKey: ["chat", receiverId],
     queryFn: ({ pageParam = 1 }) => fetchChat(receiverId, pageParam, limit),
     getNextPageParam: (lastPage, allPages) => {
       // Check if there are more messages to load
