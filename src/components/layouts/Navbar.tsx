@@ -65,7 +65,7 @@ export default function Navbar() {
 
 					{/* Theme Toggle */}
 					<ThemeToggle />
-					<DropdownMenu>
+					<DropdownMenu modal={false}>
 						<DropdownMenuTrigger asChild>
 							<Button
 								variant="ghost"
