@@ -14,6 +14,9 @@ export function useChat(chatId: string, initialData?: FetchChatResponse) {
     isLoading,
     error,
     refetch,
+    fetchNextPage,
+    hasNextPage,
+    isFetchingNextPage,
   } = useFetchChat(chatId, initialData);
 
   const chatInfo = data?.chat;
@@ -30,78 +33,79 @@ export function useChat(chatId: string, initialData?: FetchChatResponse) {
     };
   }, [chatInfo]);
 
+  const sendMessage = async (content: string, attachments?: File[], audioBlob?: Blob) => {
+    if (!socket || !content.trim()) return;
 
-const sendMessage = async (content: string, attachments?: File[], audioBlob?: Blob) => {
-  if (!socket || !content.trim()) return;
+    // ✅ Construct media if file exists
+    let media: { url: string; fileType?: string; size?: number } | undefined;
+    if (attachments && attachments.length > 0) {
+      const file = attachments[0];
+      const tempUrl = URL.createObjectURL(file);
+      media = {
+        url: tempUrl,
+        fileType: file.type,
+        size: file.size,
+      };
+    }
 
-  // ✅ Construct media if file exists
-  let media: { url: string; fileType?: string; size?: number } | undefined;
-  if (attachments && attachments.length > 0) {
-    const file = attachments[0];
-    const tempUrl = URL.createObjectURL(file);
-    media = {
-      url: tempUrl,
-      fileType: file.type,
-      size: file.size,
+    let audio: { url: string; fileType?: string; size?: number } | undefined;
+    if (audioBlob) {
+      const tempUrl = URL.createObjectURL(audioBlob);
+      audio = {
+        url: tempUrl,
+        fileType: audioBlob.type,
+        size: audioBlob.size,
+      };
+    }
+
+    //  Build payload 
+    const payload: SendMessagePayload = {
+      to: chatId,
+      message: content,
+      type: media ? "FILE" : (audio ? "AUDIO" : "TEXT"),
     };
-  }
 
-  let audio: { url: string; fileType?: string; size?: number } | undefined;
-  if (audioBlob) {
-    const tempUrl = URL.createObjectURL(audioBlob);
-    audio = {
-      url: tempUrl,
-      fileType: audioBlob.type,
-      size: audioBlob.size,
-    };
-  }
+    if (media) payload.media = media;
+    if (audio) payload.audio = audio;
+    
+    //  Emit message
+    socket.emit(SOCKET_EVENTS.CHAT.SEND, payload);
 
-  //  Build payload 
-  const payload: SendMessagePayload = {
-    to: chatId,
-    message: content,
-    type: media ? "FILE" : (audio ? "AUDIO" : "TEXT"),
+    //  Optimistic UI update
+    queryClient.setQueryData(["chat", chatId], (oldData: TransformedChatQueryResult | undefined) => {
+      if (!oldData) return oldData;
+      return {
+        ...oldData,
+        messages: [
+          ...(oldData.messages || []),
+          {
+            id: `temp-${Date.now()}`,
+            content,
+            timestamp: new Date().toISOString(),
+            isRead: false,
+            sender: {
+              id: user?.id ?? "me",
+              name: user?.name ?? "You",
+            },
+            recipient: {
+              id: chatId,
+              name: chat?.name || "",
+            },
+            attachments: media
+              ? [
+                  {
+                    type: media.fileType?.startsWith("image/") ? "image" : "file",
+                    url: media.url,
+                    name: media.fileType,
+                  },
+                ]
+              : [],
+          },
+        ],
+      };
+    });
   };
 
-  if (media) payload.media = media;
-  if (audio) payload.audio = audio;
-   //  Emit message
-  socket.emit(SOCKET_EVENTS.CHAT.SEND, payload);
-
-  //  Optimistic UI update
-  queryClient.setQueryData(["chat", chatId], (oldData: TransformedChatQueryResult | undefined) => {
-    if (!oldData) return oldData;
-    return {
-      ...oldData,
-      messages: [
-        ...(oldData.messages || []),
-        {
-          id: `temp-${Date.now()}`,
-          content,
-          timestamp: new Date().toISOString(),
-          isRead: false,
-          sender: {
-            id: user?.id ?? "me",
-            name: user?.name ?? "You",
-          },
-          recipient: {
-            id: chatId,
-            name: chat?.name || "",
-          },
-          attachments: media
-            ? [
-                {
-                  type: media.fileType?.startsWith("image/") ? "image" : "file",
-                  url: media.url,
-                  name: media.fileType,
-                },
-              ]
-            : [],
-        },
-      ],
-    };
-  });
-};
   return {
     chat,
     messages,
@@ -109,6 +113,8 @@ const sendMessage = async (content: string, attachments?: File[], audioBlob?: Bl
     error,
     sendMessage,
     refetch,
+    fetchNextPage,
+    hasNextPage,
+    isFetchingNextPage,
   };
 }
-

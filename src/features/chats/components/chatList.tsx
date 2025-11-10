@@ -8,7 +8,6 @@ import ErrorState from "@/components/common/ErrorState";
 import type { Chat } from "@/shared/types/chat";
 
 interface ChatListProps {
-  //FIX: Use proper type
   chats?: Chat[];
   onItemClick?: () => void;
 }
@@ -25,8 +24,7 @@ export function ChatList({ chats, onItemClick }: ChatListProps) {
   } = useFetchChats();
   const { chatId: activeChatId } = useParams({ strict: false });
 
-  // Use passed chats or fetch from hook
-  const chatData = chats || data;
+  const chatData = chats || data?.chats || [];
 
   if (isLoading) {
     return <Pending resource="conversations" />;
@@ -42,7 +40,7 @@ export function ChatList({ chats, onItemClick }: ChatListProps) {
   }
 
   // Check if chats array exists and has items
-  if (!chatData || chatData.chats.length === 0) {
+  if (!chatData || chatData.length === 0) {
     return (
       <div className="flex items-center justify-center h-full p-8">
         <NoResource 
@@ -56,7 +54,7 @@ export function ChatList({ chats, onItemClick }: ChatListProps) {
   return (
     <div className="h-full flex flex-col">
       <div className="flex-1 overflow-y-auto divide-y">
-        {chatData.chats.map((chat:Chat) => (
+        {chatData.map((chat: Chat) => (
           <Link
             key={chat.id}
             to="/chats/$chatId"

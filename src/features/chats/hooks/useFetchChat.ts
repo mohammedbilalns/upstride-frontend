@@ -12,7 +12,6 @@ export const useFetchChat = (
     queryKey: ["chat", receiverId],
     queryFn: ({ pageParam = 1 }) => fetchChat(receiverId, pageParam, limit),
     getNextPageParam: (lastPage, allPages) => {
-      // Check if there are more messages to load
       if (!lastPage || lastPage.messages.length < limit) return undefined;
       return allPages.length + 1;
     },
@@ -22,12 +21,14 @@ export const useFetchChat = (
       pageParams: [1]
     } : undefined,
     select: (data) => {
-      // Extract chat info from the first page
       const chatInfo = data.pages[0]?.chat;
-      
+
       // Flatten all pages into a single array of messages
-      const allMessages = data.pages.flatMap(page => page.messages || []);
-      
+      const allMessages = data.pages
+      .slice()
+      .reverse() // oldest pages first
+      .flatMap(page => page.messages || []);
+
       return {
         pages: data.pages,
         pageParams: data.pageParams,
