@@ -57,7 +57,7 @@ function RouteComponent() {
   const messagesEndRef = useRef<HTMLDivElement>(null);
   const messageContainerRef = useRef<HTMLDivElement>(null);
   const prevScrollHeightRef = useRef<number | null>(null);
-  const isLoadingMoreRef = useRef(false); // Track if we're loading more messages
+  const isLoadingMoreRef = useRef(false); 
   const { user } = useAuthStore();
 
   useLayoutEffect(() => {
@@ -90,7 +90,7 @@ function RouteComponent() {
     if (messageContainerRef.current) {
       const { scrollHeight, scrollTop } = messageContainerRef.current;
       prevScrollHeightRef.current = scrollHeight - scrollTop;
-      isLoadingMoreRef.current = true; // Set the flag before fetching
+      isLoadingMoreRef.current = true;
     }
     fetchNextPage();
   };

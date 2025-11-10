@@ -1,6 +1,13 @@
 import api from "@/api/api";
 import { API_ROUTES } from "@/shared/constants/routes";
 
+/**
+ * Requests a Cloudinary upload signature/token from the backend.
+ * This token is used for secure client-side uploads.
+ * 
+ * @param resource_type - type of resource being uploaded ("image", "video", "raw", etc.)
+ * @returns The token payload from the backend.
+ */
 export async function generateToken(resource_type: string) {
 	try {
 		const response = await api.post(API_ROUTES.MEDIA.GENERATE_TOKEN, {
@@ -8,19 +15,25 @@ export async function generateToken(resource_type: string) {
 		});
 		return response.data;
 	} catch (err) {
-		console.error("error while generating token", err);
+		console.error("Error while generating upload token:", err);
 		throw err;
 	}
 }
 
+/**
+ * Deletes a media file from Cloudinary via backend endpoint.
+ * 
+ * @param fileId - The Cloudinary public ID of the file to delete.
+ * @param mediaType - The resource type of the file ("image", "video", "raw").
+ * @returns Backend response confirming deletion.
+ */
 export async function deleteFile(fileId: string, mediaType: string) {
 	try {
-		const response = await api.delete(
-			API_ROUTES.MEDIA.DELETE(fileId, mediaType),
-		);
+		const response = await api.delete(API_ROUTES.MEDIA.DELETE(fileId, mediaType));
 		return response.data;
 	} catch (err) {
-		console.error("error while deleting file", err);
+		console.error("Error while deleting file:", err);
 		throw err;
 	}
 }
+

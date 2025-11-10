@@ -33,6 +33,7 @@ export function ProfileSidebar({
 	onTogglePasswordForm,
 }: ProfileSidebarProps) {
 	const id = useId();
+  const inputId =  `profile-picture-upload-${id}`;
 
 	return (
 		<Card className="lg:col-span-1 h-fit">
@@ -57,14 +58,14 @@ export function ProfileSidebar({
 								onChange={onImageSelect}
 								disabled={isUploading}
 								className="hidden"
-								id={`profile-picture-upload-${id}`}
+								id={inputId}
 							/>
 							<Button
 								variant="outline"
 								size="sm"
 								className="cursor-pointer"
 								onClick={() =>
-									document.getElementById("profile-picture-upload")?.click()
+									document.getElementById(inputId)?.click()
 								}
 								disabled={isUploading}
 							>

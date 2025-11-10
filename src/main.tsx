@@ -7,7 +7,7 @@ import { ReactQueryDevtools } from "@tanstack/react-query-devtools";
 import { RouterProvider } from "@tanstack/react-router";
 import { queryClient, router } from "./app/router/routerConfig";
 import { AppInitializer } from "./shared/utils/initialiser";
-import * as Sentry from "@sentry/browser"
+import { env } from "./shared/constants/env";
 
 declare module "@tanstack/react-router" {
 	interface Register {
@@ -15,10 +15,7 @@ declare module "@tanstack/react-router" {
 	}
 }
 
-Sentry.init({ dsn: import.meta.env.VITE_GLICHTIP_ISN });
-
-
-const GOOGLE_CLIENT_ID = import.meta.env.VITE_GOOGLE_CLIENT_ID as string;
+const GOOGLE_CLIENT_ID = env.GOOGLE_CLIENT_ID as string;
 
 const rootElement = document.getElementById("root");
 if (!rootElement) {
@@ -27,7 +24,9 @@ if (!rootElement) {
 
 createRoot(rootElement).render(
 	<StrictMode>
+		{/* Provides Google OAuth context to the entire app */}
 		<GoogleOAuthProvider clientId={GOOGLE_CLIENT_ID}>
+			{/* Provides React Query's global client and cache context */}
 			<QueryClientProvider client={queryClient}>
 				<AppInitializer />
 				<RouterProvider router={router} />

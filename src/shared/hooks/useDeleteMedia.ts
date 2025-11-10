@@ -3,6 +3,10 @@ import { toast } from "sonner";
 import { deleteFile } from "@/shared/services/media.service";
 import type { ApiError } from "@/shared/types";
 
+/**
+ * React Query mutation hook for deleting a media file.
+ * Handles API errors gracefully with toast notifications.
+ */
 export const useDeleteMedia = () => {
 	return useMutation({
 		mutationFn: ({
@@ -15,7 +19,7 @@ export const useDeleteMedia = () => {
 		onSuccess: () => {},
 		onError: (error: ApiError) => {
 			const errorMessage =
-				error?.response?.data?.message || "Faied to generate token";
+				error?.response?.data?.message || "Faied to Delete Media";
 			toast.error(errorMessage);
 		},
 	});

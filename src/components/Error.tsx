@@ -1,13 +1,9 @@
 import { useNavigate } from "@tanstack/react-router";
 import { getErrorDetails } from "@/shared/utils/getErrorDetails";
-
-interface ApiError extends Error {
-	status?: number;
-	info?: { message?: string; [key: string]: unknown };
-}
+import type { ResponseError } from "@/shared/utils/getErrorDetails";
 
 interface ErrorComponentProps {
-	error?: Error | ApiError | string;
+	error?: Error | ResponseError | string;
 	resetError?: () => void;
 }
 

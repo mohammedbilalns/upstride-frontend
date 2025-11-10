@@ -32,6 +32,7 @@ export const Route = createFileRoute("/(authenticated)/mentors")({
   component: RouteComponent,
 });
 
+//FIX: uneven design compared to rest of the auth routes 
 function RouteComponent() {
   const [limit] = useState(10);
   const search = Route.useSearch();

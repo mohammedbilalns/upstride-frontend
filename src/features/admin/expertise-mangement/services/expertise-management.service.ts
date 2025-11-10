@@ -2,8 +2,8 @@ import api from "@/api/api";
 import { API_ROUTES } from "@/shared/constants/routes";
 
 export async function fetchExpertises(
-	page: string,
-	limit: string,
+	page: number,
+	limit: number,
 	query: string,
 ) {
 	try {

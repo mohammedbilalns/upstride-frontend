@@ -9,7 +9,7 @@ import {
   CardHeader,
 } from "@/components/ui/card";
 import type { ArticleInList, Tag } from "@/shared/types/article";
-import { formatDate } from "@/shared/utils/utils";
+import { formatDate } from "@/shared/utils/dateUtil";
 
 export function ArticleCard({ article }: { article: ArticleInList }) {
   return (

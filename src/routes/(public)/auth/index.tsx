@@ -11,14 +11,11 @@ import { ForgotPasswordOtpVerification } from "@/features/auth/components/ResetO
 import { ResetPasswordForm } from "@/features/auth/components/ResetPasswordForm";
 import AuthCarousel from "../../../features/auth/components/AuthCarousal";
 import ExpertiseSelection from "../../../features/auth/components/ExpertiseSelectionForm";
+import { authSearchSchema } from "@/features/auth/schemas/authSearch.schema";
 
 export const Route = createFileRoute("/(public)/auth/")({
   component: RouteComponent,
-  validateSearch: (search) => {
-    return {
-      error: search.error as string || undefined,
-    };
-  },
+  validateSearch: (search) => authSearchSchema.parse(search) 
 });
 
 function RouteComponent() {

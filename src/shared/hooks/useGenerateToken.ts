@@ -3,14 +3,21 @@ import { toast } from "sonner";
 import { generateToken } from "@/shared/services/media.service";
 import type { ApiError } from "@/shared/types";
 
+/**
+ * Hook for generating a secure Cloudinary upload token.
+ * Provides loading/error states and displays toast.
+ */
 export const useGenerateToken = () => {
-	return useMutation({
-		mutationFn: (resource_type: string) => generateToken(resource_type),
-		onSuccess: () => {},
-		onError: (error: ApiError) => {
-			const errorMessage =
-				error?.response?.data?.message || "Faied to generate token";
-			toast.error(errorMessage);
-		},
-	});
+  return useMutation({
+    // calls the backend to generate a Cloudinary upload token
+    mutationFn: async (resourceType: string) => generateToken(resourceType),
+
+    // Handle API or network errors
+    onError: (error: ApiError) => {
+      const errorMessage =
+        error?.response?.data?.message ?? "Failed to generate upload token";
+      toast.error(errorMessage);
+    },
+  });
 };
+

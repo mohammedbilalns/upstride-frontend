@@ -1,6 +1,13 @@
 import { keepPreviousData, useQuery } from "@tanstack/react-query";
 import { fetchExpertises } from "../../features/admin/expertise-mangement/services/expertise-management.service";
 
+/**
+ * Fetches paginated expertises data with optional search query.
+ *
+ * @param page - Current page number
+ * @param limit - Items per page
+ * @param query - Optional search query
+ */
 export const useFetchExpertises = (
 	page: number,
 	limit: number,
@@ -8,10 +15,7 @@ export const useFetchExpertises = (
 ) => {
 	return useQuery({
 		queryKey: ["expertises", page, limit, query],
-		queryFn: ({ queryKey }) => {
-			const [, page, limit, query] = queryKey;
-			return fetchExpertises(page as string, limit as string, query as string);
-		},
+    queryFn: () => fetchExpertises(page, limit, query),
 		placeholderData: keepPreviousData,
 	});
 };

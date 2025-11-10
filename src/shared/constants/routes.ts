@@ -1,3 +1,5 @@
+// REST endpoint definitions
+
 export const API_ROUTES = {
 	AUTH: {
 		REGISTER: "/auth/register",
@@ -10,7 +12,7 @@ export const API_ROUTES = {
 		RESEND_RESET_OTP: "/auth/resend-reset-otp",
 		UPDATE_PASSWORD: "/auth/update-password",
 		GOOGLE: "/auth/google",
-		REhomeFRESH: "/auth/refresh",
+		REFRESH: "/auth/refresh",
 		ADD_INTERESTS: "/auth/add-interests",
 		GET_USERS: "/auth/me",
 	},
@@ -87,4 +89,4 @@ export const API_ROUTES = {
     FETCH: "/chat",
     FETCH_CHAT:(chatId: string) => `/chat/${chatId}`,
   }
-};
+} as const ;

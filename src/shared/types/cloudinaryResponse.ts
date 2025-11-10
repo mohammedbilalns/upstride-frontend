@@ -6,3 +6,11 @@ export interface CloudinaryResponse {
 	bytes: number;
 	asset_folder: string;
 }
+
+export interface CloudinaryTokenResponse {
+  cloud_name: string;
+  api_key: string;
+  signature: string;
+  upload_preset: string;
+  timestamp: number;
+}

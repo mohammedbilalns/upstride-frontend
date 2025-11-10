@@ -4,8 +4,14 @@ import { queryClient } from "@/app/router/routerConfig";
 import { SOCKET_EVENTS } from "@/shared/constants/events";
 import type { Notification } from "@/shared/types/notifications";
 
+/**
+ * Registers real-time notification event listeners on the socket connection.
+ * - Displays toast alerts when new notifications arrive.
+ * - Optimistically updates the notifications cache.
+ */
 export function registerNotificationEvents(socket: Socket) {
 	socket.on(SOCKET_EVENTS.NOTIFICATION.NEW, (data: Notification) => {
+    // Display toast notification
 		toast.info(data.content);
 
 		const newNotification: Notification = {
@@ -27,26 +33,23 @@ export function registerNotificationEvents(socket: Socket) {
 					  }
 					| undefined,
 			) => {
-				if (!oldData || !oldData.pages || oldData.pages.length === 0) {
-					return oldData;
-				}
+        // If cache doesn't exist, skip updating
+				if (!oldData?.pages?.length) return oldData;
 
 				// Get the current first page.
-				const firstPage = oldData.pages[0];
+        const [firstPage, ...restPages] = oldData.pages;
 
-				// Create new first page with the prepended notification
-				const newFirstPage = {
-					...firstPage,
-					// Prepend the new notification to the existing array.
-					notifications: [newNotification, ...firstPage.notifications],
-					// Increment the total and unread counts.
-					total: firstPage.total + 1,
-					unreadCount: firstPage.unreadCount + 1,
-				};
+        // Create new first page with the prepended notification
 
+        const updatedFirstPage = {
+          ...firstPage,
+          notifications: [newNotification, ...(firstPage.notifications || [])],
+          total: (firstPage.total ?? 0) + 1,
+          unreadCount: (firstPage.unreadCount ?? 0) + 1,
+        };
 				return {
 					...oldData,
-					pages: [newFirstPage, ...oldData.pages.slice(1)],
+					pages: [updatedFirstPage, ...restPages],
 				};
 			},
 		);

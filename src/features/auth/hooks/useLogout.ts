@@ -4,6 +4,7 @@ import { toast } from "sonner";
 import { useAuthStore } from "@/app/store/auth.store";
 import { useSocketStore } from "@/app/store/socket.store";
 import type { ApiError } from "@/shared/types";
+import { queryClient } from "@/app/router/routerConfig";
 import { logout } from "../services/auth.service";
 
 export const useLogout = () => {
@@ -17,6 +18,7 @@ export const useLogout = () => {
 			clearUser();
 			disconnect();
 			toast.success(response.message);
+      queryClient.removeQueries({queryKey:["currentUser"]});
 			router.navigate({ to: "/auth" });
 		},
 		onError: (error: ApiError) => {

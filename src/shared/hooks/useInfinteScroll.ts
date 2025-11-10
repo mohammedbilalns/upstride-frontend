@@ -1,43 +1,42 @@
 import { useEffect, useState } from "react";
 
 interface UseInfiniteScrollProps {
-	// function to call when the element is visible
-	onIntersect: () => void;
-	//  boolean to check if there are more pages to load
-	hasNextPage: boolean;
-	//  boolean to check if a fetch is already in progress
-	isFetching: boolean;
+  /** Called when the target element becomes visible */
+  onIntersect: () => void;
+  /** Whether there are more pages to load */
+  hasNextPage: boolean;
+  /** Whether a fetch is already in progress */
+  isFetching: boolean;
 }
 
+/**
+ * Hook that triggers `onIntersect` when a target div enters the viewport.
+ * For implementing infinite scrolling.
+ */
 export function useInfiniteScroll({
-	onIntersect,
-	hasNextPage,
-	isFetching,
+  onIntersect,
+  hasNextPage,
+  isFetching,
 }: UseInfiniteScrollProps) {
-	// State to hold the reference to our target element
-	const [target, setTarget] = useState<HTMLDivElement | null>(null);
+  const [target, setTarget] = useState<HTMLDivElement | null>(null);
 
-	useEffect(() => {
-		// Don't observe if there's no target, no more pages, or if we're already fetching
-		if (!target || !hasNextPage || isFetching) return;
+  useEffect(() => {
+    // Avoid observing if there's no target, no more pages, or a fetch is in progress
+    if (!target || !hasNextPage || isFetching) return;
 
-		const observer = new IntersectionObserver(
-			(entries) => {
-				if (entries[0].isIntersecting) {
-					onIntersect();
-				}
-			},
-			{
-				rootMargin: "100px",
-			},
-		);
+    const observer = new IntersectionObserver(
+      (entries) => {
+        const [entry] = entries;
+        if (entry.isIntersecting) onIntersect();
+      },
+      { rootMargin: "100px" } // start fetching slightly before element is visible
+    );
 
-		observer.observe(target);
+    observer.observe(target);
 
-		return () => {
-			observer.unobserve(target);
-		};
-	}, [target, hasNextPage, isFetching, onIntersect]);
+    return () => observer.disconnect(); // cleanup
+  }, [target, hasNextPage, isFetching, onIntersect]);
 
-	return { setTarget };
+  return { setTarget };
 }
+
