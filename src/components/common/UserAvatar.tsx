@@ -7,6 +7,9 @@ interface UserAvatarProps {
 	size?: number;
 }
 
+/**
+ * Displays a user's avatar with a fallback generated from their initials.
+ */
 export default function UserAvatar({ image, name, size }: UserAvatarProps) {
 	const heightStyle = size ? `h-${size} w-${size}` : "h-16 w-16";
 

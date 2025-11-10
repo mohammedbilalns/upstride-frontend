@@ -10,7 +10,6 @@ import { env } from "@/shared/constants/env";
 interface CustomAxiosRequestConfig extends InternalAxiosRequestConfig {
 	_retry?: boolean;
 }
-// NOTE: Check token refreshing in logout end point
 /**
  * Axios instance configured for the API.
  * - Includes credentials for cookie-based auth

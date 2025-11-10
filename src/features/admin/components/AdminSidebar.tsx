@@ -10,7 +10,7 @@ interface SidebarProps {
 	className?: string;
 }
 
-// TODO: check type error after implementing all admin routes  
+// WARNING: Not type safe since some of the routes are not defined yet 
 export function Sidebar({ className = "" }: SidebarProps) {
 	const [isOpen, setIsOpen] = useState(false);
 	const [isCollapsed, setIsCollapsed] = useState(false);
