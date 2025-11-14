@@ -1,6 +1,8 @@
 import { ChevronLeft, ChevronRight } from "lucide-react";
 import { useEffect, useState } from "react";
 import { Button } from "@/components/ui/button";
+import {Image} from "@unpic/react"
+//NOTE: try to replace the image component with unpic react 
 
 export default function AuthCarousel() {
 	const [currentImage, setCurrentImage] = useState(0);
@@ -57,13 +59,16 @@ export default function AuthCarousel() {
 								index === currentImage ? "opacity-100" : "opacity-0"
 							}`}
 						>
-							<img
+              {/* NOTE: replaced image with unpic/react component */}
+							<Image
 								src={image.src || "/placeholder.svg"}
 								alt={image.alt}
+                width={400}
+                height={300}
 								className="w-full h-full object-cover rounded-2xl"
-							/>
-							<div className="absolute inset-0 bg-black/40 rounded-2xl" />
-						</div>
+              />
+              <div className="absolute inset-0 bg-black/40 rounded-2xl" />
+            </div>
 					))}
 				</div>
 

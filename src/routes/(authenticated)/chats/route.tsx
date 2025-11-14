@@ -29,6 +29,7 @@ export const Route = createFileRoute("/(authenticated)/chats")({
 	component: RouteComponent,
 });
 
+// FIX: use the similar layout as the rest of the authenticated pages 
 function RouteComponent() {
 	const { initialData } = useLoaderData({ from: "/(authenticated)/chats" });
 	const { error, refetch } = useFetchChats(initialData);

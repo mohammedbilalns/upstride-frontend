@@ -2,7 +2,8 @@ import { type Chat } from "@/shared/types/chat";
 import { cn } from "@/shared/utils/utils";
 import { formatChatTimestamp } from "@/shared/utils/dateUtil";
 import UserAvatar from "@/components/common/UserAvatar";
-import { Badge, Check, CheckCheck } from "lucide-react";
+import { Badge } from "@/components/ui/badge";
+import { Check, CheckCheck } from "lucide-react";
 
 interface ChatItemProps {
   chat: Chat;
@@ -33,7 +34,7 @@ export function ChatItem({ chat, isActive }: ChatItemProps) {
             </div>
             <div className="flex items-center space-x-1 shrink-0">
               <span className="text-xs text-muted-foreground whitespace-nowrap">
-                {formatChatTimestamp(chat.lastMessage?.createdAt)}
+                {chat.lastMessage?.createdAt ? formatChatTimestamp(chat.lastMessage.createdAt) : ""}
               </span>
               {chat.isRead ? (
                 <CheckCheck className="h-3 w-3 text-muted-foreground" />

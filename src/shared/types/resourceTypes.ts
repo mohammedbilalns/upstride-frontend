@@ -8,7 +8,7 @@ export type ResourceType =
 | "messages";
 
 export type ResourceConfig = Record<
-ResourceType,
+PropertyKey,
 {
   icon: React.ComponentType<React.SVGProps<SVGSVGElement>>;
   defaultMessage: string;

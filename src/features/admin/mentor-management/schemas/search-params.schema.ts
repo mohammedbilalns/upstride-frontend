@@ -14,8 +14,7 @@ export const paramsSchema = z.object({
 			z.literal("rejected"),
 			z.undefined(),
 		])
-		.optional()
-		.default(undefined),
+		.optional(),
 });
 
 export type SearchParams = z.infer<typeof paramsSchema>;

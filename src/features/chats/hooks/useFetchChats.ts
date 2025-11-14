@@ -7,10 +7,10 @@ export const useFetchChats = (initialData?: FetchChatsResponse) => {
   
   return useInfiniteQuery<FetchChatsResponse, Error, ChatsQueryResult>({
     queryKey: ["chats"],
-    queryFn: ({ pageParam = 1 }) => fetchChats(pageParam, limit),
-    getNextPageParam: (lastPage, allPages) => {
+    queryFn: ({ pageParam = 1 }) => fetchChats(pageParam as number, limit),
+    getNextPageParam: (lastPage, _allPages, lastPageParam) => {
       if (!lastPage || lastPage.chats.length < limit) return undefined;
-      return allPages.length + 1;
+      return (lastPageParam as number) + 1;
     },
     initialPageParam: 1,
     initialData: initialData ? {
@@ -23,7 +23,7 @@ export const useFetchChats = (initialData?: FetchChatsResponse) => {
       
       return {
         pages: data.pages,
-        pageParams: data.pageParams,
+        pageParams: data.pageParams as number[],
         chats: allChats
       };
     }

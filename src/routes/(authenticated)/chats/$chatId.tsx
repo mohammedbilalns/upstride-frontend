@@ -68,7 +68,7 @@ function RouteComponent() {
       prevScrollHeightRef.current = null;
       isLoadingMoreRef.current = false; 
     } 
-    // Only scroll to bottom if we're not loading more messages
+    // Only scroll to bottom if not loading more messages
     else if (messages && messages.length > 0 && !isLoadingMoreRef.current) {
       setTimeout(() => {
         messagesEndRef.current?.scrollIntoView({

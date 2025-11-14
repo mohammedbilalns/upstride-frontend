@@ -37,7 +37,7 @@ export const Route = createFileRoute("/(admin)/admin/expertisemanagement/")({
 		const { page, rowsPerPage, search: query } = deps;
 		return context.queryClient.fetchQuery({
 			queryKey: ["expertises", page, rowsPerPage, query],
-			queryFn: () => fetchExpertises(String(page), String(rowsPerPage), query),
+			queryFn: () => fetchExpertises(page, rowsPerPage, query),
 		});
 	},
 });

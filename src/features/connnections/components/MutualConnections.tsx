@@ -7,9 +7,21 @@ import ShowMoreContent from "@/components/common/ShowMore";
 import Pending from "@/components/common/Pending";
 import ErrorState from "@/components/common/ErrorState";
 
+interface MutualConnection {
+	id: string;
+	name: string;
+	profilePicture?: string;
+	currentRole: string;
+	organisation: string;
+	mutualConnectionCount: number;
+	user?: {
+		profilePicture?: string;
+	};
+}
+
 export default function MutualConnections() {
 	const { data, isPending, isError, refetch } = useFetchMutualMentors();
-	const connections = data?.connections || [];
+	const connections: MutualConnection[] = data?.connections || [];
 
 	return (
 		<Card>
@@ -31,14 +43,14 @@ export default function MutualConnections() {
 					<NoResource resource="mentors" />
 				) : (
 					<div className="space-y-3">
-						{connections.map((connection) => (
+						{connections.map((connection: MutualConnection) => (
 							<div
 								key={connection.id}
 								className="flex items-center justify-between p-3 border rounded-lg hover:bg-muted/50 transition-colors cursor-pointer group"
 							>
 								<div className="flex items-center">
 									<UserAvatar
-										image={connection?.user?.profilePicture}
+										image={connection?.user?.profilePicture || connection.profilePicture}
 										name={connection.name}
 										size={10}
 									/>

@@ -1,4 +1,4 @@
-import { Book, Calendar, type IconNode, UserPlus } from "lucide-react";
+import { Book, Calendar, UserPlus } from "lucide-react";
 
 interface Session {
 	id: number;
@@ -17,7 +17,7 @@ interface RecommendedArticle {
 interface QuickAction {
 	id: number;
 	title: string;
-	icon: IconNode;
+	icon: React.ComponentType<{ className?: string }>;
 }
 
 // Dummy data for sessions

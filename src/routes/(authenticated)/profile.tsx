@@ -78,7 +78,7 @@ function RouteComponent() {
 	};
 
 	const onSubmit = async (data: ProfileFormData) => {
-		const payload = {
+		const payload: Partial<ProfileFormData> = {
 			id: data.id,
 			name: data.name,
 			interestedExpertises: data.interestedExpertises,
@@ -86,7 +86,7 @@ function RouteComponent() {
 		};
 
 		if (uploadedImage) {
-      // FIX: : type error
+      //FIX: type error
 			payload.profilePicture = {
 				public_id: uploadedImage.public_id,
 				original_filename: uploadedImage.original_filename,
@@ -108,7 +108,7 @@ function RouteComponent() {
 			}
 		}
 
-		updateProfileMutation.mutate(payload);
+		updateProfileMutation.mutate(payload as ProfileFormData);
 		setIsEditing(false);
 		setUploadedImage(null);
 	};
@@ -162,14 +162,19 @@ function RouteComponent() {
 		form.setValue("interestedSkills", skills);
 	};
 
+	const profilePictureValue = form.watch("profilePicture");
+	const profilePictureUrl =
+		typeof profilePictureValue === "object"
+			? profilePictureValue?.secure_url || ""
+			: profilePictureValue || "";
+
 	return (
 		<div className=" min-h[calc(100vh-5rem)] container mx-auto p-4 md:p-6">
 			<div className="grid grid-cols-1 lg:grid-cols-4 gap-6">
 				{/* Left Sidebar */}
 				<div className="lg:col-span-1 space-y-6 lg:sticky lg:top-6 self-start h-fit">
 					<ProfileSidebar
-						// FIX: : type error
-						profilePicture={form.watch("profilePicture")}
+						profilePicture={profilePictureUrl}
 						name={form.watch("name")}
 						role={loaderData.role}
 						isEditing={isEditing}

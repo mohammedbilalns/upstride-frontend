@@ -59,14 +59,14 @@ function RouteComponent() {
 	};
 
 	const addTag = () => {
-		const currentTags = form.getValues("tags");
-		if (currentTags && currentTags?.length >= 5) {
+		const currentTags = form.getValues("tags") || [];
+		if (currentTags.length >= 5) {
 			form.setError("tags", {
 				message: "You can have a maximum of 5 tags",
 			});
 			return;
 		}
-		if (newTag.trim() && !currentTags?.includes(newTag.trim())) {
+		if (newTag.trim() && !currentTags.includes(newTag.trim())) {
 			form.clearErrors("tags");
 			form.setValue("tags", [...currentTags, newTag.trim()], {
 				shouldValidate: true,
@@ -76,7 +76,7 @@ function RouteComponent() {
 	};
 
 	const removeTag = (tagToRemove: string) => {
-		const currentTags = form.getValues("tags");
+		const currentTags = form.getValues("tags") || [];
 
 		form.setValue(
 			"tags",
@@ -94,9 +94,9 @@ function RouteComponent() {
 
 	const onSubmit: SubmitHandler<ArticleFormData> = (data) => {
 		const articleData = {
-			title: data.title,
-			content: data.content,
-			tags: data.tags,
+			title: data.title || "",
+			content: data.content || "",
+			tags: data.tags || [],
 			featuredImage: data.featuredImage,
 		};
 
@@ -158,7 +158,7 @@ function RouteComponent() {
 									control={form.control}
 									render={({ field }) => (
 										<RichTextEditor
-											content={field.value}
+											content={field.value || ""}
 											onChange={field.onChange}
 										/>
 									)}
@@ -182,7 +182,7 @@ function RouteComponent() {
 
 					{/* Tags */}
 					<TagSelector
-						tags={form.watch("tags")}
+						tags={form.watch("tags") || []}
 						addTag={addTag}
 						removeTag={removeTag}
 						newTag={newTag}
