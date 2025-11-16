@@ -5,6 +5,7 @@ export interface MessageAttachment {
   url: string;
   size: number;
   fileType: string;
+  name: string;
 }
 export type Participant = Pick<User, "id" | "name" | "profilePicture"| "role">;
 

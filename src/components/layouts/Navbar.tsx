@@ -93,7 +93,7 @@ active
                   <UserAvatar
                     name={user.name}
                     image={user.profilePicture}
-                    size={32}
+                    size={15}
                   />
                 )}
               </Button>

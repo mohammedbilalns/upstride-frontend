@@ -4,7 +4,7 @@ import { useFetchChat } from "./useFetchChat";
 import { queryClient } from "@/app/router/routerConfig";
 import { useAuthStore } from "@/app/store/auth.store";
 import { useUploadMedia } from "@/shared/hooks/useUploadMedia";
-import { useMemo } from "react";
+import { useMemo, useState } from "react";
 import {
   type TransformedChatQueryResult,
 } from "@/shared/types/chat";
@@ -19,6 +19,9 @@ export function useChat(chatId: string, initialData?: FetchChatResponse) {
   const { socket } = useSocketStore();
   const { user } = useAuthStore();
   const { handleUpload, uploadProgress, isUploading } = useUploadMedia();
+  
+  // Track which messages are currently uploading
+  const [uploadingMessages, setUploadingMessages] = useState<Map<string, number>>(new Map());
 
   // Fetch chat data and paginated messages
   const {
@@ -105,13 +108,27 @@ export function useChat(chatId: string, initialData?: FetchChatResponse) {
     );
 
     try {
+      // FIX: update this to send single media
       // Upload files if any
       let uploadedAttachments: MessageAttachment[] = [];
       
       if (attachments && attachments.length > 0) {
         try {
-          // Upload each file and get the response
-          const uploadPromises = attachments.map(file => handleUpload(file));
+          // Mark this message as uploading
+          setUploadingMessages(prev => new Map(prev).set(tempId, 0));
+          
+          // Upload each file and track progress
+          const uploadPromises = attachments.map(async (file) => {
+            const result = await handleUpload(file);
+            // Update progress for this specific message
+            setUploadingMessages(prev => {
+              const newMap = new Map(prev);
+              newMap.set(tempId, uploadProgress);
+              return newMap;
+            });
+            return result;
+          });
+          
           const uploadResults = await Promise.all(uploadPromises);
           
           // Convert upload results to attachment format
@@ -121,9 +138,23 @@ export function useChat(chatId: string, initialData?: FetchChatResponse) {
             size: result.bytes,
             name: result.original_filename,
           }));
+          
+          // Remove from uploading set
+          setUploadingMessages(prev => {
+            const newMap = new Map(prev);
+            newMap.delete(tempId);
+            return newMap;
+          });
         } catch (uploadError) {
           console.error("File upload failed:", uploadError);
           toast.error("Failed to upload files");
+          
+          // Remove from uploading set
+          setUploadingMessages(prev => {
+            const newMap = new Map(prev);
+            newMap.delete(tempId);
+            return newMap;
+          });
           
           // Remove the optimistic message if upload fails
           queryClient.setQueryData(
@@ -175,6 +206,13 @@ export function useChat(chatId: string, initialData?: FetchChatResponse) {
       console.error("Error sending message:", error);
       toast.error("Failed to send message");
       
+      // Remove from uploading set
+      setUploadingMessages(prev => {
+        const newMap = new Map(prev);
+        newMap.delete(tempId);
+        return newMap;
+      });
+      
       // Remove the optimistic message if sending fails
       queryClient.setQueryData(
         ["chat", chatId],
@@ -202,5 +240,6 @@ export function useChat(chatId: string, initialData?: FetchChatResponse) {
     isFetchingNextPage,
     uploadProgress,
     isUploading,
+    uploadingMessages, // Export this for the UI
   };
 }

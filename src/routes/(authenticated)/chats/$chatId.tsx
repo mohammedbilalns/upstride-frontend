@@ -53,7 +53,8 @@ function RouteComponent() {
     hasNextPage,
     isFetchingNextPage,
     uploadProgress,
-    isUploading
+    isUploading,
+    uploadingMessages
   } = useChat(chatId, initialData);
   const isMobile = useMediaQuery("(max-width: 768px)");
   const messagesEndRef = useRef<HTMLDivElement>(null);
@@ -174,13 +175,21 @@ function RouteComponent() {
                       </div>
                     )}
 
-                    {messages.map(message => (
-                      <ChatMessage
-                        key={message.id}
-                        message={message}
-                        isOwn={message?.sender?.id === user?.id}
-                      />
-                    ))}
+                    {messages.map(message => {
+                      const messageUploadProgress = uploadingMessages.get(message.id);
+                      const isMessageUploading = messageUploadProgress !== undefined;
+
+                      return (
+                        <ChatMessage
+                          key={message.id}
+                          message={message}
+                          isOwn={message?.sender?.id === user?.id}
+                          uploadProgress={messageUploadProgress || 0}
+                          isUploading={isMessageUploading}
+                        />
+                      );
+                    })}
+
                     <div ref={messagesEndRef} />
                   </div>
                 ) : (
