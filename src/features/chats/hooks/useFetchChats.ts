@@ -18,7 +18,6 @@ export const useFetchChats = (initialData?: FetchChatsResponse) => {
       pageParams: [1]
     } : undefined,
     select: (data) => {
-      // Flatten all pages into a single array of chats
       const allChats = data.pages.flatMap(page => page.chats);
       
       return {

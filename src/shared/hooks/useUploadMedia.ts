@@ -4,7 +4,6 @@ import type { CloudinaryResponse } from "@/shared/types/cloudinaryResponse";
 import { useDeleteMedia } from "./useDeleteMedia";
 import { useGenerateToken } from "./useGenerateToken";
 
-// TODO: Add Proper Comments in the code
 export const useUploadMedia = () => {
   const generateTokenMutation = useGenerateToken();
   const deleteMediaMutation = useDeleteMedia();

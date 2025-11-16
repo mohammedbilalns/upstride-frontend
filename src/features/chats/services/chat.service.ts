@@ -1,16 +1,17 @@
 import api from "@/api/api";
 import { API_ROUTES } from "@/shared/constants/routes";
+import type { FetchChatsResponse } from "@/shared/types/chat";
+import type { FetchChatResponse } from "@/shared/types/message";
 
 export async function fetchChat(chatId: string,page =1,limit=10){
   try {
-    const response = await api.get(API_ROUTES.CHATS.FETCH_CHAT(chatId), {
+    const response = await api.get<FetchChatResponse>(API_ROUTES.CHATS.FETCH_CHAT(chatId), {
       params: {
         page,
         limit
       }
     })
     return response.data
-
   } catch (error) {
     console.error("error while fetching chat", error);
     throw error;
@@ -19,15 +20,13 @@ export async function fetchChat(chatId: string,page =1,limit=10){
 
 export async function fetchChats( page=1, limit =10){
   try {
-    const response = await api.get(API_ROUTES.CHATS.FETCH,{
+    const response = await api.get<FetchChatsResponse>(API_ROUTES.CHATS.FETCH,{
       params:{
         page,
         limit
       }
     })
     return response.data
-
-
   } catch (error) {
     console.error("error while fetching chats", error)
     throw error

@@ -6,13 +6,13 @@ import {
 import { SOCKET_EVENTS } from "@/shared/constants/events";
 import type { Socket } from "socket.io-client";
 import { queryClient } from "../router/routerConfig";
-import { type ChatMessagesQueryResult, type ChatMessage } from "@/shared/types/chat";
+import type { ChatMessagesQueryResult, ChatMessage, MessageAttachment } from "@/shared/types/message";
+import type { UserRole } from "@/shared/types";
 
 /**
  * Registers WebSocket listeners for chat-related events.
  * Handles pending (optimistic) messages and confirmed server messages.
  */
-
 export function registerChatEvents(socket: Socket) {
   const { user } = useAuthStore.getState();
 
@@ -23,7 +23,6 @@ export function registerChatEvents(socket: Socket) {
       // Handle pending (optimistic) messages before server acknowledgment
       if (data.status === "pending") {
         const pending = pendingMessageSchema.parse(data);
-
         queryClient.setQueryData(
           ["chat", pending.to],
           (oldData: ChatMessagesQueryResult | undefined) => {
@@ -31,18 +30,18 @@ export function registerChatEvents(socket: Socket) {
 
             const newMessage: ChatMessage = {
               id: `temp-${Date.now()}`,
+              chatId: pending.to,
               content: pending.message,
               createdAt: new Date().toISOString(),
-              isRead: false,
-              type: "TEXT", 
+              status:"send",
+              type: pending.type,
               sender: {
                 id: pending.from,
                 name: "You",
+                profilePicture: user?.profilePicture || "",
+                role: user?.role as UserRole,
               },
-              recipient: {
-                id: pending.to,
-                name: "",
-              },
+              attachment: pending?.media as MessageAttachment,
             };
 
             const newPages = [...oldData.pages];
@@ -59,54 +58,61 @@ export function registerChatEvents(socket: Socket) {
 
       // Handle confirmed messages from the server
       const messageData = messagePayloadSchema.parse(data);
-      const currentUserId = user?.id;
-
-      // Determine which chat key to update (sender or receiver)
-      const targetKey =
-        currentUserId === messageData.senderId
-          ? messageData.receiverId
-          : messageData.senderId;
-
-      // Narrow down and sanitize the message type
-      const allowedTypes = ["TEXT", "FILE", "AUDIO", "IMAGE"] as const;
-      const safeType = allowedTypes.includes(
-        messageData.type as any
-      )
-        ? (messageData.type as ChatMessage["type"])
-        : "TEXT";
 
       queryClient.setQueryData(
-        ["chat", targetKey],
+        ["chat", messageData.senderId],
         (oldData: ChatMessagesQueryResult | undefined) => {
           if (!oldData) return oldData;
 
-          //  construct a ChatMessage from the parsed data
           const newMessage: ChatMessage = {
             id: messageData.messageId,
+            chatId:messageData.chatId,
             content: messageData.message,
-            createdAt: messageData.timestamp,
-            isRead: false,
-            type: safeType,
+            createdAt:messageData.timestamp,
+            status: "send",
+            type: messageData.type,
             sender: {
               id: messageData.senderId,
               name: messageData.senderName,
+              profilePicture: user?.profilePicture,
+              role: user?.role as UserRole,
             },
-            recipient: {
-              id: messageData.receiverId,
-              name: "",
-            },
-            // attachments: "attachments" in messageData
-            //   ? (messageData.attachments ?? [])
-            //   : [],
+            attachment: messageData.attachment as MessageAttachment,
           };
 
-          const newPages = [...oldData.pages];
-          newPages[0] = {
-            ...newPages[0],
-            messages: [...(newPages[0].messages || []), newMessage],
-          };
+          // Check if this message already exists (optimistic update)
+          const messageExists = oldData.pages[0].messages.some(
+            msg => msg.id === messageData.messageId || 
+              (msg.content === messageData.message && 
+                msg.sender.id === messageData.senderId && 
+                Math.abs(new Date(msg.createdAt).getTime() - new Date(messageData.timestamp).getTime()) < 5000)
+          );
 
-          return { ...oldData, pages: newPages };
+          if (messageExists) {
+            // Update existing message with confirmed data
+            return {
+              ...oldData,
+              pages: oldData.pages.map(page => ({
+                ...page,
+                messages: page.messages.map(msg => 
+                  (msg.id === messageData.messageId || 
+                    (msg.content === messageData.message && 
+                      msg.sender.id === messageData.senderId && 
+                      Math.abs(new Date(msg.createdAt).getTime() - new Date(messageData.timestamp).getTime()) < 5000))
+                    ? { ...msg, id: messageData.messageId, attachment: messageData?.attachment}
+                    : msg
+                )
+              }))
+            };
+          } else {
+            const newPages = [...oldData.pages];
+            newPages[0] = {
+              ...newPages[0],
+              messages: [...(newPages[0].messages || []), newMessage],
+            };
+
+            return { ...oldData, pages: newPages };
+          }
         }
       );
     } catch (err) {
@@ -114,4 +120,3 @@ export function registerChatEvents(socket: Socket) {
     }
   });
 }
-

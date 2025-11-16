@@ -51,7 +51,9 @@ function RouteComponent() {
     refetch,
     fetchNextPage,
     hasNextPage,
-    isFetchingNextPage
+    isFetchingNextPage,
+    uploadProgress,
+    isUploading
   } = useChat(chatId, initialData);
   const isMobile = useMediaQuery("(max-width: 768px)");
   const messagesEndRef = useRef<HTMLDivElement>(null);
@@ -192,6 +194,21 @@ function RouteComponent() {
       </div>
 
       <Separator />
+
+      {/* Upload Progress Indicator */}
+      {isUploading && (
+        <div className="px-4 py-2 bg-muted">
+          <div className="flex items-center space-x-2">
+            <div className="flex-1 bg-background rounded-full h-2">
+              <div 
+                className="bg-primary h-2 rounded-full transition-all duration-300" 
+                style={{ width: `${uploadProgress}%` }}
+              ></div>
+            </div>
+            <span className="text-xs text-muted-foreground">{uploadProgress}%</span>
+          </div>
+        </div>
+      )}
 
       {/* Message Input */}
       <div className="shrink-0 p-4">

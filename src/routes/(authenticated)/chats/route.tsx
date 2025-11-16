@@ -12,20 +12,13 @@ import { useFetchChats } from "@/features/chats/hooks/useFetchChats";
 import { ChatList } from "@/features/chats/components/chatList";
 import Pending from "@/components/common/Pending";
 import ErrorState from "@/components/common/ErrorState";
-import { type FetchChatsResponse } from "@/shared/types/chat";
 import { useChatLayoutStore } from "@/app/store/chat-layout.store";
 
 export const Route = createFileRoute("/(authenticated)/chats")({
 	loader: async () => {
-			const initialData = (await fetchChats(1, 10)) as FetchChatsResponse;
+			const initialData = (await fetchChats(1, 10));
 			return { initialData };
 	},
-	errorComponent: ({ error }) => (
-		<ErrorState
-			message={error.message || "Failed to load conversations"}
-			onRetry={() => window.location.reload()}
-		/>
-	),
 	component: RouteComponent,
 });
 
