@@ -4,7 +4,6 @@ import type { FetchChatsResponse, ChatsQueryResult } from "@/shared/types/chat";
 
 export const useFetchChats = (initialData?: FetchChatsResponse) => {
   const limit = 10;
-  
   return useInfiniteQuery<FetchChatsResponse, Error, ChatsQueryResult>({
     queryKey: ["chats"],
     queryFn: ({ pageParam = 1 }) => fetchChats(pageParam as number, limit),

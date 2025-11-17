@@ -4,6 +4,7 @@ export interface Chat {
   id: string;
   userIds: string[];
   participant: Participant 
+  unreadCount: Map<string, number>;
   lastMessage?: LastMessage;
   unread?: number;
   isRead?: boolean;

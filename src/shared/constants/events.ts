@@ -6,6 +6,6 @@ export const SOCKET_EVENTS = Object.freeze({
   }),
   CHAT:Object.freeze({
     SEND:"send.message",
-    MARK_MESSAGE_READ:"markread.message"
+    MARK_MESSAGE_READ:"markread.message",
   })
 });

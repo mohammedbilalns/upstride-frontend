@@ -27,3 +27,6 @@ export const pendingMessageSchema = z.object({
   media: mediaSchema.optional(),
 });
 
+export const readMessagesPayloadSchema = z.object({
+	recieverId: z.string(),
+});

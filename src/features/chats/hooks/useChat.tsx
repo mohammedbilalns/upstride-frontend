@@ -1,4 +1,4 @@
-import { useState, useMemo } from "react";
+import { useState, useMemo, useEffect } from "react";
 import { useUploadMedia } from "@/shared/hooks/useUploadMedia";
 import { useFetchChat } from "./useFetchChat";
 import { queryClient } from "@/app/router/routerConfig";
@@ -49,6 +49,70 @@ export function useChat(chatId: string, initialData?: FetchChatsResponse) {
       isMentor: chatInfo.participant.isMentor ?? false,
     };
   }, [chatInfo]);
+
+  // Mark messages as read when chat opens or new message arrives
+  useEffect(() => {
+    if (!socket || !user?.id || messages.length === 0) return;
+
+    const lastMessage = messages[messages.length - 1];
+    
+    // Only mark as read if the last message is not from the current user
+    if (lastMessage && lastMessage.sender.id !== user.id) {
+      markAsRead(lastMessage.id);
+    }
+  }, [chatId, messages.length, socket, user?.id]);
+
+  /**
+   * Mark messages as read and update UI optimistically
+   */
+  const markAsRead = (messageId: string) => {
+    if (!socket || !user?.id) return;
+
+    // Emit mark as read event
+    socket.emit(SOCKET_EVENTS.CHAT.MARK_MESSAGE_READ, {
+      userId: user.id,
+      messageId: messageId
+    });
+
+    // Optimistically update the current chat messages
+    queryClient.setQueryData(
+      ["chat", chatId],
+      (oldData: TransformedChatQueryResult | undefined) => {
+        if (!oldData) return oldData;
+
+        return {
+          ...oldData,
+          pages: oldData.pages.map(page => ({
+            ...page,
+            messages: page.messages.map(msg => ({
+              ...msg,
+              status: "read"
+            }))
+          }))
+        };
+      }
+    );
+
+    // Optimistically update the chats list
+    queryClient.setQueryData(
+      ["chats"],
+      (oldData: any) => {
+        if (!oldData) return oldData;
+
+        return {
+          ...oldData,
+          pages: oldData.pages.map((page: any) => ({
+            ...page,
+            chats: page.chats.map((chat: any) => 
+              chat.id === chatId
+                ? { ...chat, unread: 0, isRead: true }
+                : chat
+            )
+          }))
+        };
+      }
+    );
+  };
 
   /**
    * Send a message 
@@ -113,7 +177,7 @@ export function useChat(chatId: string, initialData?: FetchChatsResponse) {
               id: tempId,
               content: trimmedContent, 
               createdAt: new Date().toISOString(),
-              isRead: false,
+              status: "sent",
               sender: {
                 id: user?.id ?? "me",
                 name: user?.name ?? "You",
@@ -227,6 +291,8 @@ export function useChat(chatId: string, initialData?: FetchChatsResponse) {
           }
         );
       }
+      
+      
     } catch (error) {
       console.error("Error sending message:", error);
       toast.error("Failed to send message");
@@ -259,6 +325,7 @@ export function useChat(chatId: string, initialData?: FetchChatsResponse) {
     isLoading,
     error,
     sendMessage,
+    markAsRead,
     refetch,
     fetchNextPage,
     hasNextPage,

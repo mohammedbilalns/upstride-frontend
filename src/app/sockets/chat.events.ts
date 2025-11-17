@@ -2,6 +2,7 @@ import { useAuthStore } from "@/app/store/auth.store";
 import {
   messagePayloadSchema,
   pendingMessageSchema,
+  readMessagesPayloadSchema,
 } from "@/features/chats/validations/messagePayload.schema";
 import { SOCKET_EVENTS } from "@/shared/constants/events";
 import type { Socket } from "socket.io-client";
@@ -14,7 +15,6 @@ import type { UserRole } from "@/shared/types";
  * Handles pending (optimistic) messages and confirmed server messages.
  */
 
-//TODO: optimisticlly update the last chat message 
 export function registerChatEvents(socket: Socket) {
   const { user } = useAuthStore.getState();
 
@@ -22,7 +22,6 @@ export function registerChatEvents(socket: Socket) {
     try {
       console.log(`[WS] Incoming message payload:`, data);
 
-      // Handle pending (optimistic) messages before server acknowledgment
       if (data.status === "pending") {
         const pending = pendingMessageSchema.parse(data);
         queryClient.setQueryData(
@@ -55,6 +54,12 @@ export function registerChatEvents(socket: Socket) {
             return { ...oldData, pages: newPages };
           }
         );
+
+        setTimeout(()=>{
+          queryClient.invalidateQueries({
+            queryKey:["chats"]
+          })
+        },500)
         return;
       }
 
@@ -117,9 +122,59 @@ export function registerChatEvents(socket: Socket) {
           }
         }
       );
+
+      queryClient.invalidateQueries({
+        queryKey:["chats"]
+      })
     } catch (err) {
       console.error("[WS] Invalid chat payload:", err);
     }
   });
-  
+
+
+   socket.on(SOCKET_EVENTS.CHAT.MARK_MESSAGE_READ, (data) => {
+    try {
+      console.log(`[WS] Mark as read payload:`, data);
+
+      const { recieverId } = readMessagesPayloadSchema.parse(data);
+
+      // receiverId is the person who sent the messages (current user)
+      queryClient.setQueryData(
+        ["chat", recieverId],
+        (oldData: ChatMessagesQueryResult | undefined) => {
+          if (!oldData) return oldData;
+
+          return {
+            ...oldData,
+            pages: oldData.pages.map(page => ({
+              ...page,
+              messages: page.messages.map(msg => ({
+                ...msg,
+                status: "read"
+              }))
+            }))
+          };
+        }
+      );
+
+      // Update the chats list to mark messages as read
+      // queryClient.setQueryData(["chats"], (oldData: any) => {
+      //   if (!oldData) return oldData;
+      //
+      //   return {
+      //     ...oldData,
+      //     pages: oldData.pages.map((page: any) => ({
+      //       ...page,
+      //       chats: page.chats.map((chat: any) =>
+      //         chat.id === receiverId
+      //           ? { ...chat, isRead: true }
+      //           : chat
+      //       ),
+      //     })),
+      //   };
+      // });
+    } catch (err) {
+      console.error("[WS] Invalid mark as read payload:", err);
+    }
+  }); 
 }
