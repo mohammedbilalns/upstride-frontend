@@ -94,24 +94,27 @@ export function useChat(chatId: string, initialData?: FetchChatsResponse) {
     );
 
     // Optimistically update the chats list
-    queryClient.setQueryData(
-      ["chats"],
-      (oldData: any) => {
-        if (!oldData) return oldData;
-
-        return {
-          ...oldData,
-          pages: oldData.pages.map((page: any) => ({
-            ...page,
-            chats: page.chats.map((chat: any) => 
-              chat.id === chatId
-                ? { ...chat, unread: 0, isRead: true }
-                : chat
-            )
-          }))
-        };
-      }
-    );
+    queryClient.invalidateQueries({
+      queryKey: ["chats"]
+    })
+    // queryClient.setQueryData(
+    //   ["chats"],
+    //   (oldData: any) => {
+    //     if (!oldData) return oldData;
+    //
+    //     return {
+    //       ...oldData,
+    //       pages: oldData.pages.map((page: any) => ({
+    //         ...page,
+    //         chats: page.chats.map((chat: any) => 
+    //           chat.id === chatId
+    //             ? { ...chat, unread: 0, isRead: true }
+    //             : chat
+    //         )
+    //       }))
+    //     };
+    //   }
+    // );
   };
 
   /**

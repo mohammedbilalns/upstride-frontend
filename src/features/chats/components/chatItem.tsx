@@ -97,12 +97,12 @@ export function ChatItem({ chat, isActive }: ChatItemProps) {
               </p>
             </div>
 
-            {chat.unread > 0 && (
+            {chat?.unreadCount > 0 && (
               <Badge
                 variant="destructive"
                 className="text-xs rounded-full h-5 w-5 flex items-center justify-center p-0 shrink-0"
               >
-                {chat.unread}
+                {chat.unreadCount}
               </Badge>
             )}
           </div>
