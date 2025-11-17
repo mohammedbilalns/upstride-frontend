@@ -1,5 +1,5 @@
 import UserAvatar from "@/components/common/UserAvatar";
-import { Check, CheckCheck, File, Image, Loader2 } from "lucide-react";
+import { Check, CheckCheck, File, Loader2 } from "lucide-react";
 import { formatChatTimestamp } from "@/shared/utils/dateUtil";
 import type { ChatMessage } from "@/shared/types/message";
 

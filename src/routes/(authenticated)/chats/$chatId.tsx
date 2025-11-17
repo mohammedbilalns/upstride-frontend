@@ -27,13 +27,7 @@ export const Route = createFileRoute("/(authenticated)/chats/$chatId")({
       .catch(() => {
         throw new Error("Failed to load chat");
       });
-  },
-  errorComponent: ({ error }) => (
-    <ErrorState
-      message={error.message || "Failed to load conversation"}
-      onRetry={() => window.location.reload()}
-    />
-  ),
+  }
 });
 
 function RouteComponent() {
@@ -160,6 +154,7 @@ function RouteComponent() {
                         <Button
                           variant="outline"
                           size="sm"
+                          className="cursor-pointer"
                           onClick={handleLoadMore}
                           disabled={isFetchingNextPage}
                         >
