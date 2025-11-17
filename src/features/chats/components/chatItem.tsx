@@ -2,8 +2,9 @@ import UserAvatar from "@/components/common/UserAvatar";
 import { Check, CheckCheck, Image as ImageIcon, File } from "lucide-react";
 import { formatChatTimestamp } from "@/shared/utils/dateUtil";
 import { Badge } from "@/components/ui/badge";
-import type{ Chat } from "@/shared/types/chat";
+import type { Chat } from "@/shared/types/chat";
 import { cn } from "@/shared/utils/utils";
+import { useAuthStore } from "@/app/store/auth.store";
 
 interface ChatItemProps {
   chat: Chat;
@@ -11,9 +12,10 @@ interface ChatItemProps {
 }
 
 export function ChatItem({ chat, isActive }: ChatItemProps) {
+  const { user } = useAuthStore();
+  const userId = user?.id;
   const last = chat.lastMessage;
 
-  // Detect attachment message types
   const isAttachment = last?.type === "FILE" || last?.type === "IMAGE";
 
   const getAttachmentIcon = () => {
@@ -28,16 +30,25 @@ export function ChatItem({ chat, isActive }: ChatItemProps) {
   const getPreviewText = () => {
     if (!last) return "No messages yet";
 
+    let messageText = "";
+    
     if (isAttachment) {
-      if (last.type === "IMAGE") return "Photo";
-      return "Attachment";
+      if (last.type === "IMAGE") messageText = "Photo";
+      else messageText = "Attachment";
+    } else {
+      messageText = last.content || "";
     }
 
-    return last.content || "";
+    if (last.senderId !== userId ) {
+      return `${chat.participant.name}: ${messageText}`;
+    }
+
+    return messageText;
   };
 
-  // Check if we should show read receipt
-  const shouldShowReadReceipt = last && last.senderId === chat.userIds[0] && last.status === "read";
+  // Check if we should show read receipt (only for messages sent by current user)
+  const shouldShowReadReceipt = last && last.senderId === userId && last.status === "read";
+  const shouldShowSingleCheck = last && last.senderId === userId && last.status !== "read";
 
   return (
     <div
@@ -64,10 +75,10 @@ export function ChatItem({ chat, isActive }: ChatItemProps) {
                 {last?.createdAt ? formatChatTimestamp(last.createdAt) : ""}
               </span>
               
-              {/* Show read receipt for the last message if status is "read" */}
+              {/* Show read receipt only for messages sent by current user */}
               {shouldShowReadReceipt ? (
                 <CheckCheck className="h-3 w-3 text-muted-foreground" />
-              ) : last ? (
+              ) : shouldShowSingleCheck ? (
                 <Check className="h-3 w-3 text-muted-foreground" />
               ) : null}
             </div>
