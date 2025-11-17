@@ -35,9 +35,9 @@ export function ChatHeader({ chat, onBack }: ChatHeaderProps) {
 
                 <div className="relative">
                     <UserAvatar image={chat?.avatar} name={chat?.name} size={10} />
-                    {chat?.isOnline && (
-                        <div className="absolute bottom-0 right-0 w-3 h-3 bg-green-500 rounded-full border-2 border-background"></div>
-                    )}
+                    {/* {chat?.isOnline && ( */}
+                    {/*     <div className="absolute bottom-0 right-0 w-3 h-3 bg-green-500 rounded-full border-2 border-background"></div> */}
+                    {/* )} */}
                 </div>
 
                 <div>
@@ -49,9 +49,9 @@ export function ChatHeader({ chat, onBack }: ChatHeaderProps) {
                             </Badge>
                         )}
                     </div>
-                    <p className="text-xs text-muted-foreground">
-                        {chat?.isOnline ? "Online now" : "Offline"}
-                    </p>
+                    {/* <p className="text-xs text-muted-foreground"> */}
+                    {/*     {chat?.isOnline ? "Online now" : "Offline"} */}
+                    {/* </p> */}
                 </div>
             </div>
 

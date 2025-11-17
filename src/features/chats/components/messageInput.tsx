@@ -8,10 +8,8 @@ import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/comp
 interface MessageInputProps {
   onSend: (message: string, file?: File) => void;
 }
-
-// File size limits in bytes
-const MAX_IMAGE_SIZE = 2 * 1024 * 1024; // 2MB
-const MAX_FILE_SIZE = 5 * 1024 * 1024; // 5MB
+const MAX_IMAGE_SIZE = 2 * 1024 * 1024; 
+const MAX_FILE_SIZE = 5 * 1024 * 1024; 
 
 export function MessageInput({ onSend }: MessageInputProps) {
   const [message, setMessage] = useState("");
@@ -65,7 +63,6 @@ export function MessageInput({ onSend }: MessageInputProps) {
         setFileError(`${fileType.charAt(0).toUpperCase() + fileType.slice(1)} size (${sizeMB}MB) exceeds the maximum allowed size of ${maxSizeMB}MB`);
         return;
       }
-      
       // Only take the first file
       setUploadedFile(file);
       setFileError(null);
@@ -102,7 +99,7 @@ export function MessageInput({ onSend }: MessageInputProps) {
             <Button
               variant="ghost"
               size="icon"
-              className="h-6 w-6 ml-1"
+              className="h-6 w-6 ml-1 cursor-pointer"
               onClick={removeFile}
             >
               <X className="h-3 w-3" />
@@ -120,7 +117,7 @@ export function MessageInput({ onSend }: MessageInputProps) {
               <Button
                 variant="ghost"
                 size="icon"
-                className="shrink-0"
+                className="shrink-0 cursor-pointer"
                 onClick={() => handleFileUpload("image")}
                 disabled={!!uploadedFile}
               >
@@ -140,7 +137,7 @@ export function MessageInput({ onSend }: MessageInputProps) {
               <Button
                 variant="ghost"
                 size="icon"
-                className="shrink-0"
+                className="shrink-0 cursor-pointer"
                 onClick={() => handleFileUpload("file")}
                 disabled={!!uploadedFile}
               >
@@ -158,7 +155,7 @@ export function MessageInput({ onSend }: MessageInputProps) {
           <Input
             value={message}
             onChange={(e) => setMessage(e.target.value)}
-            onKeyPress={handleKeyPress}
+            onKeyDown={handleKeyPress}
             placeholder="Type a message..."
             className={`${isMobile ? "min-h-9" : "min-h-10"}`}
           />
@@ -168,7 +165,7 @@ export function MessageInput({ onSend }: MessageInputProps) {
         <Button
           onClick={handleSend}
           disabled={!message.trim() && !uploadedFile}
-          className="shrink-0"
+          className="shrink-0 cursor-pointer"
           size="icon"
         >
           <Send className="h-4 w-4" />

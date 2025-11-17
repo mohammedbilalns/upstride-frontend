@@ -13,6 +13,8 @@ import type { UserRole } from "@/shared/types";
  * Registers WebSocket listeners for chat-related events.
  * Handles pending (optimistic) messages and confirmed server messages.
  */
+
+//TODO: optimisticlly update the last chat message 
 export function registerChatEvents(socket: Socket) {
   const { user } = useAuthStore.getState();
 
@@ -119,4 +121,5 @@ export function registerChatEvents(socket: Socket) {
       console.error("[WS] Invalid chat payload:", err);
     }
   });
+  
 }

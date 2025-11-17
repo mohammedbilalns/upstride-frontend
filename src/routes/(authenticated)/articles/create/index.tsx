@@ -100,7 +100,6 @@ function RouteComponent() {
 			featuredImage: data.featuredImage,
 		};
 
-		console.log("Article data to be saved:", articleData);
 		createArticleMutation.mutate(articleData);
 	};
 

@@ -49,7 +49,7 @@ function RouteComponent() {
     uploadProgress,
     isUploading,
     uploadingMessages
-  } = useChat(chatId, initialData);
+  } = useChat(chatId, initialData)
   const isMobile = useMediaQuery("(max-width: 768px)");
   const messagesEndRef = useRef<HTMLDivElement>(null);
   const messageContainerRef = useRef<HTMLDivElement>(null);
@@ -65,7 +65,6 @@ function RouteComponent() {
       prevScrollHeightRef.current = null;
       isLoadingMoreRef.current = false; 
     } 
-    // Only scroll to bottom if not loading more messages
     else if (messages && messages.length > 0 && !isLoadingMoreRef.current) {
       setTimeout(() => {
         messagesEndRef.current?.scrollIntoView({

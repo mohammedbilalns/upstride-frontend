@@ -12,7 +12,7 @@ export type Participant = Pick<User, "id" | "name" | "profilePicture"| "role">;
 export interface ChatMessage {
   id: string;
   chatId: string;
-  content: string;
+  content?: string;
   type: "TEXT" | "FILE" | "IMAGE";
   status: "send" | "read";
   createdAt:  string;
