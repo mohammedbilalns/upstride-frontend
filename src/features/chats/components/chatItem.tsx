@@ -1,9 +1,9 @@
-import { type Chat } from "@/shared/types/chat";
-import { cn } from "@/shared/utils/utils";
-import { formatChatTimestamp } from "@/shared/utils/dateUtil";
 import UserAvatar from "@/components/common/UserAvatar";
-import { Badge } from "@/components/ui/badge";
 import { Check, CheckCheck, Image as ImageIcon, File } from "lucide-react";
+import { formatChatTimestamp } from "@/shared/utils/dateUtil";
+import { Badge } from "@/components/ui/badge";
+import type{ Chat } from "@/shared/types/chat";
+import { cn } from "@/shared/utils/utils";
 
 interface ChatItemProps {
   chat: Chat;
@@ -36,6 +36,9 @@ export function ChatItem({ chat, isActive }: ChatItemProps) {
     return last.content || "";
   };
 
+  // Check if we should show read receipt
+  const shouldShowReadReceipt = last && last.senderId === chat.userIds[0] && last.status === "read";
+
   return (
     <div
       className={cn(
@@ -60,12 +63,13 @@ export function ChatItem({ chat, isActive }: ChatItemProps) {
               <span className="text-xs text-muted-foreground whitespace-nowrap">
                 {last?.createdAt ? formatChatTimestamp(last.createdAt) : ""}
               </span>
-
-              {chat.isRead ? (
+              
+              {/* Show read receipt for the last message if status is "read" */}
+              {shouldShowReadReceipt ? (
                 <CheckCheck className="h-3 w-3 text-muted-foreground" />
-              ) : (
+              ) : last ? (
                 <Check className="h-3 w-3 text-muted-foreground" />
-              )}
+              ) : null}
             </div>
           </div>
 
