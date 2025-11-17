@@ -12,7 +12,7 @@ export const messagePayloadSchema = z.object({
   senderName: z.string(),
   receiverId: z.string(), 
   messageId: z.string(),
-  message: z.string(),
+  message: z.string().optional(),
   type: z.enum(["TEXT", "FILE", "IMAGE"]),
   timestamp: z.string(), 
   attachment: mediaSchema.optional(),
@@ -22,7 +22,7 @@ export const pendingMessageSchema = z.object({
   status: z.literal("pending"),
   from: z.string(),
   to: z.string(),
-  message: z.string(),
+  message: z.string().optional(),
   type: z.enum(["TEXT", "FILE", "IMAGE"]),
   media: mediaSchema.optional(),
 });

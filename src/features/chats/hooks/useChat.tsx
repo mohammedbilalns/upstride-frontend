@@ -1,21 +1,23 @@
-import {
-  type TransformedChatQueryResult,
-} from "@/shared/types/chat";
-import type { FetchChatResponse, MessageAttachment, SendMessagePayload } from "@/shared/types/message";
-import { toast } from "sonner";
-import { useSocketStore } from "@/app/store/socket.store";
-import { useAuthStore } from "@/app/store/auth.store";
 import { useState, useMemo } from "react";
 import { useUploadMedia } from "@/shared/hooks/useUploadMedia";
 import { useFetchChat } from "./useFetchChat";
 import { queryClient } from "@/app/router/routerConfig";
 import { SOCKET_EVENTS } from "@/shared/constants/events";
+import type { FetchChatsResponse, TransformedChatQueryResult } from "@/shared/types/chat";
+import { toast } from "sonner";
+import type { MessageAttachment, SendMessagePayload } from "@/shared/types/message";
+import { useAuthStore } from "@/app/store/auth.store";
+import { useSocketStore } from "@/app/store/socket.store";
+
+// File size limits in bytes
+const MAX_IMAGE_SIZE = 2 * 1024 * 1024; 
+const MAX_FILE_SIZE = 5 * 1024 * 1024; 
 
 /**
  * hook that manages chat state and message sending for a specific chat.
  * handles optimistic UI updates, and pagination.
  */
-export function useChat(chatId: string, initialData?: FetchChatResponse) {
+export function useChat(chatId: string, initialData?: FetchChatsResponse) {
   const { socket } = useSocketStore();
   const { user } = useAuthStore();
   const { handleUpload, uploadProgress, isUploading } = useUploadMedia();
@@ -60,6 +62,29 @@ export function useChat(chatId: string, initialData?: FetchChatResponse) {
   ) => {
     if (!socket) return;
 
+    // Trim the content to check if it's empty
+    const trimmedContent = content.trim();
+    
+    // Don't send if both content and attachment are empty
+    if (!trimmedContent && !attachment) {
+      return;
+    }
+
+    // Validate file size if attachment exists
+    if (attachment) {
+      const isImage = attachment.type.startsWith("image/");
+      const maxSize = isImage ? MAX_IMAGE_SIZE : MAX_FILE_SIZE;
+      
+      if (attachment.size > maxSize) {
+        const sizeMB = (attachment.size / (1024 * 1024)).toFixed(2);
+        const maxSizeMB = (maxSize / (1024 * 1024)).toFixed(0);
+        const fileType = isImage ? "image" : "file";
+        
+        toast.error(`${fileType.charAt(0).toUpperCase() + fileType.slice(1)} size (${sizeMB}MB) exceeds the maximum allowed size of ${maxSizeMB}MB`);
+        return;
+      }
+    }
+
     // Create temporary message ID for optimistic update
     const tempId = `temp-${Date.now()}`;
     
@@ -86,7 +111,7 @@ export function useChat(chatId: string, initialData?: FetchChatResponse) {
             ...(oldData.messages || []),
             {
               id: tempId,
-              content,
+              content: trimmedContent, 
               createdAt: new Date().toISOString(),
               isRead: false,
               sender: {
@@ -169,12 +194,17 @@ export function useChat(chatId: string, initialData?: FetchChatResponse) {
       }
 
       // Construct message payload for socket emission
+      // Only include message field if there's actual content
       const payload: SendMessagePayload = {
         to: chatId,
-        message: content,
         type: uploadedAttachment ? "FILE" : "TEXT",
         media: uploadedAttachment,
       };
+      
+      // Only add message if there's content
+      if (trimmedContent) {
+        payload.message = trimmedContent;
+      }
 
       // Emit message event through WebSocket
       socket.emit(SOCKET_EVENTS.CHAT.SEND, payload);
