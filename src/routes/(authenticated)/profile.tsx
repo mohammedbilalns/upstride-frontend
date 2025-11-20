@@ -14,16 +14,18 @@ import { ExpertiseSkills } from "@/features/profile/components/Expertises";
 import { PersonalInfo } from "@/features/profile/components/PersonalInfo";
 import { ProfileSidebar } from "@/features/profile/components/ProfileSideBar";
 import { QuickStats } from "@/features/profile/components/QuickStats";
-import { useUpdateProfile } from "@/features/profile/hooks/profile.hooks";
+import { useUpdateProfile } from "@/features/profile/hooks/profile-mutataions.hooks";
 import type { ProfileFormData } from "@/features/profile/schemas/profile.schema";
 import { profileSchema } from "@/features/profile/schemas/profile.schema";
 import { fetchProfile } from "@/features/profile/services/profile.service";
 import { useDeleteMedia } from "@/shared/hooks/useDeleteMedia";
 import { useUploadMedia } from "@/shared/hooks/useUploadMedia";
 import type { CloudinaryResponse } from "@/shared/types/cloudinaryResponse";
+import { authGuard } from "@/shared/guards/auth-gaurd";
 
 export const Route = createFileRoute("/(authenticated)/profile")({
 	component: RouteComponent,
+  beforeLoad: authGuard(["user","mentor"]),
 	loader: async ({ context }) => {
 		const { user } = useAuthStore.getState();
 		if (!user) return;

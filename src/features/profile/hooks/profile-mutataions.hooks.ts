@@ -5,6 +5,12 @@ import { toast } from "sonner";
 import type { ProfileFormData } from "../schemas/profile.schema";
 import type { ApiError } from "@/shared/types";
 
+/**
+ *  Handles password change using React Query mutation
+ *
+ * - Sends old & new password to backend
+ * - Shows success/error notifications
+ */
 export const useChangePassword = () => {
   return useMutation({
     mutationFn: async ({
@@ -16,9 +22,8 @@ export const useChangePassword = () => {
       }) => {
       return await changePassword({ oldPassword, newPassword });
     },
-    onSuccess: (data) => {
+    onSuccess: () => {
       toast.success("Password updated successfully");
-      console.log("Password updated successfully", data);
     },
     onError: (error: ApiError) => {
       const errorMessage = error?.response?.data?.message;
@@ -28,6 +33,13 @@ export const useChangePassword = () => {
   });
 };
 
+/**
+ * Handles user profile updates
+ *
+ * - Sends the updated profile data to backend
+ * - Updates global user state (Zustand store)
+ * - Invalidates cached profile data (React Query)
+ */
 export const useUpdateProfile = () => {
   const queryClient = useQueryClient();
   const { user, setUser } = useAuthStore();

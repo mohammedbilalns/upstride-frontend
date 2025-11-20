@@ -12,7 +12,7 @@ import {
 	FormMessage,
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
-import { useChangePassword } from "../hooks/profile.hooks";
+import { useChangePassword } from "../hooks/profile-mutataions.hooks";
 import { type PasswordFormData , passwordSchema } from "../schemas/profile.schema";
 interface ChangePasswordFormProps {
 	onSuccess?: () => void;

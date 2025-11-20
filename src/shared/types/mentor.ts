@@ -35,6 +35,7 @@ export type Mentor = {
 		name: string;
 	};
 	skills: Omit<Skill, "isVerified">[];
+  followers: number;
 	createdAt: Date;
 };
 
@@ -51,3 +52,5 @@ export interface MentorsQueryResult {
   pages?: { mentors: Mentor[] }[];
   mentors?: Mentor[];
 }
+
+export type MentorDetails = Mentor & {isFollowing: boolean}

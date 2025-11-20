@@ -1,7 +1,8 @@
 import api from "@/api/api";
 import { API_ROUTES } from "@/shared/constants/routes";
+import type  { MentorDetails } from "@/shared/types/mentor";
 
-export async function getMentorsForUser(
+export async function getMentors(
 	page = "1",
 	limit = "3",
 	query?: string,
@@ -25,18 +26,15 @@ export async function getMentorsForUser(
 	}
 }
 
-export async function getMentorDetails(id: string) {
-	try {
-		const response = await api.get(API_ROUTES.MENTOR.FETCH_MENTOR_DETAILS, {
-			params: {
-				mentorId: id,
-			},
-		});
-		return response.data;
-	} catch (error) {
-		console.error("Error fetching mentor details", error);
-		throw error;
-	}
+export async function getMentor(mentorId: string) {
+  try{
+    const response = await api.get<MentorDetails>(API_ROUTES.MENTOR.FETCH_SINGLE(mentorId));
+    return response.data;
+  
+  }catch(error){
+    console.error("Error fetching mentor", error);
+    throw error 
+  }
 }
 
 export async function getActiveExpertisesAndSkills() {

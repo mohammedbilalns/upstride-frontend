@@ -1,7 +1,7 @@
 import MentorCard from "@/features/mentor/components/MentorCard";
 import MentorSideBar from "@/features/mentor/components/MentorSideBar";
 import { MentorsSearchSchema } from "@/features/mentor/schemas/mentorsSearchSchema";
-import { getMentorsForUser } from "@/features/mentor/services/mentor.service";
+import { getMentors } from "@/features/mentor/services/mentor.service";
 import { useDebounce } from "@/shared/hooks/useDebounce";
 import { useInfiniteScroll } from "@/shared/hooks/useInfinteScroll";
 import { useState, useEffect } from "react";
@@ -21,7 +21,7 @@ export const Route = createFileRoute("/(authenticated)/mentors")({
   loaderDeps: ({ search }) => ({ search }),
   loader: async ({ deps: { search } }) => {
     const limit = 10;
-    return getMentorsForUser(
+    return getMentors(
       "1",
       limit.toString(),
       search.query || "",
@@ -57,7 +57,7 @@ function RouteComponent() {
   useInfiniteQuery({
     queryKey: ["mentors", search.query, search.expertiseId, search.skillId],
     queryFn: ({ pageParam = 1 }) =>
-      getMentorsForUser(
+      getMentors(
         pageParam.toString(),
         limit.toString(),
         search.query || "",
@@ -148,16 +148,16 @@ isMobile ? "w-full" : "w-full lg:w-3/4"
                     </motion.div>
                   ))
                 ) : (
-                  <div className="col-span-full">
-                    <NoResource
-                      resource="mentors"
-                      clearFilters={clearFilters}
-                      isSearch={Boolean(
-                        search.query || search.expertiseId || search.skillId,
-                      )}
-                    />
-                  </div>
-                )}
+                    <div className="col-span-full">
+                      <NoResource
+                        resource="mentors"
+                        clearFilters={clearFilters}
+                        isSearch={Boolean(
+                          search.query || search.expertiseId || search.skillId,
+                        )}
+                      />
+                    </div>
+                  )}
               </AnimatePresence>
             </div>
 
