@@ -17,6 +17,7 @@ import Pending from "@/components/common/Pending";
 import ErrorState from "@/components/common/ErrorState";
 import NoResource from "@/components/common/NoResource";
 import { useChatLayoutStore } from "@/app/store/chat-layout.store";
+import NotFoundComponent from "@/components/NotFoundComponent";
 
 export const Route = createFileRoute("/(authenticated)/chats/$chatId")({
   component: RouteComponent,
@@ -24,10 +25,8 @@ export const Route = createFileRoute("/(authenticated)/chats/$chatId")({
     const { chatId } = params;
     return await fetchChat(chatId, 1, 10)
       .then(initialData => ({ initialData }))
-      .catch(() => {
-        throw new Error("Failed to load chat");
-      });
-  }
+  },
+  notFoundComponent: NotFoundComponent
 });
 
 function RouteComponent() {
@@ -214,7 +213,7 @@ function RouteComponent() {
       )}
 
       {/* Message Input */}
-      <div className="shrink-0 p-4">
+      <div className="shrink-0 px-4 pt-4">
         <MessageInput onSend={sendMessage} />
       </div>
     </div>
