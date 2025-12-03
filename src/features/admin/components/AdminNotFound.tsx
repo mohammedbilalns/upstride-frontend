@@ -13,7 +13,6 @@ export default function AdminNotFound() {
 
 				<Button
 					onClick={() => router.navigate({ to: "/admin/dashboard" })}
-					className="cursor-pointer"
 				>
 					Go back home
 				</Button>

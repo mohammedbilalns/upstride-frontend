@@ -1,9 +1,11 @@
 import api from "@/api/api";
 import { API_ROUTES } from "@/shared/constants/routes";
+import { type NotificationsResponse } from "@/shared/types/notifications";
+
 
 export async function fetchNotifications(page: number, limit: number) {
 	try {
-		const response = await api.get(API_ROUTES.NOTIFICATIONS.FETCH, {
+		const response = await api.get<NotificationsResponse>(API_ROUTES.NOTIFICATIONS.FETCH, {
 			params: { page, limit },
 		});
 		return response.data;

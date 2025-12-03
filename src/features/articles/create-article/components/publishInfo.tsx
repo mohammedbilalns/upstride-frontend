@@ -37,7 +37,7 @@ export default function PublishInfo({
 				<Separator />
 				<div className="mt-auto">
 					<Button
-						className="w-full cursor-pointer"
+						className="w-full"
 						onClick={handleSave}
 						disabled={isSaving}
 					>

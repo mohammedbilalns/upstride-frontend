@@ -22,6 +22,8 @@ export default function ExpertiseSelection({
 	const [selectedTopicsByArea, setSelectedTopicsByArea] = useState<
 		Record<string, string[]>
 	>({});
+  const [newAreas, SetNewAreas] = useState<string[]>([]);
+  const [newTopics, SetNewTopics] = useState<Array<{name: string, expertiseId?: string, expertiseName? : string}>>([]);
 	const [activeStep, setActiveStep] = useState<"areas" | "topics">("areas");
 	const [currentAreaIndex, setCurrentAreaIndex] = useState(0);
 
@@ -66,7 +68,7 @@ export default function ExpertiseSelection({
 		const allTopics = Object.values(selectedTopicsByArea).flat();
 
 		saveInterestsMutation.mutate(
-			{ selectedAreas, selectedTopics: allTopics, email },
+			{ selectedAreas, selectedTopics: allTopics, email,newExpertises: newAreas, newTopics },
 			{
 				onSuccess: () => {
 					onComplete();

@@ -9,7 +9,7 @@ export function useFollowMentor() {
 		mutationFn: async (id: string) => {
 			const [result] = await Promise.all([
 				followMentor(id),
-        //NOTE: Remove timeout in production
+        //WARN: Timeout for manual delay
 				new Promise((resolve) => setTimeout(resolve, 500)),
 			]);
 			return result;
@@ -68,8 +68,6 @@ export function useFollowMentor() {
 	});
 }
 
-
-// FIX: ui not updating in the mentor page 
 export function useUnfollowMentor() {
     const queryClient = useQueryClient();
 
@@ -104,6 +102,7 @@ export function useUnfollowMentor() {
         onSuccess: () => {
             queryClient.invalidateQueries({ queryKey: ["following"] });
             queryClient.invalidateQueries({ queryKey: ["suggestedMentors"] });
+            
         },
         onSettled: (mentorId) => {
             queryClient.invalidateQueries({ queryKey: ["mentor", mentorId] });

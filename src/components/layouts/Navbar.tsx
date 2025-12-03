@@ -86,7 +86,7 @@ active
             <DropdownMenuTrigger asChild>
               <Button
                 variant="ghost"
-                className="cursor-pointer relative h-8 w-8 rounded-full"
+                className="relative h-8 w-8 rounded-full"
                 aria-label="User menu"
               >
                 {user && (

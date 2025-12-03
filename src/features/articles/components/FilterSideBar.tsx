@@ -156,7 +156,7 @@ export function FilterSidebar({
 					</div>
 
 					<Button
-						className="w-full cursor-pointer"
+						className="w-full"
 						onClick={onClearFilters}
 						disabled={isAnyLoading}
 					>

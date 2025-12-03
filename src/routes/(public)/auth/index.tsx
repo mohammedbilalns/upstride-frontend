@@ -15,7 +15,7 @@ import { authSearchSchema } from "@/features/auth/schemas/authSearch.schema";
 
 export const Route = createFileRoute("/(public)/auth/")({
   component: RouteComponent,
-  validateSearch: (search) => authSearchSchema.parse(search) 
+  validateSearch: (search) => authSearchSchema.parse(search),
 });
 
 function RouteComponent() {

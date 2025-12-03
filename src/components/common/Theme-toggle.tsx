@@ -46,7 +46,7 @@ export default function ThemeToggle() {
             className="
               relative h-10 w-10 rounded-full border
               bg-background/70 shadow-sm backdrop-blur-sm
-              transition-all hover:scale-105 hover:shadow-md cursor-pointer
+              transition-all hover:scale-105 hover:shadow-md
             "
           >
             <AnimatePresence mode="wait" initial={false}>

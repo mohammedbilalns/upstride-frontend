@@ -19,7 +19,6 @@ export default function FollowingList() {
 		isError,
 		refetch,
 	} = useFetchFollowing();
-	// NOTE: replaced flatmap with flat
 	const mentors = data?.pages.flat() || [];
 
 	const { setTarget } = useInfiniteScroll({
@@ -58,14 +57,14 @@ export default function FollowingList() {
 								>
 									<div className="flex items-center">
 										<UserAvatar
-											image={mentor.user?.profilePicture}
-											name={mentor.user?.name}
+											image={mentor.mentorId?.userId?.profilePicture}
+											name={mentor.mentorId.userId.name}
 											size={12}
 										/>
 										<div className="ml-4">
-											<h3 className="font-medium">{mentor.user?.name}</h3>
+											<h3 className="font-medium">{mentor.mentorId?.userId?.name}</h3>
 											<p className="text-sm text-muted-foreground">
-												{mentor.expertise?.name}
+												{mentor.mentorId?.expertiseId?.name}
 											</p>
 											<p className="text-xs text-muted-foreground mt-1">
 												Following since {new Date().toLocaleDateString()}
@@ -73,7 +72,7 @@ export default function FollowingList() {
 										</div>
 									</div>
 									<div className="flex space-x-2">
-										<GoToChat userId={mentor.user.id} isText={true} />
+										<GoToChat userId={mentor.mentorId?.userId._id} isText={true} />
 										<FollowButton isFollowing={true} mentorId={mentor.id} />
 									</div>
 								</motion.div>

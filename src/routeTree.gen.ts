@@ -26,6 +26,7 @@ import { Route as authenticatedChatsIndexRouteImport } from './routes/(authentic
 import { Route as authenticatedArticlesIndexRouteImport } from './routes/(authenticated)/articles/index'
 import { Route as adminAdminIndexRouteImport } from './routes/(admin)/admin/index'
 import { Route as authenticatedMentorRegisterRouteImport } from './routes/(authenticated)/mentor/register'
+import { Route as authenticatedMentorDashboardRouteImport } from './routes/(authenticated)/mentor/dashboard'
 import { Route as authenticatedMentorMentorIdRouteImport } from './routes/(authenticated)/mentor/$mentorId'
 import { Route as authenticatedChatsChatIdRouteImport } from './routes/(authenticated)/chats/$chatId'
 import { Route as authenticatedArticlesArticleIdRouteImport } from './routes/(authenticated)/articles/$articleId'
@@ -122,6 +123,12 @@ const authenticatedMentorRegisterRoute =
     path: '/mentor/register',
     getParentRoute: () => authenticatedRouteRoute,
   } as any)
+const authenticatedMentorDashboardRoute =
+  authenticatedMentorDashboardRouteImport.update({
+    id: '/mentor/dashboard',
+    path: '/mentor/dashboard',
+    getParentRoute: () => authenticatedRouteRoute,
+  } as any)
 const authenticatedMentorMentorIdRoute =
   authenticatedMentorMentorIdRouteImport.update({
     id: '/mentor/$mentorId',
@@ -191,6 +198,7 @@ export interface FileRoutesByFullPath {
   '/articles/$articleId': typeof authenticatedArticlesArticleIdRoute
   '/chats/$chatId': typeof authenticatedChatsChatIdRoute
   '/mentor/$mentorId': typeof authenticatedMentorMentorIdRoute
+  '/mentor/dashboard': typeof authenticatedMentorDashboardRoute
   '/mentor/register': typeof authenticatedMentorRegisterRoute
   '/admin/': typeof adminAdminIndexRoute
   '/articles': typeof authenticatedArticlesIndexRoute
@@ -215,6 +223,7 @@ export interface FileRoutesByTo {
   '/articles/$articleId': typeof authenticatedArticlesArticleIdRoute
   '/chats/$chatId': typeof authenticatedChatsChatIdRoute
   '/mentor/$mentorId': typeof authenticatedMentorMentorIdRoute
+  '/mentor/dashboard': typeof authenticatedMentorDashboardRoute
   '/mentor/register': typeof authenticatedMentorRegisterRoute
   '/admin': typeof adminAdminIndexRoute
   '/articles': typeof authenticatedArticlesIndexRoute
@@ -244,6 +253,7 @@ export interface FileRoutesById {
   '/(authenticated)/articles/$articleId': typeof authenticatedArticlesArticleIdRoute
   '/(authenticated)/chats/$chatId': typeof authenticatedChatsChatIdRoute
   '/(authenticated)/mentor/$mentorId': typeof authenticatedMentorMentorIdRoute
+  '/(authenticated)/mentor/dashboard': typeof authenticatedMentorDashboardRoute
   '/(authenticated)/mentor/register': typeof authenticatedMentorRegisterRoute
   '/(admin)/admin/': typeof adminAdminIndexRoute
   '/(authenticated)/articles/': typeof authenticatedArticlesIndexRoute
@@ -273,6 +283,7 @@ export interface FileRouteTypes {
     | '/articles/$articleId'
     | '/chats/$chatId'
     | '/mentor/$mentorId'
+    | '/mentor/dashboard'
     | '/mentor/register'
     | '/admin/'
     | '/articles'
@@ -297,6 +308,7 @@ export interface FileRouteTypes {
     | '/articles/$articleId'
     | '/chats/$chatId'
     | '/mentor/$mentorId'
+    | '/mentor/dashboard'
     | '/mentor/register'
     | '/admin'
     | '/articles'
@@ -325,6 +337,7 @@ export interface FileRouteTypes {
     | '/(authenticated)/articles/$articleId'
     | '/(authenticated)/chats/$chatId'
     | '/(authenticated)/mentor/$mentorId'
+    | '/(authenticated)/mentor/dashboard'
     | '/(authenticated)/mentor/register'
     | '/(admin)/admin/'
     | '/(authenticated)/articles/'
@@ -469,6 +482,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof authenticatedMentorRegisterRouteImport
       parentRoute: typeof authenticatedRouteRoute
     }
+    '/(authenticated)/mentor/dashboard': {
+      id: '/(authenticated)/mentor/dashboard'
+      path: '/mentor/dashboard'
+      fullPath: '/mentor/dashboard'
+      preLoaderRoute: typeof authenticatedMentorDashboardRouteImport
+      parentRoute: typeof authenticatedRouteRoute
+    }
     '/(authenticated)/mentor/$mentorId': {
       id: '/(authenticated)/mentor/$mentorId'
       path: '/mentor/$mentorId'
@@ -559,6 +579,7 @@ interface authenticatedRouteRouteChildren {
   authenticatedSessionsRoute: typeof authenticatedSessionsRoute
   authenticatedArticlesArticleIdRoute: typeof authenticatedArticlesArticleIdRoute
   authenticatedMentorMentorIdRoute: typeof authenticatedMentorMentorIdRoute
+  authenticatedMentorDashboardRoute: typeof authenticatedMentorDashboardRoute
   authenticatedMentorRegisterRoute: typeof authenticatedMentorRegisterRoute
   authenticatedArticlesIndexRoute: typeof authenticatedArticlesIndexRoute
   authenticatedHomeIndexRoute: typeof authenticatedHomeIndexRoute
@@ -574,6 +595,7 @@ const authenticatedRouteRouteChildren: authenticatedRouteRouteChildren = {
   authenticatedSessionsRoute: authenticatedSessionsRoute,
   authenticatedArticlesArticleIdRoute: authenticatedArticlesArticleIdRoute,
   authenticatedMentorMentorIdRoute: authenticatedMentorMentorIdRoute,
+  authenticatedMentorDashboardRoute: authenticatedMentorDashboardRoute,
   authenticatedMentorRegisterRoute: authenticatedMentorRegisterRoute,
   authenticatedArticlesIndexRoute: authenticatedArticlesIndexRoute,
   authenticatedHomeIndexRoute: authenticatedHomeIndexRoute,

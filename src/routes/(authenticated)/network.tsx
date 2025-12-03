@@ -19,6 +19,7 @@ function RouteComponent() {
 	const { user } = useAuthStore();
 	const isMentor = user?.role === "mentor";
 	const [activeTab, setActiveTab] = useState("following");
+  // FIX: followers tab renders on normal user and it triggers api request 
 
 	return (
 		<div className="min-h-[calc(100vh-5rem)] bg-background">

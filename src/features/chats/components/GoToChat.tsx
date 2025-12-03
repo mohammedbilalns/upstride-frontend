@@ -21,7 +21,7 @@ export default function GoToChat({ userId, isText = false }: GoToChatProps) {
 			<Button
 				variant="outline"
 				size="sm"
-				className="cursor-pointer flex-1 sm:flex-initial"
+				className="flex-1 sm:flex-initial"
 				onClick={handleGoToChat}
 			>
 				<MessageCircle className="h-4 w-4 mr-1" />

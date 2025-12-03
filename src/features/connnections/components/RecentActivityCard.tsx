@@ -2,7 +2,6 @@ import { Calendar } from "lucide-react";
 import ErrorState from "@/components/common/ErrorState";
 import Pending from "@/components/common/Pending";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import type { Activity } from "@/shared/types/connection";
 import { formatRelativeTime } from "@/shared/utils/dateUtil";
 import { useFetchRecentActivity } from "../hooks/connections-queries.hooks";
 import { getActivityDisplay } from "./GetActivityDisplay";
@@ -30,7 +29,7 @@ export default function RecentActivityCard() {
 				) : data.length === 0 ? (
 					<p className="text-sm text-muted-foreground">No recent activity</p>
 				) : (
-					data.map((activity: Activity) => {
+					data.map((activity) => {
 						const { message, color } = getActivityDisplay(activity);
 						const timeAgo = activity.createdAt
 							? formatRelativeTime(activity.createdAt)

@@ -23,6 +23,7 @@ export const Route = createFileRoute("/(authenticated)/chats")({
 });
 
 function RouteComponent() {
+  // FIX: loader data request sends twice for loader and when rendering the compnent 
 	const { initialData } = useLoaderData({ from: "/(authenticated)/chats" });
 	const { error, refetch } = useFetchChats(initialData);
 	const isMobile = useMediaQuery("(max-width: 768px)");
@@ -52,9 +53,6 @@ function RouteComponent() {
 			<div className="mb-8 flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
 				<div>
 					<h1 className="text-3xl font-bold mb-2">Chats</h1>
-					<p className="text-muted-foreground">
-						Direct messages and conversations with your connections.
-					</p>
 				</div>
 			</div>
 			<div

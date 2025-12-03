@@ -75,7 +75,6 @@ const NoResource: React.FC<NoResourceProps> = ({
     if (isSearch && clearFilters) {
       return (
         <Button
-          className="cursor-pointer"
           variant="outline"
           onClick={clearFilters}
         >
@@ -86,7 +85,7 @@ const NoResource: React.FC<NoResourceProps> = ({
 
     if (!isHome) {
       return (
-        <Button asChild className="cursor-pointer">
+        <Button asChild>
           <Link to="/home">Go to Home</Link>
         </Button>
       );

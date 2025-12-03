@@ -14,7 +14,7 @@ export const API_ROUTES = {
 		GOOGLE: "/auth/google",
 		REFRESH: "/auth/refresh",
 		ADD_INTERESTS: "/auth/add-interests",
-		GET_USERS: "/auth/me",
+		GET_USER: "/auth/me",
 	},
 	USERMANAGEMENT: {
 		USERS: "/users",
@@ -40,7 +40,8 @@ export const API_ROUTES = {
 		CREATE: "/mentor", 
 		APPROVE: `/mentor/approve`, 
 		REJECT: `/mentor/reject`,  
-    FETCH_SINGLE: (mentorId: string) => `/mentor/${mentorId}`
+    FETCH_SINGLE: (mentorId: string) => `/mentor/${mentorId}`,
+    GETME:"/mentor/getMe"
 	},
 	ARTICLES: {
 		ARTICLES: "/articles",
@@ -88,5 +89,21 @@ export const API_ROUTES = {
   CHATS: {
     FETCH: "/chat",
     FETCH_CHAT:(chatId: string) => `/chat/${chatId}`,
+  },
+  SLOTS:{
+    GET_RULES:(mentorId: string) => `/slots/rules/${mentorId}`,
+    CREATE_RECURRING_RULE:(mentorId: string) => `/slots/${mentorId}/availability/recurring`,
+    UPDATE_RECURRING_RULE:(mentorId:string, ruleId: string) => `/slots/${mentorId}/availability/recurring/${ruleId}`,
+    ADD_RECURRING_RULE:(mentorId:string) => `/slots/${mentorId}/availability/recurring/create`,
+    DISABLE_RECURRING_RULE:(mentorId:string, ruleId: string) => `/slots/${mentorId}/availability/recurring/${ruleId}/disable`,
+    CREATE_CUSTOM_SLOT:(mentorId: string) => `/slots/${mentorId}/availability/custom`,
+    GET_MENTOR_SLOTS:(mentorId: string) => `/slots/${mentorId}/slots`,
+    CANCEL_SLOT:(mentorId: string, slotId: string) => `/slots/${mentorId}/${slotId}/cancel`,
+  },
+  SESSIONS:{
+    BOOK_SESSION:(slotId: string) => `/sessions/${slotId}/book`,
+    CANCEL_BOOKING:(bookingId: string) => `/sessions/${bookingId}/cancel`,
+    START_SESSION:(slotId: string) => `/sessions/${slotId}/start`,
+    MARK_SESSION_AS_COMPLETED:(sessionId: string) => `/sessions/${sessionId}/complete`,
   }
 } as const ;

@@ -83,7 +83,6 @@ export function Pagination({
           variant="outline"
           disabled={page === 1}
           onClick={() => setPage(page - 1)}
-          className="cursor-pointer"
           aria-label="Previous page"
         >
           Previous
@@ -96,7 +95,6 @@ export function Pagination({
               size="sm"
               variant={p === page ? "default" : "outline"}
               onClick={() => setPage(p)}
-              className="cursor-pointer"
               aria-current={p === page ? "page" : undefined}
             >
               {p}
@@ -117,7 +115,6 @@ export function Pagination({
           variant="outline"
           disabled={page === totalPages}
           onClick={() => setPage(page + 1)}
-          className="cursor-pointer"
           aria-label="Next page"
         >
           Next

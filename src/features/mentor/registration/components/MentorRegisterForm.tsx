@@ -425,7 +425,7 @@ export default function MentorRegisterForm() {
 					{/* Submit Button */}
 					<Button
 						type="submit"
-						className="w-full cursor-pointer"
+						className="w-full"
 						disabled={isUploading}
 					>
 						{isUploading ? "Uploading..." : "Submit Registration"}

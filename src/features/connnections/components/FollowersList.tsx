@@ -3,7 +3,6 @@ import GoToChat from "@/features/chats/components/GoToChat";
 import NoResource from "@/components/common/NoResource";
 import Pending from "@/components/common/Pending";
 import UserAvatar from "@/components/common/UserAvatar";
-import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { useInfiniteScroll } from "@/shared/hooks/useInfinteScroll";
 import { useFetchFollowers } from "../hooks/connections-queries.hooks";
@@ -52,22 +51,16 @@ export default function FollowersList() {
 									<div className="relative">
 										<UserAvatar
 											image={follower.followerId?.profilePicture}
-											name={follower.user?.name}
+											name={follower.followerId.name}
 											size={12}
 										/>
 									</div>
 									<div className="ml-4">
 										<h3 className="font-medium">{follower.followerId?.name}</h3>
-										<p className="text-sm text-muted-foreground">
-											{follower.expertise?.name}
-										</p>
 									</div>
 								</div>
 								<div className="flex space-x-2">
-									<GoToChat userId={follower.followerId.id} isText={true} />
-									<Button size="sm" variant="outline">
-										View Profile
-									</Button>
+									<GoToChat userId={follower.followerId._id} isText={true} />
 								</div>
 							</div>
 						))}

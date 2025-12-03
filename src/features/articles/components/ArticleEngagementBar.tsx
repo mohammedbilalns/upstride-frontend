@@ -64,7 +64,6 @@ export default function ArticleEngagementBar({
 				<Button
 					variant={liked ? "default" : "outline"}
 					size="sm"
-					className="cursor-pointer"
 					onClick={handleLike}
 					disabled={reactResourceMutation.isPending}
 				>
@@ -72,14 +71,13 @@ export default function ArticleEngagementBar({
 					{likes}
 				</Button>
 				<Button
-					className="cursor-pointer"
 					variant="outline"
 					size="sm"
 					onClick={handleBookmark}
 				>
 					<Bookmark className={`h-4 w-4 ${bookmarked ? "fill-current" : ""}`} />
 				</Button>
-				<Button className="cursor-pointer" variant="outline" size="sm">
+				<Button variant="outline" size="sm">
 					<Share className="h-4 w-4" />
 				</Button>
 			</div>

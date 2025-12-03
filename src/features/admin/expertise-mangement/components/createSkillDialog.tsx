@@ -57,7 +57,6 @@ export function CreateSkillDialog({ expertiseId }: CreateSkillDialogProps) {
 		>
 			<DialogTrigger asChild>
 				<Button
-					className="cursor-pointer"
 					size="sm"
 					variant="default"
 					onClick={() => setOpen(true)}
@@ -85,7 +84,6 @@ export function CreateSkillDialog({ expertiseId }: CreateSkillDialogProps) {
 					<DialogFooter>
 						<DialogClose asChild>
 							<Button
-								className="cursor-pointer"
 								type="button"
 								variant="outline"
 							>
@@ -93,7 +91,6 @@ export function CreateSkillDialog({ expertiseId }: CreateSkillDialogProps) {
 							</Button>
 						</DialogClose>
 						<Button
-							className="cursor-pointer"
 							type="submit"
 							disabled={createSkillMutation.isPending}
 						>

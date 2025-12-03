@@ -99,7 +99,7 @@ export function MessageInput({ onSend }: MessageInputProps) {
             <Button
               variant="ghost"
               size="icon"
-              className="h-6 w-6 ml-1 cursor-pointer"
+              className="h-6 w-6 ml-1"
               onClick={removeFile}
             >
               <X className="h-3 w-3" />
@@ -117,7 +117,7 @@ export function MessageInput({ onSend }: MessageInputProps) {
               <Button
                 variant="ghost"
                 size="icon"
-                className="shrink-0 cursor-pointer"
+                className="shrink-0"
                 onClick={() => handleFileUpload("image")}
                 disabled={!!uploadedFile}
               >
@@ -137,7 +137,7 @@ export function MessageInput({ onSend }: MessageInputProps) {
               <Button
                 variant="ghost"
                 size="icon"
-                className="shrink-0 cursor-pointer"
+                className="shrink-0"
                 onClick={() => handleFileUpload("file")}
                 disabled={!!uploadedFile}
               >
@@ -165,7 +165,7 @@ export function MessageInput({ onSend }: MessageInputProps) {
         <Button
           onClick={handleSend}
           disabled={!message.trim() && !uploadedFile}
-          className="shrink-0 cursor-pointer"
+          className="shrink-0"
           size="icon"
         >
           <Send className="h-4 w-4" />

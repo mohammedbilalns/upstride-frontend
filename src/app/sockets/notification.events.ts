@@ -9,6 +9,7 @@ import type { Notification } from "@/shared/types/notifications";
  * - Displays toast alerts when new notifications arrive.
  * - Optimistically updates the notifications cache.
  */
+// FIX: mark notifications as read when user open's a chat  
 export function registerNotificationEvents(socket: Socket) {
 	socket.on(SOCKET_EVENTS.NOTIFICATION.NEW, (data: Notification) => {
     // Display toast notification

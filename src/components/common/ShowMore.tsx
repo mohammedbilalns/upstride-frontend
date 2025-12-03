@@ -17,7 +17,7 @@ export default function ShowMoreContent({ resource, link, text }: ShowMoreProps)
       <Button
         asChild
         variant="outline"
-        className="w-full cursor-pointer"
+        className="w-full"
         aria-label={`Show more ${resource}`}
       >
         <Link to={link}>

@@ -1,82 +1,90 @@
 import api from "@/api/api";
 import { API_ROUTES } from "@/shared/constants/routes";
+import type { fetchFollowingResponse,fetchFollowersResponse, RecentActivityResponse } from "@/shared/types/connection";
 
-export async function followMentor(mentorId: string) {
-	try {
-		const response = await api.post(API_ROUTES.CONNECTIONS.FOLLOW, {
-			mentorId,
-		});
-		return response.data;
-	} catch (error) {
-		console.error("error while following mentor", error);
-		throw error;
-	}
-}
-
-export async function unfollowMentor(mentorId: string) {
-	try {
-		const response = await api.post(API_ROUTES.CONNECTIONS.UNFOLLOW, {
-			mentorId,
-		});
-		return response.data;
-	} catch (error) {
-		console.error("error while unfollowing mentor", error);
-		throw error;
-	}
-}
+//------------
+// Queries
+//------------
 
 export async function fetchFolowers(page: number, limit: number) {
-	try {
-		const response = await api.get(API_ROUTES.CONNECTIONS.FETCH_FOLLOWERS, {
-			params: { page, limit },
-		});
-		return response.data;
-	} catch (error) {
-		console.error("error while fetching followers", error);
-		throw error;
-	}
+  try {
+    const response = await api.get<fetchFollowersResponse>(API_ROUTES.CONNECTIONS.FETCH_FOLLOWERS, {
+      params: { page, limit },
+    });
+    return response.data;
+  } catch (error) {
+    console.error("error while fetching followers", error);
+    throw error;
+  }
 }
 
 export async function fetchFollowing(page: number, limit: number) {
-	try {
-		const response = await api.get(API_ROUTES.CONNECTIONS.FETCH_FOLLOWING, {
-			params: { page, limit },
-		});
-		return response.data;
-	} catch (error) {
-		console.error("error while fetching following", error);
-		throw error;
-	}
+  try {
+    const response = await api.get<fetchFollowingResponse>(API_ROUTES.CONNECTIONS.FETCH_FOLLOWING, {
+      params: { page, limit },
+    });
+    return response.data;
+  } catch (error) {
+    console.error("error while fetching following", error);
+    throw error;
+  }
 }
 
 export async function fetchRecentActivity() {
-	try {
-		const response = await api.get(API_ROUTES.CONNECTIONS.RECENT_ACTIVITY);
-		return response.data;
-	} catch (error) {
-		console.error("error while fetching recent activity", error);
-		throw error;
-	}
+  try {
+    const response = await api.get<RecentActivityResponse>(API_ROUTES.CONNECTIONS.RECENT_ACTIVITY);
+    return response.data;
+  } catch (error) {
+    console.error("error while fetching recent activity", error);
+    throw error;
+  }
 }
 
 export async function fetchSuggestedMentors(page?: number, limit?: number) {
-	try {
-		const response = await api.get(API_ROUTES.CONNECTIONS.SUGGGESTED, {
-			params: { page, limit },
-		});
-		return response.data;
-	} catch (error) {
-		console.error("error while fetching suggested mentors", error);
-		throw error;
-	}
+  try {
+    const response = await api.get(API_ROUTES.CONNECTIONS.SUGGGESTED, {
+      params: { page, limit },
+    });
+    return response.data;
+  } catch (error) {
+    console.error("error while fetching suggested mentors", error);
+    throw error;
+  }
 }
 
 export async function fetchMutualConnections() {
-	try {
-		const response = await api.get(API_ROUTES.CONNECTIONS.MUTUAL);
-		return response.data;
-	} catch (error) {
-		console.error("error while fetching mutual connections", error);
-		throw error;
-	}
+  try {
+    const response = await api.get(API_ROUTES.CONNECTIONS.MUTUAL);
+    return response.data;
+  } catch (error) {
+    console.error("error while fetching mutual connections", error);
+    throw error;
+  }
+}
+
+//------------------
+// Mutations
+//------------------
+export async function followMentor(mentorId: string) {
+  try {
+    const response = await api.post(API_ROUTES.CONNECTIONS.FOLLOW, {
+      mentorId,
+    });
+    return response.data;
+  } catch (error) {
+    console.error("error while following mentor", error);
+    throw error;
+  }
+}
+
+export async function unfollowMentor(mentorId: string) {
+  try {
+    const response = await api.post(API_ROUTES.CONNECTIONS.UNFOLLOW, {
+      mentorId,
+    });
+    return response.data;
+  } catch (error) {
+    console.error("error while unfollowing mentor", error);
+    throw error;
+  }
 }

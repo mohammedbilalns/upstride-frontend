@@ -34,7 +34,7 @@ export function UserActionButton({ user, onBlock, onUnblock, isPending }: UserAc
             size="sm"
             variant="secondary"
             disabled={isPending}
-            className="cursor-pointer w-20"
+            className="w-20"
           >
             {isPending ? "Loading..." : "Unblock"}
           </Button>
@@ -53,7 +53,7 @@ export function UserActionButton({ user, onBlock, onUnblock, isPending }: UserAc
             size="sm"
             variant="destructive"
             disabled={isPending}
-            className="cursor-pointer w-20"
+            className="w-20"
           >
             {isPending ? "Loading..." : "Block"}
           </Button>

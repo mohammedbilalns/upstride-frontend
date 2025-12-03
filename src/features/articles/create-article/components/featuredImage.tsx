@@ -156,7 +156,7 @@ export function FeaturedImageUpload({
 						variant="outline"
 						type="button"
 						onClick={() => document.getElementById("file-upload")?.click()}
-						className="w-full cursor-pointer h-auto border-dashed p-6 flex flex-col items-center justify-center text-center space-y-2 hover:border-foreground/20 transition-colors"
+						className="w-full h-auto border-dashed p-6 flex flex-col items-center justify-center text-center space-y-2 hover:border-foreground/20 transition-colors"
 					>
 						{isUploading ? (
 							<>

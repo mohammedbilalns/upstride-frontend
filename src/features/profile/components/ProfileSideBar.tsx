@@ -86,12 +86,11 @@ export function ProfileSidebar({
 							<Button
 								variant="outline"
 								size="sm"
-								className="cursor-pointer"
 								onClick={onToggleEdit}
 							>
 								Cancel
 							</Button>
-							<Button className="cursor-pointer" size="sm" onClick={onSave}>
+							<Button size="sm" onClick={onSave}>
 								<Save className="h-4 w-4 mr-1" />
 								Save
 							</Button>

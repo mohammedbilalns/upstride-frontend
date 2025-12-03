@@ -1,4 +1,4 @@
-import { redirect, type RedirectOptions } from "@tanstack/react-router";
+import { redirect } from "@tanstack/react-router";
 import { useAuthStore } from "@/app/store/auth.store";
 import type { UserRole } from "../types";
 
@@ -21,9 +21,8 @@ export function authGuard(allowedRoles?: string[]): authGuardFn {
 		if (!isLoggedIn) {
 			throw redirect({
 				to: "/auth",
-        //WARNING: type error event with proper search param
-        search:{error:"unauthorized"}
-			} satisfies RedirectOptions
+        search:{ error: "unauthorized" }
+			}
       );
 		}
 

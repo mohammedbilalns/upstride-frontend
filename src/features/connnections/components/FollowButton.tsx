@@ -28,7 +28,6 @@ export default function FollowButton({
 	return (
 		<Button
 			size="sm"
-			className="cursor-pointer"
 			variant={isFollowing ? "outline" : "default"}
 			onClick={handleFollowClick}
 			disabled={isLoading}

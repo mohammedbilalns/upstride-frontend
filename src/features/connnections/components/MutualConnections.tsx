@@ -67,7 +67,7 @@ export default function MutualConnections() {
 										</p>
 									</div>
 								</div>
-								<Button size="sm" variant="outline" className="cursor-pointer">
+								<Button size="sm" variant="outline">
 									View
 								</Button>
 							</div>

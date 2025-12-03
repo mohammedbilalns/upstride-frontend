@@ -228,7 +228,6 @@ function RouteComponent() {
 									{isEditing && (
 										<div className="flex justify-end space-x-2 pt-4">
 											<Button
-												className="cursor-pointer"
 												type="button"
 												variant="outline"
 												onClick={toggleEditMode}

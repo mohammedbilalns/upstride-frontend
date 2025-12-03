@@ -61,7 +61,6 @@ export function CreateExpertiseDialog() {
 		>
 			<DialogTrigger asChild>
 				<Button
-					className="cursor-pointer"
 					size="sm"
 					variant="default"
 					onClick={() => setOpen(true)}
@@ -125,7 +124,6 @@ export function CreateExpertiseDialog() {
 					<DialogFooter>
 						<DialogClose asChild>
 							<Button
-								className="cursor-pointer"
 								type="button"
 								variant="outline"
 							>
@@ -133,7 +131,6 @@ export function CreateExpertiseDialog() {
 							</Button>
 						</DialogClose>
 						<Button
-							className="cursor-pointer"
 							type="submit"
 							disabled={createExpertiseMutation.isPending}
 						>

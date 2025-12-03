@@ -53,7 +53,7 @@ export default function LandingPage() {
 
 						<Button
 							onClick={() => router.navigate({ to: "/auth" })}
-							className=" cursor-pointer bg-linear-to-r from-primary to-primary/80"
+							className="bg-linear-to-r from-primary to-primary/80"
 						>
 							Get Started
 						</Button>
@@ -98,7 +98,7 @@ export default function LandingPage() {
 						<Button
 							onClick={() => router.navigate({ to: "/home" })}
 							size="lg"
-							className="cursor-pointer bg-linear-to-r from-primary to-primary/80 hover:from-primary/90 hover:to-primary/70 text-lg px-8 py-6"
+							className="bg-linear-to-r from-primary to-primary/80 hover:from-primary/90 hover:to-primary/70 text-lg px-8 py-6"
 						>
 							Register as a Mentor
 							<ChevronRight className="ml-2 h-5 w-5" />

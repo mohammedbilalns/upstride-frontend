@@ -188,7 +188,6 @@ export default function CommentItem({
 									<Button
 										variant={liked ? "default" : "outline"}
 										size="sm"
-										className="cursor-pointer"
 										onClick={handleReact}
 										disabled={isPending}
 										aria-label={liked ? "Unlike comment" : "Like comment"}
@@ -199,7 +198,7 @@ export default function CommentItem({
 									<Button
 										variant="ghost"
 										size="sm"
-										className="cursor-pointer text-xs h-8 px-2"
+										className="text-xs h-8 px-2"
 										onClick={() => setShowReplyForm((prev) => !prev)}
 									>
 										Reply
@@ -212,7 +211,7 @@ export default function CommentItem({
 										<Button
 											variant="ghost"
 											size="sm"
-											className="cursor-pointer h-8 w-8 p-0"
+											className="h-8 w-8 p-0"
 											aria-label="More options"
 										>
 											<MoreHorizontal className="h-4 w-4" />

@@ -36,7 +36,7 @@ export function useCurrentUser() {
   const query = useQuery({
     queryKey: ["currentUser"],
     queryFn: async () => {
-      const response = await api.get(API_ROUTES.AUTH.GET_USERS);
+      const response = await api.get(API_ROUTES.AUTH.GET_USER);
       return response.data.user;
     },
     retry: false, // Don't retry if unauthorized 

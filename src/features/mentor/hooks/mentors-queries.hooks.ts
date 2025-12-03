@@ -27,7 +27,6 @@ export const useFetchSuggestedMentors = (limit = 10) => {
 	});
 };
 
-
 export const useFetchActiveExpertisesAndSkills = () => {
 	return useQuery({
 		queryKey: ["activeExpertisesAndSkills"],

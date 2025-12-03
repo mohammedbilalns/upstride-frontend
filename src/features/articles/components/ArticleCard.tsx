@@ -97,7 +97,7 @@ export function ArticleCard({ article }: { article: ArticleInList }) {
           </div>
         </div>
         <Link to={`/articles/$articleId`} params={{ articleId: article.id }}>
-          <Button variant="link" className="cursor-pointer text-xs p-0 h-auto">
+          <Button variant="link" className="text-xs p-0 h-auto">
             Read More
           </Button>
         </Link>

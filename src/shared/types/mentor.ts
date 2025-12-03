@@ -39,6 +39,9 @@ export type Mentor = {
 	createdAt: Date;
 };
 
+
+export type MentorInDashboard = Omit<Mentor,"resumeId" | "isPending" | "isVerified" | "isActive" | "isRejected">
+
 export type MentorInList = {
 	id: string;
 	bio: string;
@@ -54,3 +57,10 @@ export interface MentorsQueryResult {
 }
 
 export type MentorDetails = Mentor & {isFollowing: boolean}
+export type SaveMentorProfilePayload = {
+  bio?: string;
+  currentRole?: string;
+  educationalQualifications?: string[];
+  skills?: string[];
+  personalWebsite?: string;
+} 

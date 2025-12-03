@@ -6,6 +6,7 @@ import { useSocketStore } from "@/app/store/socket.store";
 import type { ApiError } from "@/shared/types";
 import { logout } from "../services/auth.service";
 
+// FIX: logout fails after token expiry
 export const useLogout = () => {
 	const { clearUser } = useAuthStore();
 	const router = useRouter();

@@ -6,7 +6,6 @@ interface FileUploadProps {
 	handleFileChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
 }
 
-// FIX: file picker is not opening 
 export default function FileUpload({ handleFileChange }: FileUploadProps) {
 	const baseId = useId();
 	const inputId = `${baseId}-resume-upload`;

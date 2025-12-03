@@ -6,7 +6,6 @@ import UserAvatar from "@/components/common/UserAvatar";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader } from "@/components/ui/card";
 import { useFetchFollowing } from "@/features/connnections/hooks/connections-queries.hooks";
-import type { MentorInList } from "@/shared/types/mentor";
 
 interface FollowedMentorProps {
 	count?: number;
@@ -37,7 +36,7 @@ export default function FollowedMentors({ count = 2 }: FollowedMentorProps) {
 					) : mentors.length === 0 ? (
 						<NoResource resource="followers" isHome={true} />
 					) : (
-						mentors.slice(0, count).map((mentor: MentorInList) => (
+						mentors.slice(0, count).map((mentor) => (
 							<Link
 								key={mentor.id}
 								to="/mentor/$mentorId"
@@ -47,21 +46,21 @@ export default function FollowedMentors({ count = 2 }: FollowedMentorProps) {
 								<div className="flex items-center justify-between p-2 rounded-lg hover:bg-muted/50 transition-colors cursor-pointer group">
 									<div className="flex items-center flex-1">
 										<UserAvatar
-											image={mentor?.user?.profilePicture}
-											name={mentor.user?.name}
+											image={mentor.mentorId?.userId?.profilePicture}
+											name={mentor.mentorId?.userId?.name}
 											size={8}
 										/>
 										<div className="ml-3">
 											<p className="text-sm font-medium group-hover:text-primary transition-colors">
-												{mentor.user?.name}
+												{mentor.mentorId?.userId?.name}
 											</p>
 											<p className="text-xs text-muted-foreground">
-												{mentor.expertise?.name}
+												{mentor.mentorId?.expertiseId?.name}
 											</p>
 										</div>
 									</div>
 									<div onClick={(e) => e.preventDefault()}>
-										<GoToChat userId={mentor.user._id} />
+										<GoToChat userId={mentor.mentorId?.userId?._id} />
 									</div>
 								</div>
 							</Link>

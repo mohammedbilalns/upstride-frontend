@@ -31,6 +31,8 @@ export const Route = createFileRoute("/(admin)/admin/usermanagement/")({
   },
 });
 
+//FIX:  ui not updates after user is blocked/ublocked 
+
 function RouteComponent() {
   const navigate = useNavigate({ from: Route.fullPath });
   const { page, rowsPerPage, search } = Route.useSearch();

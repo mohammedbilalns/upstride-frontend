@@ -32,7 +32,7 @@ export default function ErrorState({
               variant="outline"
               size="sm"
               onClick={onRetry}
-              className="mt-2 cursor-pointer"
+              className="mt-2"
             >
               <RefreshCw className="h-4 w-4 mr-2" aria-hidden="true" />
               Retry
@@ -53,7 +53,6 @@ export default function ErrorState({
         <Button
           variant="outline"
           onClick={onRetry}
-          className="cursor-pointer"
         >
           <RefreshCw className="h-4 w-4 mr-2" aria-hidden="true" />
           Try Again
