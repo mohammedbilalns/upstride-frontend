@@ -11,6 +11,7 @@ export const useFetchMentorDetails = (enabled: boolean) => {
 	return useQuery({
 		queryKey: ["mentorDetails"],
 		queryFn: async () => {
+      // FIX : correc the api end point 
 			const response = await api.get(API_ROUTES.MENTOR.FETCH_MENTOR_DETAILS);
 			return response.data.mentor;
 		},
