@@ -2,7 +2,7 @@ import { Check, X } from "lucide-react";
 import { ConfirmDialog } from "@/components/common/Confirm";
 import { Button } from "@/components/ui/button";
 import type { Skill } from "@/shared/types";
-import { useFetchSkills, useVerifySkill } from "../hooks/skills.hooks";
+import { useFetchSkillsForAdmin, useVerifySkill } from "../hooks/skills.hooks";
 import { CreateSkillDialog } from "./createSkillDialog";
 
 interface Props {
@@ -10,7 +10,7 @@ interface Props {
 }
 
 export default function ExpertiseSkillsCollapse({ expertiseId }: Props) {
-	const { data, isLoading } = useFetchSkills(expertiseId);
+	const { data, isLoading } = useFetchSkillsForAdmin(expertiseId);
 	const verifySkillMutation = useVerifySkill();
 
 	const handleVerifySkill = (skillId: string) => {

@@ -2,7 +2,7 @@ import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { useRouter } from "@tanstack/react-router";
 import { toast } from "sonner";
 import type { ApiError } from "@/shared/types";
-import { createSkill, fetchSkills, verifySkill } from "../services/expertise-management.service";
+import { createSkill, fetchSkills, fetchSkillsForAdmin, verifySkill } from "../services/expertise-management.service";
 
 export const useCreateSkill = (callbacks?: {
 	onCreateSuccess?: () => void;
@@ -58,3 +58,19 @@ export const useFetchSkills = (expertiseId: string) => {
 		retry: false,
 	});
 };
+
+
+export const useFetchSkillsForAdmin = (expertiseId: string) => {
+	return useQuery({
+		queryKey: ["skills", expertiseId],
+		queryFn: () => fetchSkillsForAdmin(expertiseId),
+		enabled: !!expertiseId,
+		staleTime: 0,
+		gcTime: 0,
+		refetchOnWindowFocus: false,
+		refetchOnReconnect: false,
+		retry: false,
+	});
+};
+
+

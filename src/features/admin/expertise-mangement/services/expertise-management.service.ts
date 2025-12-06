@@ -17,10 +17,26 @@ export async function fetchExpertises(
 	}
 }
 
+export async function fetchExpertisesForAdmin(
+	page: number,
+	limit: number,
+	query: string,
+) {
+	try {
+		const response = await api.get(API_ROUTES.EXPERTISE.FETCH_BY_ADMIN, {
+			params: { page, limit, query },
+		});
+		return response.data;
+	} catch (error) {
+		console.error("Error while fetching expertises", error);
+		throw error;
+	}
+}
+
 export async function fetchSkills(expertiseId: string) {
 	try {
 		const response = await api.get(
-			API_ROUTES.EXPERTISE.FETCH_SKILLS(expertiseId),
+			API_ROUTES.EXPERTISE.FETCH_SKILLS(expertiseId)
 		);
 		return response.data;
 	} catch (error) {
@@ -28,6 +44,19 @@ export async function fetchSkills(expertiseId: string) {
 		throw error;
 	}
 }
+
+export async function fetchSkillsForAdmin(expertiseId: string) {
+	try {
+		const response = await api.get(
+			API_ROUTES.EXPERTISE.FETCH_SKILLS_BY_ADMIN(expertiseId)
+		);
+		return response.data;
+	} catch (error) {
+		console.error("Error while fetching skills", error);
+		throw error;
+	}
+}
+
 
 export async function createSkill(name: string, expertiseId: string) {
 	try {

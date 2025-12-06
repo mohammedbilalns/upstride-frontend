@@ -24,6 +24,7 @@ export const API_ROUTES = {
 	EXPERTISE: {
 		CREATE: "/expertise/",
 		FETCH: "/expertise",
+    FETCH_BY_ADMIN:"/expertise/admin",
 		ACTIVE: "/expertise/active",
 		UPDATE: (expertiseId: string) => `/expertise/${expertiseId}`,
 		VERIFY: (expertiseId: string) => `/expertise/${expertiseId}/verify`,
@@ -31,6 +32,7 @@ export const API_ROUTES = {
 		UPDATE_SKILL: (skillId: string) => `/expertise/skills/${skillId}`,
 		VERIFY_SKILL: (skillId: string) => `/expertise/skills/${skillId}/verify`,
 		FETCH_SKILLS: (expertiseId: string) => `/expertise/${expertiseId}/skills`,
+    FETCH_SKILLS_BY_ADMIN: (expertiseId: string) => `/expertise/${expertiseId}/skills/admin`,
 		FETCH_SKILLS_BY_AREAS: "/expertise/skills",
 	},
 	MENTOR: {
