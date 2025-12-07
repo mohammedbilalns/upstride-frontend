@@ -350,7 +350,7 @@ export default function MentorRegisterForm() {
           />
           {/* Removed the stray "W" character */}
           {selectedExpertise && (
-            <SkillSelection setNewSkills={setNewSkills} newSkills={newSkills} expertiseId={selectedExpertise} />
+            <SkillSelection mode="register" setNewSkills={setNewSkills} newSkills={newSkills} expertiseId={selectedExpertise} />
           )}
           <div>
             <FormLabel>Resume (PDF only)</FormLabel>

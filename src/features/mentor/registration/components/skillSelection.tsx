@@ -17,12 +17,14 @@ interface SkillSelectionProps {
   expertiseId: string;
   newSkills: string[];
   setNewSkills: React.Dispatch<React.SetStateAction<string[]>>;
+  mode : "register" | "update"
 }
 
 export default function SkillSelection({
   expertiseId,
   newSkills,
   setNewSkills,
+  mode
 }: SkillSelectionProps) {
   const { data: response, isLoading } = useFetchSkills(expertiseId);
   const { setValue, watch, formState: { errors } } = useFormContext();
@@ -32,12 +34,18 @@ export default function SkillSelection({
   const skillOptions = response?.data || [];
   const selectedSkills = watch("skills") || [];
 
-  useEffect(() => {
-    if (expertiseId) {
-      setValue("skills", []);
-      setNewSkills([]);  
-    }
-  }, [expertiseId, setValue, setNewSkills]);
+  
+useEffect(() => {
+  if (!expertiseId) return;
+
+  if (mode === "register") {
+    // New mentor = fresh form reset when expertise changes
+    setValue("skills", []);
+    setNewSkills([]);
+  }
+
+  // mode === "update" → do NOT reset skills, keep existing selections
+}, [expertiseId, setValue, setNewSkills, mode]);
 
   const handleSkillChange = (skillId: string, checked: boolean) => {
     const updated = checked

@@ -22,6 +22,7 @@ import { useQuery } from "@tanstack/react-query";
 import Loading from "@/components/common/Loading";
 import ErrorState from "@/components/common/ErrorState";
 
+//FIX: 404 error from backend 
 export const Route = createFileRoute("/(authenticated)/mentor/$mentorId")({
   component: RouteComponent,
   beforeLoad: authGuard(["mentor", "user"]),

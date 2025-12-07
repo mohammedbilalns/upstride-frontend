@@ -30,6 +30,9 @@ import CreateRuleDialog from "@/features/mentor/dashboard/components/CreateRuleD
 import MentorRules from "@/features/mentor/dashboard/components/MentorRules";
 import { useUpdateMentorProfile } from "@/features/mentor/dashboard/hooks/mentor-dashboard-mutations.hooks";
 import GoToChat from "@/features/chats/components/GoToChat";
+import { FormProvider, useForm } from "react-hook-form";
+import SkillSelection from "@/features/mentor/registration/components/skillSelection";
+import {  router } from "@/app/router/routerConfig";
 
 export const Route = createFileRoute("/(authenticated)/mentor/dashboard")({
   component: RouteComponent,
@@ -42,12 +45,25 @@ export const Route = createFileRoute("/(authenticated)/mentor/dashboard")({
   }
 });
 
+// FIX : existing skills are not showing in edit mode show them seperatey and allow removing them 
+
 function RouteComponent() {
   const [mentor, initialFollowers] = Route.useLoaderData();
   const [isEditingProfile, setIsEditingProfile] = useState(false);
-  const [editedMentor, setEditedMentor] = useState(mentor);
+  const [newSkills, setNewSkills] = useState<string[]>([]);
   const updateMentorProfileMuation = useUpdateMentorProfile()
   console.log(initialFollowers)
+
+  const form = useForm({
+    defaultValues: {
+      bio: mentor.bio,
+      currentRole: mentor.currentRole,
+      organisation: mentor.organisation,
+      personalWebsite: mentor.personalWebsite,
+      educationalQualificationsText: mentor.educationalQualifications.join("\n"),
+      skills: mentor.skills.map((s) => s.id) 
+    }
+  });
 
   // Fetch followers with pagination
   const {
@@ -58,20 +74,28 @@ function RouteComponent() {
     isLoading: followersLoading
   } = useFetchFollowers();
 
-  const handleSaveProfile = () => {
-    console.table(editedMentor)
+  const handleSaveProfile = (values: any) => {
     const saveProfilePayload = {
-      bio : editedMentor.bio,
-      currentRole: editedMentor.currentRole,
-      educationalQualifications: editedMentor.educationalQualifications,
-      skills: editedMentor.skills.map(skill => skill.name),
-      personalWebsite: editedMentor.personalWebsite
+      bio : values.bio,
+      currentRole: values.currentRole,
+      organisation: values.organisation,
+      educationalQualifications: values.educationalQualificationsText.split("\n").filter(q => q.trim()),
+      skills: values.skills,
+      personalWebsite: values.personalWebsite,
+      newSkills: newSkills
     }
-    updateMentorProfileMuation.mutate(saveProfilePayload);
+    updateMentorProfileMuation.mutate(saveProfilePayload,{
+      onSuccess: async () => {
+        setIsEditingProfile(false)
+        setNewSkills([])
+        await router.invalidate({sync: true})
+      }
+    });
   };
 
   const handleCancelEdit = () => {
-    setEditedMentor(mentor);
+    form.reset()
+    setNewSkills([])
     setIsEditingProfile(false);
   };
 
@@ -122,130 +146,113 @@ function RouteComponent() {
               </div>
 
               {isEditingProfile ? (
-                <div className="space-y-4">
-                  <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                <FormProvider {...form}>
+                  <form className="space-y-4" onSubmit={form.handleSubmit(handleSaveProfile)}>
+
+                    {/* Organisation */}
                     <div>
-                      <label htmlFor="organisation" className="block text-sm font-medium mb-2">Organization</label>
-                      <Input
-                        id="organisation"
-                        value={editedMentor.organisation}
-                        onChange={(e) => setEditedMentor({
-                          ...editedMentor,
-                          organisation: e.target.value
-                        })}
+                      <label className="block text-sm font-medium mb-2">Organization</label>
+                      <Input {...form.register("organisation")} />
+                    </div>
+                    {/* Role */}
+                    <div>
+                      <label className="block text-sm font-medium mb-2">Current Role</label>
+                      <Input {...form.register("currentRole")} />
+                    </div>
+
+                    {/* Personal Website */}
+                    <div>
+                      <label className="block text-sm font-medium mb-2">Personal Website</label>
+                      <Input {...form.register("personalWebsite")} />
+                    </div>
+
+                    {/* Bio */}
+                    <div>
+                      <label className="block text-sm font-medium mb-2">Bio</label>
+                      <Textarea rows={4} {...form.register("bio")} />
+                    </div>
+
+                    {/* Skills */}
+                    <SkillSelection
+                      expertiseId={mentor.expertise.id}
+                      newSkills={newSkills}
+                      setNewSkills={setNewSkills}
+                      mode="update"
+                    />
+
+                    {/* Educational Qualifications */}
+                    <div>
+                      <label className="block text-sm font-medium mb-2">Educational Qualifications (one per line)</label>
+                      <Textarea
+                        rows={4}
+                        {...form.register("educationalQualificationsText")}
                       />
                     </div>
-                    <div>
-                      <label htmlFor="personalWebsite" className="block text-sm font-medium mb-2">Personal Website</label>
-                      <Input
-                        id="personalWebsite"
-                        value={editedMentor.personalWebsite || ""}
-                        onChange={(e) => setEditedMentor({
-                          ...editedMentor,
-                          personalWebsite: e.target.value
-                        })}
-                      />
+
+                    {/* Buttons */}
+                    <div className="flex justify-end space-x-2">
+                      <Button type="button" variant="outline" onClick={handleCancelEdit}>
+                        Cancel
+                      </Button>
+                      <Button type="submit" disabled={updateMentorProfileMuation.isPending}>
+                        {updateMentorProfileMuation.isPending ? "Saving..." : "Save Changes"}
+                      </Button>
                     </div>
-                  </div>
-                  <div>
-                    <label htmlFor="bio" className="block text-sm font-medium mb-2">Bio</label>
-                    <Textarea
-                      id="bio"
-                      rows={4}
-                      value={editedMentor.bio}
-                      onChange={(e) => setEditedMentor({
-                        ...editedMentor,
-                        bio: e.target.value
-                      })}
-                    />
-                  </div>
-                  <div>
-                    <label htmlFor="skills" className="block text-sm font-medium mb-2">Skills (comma separated)</label>
-                    <Input
-                      id="skills"
-                      value={editedMentor.skills.map(skill => skill.name).join(", ")}
-                      onChange={(e) => setEditedMentor({
-                        ...editedMentor,
-                        skills: e.target.value.split(",").map(name => ({ 
-                          id: Math.random().toString(36).substring(2, 9), 
-                          name: name.trim() 
-                        }))
-                      })}
-                    />
-                  </div>
-                  <div>
-                    <label htmlFor="educationalQualifications" className="block text-sm font-medium mb-2">Educational Qualifications (one per line)</label>
-                    <Textarea
-                      id="educationalQualifications"
-                      rows={4}
-                      value={editedMentor.educationalQualifications.join("\n")}
-                      onChange={(e) => setEditedMentor({
-                        ...editedMentor,
-                        educationalQualifications: e.target.value.split("\n").filter(q => q.trim())
-                      })}
-                    />
-                  </div>
-                  <div className="flex justify-end space-x-2">
-                    <Button variant="outline" onClick={handleCancelEdit}>
-                      Cancel
-                    </Button>
-                    <Button onClick={handleSaveProfile} disabled={updateMentorProfileMuation.isPending}>
-                      {updateMentorProfileMuation.isPending ? "Saving..." : "Save Changes"}
-                    </Button>
-                  </div>
-                </div>
+                  </form>
+                </FormProvider>
+
               ) : (
-                <div className="space-y-4">
-                  <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                    <div>
-                      <h3 className="text-lg font-semibold">Contact Information</h3>
-                      <p className="text-muted-foreground">Email: {mentor?.user?.email}</p>
-                      {mentor.personalWebsite && (
-                        <p className="text-muted-foreground">
-                          Website: <a href={mentor.personalWebsite} target="_blank" rel="noopener noreferrer" className="text-blue-600 hover:underline">{mentor.personalWebsite}</a>
-                        </p>
-                      )}
+                  <div className="space-y-4">
+                    <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                      <div>
+                        <h3 className="text-lg font-semibold">Contact Information</h3>
+                        <p className="text-muted-foreground">Email: {mentor?.user?.email}</p>
+                        {mentor.personalWebsite && (
+                          <p className="text-muted-foreground">
+                            Website: <a href={mentor.personalWebsite} target="_blank" rel="noopener noreferrer" className="text-blue-600 hover:underline">{mentor.personalWebsite}</a>
+                          </p>
+                        )}
+                      </div>
+                      <div>
+                        <h3 className="text-lg font-semibold">Professional Information</h3>
+                        <p className="text-muted-foreground">Role: {mentor.currentRole}</p>
+                        <p className="text-muted-foreground">Organization: {mentor.organisation}</p>
+                        <p className="text-muted-foreground">Experience: {mentor.yearsOfExperience} years</p>
+                      </div>
                     </div>
                     <div>
-                      <h3 className="text-lg font-semibold">Professional Information</h3>
-                      <p className="text-muted-foreground">Role: {mentor.currentRole}</p>
-                      <p className="text-muted-foreground">Organization: {mentor.organisation}</p>
-                      <p className="text-muted-foreground">Experience: {mentor.yearsOfExperience} years</p>
+                      <h3 className="text-lg font-semibold mb-2">Bio</h3>
+                      <p className="text-muted-foreground">{mentor.bio}</p>
+                    </div>
+                    <div>
+                      <h3 className="text-lg font-semibold mb-2">Expertise</h3>
+                      <Badge variant="default" className="text-md">
+                        {mentor.expertise.name}
+                      </Badge>
+                    </div>
+                    <div>
+                      <h3 className="text-lg font-semibold mb-2">Skills</h3>
+                      <div className="flex flex-wrap gap-2">
+                        {mentor.skills.map((skill) => (
+                          <Badge key={skill.id} variant="secondary">
+                            {skill.name}
+                          </Badge>
+                        ))}
+                      </div>
+                    </div>
+                    <div>
+                      <h3 className="text-lg font-semibold mb-2">Educational Qualifications</h3>
+                      <ul className="space-y-2">
+                        {mentor.educationalQualifications.map((qualification, index) => (
+                          <li key={index} className="flex items-start gap-2">
+                            <div className="w-2 h-2 rounded-full bg-primary mt-2" />
+                            <span className="text-muted-foreground">{qualification}</span>
+                          </li>
+                        ))}
+                      </ul>
                     </div>
                   </div>
-                  <div>
-                    <h3 className="text-lg font-semibold mb-2">Bio</h3>
-                    <p className="text-muted-foreground">{mentor.bio}</p>
-                  </div>
-                  <div>
-                    <h3 className="text-lg font-semibold mb-2">Expertise</h3>
-                    <Badge variant="default" className="text-md">
-                      {mentor.expertise.name}
-                    </Badge>
-                  </div>
-                  <div>
-                    <h3 className="text-lg font-semibold mb-2">Skills</h3>
-                    <div className="flex flex-wrap gap-2">
-                      {mentor.skills.map((skill) => (
-                        <Badge key={skill.id} variant="secondary">
-                          {skill.name}
-                        </Badge>
-                      ))}
-                    </div>
-                  </div>
-                  <div>
-                    <h3 className="text-lg font-semibold mb-2">Educational Qualifications</h3>
-                    <ul className="space-y-2">
-                      {mentor.educationalQualifications.map((qualification, index) => (
-                        <li key={index} className="flex items-start gap-2">
-                          <div className="w-2 h-2 rounded-full bg-primary mt-2" />
-                          <span className="text-muted-foreground">{qualification}</span>
-                        </li>
-                      ))}
-                    </ul>
-                  </div>
-                </div>
-              )}
+                )}
             </CardContent>
           </Card>
         </TabsContent>
@@ -265,35 +272,35 @@ function RouteComponent() {
               {followersLoading ? (
                 <Pending resource="Followers" />
               ) : (
-                <div className="space-y-4">
-                  {followersData?.pages.flatMap(page => page).map((follower) => (
-                    <div key={follower.id} className="flex items-center justify-between p-4 border rounded-lg">
-                      <div className="flex items-center space-x-4">
-                        <UserAvatar
-                          name={follower.followerId.name}
-                          size={12}
-                        />
-                        <div>
-                          <h3 className="font-medium">{follower.followerId.name}</h3>
-                          <p className="text-sm text-muted-foreground">{follower.followerId.email}</p>
+                  <div className="space-y-4">
+                    {followersData?.pages.flatMap(page => page).map((follower) => (
+                      <div key={follower.id} className="flex items-center justify-between p-4 border rounded-lg">
+                        <div className="flex items-center space-x-4">
+                          <UserAvatar
+                            name={follower.followerId.name}
+                            size={12}
+                          />
+                          <div>
+                            <h3 className="font-medium">{follower.followerId.name}</h3>
+                            <p className="text-sm text-muted-foreground">{follower.followerId.email}</p>
+                          </div>
                         </div>
-                      </div>
                         <GoToChat userId={follower.followerId._id} />
-                    </div>
-                  ))}
-                  {hasNextPage && (
-                    <div className="flex justify-center mt-4">
-                      <Button
-                        variant="outline"
-                        onClick={() => fetchNextPage()}
-                        disabled={isFetchingNextPage}
-                      >
-                        {isFetchingNextPage ? "Loading..." : "Load More"}
-                      </Button>
-                    </div>
-                  )}
-                </div>
-              )}
+                      </div>
+                    ))}
+                    {hasNextPage && (
+                      <div className="flex justify-center mt-4">
+                        <Button
+                          variant="outline"
+                          onClick={() => fetchNextPage()}
+                          disabled={isFetchingNextPage}
+                        >
+                          {isFetchingNextPage ? "Loading..." : "Load More"}
+                        </Button>
+                      </div>
+                    )}
+                  </div>
+                )}
             </CardContent>
           </Card>
         </TabsContent>
