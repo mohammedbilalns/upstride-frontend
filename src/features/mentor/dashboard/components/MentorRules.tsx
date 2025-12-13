@@ -4,20 +4,20 @@ import Pending from "@/components/common/Pending";
 import ErrorState from "@/components/common/ErrorState";
 import { useFetchMentorRules } from "../../hooks/mentor-rules.hooks";
 import UpdateRuleDialog from "./UpdateRuleDialog";
-import { formatDate } from "@/shared/utils/dateUtil";
 import { Card, CardContent } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { useDeleteMentorRule } from "../hooks/mentor-dashboard-mutations.hooks";
+import { minutesToTime } from "@/shared/utils/dateUtil"; 
 
 export default function MentorRules({ mentorId }: { mentorId: string }) {
   const { data, isError, isPending } = useFetchMentorRules(mentorId);
 
-  const deleteRuleMuation = useDeleteMentorRule()
- 
+  const deleteRuleMuation = useDeleteMentorRule();
+
   const handleDeleteRule = (ruleId: string) => {
     deleteRuleMuation.mutate({ mentorId, ruleId });
   };
-  
+
   if (isPending) {
     return <Pending resource="Mentor rules" />;
   }
@@ -31,7 +31,9 @@ export default function MentorRules({ mentorId }: { mentorId: string }) {
       <div className="text-center py-8">
         <Calendar className="h-12 w-12 mx-auto text-muted-foreground mb-4" />
         <h3 className="text-lg font-medium mb-2">No Rules Found</h3>
-        <p className="text-muted-foreground mb-4">Create your first session rule to manage your availability</p>
+        <p className="text-muted-foreground mb-4">
+          Create your first session rule to manage your availability
+        </p>
       </div>
     );
   }
@@ -43,19 +45,30 @@ export default function MentorRules({ mentorId }: { mentorId: string }) {
           <CardContent className="p-4">
             <div className="flex justify-between items-start">
               <div className="space-y-2">
+                {/* Status + Weekday */}
                 <div className="flex items-center gap-2">
                   <Badge variant={rule.isActive ? "default" : "secondary"}>
                     {rule.isActive ? "Active" : "Inactive"}
                   </Badge>
                   <span className="font-medium">
-                    {["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"][rule.weekDay]}
+                    {[
+                      "Sunday",
+                      "Monday",
+                      "Tuesday",
+                      "Wednesday",
+                      "Thursday",
+                      "Friday",
+                      "Saturday",
+                    ][rule.weekDay]}
                   </span>
                 </div>
+
+                {/* Time & Duration */}
                 <div className="flex items-center gap-4 text-sm text-muted-foreground">
                   <div className="flex items-center gap-1">
                     <Clock className="h-4 w-4" />
                     <span>
-                      {formatDate(rule.startTime)} - {formatDate(rule.endTime)}
+                      {minutesToTime(rule.startTime)} – {minutesToTime(rule.endTime)}
                     </span>
                   </div>
                   <div>
@@ -63,6 +76,8 @@ export default function MentorRules({ mentorId }: { mentorId: string }) {
                   </div>
                 </div>
               </div>
+
+              {/* Actions */}
               <div className="flex gap-2">
                 <UpdateRuleDialog mentorId={mentorId} rule={rule} />
                 <Button
@@ -81,4 +96,3 @@ export default function MentorRules({ mentorId }: { mentorId: string }) {
     </div>
   );
 }
-

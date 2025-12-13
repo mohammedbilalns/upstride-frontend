@@ -24,6 +24,7 @@ export const Route = createFileRoute("/(authenticated)/chats")({
 
 function RouteComponent() {
   // FIX: loader data request sends twice for loader and when rendering the compnent 
+  // TODO: show the mentor/ normal user indicator on each chat 
 	const { initialData } = useLoaderData({ from: "/(authenticated)/chats" });
 	const { error, refetch } = useFetchChats(initialData);
 	const isMobile = useMediaQuery("(max-width: 768px)");

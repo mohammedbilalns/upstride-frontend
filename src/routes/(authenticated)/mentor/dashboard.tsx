@@ -15,44 +15,36 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { 
   Calendar, 
   Edit, 
-  Users, 
   X 
 } from "lucide-react";
-import Pending from "@/components/common/Pending";
 import UserAvatar from "@/components/common/UserAvatar";
-import { fetchFolowers } from "@/features/connnections/services/connection.service";
 import { 
   getSelf, 
 } from "@/features/mentor/services/mentor.service";
 import { authGuard } from "@/shared/guards/auth-gaurd";
-import { useFetchFollowers } from "@/features/connnections/hooks/connections-queries.hooks";
-import CreateRuleDialog from "@/features/mentor/dashboard/components/CreateRuleDialog";
+import AddRuleDialog from "@/features/mentor/dashboard/components/AddRuleDialog";
 import MentorRules from "@/features/mentor/dashboard/components/MentorRules";
 import { useUpdateMentorProfile } from "@/features/mentor/dashboard/hooks/mentor-dashboard-mutations.hooks";
-import GoToChat from "@/features/chats/components/GoToChat";
 import { FormProvider, useForm } from "react-hook-form";
 import SkillSelection from "@/features/mentor/registration/components/skillSelection";
 import {  router } from "@/app/router/routerConfig";
+import DashboardFollowersList from "@/features/mentor/dashboard/components/DashboardFollowersList";
 
 export const Route = createFileRoute("/(authenticated)/mentor/dashboard")({
   component: RouteComponent,
   beforeLoad: authGuard(["mentor"]),
   loader: async () => {
-    return await Promise.all([
-      getSelf(),
-      fetchFolowers(1, 10)
-    ]);
+    return await getSelf();
   }
 });
 
 // FIX : existing skills are not showing in edit mode show them seperatey and allow removing them 
 
 function RouteComponent() {
-  const [mentor, initialFollowers] = Route.useLoaderData();
+  const mentor = Route.useLoaderData();
   const [isEditingProfile, setIsEditingProfile] = useState(false);
   const [newSkills, setNewSkills] = useState<string[]>([]);
   const updateMentorProfileMuation = useUpdateMentorProfile()
-  console.log(initialFollowers)
 
   const form = useForm({
     defaultValues: {
@@ -64,15 +56,6 @@ function RouteComponent() {
       skills: mentor.skills.map((s) => s.id) 
     }
   });
-
-  // Fetch followers with pagination
-  const {
-    data: followersData,
-    fetchNextPage,
-    hasNextPage,
-    isFetchingNextPage,
-    isLoading: followersLoading
-  } = useFetchFollowers();
 
   const handleSaveProfile = (values: any) => {
     const saveProfilePayload = {
@@ -258,51 +241,7 @@ function RouteComponent() {
         </TabsContent>
 
         <TabsContent value="followers" className="space-y-6">
-          <Card>
-            <CardHeader>
-              <CardTitle className="flex items-center gap-2">
-                <Users className="h-5 w-5" />
-                Followers
-              </CardTitle>
-              <CardDescription>
-                People who are following your mentor profile
-              </CardDescription>
-            </CardHeader>
-            <CardContent>
-              {followersLoading ? (
-                <Pending resource="Followers" />
-              ) : (
-                  <div className="space-y-4">
-                    {followersData?.pages.flatMap(page => page).map((follower) => (
-                      <div key={follower.id} className="flex items-center justify-between p-4 border rounded-lg">
-                        <div className="flex items-center space-x-4">
-                          <UserAvatar
-                            name={follower.followerId.name}
-                            size={12}
-                          />
-                          <div>
-                            <h3 className="font-medium">{follower.followerId.name}</h3>
-                            <p className="text-sm text-muted-foreground">{follower.followerId.email}</p>
-                          </div>
-                        </div>
-                        <GoToChat userId={follower.followerId._id} />
-                      </div>
-                    ))}
-                    {hasNextPage && (
-                      <div className="flex justify-center mt-4">
-                        <Button
-                          variant="outline"
-                          onClick={() => fetchNextPage()}
-                          disabled={isFetchingNextPage}
-                        >
-                          {isFetchingNextPage ? "Loading..." : "Load More"}
-                        </Button>
-                      </div>
-                    )}
-                  </div>
-                )}
-            </CardContent>
-          </Card>
+          <DashboardFollowersList/>
         </TabsContent>
 
         <TabsContent value="rules" className="space-y-6">
@@ -313,7 +252,7 @@ function RouteComponent() {
                   <Calendar className="h-5 w-5" />
                   Session Rules
                 </CardTitle>
-                <CreateRuleDialog mentorId={mentor.id} />
+                <AddRuleDialog mentorId={mentor.id} />
               </div>
               <CardDescription>
                 Manage your session availability rules

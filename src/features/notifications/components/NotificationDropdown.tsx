@@ -16,6 +16,7 @@ import { useMarkAllNotificationsAsRead } from "../hooks/notifications-mutations.
 import { fetchNotifications } from "../services/notification.service";
 import NotificationItem from "./NotificationItem";
 
+//NOTE: reduce notifications count  after user opens chat/articles
 export function NotificationsDropdown() {
 	const [open, setOpen] = useState<boolean>(false);
 

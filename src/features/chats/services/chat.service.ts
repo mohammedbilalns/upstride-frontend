@@ -2,34 +2,23 @@ import api from "@/api/api";
 import { API_ROUTES } from "@/shared/constants/routes";
 import type { FetchChatsResponse } from "@/shared/types/chat";
 import type { FetchChatResponse } from "@/shared/types/message";
+import { apiRequest } from "@/shared/utils/apiWrapper";
 
-export async function fetchChat(chatId: string,page =1,limit=10){
-  try {
-    const response = await api.get<FetchChatResponse>(API_ROUTES.CHATS.FETCH_CHAT(chatId), {
-      params: {
-        page,
-        limit
-      }
-    })
-    return response.data
-  } catch (error) {
-    console.error("error while fetching chat", error);
-    throw error;
-  }
+export function fetchChat(chatId: string, page = 1, limit = 10) {
+  return apiRequest(() => api.get<FetchChatResponse>(API_ROUTES.CHATS.FETCH_CHAT(chatId), {
+    params: {
+      page,
+      limit
+    }
+  }))
 }
 
-export async function fetchChats( page=1, limit =10){
-  try {
-    const response = await api.get<FetchChatsResponse>(API_ROUTES.CHATS.FETCH,{
-      params:{
-        page,
-        limit
-      }
-    })
-    return response.data
-  } catch (error) {
-    console.error("error while fetching chats", error)
-    throw error
-  }
-}
 
+export function fetchChats(page = 1, limit = 10) {
+  return apiRequest(() => api.get<FetchChatsResponse>(API_ROUTES.CHATS.FETCH, {
+    params: {
+      page,
+      limit
+    }
+  }))
+}

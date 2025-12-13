@@ -1,35 +1,19 @@
 import api from "@/api/api";
 import { API_ROUTES } from "@/shared/constants/routes";
+import { apiRequest } from "@/shared/utils/apiWrapper";
 
-export async function fetchProfile(id: string) {
-	try {
-		const response = await api.get(API_ROUTES.PROFILE.FETCH(id));
-		return response.data;
-	} catch (error) {
-		console.error("error while fetching profile", error);
-		throw error;
-	}
+export function fetchProfile(id: string) {
+	return apiRequest(() => api.get(API_ROUTES.PROFILE.FETCH(id)))
 }
 
-export async function updateProfile(data: unknown) {
-	try {
-		const response = await api.post(API_ROUTES.PROFILE.UPDATE, data);
-		return response.data;
-	} catch (error) {
-		console.error("error while updating profile", error);
-		throw error;
-	}
+export function updateProfile(data: unknown) {
+	return apiRequest(() => api.post(API_ROUTES.PROFILE.UPDATE, data))
 }
 
-export async function changePassword(data: {
+export function changePassword(data: {
 	oldPassword: string;
 	newPassword: string;
 }) {
-	try {
-		const response = await api.put(API_ROUTES.PROFILE.UPDATE_PASSWORD, data);
-		return response.data;
-	} catch (error) {
-		console.error("error while updating password", error);
-		throw error;
-	}
+	return apiRequest(() => api.put(API_ROUTES.PROFILE.UPDATE_PASSWORD, data))
 }
+

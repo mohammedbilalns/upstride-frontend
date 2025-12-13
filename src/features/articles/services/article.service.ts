@@ -7,6 +7,7 @@ import type {
 	articleUpdatePayload,
 } from "../schemas/article.schema";
 import { type ArticleResponse, type ArticlesResponse } from "@/shared/types/article";
+import { apiRequest } from "@/shared/utils/apiWrapper";
 
 export async function fetchArticles(
 	page = 1,
@@ -33,45 +34,6 @@ export async function fetchArticles(
 	}
 }
 
-export async function createArticle(article: articleCreateData) {
-	try {
-		const response = await api.post(API_ROUTES.ARTICLES.CREATE, article);
-		return response.data;
-	} catch (error) {
-		console.error("Error while creating article", error);
-		throw error;
-	}
-}
-
-export async function getArticle(articleId: string) {
-	try {
-		const response = await api.get<ArticleResponse>(API_ROUTES.ARTICLES.FETCH(articleId));
-		return response.data;
-	} catch (error) {
-		console.error("Error while fetching article", error);
-		throw error;
-	}
-}
-
-export async function updateArticle(article: articleUpdatePayload) {
-	try {
-		const response = await api.put(API_ROUTES.ARTICLES.UPDATE, article);
-		return response.data;
-	} catch (error) {
-		console.error("Error while updating article", error);
-		throw error;
-	}
-}
-
-export async function deleteArticle(articleId: string) {
-	try {
-		const response = await api.delete(API_ROUTES.ARTICLES.DELETE(articleId));
-		return response.data;
-	} catch (error) {
-		console.error("Error while deleting article", error);
-		throw error;
-	}
-}
 
 export async function fetchArticle(articleId: string) {
 	try {
@@ -85,3 +47,21 @@ export async function fetchArticle(articleId: string) {
 		throw error;
 	}
 }
+
+
+export function createArticle(article: articleCreateData) {
+	return apiRequest(() => api.post(API_ROUTES.ARTICLES.CREATE, article))
+}
+
+export function getArticle(articleId: string) {
+	return apiRequest(() => api.get<ArticleResponse>(API_ROUTES.ARTICLES.FETCH(articleId)))
+}
+
+export function updateArticle(article: articleUpdatePayload) {
+	return apiRequest(() => api.put(API_ROUTES.ARTICLES.UPDATE, article))
+}
+
+export function deleteArticle(articleId: string) {
+	return apiRequest(() => api.delete(API_ROUTES.ARTICLES.DELETE(articleId)))
+}
+

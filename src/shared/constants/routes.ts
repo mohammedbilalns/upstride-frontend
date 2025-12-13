@@ -24,7 +24,7 @@ export const API_ROUTES = {
 	EXPERTISE: {
 		CREATE: "/expertise/",
 		FETCH: "/expertise",
-    FETCH_BY_ADMIN:"/expertise/admin",
+		FETCH_BY_ADMIN: "/expertise/admin",
 		ACTIVE: "/expertise/active",
 		UPDATE: (expertiseId: string) => `/expertise/${expertiseId}`,
 		VERIFY: (expertiseId: string) => `/expertise/${expertiseId}/verify`,
@@ -32,18 +32,18 @@ export const API_ROUTES = {
 		UPDATE_SKILL: (skillId: string) => `/expertise/skills/${skillId}`,
 		VERIFY_SKILL: (skillId: string) => `/expertise/skills/${skillId}/verify`,
 		FETCH_SKILLS: (expertiseId: string) => `/expertise/${expertiseId}/skills`,
-    FETCH_SKILLS_BY_ADMIN: (expertiseId: string) => `/expertise/${expertiseId}/skills/admin`,
+		FETCH_SKILLS_BY_ADMIN: (expertiseId: string) => `/expertise/${expertiseId}/skills/admin`,
 		FETCH_SKILLS_BY_AREAS: "/expertise/skills",
 	},
 	MENTOR: {
-		FETCH: "/mentor", 
-		FETCH_MENTORS_FOR_USER: "/mentor/user", 
+		FETCH: "/mentor",
+		FETCH_MENTORS_FOR_USER: "/mentor/user",
 		UPDATE: "/mentor",
-		CREATE: "/mentor", 
-		APPROVE: `/mentor/approve`, 
-		REJECT: `/mentor/reject`,  
-    FETCH_SINGLE: (mentorId: string) => `/mentor/${mentorId}`,
-    GETME:"/mentor/getMe"
+		CREATE: "/mentor",
+		APPROVE: `/mentor/approve`,
+		REJECT: `/mentor/reject`,
+		FETCH_SINGLE: (mentorId: string) => `/mentor/${mentorId}`,
+		GETME: "/mentor/getMe"
 	},
 	ARTICLES: {
 		ARTICLES: "/articles",
@@ -88,24 +88,25 @@ export const API_ROUTES = {
 		SUGGGESTED: "/connection/suggested",
 		MUTUAL: "/connection/mutual",
 	},
-  CHATS: {
-    FETCH: "/chat",
-    FETCH_CHAT:(chatId: string) => `/chat/${chatId}`,
-  },
-  SLOTS:{
-    GET_RULES:(mentorId: string) => `/slots/rules/${mentorId}`,
-    CREATE_RECURRING_RULE:(mentorId: string) => `/slots/${mentorId}/availability/recurring`,
-    UPDATE_RECURRING_RULE:(mentorId:string, ruleId: string) => `/slots/${mentorId}/availability/recurring/${ruleId}`,
-    ADD_RECURRING_RULE:(mentorId:string) => `/slots/${mentorId}/availability/recurring/create`,
-    DISABLE_RECURRING_RULE:(mentorId:string, ruleId: string) => `/slots/${mentorId}/availability/recurring/${ruleId}/disable`,
-    CREATE_CUSTOM_SLOT:(mentorId: string) => `/slots/${mentorId}/availability/custom`,
-    GET_MENTOR_SLOTS:(mentorId: string) => `/slots/${mentorId}/slots`,
-    CANCEL_SLOT:(mentorId: string, slotId: string) => `/slots/${mentorId}/${slotId}/cancel`,
-  },
-  SESSIONS:{
-    BOOK_SESSION:(slotId: string) => `/sessions/${slotId}/book`,
-    CANCEL_BOOKING:(bookingId: string) => `/sessions/${bookingId}/cancel`,
-    START_SESSION:(slotId: string) => `/sessions/${slotId}/start`,
-    MARK_SESSION_AS_COMPLETED:(sessionId: string) => `/sessions/${sessionId}/complete`,
-  }
-} as const ;
+	CHATS: {
+		FETCH: "/chat",
+		FETCH_CHAT: (chatId: string) => `/chat/${chatId}`,
+	},
+	SLOTS: {
+		GET_RULES: `/slots/rules`,
+		CREATE_RECURRING_RULE: `/slots/availability/recurring`,
+		UPDATE_RECURRING_RULE: (ruleId: string) => `/slots/availability/recurring/${ruleId}`,
+		ADD_RECURRING_RULE: `/slots/availability/recurring/create`,
+		DISABLE_RECURRING_RULE: (ruleId: string) => `/slots/availability/recurring/${ruleId}/disable`,
+		DELETE_RECURRING_RULE: (ruleId: string) => `/slots/availability/recurring/${ruleId}/delete`,
+		CREATE_CUSTOM_SLOT: `/slots/availability/custom`,
+		GET_MENTOR_SLOTS: `/slots/slots`,
+		CANCEL_SLOT: (slotId: string) => `/slots/${slotId}/cancel`,
+	},
+	SESSIONS: {
+		BOOK_SESSION: (slotId: string) => `/sessions/${slotId}/book`,
+		CANCEL_BOOKING: (bookingId: string) => `/sessions/${bookingId}/cancel`,
+		START_SESSION: (slotId: string) => `/sessions/${slotId}/start`,
+		MARK_SESSION_AS_COMPLETED: (sessionId: string) => `/sessions/${sessionId}/complete`,
+	}
+} as const;

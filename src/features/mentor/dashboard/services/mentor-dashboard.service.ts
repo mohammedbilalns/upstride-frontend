@@ -1,50 +1,26 @@
 import api from "@/api/api";
 import { API_ROUTES } from "@/shared/constants/routes";
 import type { SaveMentorProfilePayload } from "@/shared/types/mentor";
-import type { Rule } from "@/shared/types/session";
+import type { AddRecurringRulePayload, Rule } from "@/shared/types/session";
+import { apiRequest } from "@/shared/utils/apiWrapper";
 
-
-export async function updateMentorRule(){
-  try {
-    //TODO: perform api request 
-
-    
-  } catch (error) {
-    console.error("Failed to update mentor rule:", error);
-    throw error;
-  }
+export function updateRecurringRule(ruleId: string, updatedRule: Partial<Rule>) {
+  return apiRequest(() => api.patch(API_ROUTES.SLOTS.UPDATE_RECURRING_RULE(ruleId), updatedRule))
 }
 
-export async function createMentorRule({mentorId, rule}: {mentorId: string, rule: Partial<Rule>}){
-  try {
-    //TODO: perform api request
-    
-  } catch (error) {
-    console.error("Failed to create mentor rule:", error);
-    throw error;
-  }
+export function addRecurringRule(rule: AddRecurringRulePayload) {
+  return apiRequest(() => api.post(API_ROUTES.SLOTS.ADD_RECURRING_RULE, rule))
 }
 
-export async function deleteMentorRule(mentorId: string, ruleId: string){
-  try{
-    //TODO: perform api request
-
-  }catch(error){
-    console.error("Failed to delete mentor rule:", error);
-    throw error
-  }
+export function deleteMentorRule(ruleId: string) {
+  return apiRequest(() => api.delete(API_ROUTES.SLOTS.DELETE_RECURRING_RULE(ruleId)))
 }
 
+export function disableRecurringRule(ruleId: string) {
+  return apiRequest(() => api.patch(API_ROUTES.SLOTS.DISABLE_RECURRING_RULE(ruleId)))
+}
 
-export async function updateMentorProfile(saveProfilePayload: SaveMentorProfilePayload){
-  try {
-    const response = await api.put(API_ROUTES.MENTOR.UPDATE, saveProfilePayload)
-    return response.data
+export function updateMentorProfile(saveProfilePayload: SaveMentorProfilePayload) {
+  return apiRequest(() => api.put(API_ROUTES.MENTOR.UPDATE, saveProfilePayload))
+}
 
-  } catch (error) {
-
-    console.error("Failed to update mentor profile:", error);
-    throw error
-    
-  }
-} 

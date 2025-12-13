@@ -1,37 +1,20 @@
 import api from "@/api/api";
 import { API_ROUTES } from "@/shared/constants/routes";
 import { type NotificationsResponse } from "@/shared/types/notifications";
+import { apiRequest } from "@/shared/utils/apiWrapper";
 
-
-export async function fetchNotifications(page: number, limit: number) {
-	try {
-		const response = await api.get<NotificationsResponse>(API_ROUTES.NOTIFICATIONS.FETCH, {
-			params: { page, limit },
-		});
-		return response.data;
-	} catch (err) {
-		console.error("error while fetching notifications", err);
-		throw err;
-	}
+export function fetchNotifications(page: number, limit: number) {
+	return apiRequest(() => api.get<NotificationsResponse>(API_ROUTES.NOTIFICATIONS.FETCH, {
+		params: { page, limit },
+	}))
 }
 
-export async function markNotificationAsRead(id: string) {
-	try {
-		const response = await api.post(API_ROUTES.NOTIFICATIONS.MARK_READ(id), {
-			id,
-		});
-		return response.data;
-	} catch (err) {
-		console.error("error while marking notification as read", err);
-		throw err;
-	}
+export function markNotificationAsRead(id: string) {
+	return apiRequest(() => api.post(API_ROUTES.NOTIFICATIONS.MARK_READ(id), {
+		id,
+	}))
 }
-export async function markAllNotificationsAsRead() {
-	try {
-		const response = await api.post(API_ROUTES.NOTIFICATIONS.MARK_ALL_AS_READ);
-		return response.data;
-	} catch (err) {
-		console.error("error while marking all notifications as read", err);
-		throw err;
-	}
+
+export function markAllNotificationsAsRead() {
+	return apiRequest(() => api.post(API_ROUTES.NOTIFICATIONS.MARK_ALL_AS_READ))
 }

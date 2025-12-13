@@ -2,122 +2,52 @@ import type { CredentialResponse } from "@react-oauth/google";
 import api from "@/api/api";
 import { API_ROUTES } from "@/shared/constants/routes";
 import type { loginFormValues, RegisterFormValues } from "../schemas";
+import { apiRequest } from "@/shared/utils/apiWrapper";
 
-export async function userLogin(data: loginFormValues) {
-	try {
-		const response = await api.post(API_ROUTES.AUTH.LOGIN, data);
-		return response.data;
-	} catch (error) {
-		console.error("error while login", error);
-		throw error;
-	}
-}
-export async function userRegister(data: RegisterFormValues) {
-	try {
-		const response = await api.post(API_ROUTES.AUTH.REGISTER, data);
-		return response.data;
-	} catch (error) {
-		console.error("error while signup", error);
-		throw error;
-	}
+export function userLogin(data: loginFormValues) {
+	return apiRequest(() => api.post(API_ROUTES.AUTH.LOGIN, data))
 }
 
-export async function verifyRegisterOtp(data: unknown) {
-	try {
-		const response = await api.post(API_ROUTES.AUTH.VERIFY_OTP, data);
-		return response.data;
-	} catch (error) {
-		console.error("error whie verifying otp", error);
-		throw error;
-	}
+export function userRegister(data: RegisterFormValues) {
+	return apiRequest(() => api.post(API_ROUTES.AUTH.REGISTER, data))
 }
 
-export async function resendRegisterOtp(data: unknown) {
-	try {
-		const response = await api.post(API_ROUTES.AUTH.RESEND_REGISTER_OTP, data);
-		return response.data;
-	} catch (error) {
-		console.error("error while resending otp", error);
-		throw error;
-	}
+export function verifyRegisterOtp(data: unknown) {
+	return apiRequest(() => api.post(API_ROUTES.AUTH.VERIFY_OTP, data))
 }
 
-export async function initiatePasswordReset(data: unknown) {
-	try {
-		const response = await api.post(API_ROUTES.AUTH.RESET_PASSWORD, data);
-		return response.data;
-	} catch (error) {
-		console.error("error while initiating password reset", error);
-		throw error;
-	}
+export function resendRegisterOtp(data: unknown) {
+	return apiRequest(() => api.post(API_ROUTES.AUTH.RESEND_REGISTER_OTP, data))
 }
 
-export async function verifyResetOtp(data: unknown) {
-	try {
-		const response = await api.post(API_ROUTES.AUTH.VERIFY_RESET_OTP, data);
-		return response.data;
-	} catch (error) {
-		console.error("error while verifying reset otp", error);
-		throw error;
-	}
+export function initiatePasswordReset(data: unknown) {
+	return apiRequest(() => api.post(API_ROUTES.AUTH.RESET_PASSWORD, data))
 }
 
-export async function resendResetOtp(data: unknown) {
-	try {
-		const response = await api.post(API_ROUTES.AUTH.RESEND_RESET_OTP, data);
-		return response.data;
-	} catch (error) {
-		console.error("error while resending reset otp", error);
-		throw error;
-	}
+export function verifyResetOtp(data: unknown) {
+	return apiRequest(() => api.post(API_ROUTES.AUTH.VERIFY_RESET_OTP, data))
 }
 
-export async function updatePassword(data: unknown) {
-	try {
-		const response = await api.post(API_ROUTES.AUTH.UPDATE_PASSWORD, data);
-		return response.data;
-	} catch (error) {
-		console.error("error while updating password", error);
-		throw error;
-	}
+export function resendResetOtp(data: unknown) {
+	return apiRequest(() => api.post(API_ROUTES.AUTH.RESEND_RESET_OTP, data))
 }
 
-export async function logout() {
-	try {
-		const response = await api.post(API_ROUTES.AUTH.LOGOUT);
-		return response.data;
-	} catch (error) {
-		console.error("error while logging out ", error);
-		throw error;
-	}
+export function updatePassword(data: unknown) {
+	return apiRequest(() => api.post(API_ROUTES.AUTH.UPDATE_PASSWORD, data))
 }
 
-export async function googleLogin(credentials: CredentialResponse) {
-	try {
-		const response = await api.post(API_ROUTES.AUTH.GOOGLE, credentials);
-		return response.data;
-	} catch (error) {
-		console.error("error while logging in with google", error);
-		throw error;
-	}
+export function logout() {
+	return apiRequest(() => api.post(API_ROUTES.AUTH.LOGOUT))
 }
 
-export async function fetchExpertiseAreas() {
-	try {
-		const response = await api.get(API_ROUTES.EXPERTISE.FETCH);
-		return response.data;
-	} catch (error) {
-		console.error("error while fetching expertise areas", error);
-		throw error;
-	}
+export function googleLogin(credentials: CredentialResponse) {
+	return apiRequest(() => api.post(API_ROUTES.AUTH.GOOGLE, credentials))
 }
 
-export async function saveInterests(data: unknown) {
-	try {
-		const response = await api.post(API_ROUTES.AUTH.ADD_INTERESTS, data);
-		return response.data;
-	} catch (error) {
-		console.error("error while saving expertise and skills", error);
-		throw error;
-	}
+export function fetchExpertiseAreas() {
+	return apiRequest(() => api.get(API_ROUTES.EXPERTISE.FETCH))
+}
+
+export function saveInterests(data: unknown) {
+	return apiRequest(() => api.post(API_ROUTES.AUTH.ADD_INTERESTS, data))
 }

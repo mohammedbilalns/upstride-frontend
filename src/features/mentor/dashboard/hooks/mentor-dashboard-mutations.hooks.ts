@@ -1,37 +1,77 @@
 import { useMutation } from "@tanstack/react-query"
-import { createMentorRule, deleteMentorRule, updateMentorProfile, updateMentorRule } from "../services/mentor-dashboard.service"
-import type { Rule } from "@/shared/types/session"
+import { addRecurringRule, deleteMentorRule, disableRecurringRule, updateMentorProfile, updateRecurringRule } from "../services/mentor-dashboard.service"
+import type { AddRecurringRulePayload, Rule } from "@/shared/types/session"
 import type { SaveMentorProfilePayload } from "@/shared/types/mentor"
+import { queryClient } from "@/app/router/routerConfig"
+import type { ApiError } from "@/shared/types"
+import { toast } from "sonner"
 
-export const useCreateMentorRule = () => {
-  return useMutation({
-    mutationFn: ({ mentorId, rule }: { mentorId: string; rule: Partial<Rule> }) => createMentorRule({ mentorId, rule }),
-    onSuccess: () => {},
-    onError: () => {}
+function invalidateMentorRule(mentorId: string) {
+  queryClient.invalidateQueries({
+    queryKey: ["mentorRules", mentorId]
   })
 }
 
-export const useUpdateMentorRule = () => {
-  return useMutation({
-    mutationFn: () =>  updateMentorRule(),
-    onSuccess: () => {},
-    onError: () => {}
-  })
-} 
+function handlMutationError(error: ApiError, message: string) {
+  const errorMessage = error?.response?.data?.message ?? message
+  toast.error(errorMessage)
+}
 
-export const useDeleteMentorRule = () => {
+export const useAddRecurringRule = (mentorId: string) => {
   return useMutation({
-    mutationFn: ({mentorId, ruleId}: {mentorId: string, ruleId: string}) => deleteMentorRule(mentorId, ruleId),
-    onSuccess: () => {},
-    onError: () => {}
+    mutationFn: (rule: AddRecurringRulePayload) => addRecurringRule(rule),
+    onSuccess: () => {
+      invalidateMentorRule(mentorId)
+    },
+    onError: (error: ApiError) => {
+      handlMutationError(error, "Faild to create rule")
+    }
+  })
+}
+
+export const useUpdateMentorRule = (mentorId: string) => {
+  return useMutation({
+    mutationFn: ({ ruleId, updatedRule }: { ruleId: string, updatedRule: Partial<Rule> }) => updateRecurringRule(ruleId, updatedRule),
+    onSuccess: () => {
+      invalidateMentorRule(mentorId)
+    },
+    onError: (error: ApiError) => {
+      handlMutationError(error, "Faild to update rule")
+    }
+  })
+}
+
+export const useDeleteMentorRule = (mentorId: string) => {
+  return useMutation({
+    mutationFn: (ruleId: string) => deleteMentorRule(ruleId),
+    onSuccess: () => {
+      invalidateMentorRule(mentorId)
+    },
+    onError: (error: ApiError) => {
+      handlMutationError(error, "Faild to delete rule")
+    }
+  })
+}
+
+export const useDisableMentorRule = (mentorId: string) => {
+  return useMutation({
+    mutationFn: (ruleId: string) => disableRecurringRule(ruleId),
+    onSuccess: () => {
+      invalidateMentorRule(mentorId)
+    },
+    onError: (error: ApiError) => {
+      handlMutationError(error, "Faild to disable rule")
+    }
   })
 }
 
 export const useUpdateMentorProfile = () => {
   return useMutation({
-    mutationFn: (saveProfilePayload:SaveMentorProfilePayload ) => updateMentorProfile(saveProfilePayload),
-    onSuccess: () => {},
-    onError: () => {}
+    mutationFn: (saveProfilePayload: SaveMentorProfilePayload) => updateMentorProfile(saveProfilePayload),
+    onSuccess: () => { },
+    onError: (error: ApiError) => {
+      handlMutationError(error, "Faild to update profile")
+    }
   })
 }
 
