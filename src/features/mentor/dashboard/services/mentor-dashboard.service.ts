@@ -4,7 +4,7 @@ import type { SaveMentorProfilePayload } from "@/shared/types/mentor";
 import type { AddRecurringRulePayload, Rule } from "@/shared/types/session";
 import { apiRequest } from "@/shared/utils/apiWrapper";
 
-export function updateRecurringRule(ruleId: string, updatedRule: Partial<Rule>) {
+export function updateRecurringRule(ruleId: string, updatedRule: Partial<Rule> | { startTime: string, endTime: string, slotDuration: number, weekDay: number }) {
   return apiRequest(() => api.patch(API_ROUTES.SLOTS.UPDATE_RECURRING_RULE(ruleId), updatedRule))
 }
 
@@ -18,6 +18,10 @@ export function deleteMentorRule(ruleId: string) {
 
 export function disableRecurringRule(ruleId: string) {
   return apiRequest(() => api.patch(API_ROUTES.SLOTS.DISABLE_RECURRING_RULE(ruleId)))
+}
+
+export function enableRecurringRule(ruleId: string) {
+  return apiRequest(() => api.patch(API_ROUTES.SLOTS.ENABLE_RECURRING_RULE(ruleId)))
 }
 
 export function updateMentorProfile(saveProfilePayload: SaveMentorProfilePayload) {

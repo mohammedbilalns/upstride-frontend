@@ -1,5 +1,5 @@
-import { formatDate } from "@/shared/utils/dateUtil";
-import { useState } from "react";
+import { minutesToTime } from "@/shared/utils/dateUtil";
+import { useState, useEffect } from "react";
 import { Dialog, DialogContent, DialogDescription, DialogFooter, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { Button } from "@/components/ui/button";
@@ -8,20 +8,54 @@ import { Input } from "@/components/ui/input";
 import { useUpdateMentorRule } from "../hooks/mentor-dashboard-mutations.hooks";
 import type { Rule } from "@/shared/types/session";
 
-export default function UpdateRuleDialog({ rule }: { mentorId: string; rule: Rule }) {
+export default function UpdateRuleDialog({ mentorId, rule }: { mentorId: string; rule: Rule }) {
   const [open, setOpen] = useState(false);
   const [updatedRule, setUpdatedRule] = useState({
     ruleId: rule.ruleId,
     weekDay: rule.weekDay,
-    startTime: formatDate(rule.startTime),
-    endTime: formatDate(rule.endTime),
+    startTime: minutesToTime(Number(rule.startTime)),
+    endTime: minutesToTime(Number(rule.endTime)),
     slotDuration: rule.slotDuration,
   });
 
-  const updateMentorRuleMutation = useUpdateMentorRule()
+  const updateMentorRuleMutation = useUpdateMentorRule(mentorId)
+
+  // Watch for duration/startTime changes to auto-update end time
+  useEffect(() => {
+    if (updatedRule.startTime && updatedRule.slotDuration) {
+      const [hours, minutes] = updatedRule.startTime.split(':').map(Number);
+      const date = new Date();
+      date.setHours(hours);
+      date.setMinutes(minutes + Number(updatedRule.slotDuration));
+
+      const newEndHours = String(date.getHours()).padStart(2, '0');
+      const newEndMinutes = String(date.getMinutes()).padStart(2, '0');
+      const newEndTime = `${newEndHours}:${newEndMinutes}`;
+
+      if (updatedRule.endTime !== newEndTime) {
+        setUpdatedRule(prev => ({ ...prev, endTime: newEndTime }));
+      }
+    }
+  }, [updatedRule.startTime, updatedRule.slotDuration]);
+
 
   const handleUpdateRule = () => {
-    updateMentorRuleMutation.mutate();
+    // Send payload directly as partial rule with string times as requested
+    const payload = {
+      weekDay: updatedRule.weekDay,
+      startTime: updatedRule.startTime,
+      endTime: updatedRule.endTime,
+      slotDuration: updatedRule.slotDuration
+    };
+
+    updateMentorRuleMutation.mutate({
+      ruleId: rule.ruleId,
+      updatedRule: payload
+    }, {
+      onSuccess: () => {
+        setOpen(false)
+      }
+    });
   };
 
   return (
@@ -81,8 +115,8 @@ export default function UpdateRuleDialog({ rule }: { mentorId: string; rule: Rul
               id="endTime"
               type="time"
               value={updatedRule.endTime}
-              onChange={(e) => setUpdatedRule({ ...updatedRule, endTime: e.target.value })}
-              className="col-span-3"
+              readOnly
+              className="col-span-3 bg-muted"
             />
           </div>
           <div className="grid grid-cols-4 items-center gap-4">
@@ -91,7 +125,7 @@ export default function UpdateRuleDialog({ rule }: { mentorId: string; rule: Rul
             </label>
             <Select
               value={updatedRule.slotDuration.toString()}
-              onValueChange={(value) => setUpdatedRule({ ...updatedRule, slotDuration: parseInt(value) })}
+              onValueChange={(value) => setUpdatedRule({ ...updatedRule, slotDuration: parseInt(value) as 60 | 90 | 120 | 180 })}
             >
               <SelectTrigger className="col-span-3">
                 <SelectValue placeholder="Select duration" />
@@ -109,7 +143,7 @@ export default function UpdateRuleDialog({ rule }: { mentorId: string; rule: Rul
           <Button variant="outline" onClick={() => setOpen(false)}>
             Cancel
           </Button>
-          <Button onClick={handleUpdateRule}  disabled={updateMentorRuleMutation.isPending}>
+          <Button onClick={handleUpdateRule} disabled={updateMentorRuleMutation.isPending}>
             {updateMentorRuleMutation.isPending ? "Updating..." : "Update Rule"}
           </Button>
         </DialogFooter>

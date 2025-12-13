@@ -84,9 +84,12 @@
 	--popover: oklch(0.21 0.006 285.885);
 	--popover-foreground: oklch(0.985 0 0);
 	--primary: oklch(0.546 0.245 262.881);
-	--primary-foreground: oklch(0.985 0 0); /* white */
-	--secondary: oklch(0.35 0.03 260); /* dark slate blue-gray */
-	--secondary-foreground: oklch(0.92 0.02 260); /* light gray/blue text */
+	--primary-foreground: oklch(0.985 0 0);
+	/* white */
+	--secondary: oklch(0.35 0.03 260);
+	/* dark slate blue-gray */
+	--secondary-foreground: oklch(0.92 0.02 260);
+	/* light gray/blue text */
 	--muted: oklch(0.274 0.006 286.033);
 	--muted-foreground: oklch(0.705 0.015 286.067);
 	--accent: oklch(0.274 0.006 286.033);
@@ -111,12 +114,10 @@
 }
 
 @layer base {
-	html {
-		scrollbar-gutter: stable;
-	}
 	* {
 		@apply border-border outline-ring/50;
 	}
+
 	body {
 		@apply bg-background text-foreground;
 	}
@@ -124,9 +125,11 @@
 	h1 {
 		@apply text-2xl font-bold;
 	}
+
 	h2 {
 		@apply text-xl font-bold;
 	}
+
 	h3 {
 		@apply text-lg font-bold;
 	}
@@ -136,25 +139,34 @@
 	.scrollbar-hide::-webkit-scrollbar {
 		display: none;
 	}
+
 	.scrollbar-hide {
-		-ms-overflow-style: none; /* IE/Edge */
-		scrollbar-width: none; /* Firefox */
+		-ms-overflow-style: none;
+		/* IE/Edge */
+		scrollbar-width: none;
+		/* Firefox */
 	}
 }
+
 /* Global scrollbar style */
 ::-webkit-scrollbar {
-	width: 8px; /* thin */
+	width: 8px;
+	/* thin */
 	height: 8px;
 }
 
 ::-webkit-scrollbar-track {
-	background: var(--background); /* matches your theme background */
+	background: var(--background);
+	/* matches your theme background */
 }
 
 ::-webkit-scrollbar-thumb {
-	background: var(--muted-foreground); /* subtle color */
-	border-radius: 9999px; /* pill shape */
-	border: 2px solid var(--background); /* creates spacing effect */
+	background: var(--muted-foreground);
+	/* subtle color */
+	border-radius: 9999px;
+	/* pill shape */
+	border: 2px solid var(--background);
+	/* creates spacing effect */
 }
 
 ::-webkit-scrollbar-thumb:hover {

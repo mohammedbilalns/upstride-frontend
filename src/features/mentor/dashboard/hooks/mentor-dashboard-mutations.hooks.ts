@@ -1,5 +1,5 @@
 import { useMutation } from "@tanstack/react-query"
-import { addRecurringRule, deleteMentorRule, disableRecurringRule, updateMentorProfile, updateRecurringRule } from "../services/mentor-dashboard.service"
+import { addRecurringRule, deleteMentorRule, disableRecurringRule, enableRecurringRule, updateMentorProfile, updateRecurringRule } from "../services/mentor-dashboard.service"
 import type { AddRecurringRulePayload, Rule } from "@/shared/types/session"
 import type { SaveMentorProfilePayload } from "@/shared/types/mentor"
 import { queryClient } from "@/app/router/routerConfig"
@@ -31,7 +31,7 @@ export const useAddRecurringRule = (mentorId: string) => {
 
 export const useUpdateMentorRule = (mentorId: string) => {
   return useMutation({
-    mutationFn: ({ ruleId, updatedRule }: { ruleId: string, updatedRule: Partial<Rule> }) => updateRecurringRule(ruleId, updatedRule),
+    mutationFn: ({ ruleId, updatedRule }: { ruleId: string, updatedRule: Partial<Rule> | { startTime: string, endTime: string, slotDuration: number, weekDay: number } }) => updateRecurringRule(ruleId, updatedRule),
     onSuccess: () => {
       invalidateMentorRule(mentorId)
     },
@@ -65,6 +65,18 @@ export const useDisableMentorRule = (mentorId: string) => {
   })
 }
 
+export const useEnableMentorRule = (mentorId: string) => {
+  return useMutation({
+    mutationFn: (ruleId: string) => enableRecurringRule(ruleId),
+    onSuccess: () => {
+      invalidateMentorRule(mentorId)
+    },
+    onError: (error: ApiError) => {
+      handlMutationError(error, "Faild to enable rule")
+    }
+  })
+}
+
 export const useUpdateMentorProfile = () => {
   return useMutation({
     mutationFn: (saveProfilePayload: SaveMentorProfilePayload) => updateMentorProfile(saveProfilePayload),
@@ -74,4 +86,3 @@ export const useUpdateMentorProfile = () => {
     }
   })
 }
-
