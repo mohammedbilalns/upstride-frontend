@@ -2,71 +2,16 @@ import api from "@/api/api";
 import { API_ROUTES } from "@/shared/constants/routes";
 import { apiRequest } from "@/shared/utils/apiWrapper";
 
-// export function fetchComments(
-// 	articleId: string,
-// 	page: number,
-// 	limit: number,
-// 	parentCommentId?: string,
-// ) {
-// 	try {
-// 		const response = await api.get(API_ROUTES.COMMENT.BASE, {
-// 			params: {
-// 				articleId,
-// 				page,
-// 				limit,
-// 				parentCommentId,
-// 			},
-// 		});
-// 		return response.data;
-// 	} catch (error) {
-// 		console.error("Error while fetching comments", error);
-// 		throw error;
-// 	}
-// }
-
-// export async function createComment(
-// 	articleId: string,
-// 	content: string,
-// 	parentCommentId?: string,
-// ) {
-// 	try {
-// 		const response = await api.post(API_ROUTES.COMMENT.BASE, {
-// 			articleId,
-// 			content,
-// 			parentCommentId,
-// 		});
-// 		return response.data;
-// 	} catch (error) {
-// 		console.error("Error while creating comment", error);
-// 		throw error;
-// 	}
-// }
-
-// export async function updateComment(commentId: string, content: string) {
-// 	try {
-// 		const response = await api.put(API_ROUTES.COMMENT.BASE, {
-// 			commentId,
-// 			content,
-// 		});
-// 		return response.data;
-// 	} catch (error) {
-// 		console.error("Error while updating comment", error);
-// 		throw error;
-// 	}
-// }
-
-// export async function deleteComment(commentId: string) {
-// 	try {
-// 		const response = await api.delete(API_ROUTES.COMMENT.BASE, {
-// 			params: { commentId },
-// 		});
-// 		return response.data;
-// 	} catch (error) {
-// 		console.error("Error while deleting comment", error);
-// 		throw error;
-// 	}
-// }
-
+/**
+ * Fetches comments for a specific article with pagination support.
+ * Can also fetch replies by providing a parent comment ID.
+ *
+ * @param articleId - Unique identifier of the article.
+ * @param page - Page number for paginated comments.
+ * @param limit - Number of comments per page.
+ * @param parentCommentId - Optional parent comment ID to fetch replies.
+ * @returns Paginated list of comments.
+ */
 export function fetchComments(
 	articleId: string,
 	page: number,
@@ -83,6 +28,15 @@ export function fetchComments(
 	}))
 }
 
+/**
+ * Creates a new comment for an article.
+ * Can be used to create a top-level comment or a reply.
+ *
+ * @param articleId - Unique identifier of the article.
+ * @param content - Comment text content.
+ * @param parentCommentId - Optional parent comment ID (for replies).
+ * @returns Backend response containing the created comment.
+ */
 export function createComment(
 	articleId: string,
 	content: string,
@@ -95,6 +49,13 @@ export function createComment(
 	}))
 }
 
+/**
+ * Updates the content of an existing comment.
+ *
+ * @param commentId - Unique identifier of the comment.
+ * @param content - Updated comment text.
+ * @returns Backend response confirming comment update.
+ */
 export function updateComment(commentId: string, content: string) {
 	return apiRequest(() => api.put(API_ROUTES.COMMENT.BASE, {
 		commentId,
@@ -102,6 +63,12 @@ export function updateComment(commentId: string, content: string) {
 	}))
 }
 
+/**
+ * Deletes a comment by its identifier.
+ *
+ * @param commentId - Unique identifier of the comment to delete.
+ * @returns Backend response confirming comment deletion.
+ */
 export function deleteComment(commentId: string) {
 	return apiRequest(() => api.delete(API_ROUTES.COMMENT.BASE, {
 		params: { commentId },

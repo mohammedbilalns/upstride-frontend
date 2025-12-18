@@ -34,6 +34,7 @@ export const useUpdateMentorRule = (mentorId: string) => {
     mutationFn: ({ ruleId, updatedRule }: { ruleId: string, updatedRule: Partial<Rule> | { startTime: string, endTime: string, slotDuration: number, weekDay: number } }) => updateRecurringRule(ruleId, updatedRule),
     onSuccess: () => {
       invalidateMentorRule(mentorId)
+      toast.success("Rule updated successfully")
     },
     onError: (error: ApiError) => {
       handlMutationError(error, "Faild to update rule")
@@ -46,6 +47,7 @@ export const useDeleteMentorRule = (mentorId: string) => {
     mutationFn: (ruleId: string) => deleteMentorRule(ruleId),
     onSuccess: () => {
       invalidateMentorRule(mentorId)
+      toast.success("Rule deleted successfully")
     },
     onError: (error: ApiError) => {
       handlMutationError(error, "Faild to delete rule")
@@ -58,6 +60,7 @@ export const useDisableMentorRule = (mentorId: string) => {
     mutationFn: (ruleId: string) => disableRecurringRule(ruleId),
     onSuccess: () => {
       invalidateMentorRule(mentorId)
+      toast.success("Rule disabled successfully")
     },
     onError: (error: ApiError) => {
       handlMutationError(error, "Faild to disable rule")
@@ -70,6 +73,7 @@ export const useEnableMentorRule = (mentorId: string) => {
     mutationFn: (ruleId: string) => enableRecurringRule(ruleId),
     onSuccess: () => {
       invalidateMentorRule(mentorId)
+      toast.success("Rule enabled successfully")
     },
     onError: (error: ApiError) => {
       handlMutationError(error, "Faild to enable rule")
@@ -80,7 +84,7 @@ export const useEnableMentorRule = (mentorId: string) => {
 export const useUpdateMentorProfile = () => {
   return useMutation({
     mutationFn: (saveProfilePayload: SaveMentorProfilePayload) => updateMentorProfile(saveProfilePayload),
-    onSuccess: () => { },
+    onSuccess: () => {},
     onError: (error: ApiError) => {
       handlMutationError(error, "Faild to update profile")
     }

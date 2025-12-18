@@ -9,17 +9,6 @@ import { apiRequest } from "../utils/apiWrapper";
  * @param resource_type - type of resource being uploaded ("image", "video", "raw", etc.)
  * @returns The token payload from the backend.
  */
-// export async function generateToken(resource_type: string) {
-// 	try {
-// 		const response = await api.post(API_ROUTES.MEDIA.GENERATE_TOKEN, {
-// 			resource_type,
-// 		});
-// 		return response.data;
-// 	} catch (err) {
-// 		console.error("Error while generating upload token:", err);
-// 		throw err;
-// 	}
-// }
 
 export function generateToken(resource_type: string) {
 	return apiRequest(() => api.post(API_ROUTES.MEDIA.GENERATE_TOKEN, {
@@ -35,15 +24,6 @@ export function generateToken(resource_type: string) {
  * @returns Backend response confirming deletion.
  */
 
-// export async function deleteFile(fileId: string, mediaType: string) {
-// 	try {
-// 		const response = await api.delete(API_ROUTES.MEDIA.DELETE(fileId, mediaType));
-// 		return response.data;
-// 	} catch (err) {
-// 		console.error("Error while deleting file:", err);
-// 		throw err;
-// 	}
-// }
 
 export function deleteFile(fileId: string, mediaType: string) {
 	return apiRequest(() => api.delete(API_ROUTES.MEDIA.DELETE(fileId, mediaType)));
