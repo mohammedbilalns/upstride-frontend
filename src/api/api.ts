@@ -3,7 +3,7 @@ import axios, { type AxiosError } from "axios";
 import { useAuthStore } from "@/app/store/auth.store";
 import { env } from "@/shared/constants/env";
 
-// FIX : multiple refresh requests if multiple req fails together
+// FIX : multiple refresh requests if Parellel req fails together
 /**
  * Custom axios request config type with an internal retry flag
  * to prevent infinite loops during token refresh attempts.

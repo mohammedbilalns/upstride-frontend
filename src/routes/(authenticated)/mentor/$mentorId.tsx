@@ -84,7 +84,6 @@ function RouteComponent() {
                     image={user.profilePicture}
                     name={user.name}
                     size={24}
-                    className="w-24 h-24 border-4 border-background shadow-md"
                   />
                 </div>
                 <h1 className="text-2xl font-bold flex items-center justify-center gap-2">
@@ -92,7 +91,6 @@ function RouteComponent() {
                   {isVerified && (
                     <CheckCircle
                       className="h-6 w-6 text-blue-500"
-                      title="Verified Mentor"
                     />
                   )}
                 </h1>

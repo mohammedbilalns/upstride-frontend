@@ -15,7 +15,7 @@ interface ChatHeaderProps {
         id: string;
         name: string;
         avatar?: string;
-        isOnline: boolean;
+       // isOnline: boolean;
         isMentor: boolean;
     };
     onBack: () => void;

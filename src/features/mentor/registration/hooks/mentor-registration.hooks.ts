@@ -2,7 +2,7 @@ import { useMutation, useQuery } from "@tanstack/react-query";
 import api from "@/api/api";
 import { API_ROUTES } from "@/shared/constants/routes";
 import { useRouter } from "@tanstack/react-router";
-import type { MentorDetails } from "@/shared/types/mentorDetails";
+import type { MentorDetails, MentorProfileUpdatePayload } from "@/shared/types/mentorDetails";
 import { registerMentor, updateMentorRegistration } from "../services/register-mentor.service";
 import { toast } from "sonner";
 import type { ApiError } from "@/shared/types";
@@ -11,8 +11,8 @@ export const useFetchMentorDetails = (enabled: boolean) => {
 	return useQuery({
 		queryKey: ["mentorDetails"],
 		queryFn: async () => {
-      // FIX : correc the api end point 
-			const response = await api.get(API_ROUTES.MENTOR.FETCH_MENTOR_DETAILS);
+      // FIX : correct the api end point 
+			const response = await api.get(API_ROUTES.MENTOR.GETME);
 			return response.data.mentor;
 		},
 		staleTime: 1000 * 60,
@@ -26,7 +26,7 @@ export const useFetchMentorDetails = (enabled: boolean) => {
 export const useRegisterAsMentor = () => {
 	const router = useRouter();
 	return useMutation({
-		mutationFn: (data: MentorDetails) => registerMentor(data),
+		mutationFn: (data: MentorProfileUpdatePayload) => registerMentor(data),
 
 		onSuccess: () => {
 			toast.success("Request submitted successfully");

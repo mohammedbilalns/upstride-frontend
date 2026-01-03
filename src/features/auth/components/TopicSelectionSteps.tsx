@@ -13,7 +13,7 @@ import { useFetchSkills } from "@/features/admin/expertise-mangement/hooks/skill
 import type { ExpertiseArea, Topic } from "@/shared/types";
 
 interface TopicSelectionStepProps {
-  currentArea: ExpertiseArea | undefined;
+  currentArea: ExpertiseArea |  { id: null; name: string; description: string; }  | undefined;
   selectedTopics: string[];
   currentAreaIndex: number;
   totalAreas: number;
@@ -26,10 +26,10 @@ interface TopicSelectionStepProps {
   isSubmitting: boolean;
   newTopics: Array<{ name: string; expertiseId?: string; expertiseName?: string }>;
   setNewTopics: React.Dispatch<
-    React.SetStateAction<
-      Array<{ name: string; expertiseId?: string; expertiseName?: string }>
-    >
-  >;
+  React.SetStateAction<
+  Array<{ name: string; expertiseId?: string; expertiseName?: string }>
+>
+>;
 }
 
 export function TopicSelectionStep({
@@ -53,12 +53,12 @@ export function TopicSelectionStep({
   const currentTopicsData: Topic[] = useMemo(() => {
     const serverTopics = currentArea?.id ? data?.data || [] : [];
     const localTopics = newTopics
-      .filter(
-        (t) =>
-          t.expertiseId === currentArea?.id ||
+    .filter(
+      (t) =>
+        t.expertiseId === currentArea?.id ||
           t.expertiseName === currentArea?.name
-      )
-      .map((t) => ({ id: t.name, name: t.name }));
+    )
+    .map((t) => ({ id: t.name, name: t.name }));
 
     return [...serverTopics, ...localTopics];
   }, [data, newTopics, currentArea]);
@@ -94,8 +94,8 @@ export function TopicSelectionStep({
             <div
               key={key}
               className={`w-3 h-3 rounded-full ${
-                index === currentAreaIndex ? "bg-primary" : "bg-muted-foreground/30"
-              }`}
+index === currentAreaIndex ? "bg-primary" : "bg-muted-foreground/30"
+}`}
             />
           ))}
         </div>
@@ -135,65 +135,65 @@ export function TopicSelectionStep({
             <Loader2 className="h-8 w-8 animate-spin text-primary" />
           </div>
         ) : error ? (
-          <div className="col-span-full text-center text-destructive py-4 flex flex-col items-center">
-            <AlertCircle className="h-8 w-8 mb-2" />
-            <p>Error loading topics. Please try again.</p>
-          </div>
-        ) : currentTopicsData.length === 0 ? (
-          <div className="col-span-full text-center text-muted-foreground py-4">
-            No topics available for this area.
-          </div>
-        ) : (
-          currentTopicsData.map((topic) => {
-            const isLocalNewTopic = newTopics.some(
-              (t) =>
-                t.name === topic.name &&
-                (t.expertiseId === currentArea?.id ||
-                  t.expertiseName === currentArea?.name)
-            );
-
-            return (
-              <div key={topic.id} className="relative">
-                <Badge
-                  variant={isTopicSelected(topic.id) ? "default" : "outline"}
-                  onClick={() => onTopicToggle(topic.id)}
-                  className={`cursor-pointer transition-all justify-center py-2 w-full text-center ${
-                    isTopicSelected(topic.id)
-                      ? "bg-primary text-primary-foreground"
-                      : "hover:bg-primary/10"
-                  }`}
-                >
-                  {topic.name}
-                </Badge>
-
-                {/* Remove button for newly added topics */}
-                {isLocalNewTopic && (
-                  <button
-                    onClick={(e) => {
-                      e.stopPropagation();
-                      setNewTopics((prev) =>
-                        prev.filter(
-                          (t) =>
-                            !(
-                              t.name === topic.name &&
-                              (t.expertiseId === currentArea?.id ||
-                                t.expertiseName === currentArea?.name)
-                            )
-                        )
-                      );
-                      if (isTopicSelected(topic.id)) {
-                        onTopicToggle(topic.id); // unselect if selected
-                      }
-                    }}
-                    className="absolute -top-2 -right-2 w-5 h-5 bg-destructive text-destructive-foreground rounded-full flex items-center justify-center text-xs hover:bg-destructive/80"
-                  >
-                    ×
-                  </button>
-                )}
+            <div className="col-span-full text-center text-destructive py-4 flex flex-col items-center">
+              <AlertCircle className="h-8 w-8 mb-2" />
+              <p>Error loading topics. Please try again.</p>
+            </div>
+          ) : currentTopicsData.length === 0 ? (
+              <div className="col-span-full text-center text-muted-foreground py-4">
+                No topics available for this area.
               </div>
-            );
-          })
-        )}
+            ) : (
+                currentTopicsData.map((topic) => {
+                  const isLocalNewTopic = newTopics.some(
+                    (t) =>
+                      t.name === topic.name &&
+                        (t.expertiseId === currentArea?.id ||
+                          t.expertiseName === currentArea?.name)
+                  );
+
+                  return (
+                    <div key={topic.id} className="relative">
+                      <Badge
+                        variant={isTopicSelected(topic.id) ? "default" : "outline"}
+                        onClick={() => onTopicToggle(topic.id)}
+                        className={`cursor-pointer transition-all justify-center py-2 w-full text-center ${
+isTopicSelected(topic.id)
+? "bg-primary text-primary-foreground"
+: "hover:bg-primary/10"
+}`}
+                      >
+                        {topic.name}
+                      </Badge>
+
+                      {/* Remove button for newly added topics */}
+                      {isLocalNewTopic && (
+                        <button
+                          onClick={(e) => {
+                            e.stopPropagation();
+                            setNewTopics((prev) =>
+                              prev.filter(
+                                (t) =>
+                                  !(
+                                    t.name === topic.name &&
+                                      (t.expertiseId === currentArea?.id ||
+                                        t.expertiseName === currentArea?.name)
+                                  )
+                              )
+                            );
+                            if (isTopicSelected(topic.id)) {
+                              onTopicToggle(topic.id); // unselect if selected
+                            }
+                          }}
+                          className="absolute -top-2 -right-2 w-5 h-5 bg-destructive text-destructive-foreground rounded-full flex items-center justify-center text-xs hover:bg-destructive/80"
+                        >
+                          ×
+                        </button>
+                      )}
+                    </div>
+                  );
+                })
+              )}
       </div>
 
       {/* Progress */}
@@ -211,8 +211,8 @@ export function TopicSelectionStep({
             className="bg-primary h-2 rounded-full"
             style={{
               width: `${currentTopicsData.length
-                ? (selectedTopics.length / currentTopicsData.length) * 100
-                : 0}%`,
+? (selectedTopics.length / currentTopicsData.length) * 100
+: 0}%`,
             }}
           />
         </div>
@@ -234,8 +234,8 @@ export function TopicSelectionStep({
               Saving...
             </>
           ) : (
-            "Complete Setup"
-          )}
+              "Complete Setup"
+            )}
         </Button>
       </div>
     </>

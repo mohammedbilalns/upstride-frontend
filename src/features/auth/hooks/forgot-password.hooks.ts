@@ -8,7 +8,7 @@ export interface ResendOtpData {
 	email: string;
 }
 
-export interface ResendOtpResponse {
+interface ResendOtpResponse {
 	success: boolean;
 	message: string;
 }
@@ -18,7 +18,7 @@ export interface VerifyForgotOtpData {
 	otp: string;
 }
 
-export interface VerifyOtpResponse {
+interface VerifyOtpResponse {
 	success: boolean;
 	message: string;
 }

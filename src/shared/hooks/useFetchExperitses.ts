@@ -9,8 +9,8 @@ import { fetchExpertises } from "../../features/admin/expertise-mangement/servic
  * @param query - Optional search query
  */
 export const useFetchExpertises = (
-	page: number,
-	limit: number,
+	page: string,
+	limit: string,
 	query: string,
 ) => {
 	return useQuery({

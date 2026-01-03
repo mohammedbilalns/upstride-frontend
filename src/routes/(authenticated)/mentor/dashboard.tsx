@@ -29,6 +29,7 @@ import { FormProvider, useForm } from "react-hook-form";
 import SkillSelection from "@/features/mentor/registration/components/skillSelection";
 import {  router } from "@/app/router/routerConfig";
 import DashboardFollowersList from "@/features/mentor/dashboard/components/DashboardFollowersList";
+import type { ProfileFormPayload } from "@/shared/types/profile";
 
 export const Route = createFileRoute("/(authenticated)/mentor/dashboard")({
   component: RouteComponent,
@@ -57,12 +58,12 @@ function RouteComponent() {
     }
   });
 
-  const handleSaveProfile = (values: any) => {
+  const handleSaveProfile = (values: ProfileFormPayload ) => {
     const saveProfilePayload = {
       bio : values.bio,
       currentRole: values.currentRole,
       organisation: values.organisation,
-      educationalQualifications: values.educationalQualificationsText.split("\n").filter(q => q.trim()),
+      educationalQualifications: values?.educationalQualificationsText.split("\n").filter(q => q.trim()),
       skills: values.skills,
       personalWebsite: values.personalWebsite,
       newSkills: newSkills

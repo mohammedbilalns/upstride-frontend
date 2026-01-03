@@ -17,3 +17,14 @@ export interface ProfileData {
 	role: "user" | "mentor";
 	interestedSkills: Skill[];
 }
+
+export interface ProfileFormPayload {
+  bio?: string;
+  currentRole?: string;
+  organisation?: string; 
+  educationalQualificationsText: string;
+  skills?: string[];
+  personalStatement?: string;
+  newSkills?: string[];
+  personalWebsite?: string;
+}

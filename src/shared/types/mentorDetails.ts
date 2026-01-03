@@ -1,4 +1,5 @@
 import type { CloudinaryResponse } from "./cloudinaryResponse";
+
 export interface MentorDetails {
 	bio: string;
 	currentRole: string;
@@ -11,3 +12,9 @@ export interface MentorDetails {
 	resume: CloudinaryResponse;
 	termsAccepted: boolean;
 }
+
+
+export type MentorProfileUpdatePayload = MentorDetails & {
+  newSkills?: string[];
+}
+

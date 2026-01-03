@@ -6,7 +6,6 @@ import UserAvatar from "@/components/common/UserAvatar";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader } from "@/components/ui/card";
 import { useFetchFollowing } from "@/features/connnections/hooks/connections-queries.hooks";
-import { JSONSchemaGenerator } from "zod/v4/core";
 
 interface FollowedMentorProps {
 	count?: number;

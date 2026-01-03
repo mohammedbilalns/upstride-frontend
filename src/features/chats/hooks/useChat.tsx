@@ -3,9 +3,9 @@ import { useUploadMedia } from "@/shared/hooks/useUploadMedia";
 import { useFetchChat } from "./useFetchChat";
 import { queryClient } from "@/app/router/routerConfig";
 import { SOCKET_EVENTS } from "@/shared/constants/events";
-import type { FetchChatsResponse, TransformedChatQueryResult } from "@/shared/types/chat";
+import type { TransformedChatQueryResult } from "@/shared/types/chat";
 import { toast } from "sonner";
-import type { MessageAttachment, SendMessagePayload } from "@/shared/types/message";
+import type { FetchChatResponse, MessageAttachment, SendMessagePayload } from "@/shared/types/message";
 import { useAuthStore } from "@/app/store/auth.store";
 import { useSocketStore } from "@/app/store/socket.store";
 
@@ -17,7 +17,7 @@ const MAX_FILE_SIZE = 5 * 1024 * 1024;
  * hook that manages chat state and message sending for a specific chat.
  * handles optimistic UI updates, and pagination.
  */
-export function useChat(chatId: string, initialData?: FetchChatsResponse) {
+export function useChat(chatId: string, initialData?: FetchChatResponse) {
   const { socket } = useSocketStore();
   const { user } = useAuthStore();
   const { handleUpload, uploadProgress, isUploading } = useUploadMedia();

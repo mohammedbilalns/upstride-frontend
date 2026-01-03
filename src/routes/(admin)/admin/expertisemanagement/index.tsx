@@ -17,7 +17,7 @@ import { CreateExpertiseDialog } from "@/features/admin/expertise-mangement/comp
 import ExpertiseSkillsCollapse from "@/features/admin/expertise-mangement/components/skillsCollapse";
 import { UpdateExpertiseDialog } from "@/features/admin/expertise-mangement/components/updateExpertiseDialog";
 import { useVerifyExpertise } from "@/features/admin/expertise-mangement/hooks/expertise.hooks";
-import { fetchExpertises, fetchExpertisesForAdmin } from "@/features/admin/expertise-mangement/services/expertise-management.service";
+import { fetchExpertisesForAdmin } from "@/features/admin/expertise-mangement/services/expertise-management.service";
 import StatusBadge from "@/features/admin/mentor-management/components/statusBadge";
 import {
 	paramsSchema,
@@ -37,7 +37,7 @@ export const Route = createFileRoute("/(admin)/admin/expertisemanagement/")({
 		const { page, rowsPerPage, search: query } = deps;
 		return context.queryClient.fetchQuery({
 			queryKey: ["expertises", page, rowsPerPage, query],
-			queryFn: () => fetchExpertisesForAdmin(page, rowsPerPage, query),
+			queryFn: () => fetchExpertisesForAdmin(String(page), String(rowsPerPage), query),
 		});
 	},
 });

@@ -51,3 +51,8 @@ export type fetchFollowingResponse = Array<{
     followerId: string;
   }
 }>
+
+export type Activity  = {
+  activityType: "followed_user" | "followed_you";
+  userName: string;
+}

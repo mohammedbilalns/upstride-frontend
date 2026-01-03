@@ -48,7 +48,7 @@ export default function MentorRegisterForm() {
   const [newSkills, setNewSkills] = useState<string[]>([]);
 	const registerMentorMuation = useRegisterAsMentor();
 
-	const { data } = useFetchExpertises(1, 10, "");
+	const { data } = useFetchExpertises("1", "10", "");
 	const expertiseOptions = data?.expertises || [];
 
 	const form: UseFormReturn<mentorRegistrationFormValues> =
@@ -88,7 +88,7 @@ export default function MentorRegisterForm() {
 		form.setValue("expertise", value);
 	};
 
-	const handleDragOver = (e: React.DragEvent<HTMLButtonElement>) => {
+	const handleDragOver = (e: React.DragEvent<HTMLDivElement>) => {
 		e.preventDefault();
 		setIsDragging(true);
 	};
@@ -97,7 +97,7 @@ export default function MentorRegisterForm() {
 		setIsDragging(false);
 	};
 
-	const handleDrop = (e: React.DragEvent<HTMLButtonElement>) => {
+	const handleDrop = (e: React.DragEvent<HTMLDivElement>) => {
 		e.preventDefault();
 		setIsDragging(false);
 

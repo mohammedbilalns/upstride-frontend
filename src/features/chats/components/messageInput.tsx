@@ -13,7 +13,7 @@ const MAX_FILE_SIZE = 5 * 1024 * 1024;
 
 export function MessageInput({ onSend }: MessageInputProps) {
   const [message, setMessage] = useState("");
-  const [uploadedFile, setUploadedFile] = useState<File | null>(null);
+  const [uploadedFile, setUploadedFile] = useState<File | undefined>(undefined);
   const [fileError, setFileError] = useState<string | null>(null);
 
   const fileInputRef = useRef<HTMLInputElement>(null);
@@ -28,7 +28,7 @@ export function MessageInput({ onSend }: MessageInputProps) {
     if (trimmedMessage || uploadedFile) {
       onSend(trimmedMessage, uploadedFile);
       setMessage("");
-      setUploadedFile(null);
+      setUploadedFile(undefined);
       setFileError(null);
     }
   };
@@ -70,7 +70,7 @@ export function MessageInput({ onSend }: MessageInputProps) {
   };
 
   const removeFile = () => {
-    setUploadedFile(null);
+    setUploadedFile(undefined);
     setFileError(null);
   };
 
