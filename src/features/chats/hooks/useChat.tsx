@@ -62,21 +62,20 @@ export function useChat(chatId: string, initialData?: FetchChatResponse) {
     const lastMessage = messages[messages.length - 1];
 
     // Only mark as read if the last message is not from the current user
-    if (lastMessage && lastMessage.sender.id !== user.id) {
-      markAsRead(lastMessage.id);
+    if (lastMessage && lastMessage.sender.id !== user.id && lastMessage.status !== 'read') {
+      markChatRead();
     }
   }, [chatId, messages.length, socket, user?.id]);
 
   /**
    * Mark messages as read and update UI optimistically
    */
-  const markAsRead = (messageId: string) => {
+  const markChatRead = () => {
     if (!socket || !user?.id) return;
 
     // Emit mark as read event
-    socket.emit(SOCKET_EVENTS.CHAT.MARK_MESSAGE_READ, {
-      userId: user.id,
-      messageId: messageId
+    socket.emit(SOCKET_EVENTS.CHAT.MARK_CHAT_READ, {
+      senderId: chatId
     });
 
     // Optimistically update the current chat messages
@@ -334,7 +333,7 @@ export function useChat(chatId: string, initialData?: FetchChatResponse) {
     isLoading,
     error,
     sendMessage,
-    markAsRead,
+    markChatRead,
     refetch,
     fetchNextPage,
     hasNextPage,

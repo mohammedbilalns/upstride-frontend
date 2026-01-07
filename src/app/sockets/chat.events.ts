@@ -177,9 +177,36 @@ export function registerChatEvents(socket: Socket) {
       //       ),
       //     })),
       //   };
-      // });
     } catch (err) {
       console.error("[WS] Invalid mark as read payload:", err);
+    }
+  });
+
+  socket.on(SOCKET_EVENTS.CHAT.MARK_CHAT_READ, (data) => {
+    try {
+      console.log(`[WS] Mark chat read payload:`, data);
+
+      const chatId = data.recieverId;
+
+      queryClient.setQueryData(
+        ["chat", chatId],
+        (oldData: TransformedChatQueryResult | undefined) => {
+          if (!oldData) return oldData;
+
+          return {
+            ...oldData,
+            pages: oldData.pages.map(page => ({
+              ...page,
+              messages: page.messages.map(msg => ({
+                ...msg,
+                status: "read"
+              }))
+            }))
+          };
+        }
+      );
+    } catch (err) {
+      console.error("[WS] Invalid mark chat read payload:", err);
     }
   });
 }
