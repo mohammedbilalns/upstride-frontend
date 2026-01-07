@@ -7,21 +7,21 @@ export interface MessageAttachment {
   fileType: string;
   name: string;
 }
-export type Participant = Pick<User, "id" | "name" | "profilePicture"| "role"> & { isMentor: boolean};
+export type Participant = Pick<User, "id" | "name" | "profilePicture" | "role"> & { isMentor: boolean };
 
 export interface ChatMessage {
   id: string;
   chatId: string;
   content?: string;
   type: "TEXT" | "FILE" | "IMAGE";
-  status: "send" | "read";
-  createdAt:  string;
+  status: "send" | "read" | "sent";
+  createdAt: string;
   sender: Participant;
   attachment?: MessageAttachment;
 }
 
 export interface FetchChatResponse {
-  chat:{
+  chat: {
     id: string;
     participant: Participant
   },
@@ -34,6 +34,7 @@ export interface SendMessagePayload {
   message?: string;
   type: "FILE" | "TEXT" | "IMAGE";
   media?: MessageAttachment;
+  tempId?: string;
 }
 
 export interface ChatMessagesQueryResult {

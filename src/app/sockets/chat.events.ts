@@ -8,6 +8,7 @@ import { SOCKET_EVENTS } from "@/shared/constants/events";
 import type { Socket } from "socket.io-client";
 import { queryClient } from "../router/routerConfig";
 import type { ChatMessagesQueryResult, ChatMessage, MessageAttachment } from "@/shared/types/message";
+import type { TransformedChatQueryResult } from "@/shared/types/chat";
 import type { UserRole } from "@/shared/types";
 
 /**
@@ -34,7 +35,7 @@ export function registerChatEvents(socket: Socket) {
               chatId: pending.to,
               content: pending.message,
               createdAt: new Date().toISOString(),
-              status:"send",
+              status: "send",
               type: pending.type,
               sender: {
                 id: pending.from,
@@ -55,11 +56,11 @@ export function registerChatEvents(socket: Socket) {
           }
         );
 
-        setTimeout(()=>{
+        setTimeout(() => {
           queryClient.invalidateQueries({
-            queryKey:["chats"]
+            queryKey: ["chats"]
           })
-        },500)
+        }, 500)
         return;
       }
 
@@ -68,30 +69,34 @@ export function registerChatEvents(socket: Socket) {
 
       queryClient.setQueryData(
         ["chat", messageData.senderId],
-        (oldData: ChatMessagesQueryResult | undefined) => {
+        (oldData: any) => {
           if (!oldData) return oldData;
+
+          const chatInfo = oldData.pages?.[0]?.chat;
+          const participant = chatInfo?.participant;
 
           const newMessage: ChatMessage = {
             id: messageData.messageId,
-            chatId:messageData.chatId,
+            chatId: messageData.chatId,
             content: messageData.message,
-            createdAt:messageData.timestamp,
+            createdAt: messageData.timestamp,
             status: "send",
-            type: messageData.type,
+            type: messageData.type as "TEXT" | "FILE" | "IMAGE",
             sender: {
               id: messageData.senderId,
               name: messageData.senderName,
-              profilePicture: user?.profilePicture,
+              profilePicture: messageData.senderId === participant?.id ? participant.profilePicture : (user?.profilePicture || ""),
               role: user?.role as UserRole,
+              isMentor: participant?.isMentor ?? false,
             },
             attachment: messageData.attachment as MessageAttachment,
           };
 
           // Check if this message already exists (optimistic update)
           const messageExists = oldData.pages[0].messages.some(
-            msg => msg.id === messageData.messageId || 
-              (msg.content === messageData.message && 
-                msg.sender.id === messageData.senderId && 
+            (msg: ChatMessage) => msg.id === messageData.messageId ||
+              (msg.content === messageData.message &&
+                msg.sender.id === messageData.senderId &&
                 Math.abs(new Date(msg.createdAt).getTime() - new Date(messageData.timestamp).getTime()) < 5000)
           );
 
@@ -99,14 +104,14 @@ export function registerChatEvents(socket: Socket) {
             // Update existing message with confirmed data
             return {
               ...oldData,
-              pages: oldData.pages.map(page => ({
+              pages: oldData.pages.map((page: any) => ({
                 ...page,
-                messages: page.messages.map(msg => 
-                  (msg.id === messageData.messageId || 
-                    (msg.content === messageData.message && 
-                      msg.sender.id === messageData.senderId && 
+                messages: page.messages.map((msg: ChatMessage) =>
+                  (msg.id === messageData.messageId ||
+                    (msg.content === messageData.message &&
+                      msg.sender.id === messageData.senderId &&
                       Math.abs(new Date(msg.createdAt).getTime() - new Date(messageData.timestamp).getTime()) < 5000))
-                    ? { ...msg, id: messageData.messageId, attachment: messageData?.attachment}
+                    ? { ...msg, id: messageData.messageId, attachment: messageData?.attachment }
                     : msg
                 )
               }))
@@ -124,7 +129,7 @@ export function registerChatEvents(socket: Socket) {
       );
 
       queryClient.invalidateQueries({
-        queryKey:["chats"]
+        queryKey: ["chats"]
       })
     } catch (err) {
       console.error("[WS] Invalid chat payload:", err);
@@ -132,7 +137,7 @@ export function registerChatEvents(socket: Socket) {
   });
 
 
-   socket.on(SOCKET_EVENTS.CHAT.MARK_MESSAGE_READ, (data) => {
+  socket.on(SOCKET_EVENTS.CHAT.MARK_MESSAGE_READ, (data) => {
     try {
       console.log(`[WS] Mark as read payload:`, data);
 
@@ -141,7 +146,7 @@ export function registerChatEvents(socket: Socket) {
       // receiverId is the person who sent the messages (current user)
       queryClient.setQueryData(
         ["chat", recieverId],
-        (oldData: ChatMessagesQueryResult | undefined) => {
+        (oldData: TransformedChatQueryResult | undefined) => {
           if (!oldData) return oldData;
 
           return {
@@ -176,5 +181,5 @@ export function registerChatEvents(socket: Socket) {
     } catch (err) {
       console.error("[WS] Invalid mark as read payload:", err);
     }
-  }); 
+  });
 }

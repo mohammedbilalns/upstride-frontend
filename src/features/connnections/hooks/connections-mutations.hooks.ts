@@ -93,7 +93,7 @@ export function useUnfollowMentor() {
             // Return a context object with the snapshotted value
             return { previousMentorData };
         },
-        onError: (err, mentorId, context) => {
+        onError: (_err, mentorId, context) => {
             if (context?.previousMentorData) {
                 queryClient.setQueryData(["mentor", mentorId], context.previousMentorData);
             }
