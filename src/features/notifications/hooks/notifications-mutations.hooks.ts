@@ -9,6 +9,7 @@ import type { NotificationsResponse } from "@/shared/types/notifications";
 import {
   markNotificationAsRead,
   markAllNotificationsAsRead,
+  markChatNotificationsAsRead,
 } from "../services/notification.service";
 
 type NotificationsInfiniteData = InfiniteData<NotificationsResponse>;
@@ -16,7 +17,7 @@ type NotificationsInfiniteData = InfiniteData<NotificationsResponse>;
 // helper function to update notifications in cache
 const updateNotificationsCache = (
   oldData: NotificationsInfiniteData | undefined,
-  notificationId?: string, 
+  notificationId?: string,
 ): NotificationsInfiniteData | undefined => {
   if (!oldData?.pages?.length) return oldData;
 
@@ -133,5 +134,70 @@ export const useMarkAllNotificationsAsRead = () => {
     onSuccess: () => {
       toast.success("All notifications marked as read");
     },
+  });
+};
+
+export const useMarkChatNotificationsAsRead = () => {
+  const queryClient = useQueryClient();
+
+  return useMutation({
+    mutationFn: (chatId: string) => markChatNotificationsAsRead(chatId),
+
+    onMutate: async (chatId) => {
+      await queryClient.cancelQueries({ queryKey: ["notifications"] });
+
+      const previousNotifications = queryClient.getQueryData<NotificationsInfiniteData>(
+        ["notifications"]
+      );
+
+      queryClient.setQueryData<NotificationsInfiniteData>(
+        ["notifications"],
+        (oldData) => {
+          if (!oldData?.pages?.length) return oldData;
+
+          const newPages = oldData.pages.map((page, index) => {
+
+
+            let newlyReadCount = 0;
+            const updatedNotifications = page.notifications.map((notif) => {
+              const isChatNotif = notif.type === 'chat';
+
+              const isFromSender = notif.link?.includes(chatId);
+
+              if (isChatNotif && isFromSender && !notif.isRead) {
+                newlyReadCount++;
+                return { ...notif, isRead: true };
+              }
+              return notif;
+            });
+
+            if (index === 0) {
+              return {
+                ...page,
+                notifications: updatedNotifications,
+                unreadCount: Math.max(0, page.unreadCount - newlyReadCount),
+              };
+            }
+
+            return { ...page, notifications: updatedNotifications };
+          });
+
+          return { ...oldData, pages: newPages };
+        }
+      );
+
+      return { previousNotifications };
+    },
+
+    onError: (_err, _var, context) => {
+      if (context?.previousNotifications) {
+        queryClient.setQueryData(["notifications"], context.previousNotifications);
+      }
+    },
+
+    onSuccess: () => {
+      // Optionally invalidate to ensure sync
+      queryClient.invalidateQueries({ queryKey: ["notifications"] });
+    }
   });
 };

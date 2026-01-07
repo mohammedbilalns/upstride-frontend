@@ -1,6 +1,7 @@
 import { useState, useMemo, useEffect } from "react";
 import { useUploadMedia } from "@/shared/hooks/useUploadMedia";
 import { useFetchChat } from "./useFetchChat";
+import { useMarkChatNotificationsAsRead } from "@/features/notifications/hooks/notifications-mutations.hooks";
 import { queryClient } from "@/app/router/routerConfig";
 import { SOCKET_EVENTS } from "@/shared/constants/events";
 import type { TransformedChatQueryResult } from "@/shared/types/chat";
@@ -10,8 +11,8 @@ import { useAuthStore } from "@/app/store/auth.store";
 import { useSocketStore } from "@/app/store/socket.store";
 
 // File size limits in bytes
-const MAX_IMAGE_SIZE = 2 * 1024 * 1024; 
-const MAX_FILE_SIZE = 5 * 1024 * 1024; 
+const MAX_IMAGE_SIZE = 2 * 1024 * 1024;
+const MAX_FILE_SIZE = 5 * 1024 * 1024;
 
 /**
  * hook that manages chat state and message sending for a specific chat.
@@ -21,7 +22,7 @@ export function useChat(chatId: string, initialData?: FetchChatResponse) {
   const { socket } = useSocketStore();
   const { user } = useAuthStore();
   const { handleUpload, uploadProgress, isUploading } = useUploadMedia();
-  
+
   // Track which messages are currently uploading
   const [uploadingMessages, setUploadingMessages] = useState<Map<string, number>>(new Map());
 
@@ -50,12 +51,16 @@ export function useChat(chatId: string, initialData?: FetchChatResponse) {
     };
   }, [chatInfo]);
 
+  const { mutate: markNotificationsRead } = useMarkChatNotificationsAsRead();
+
   // Mark messages as read when chat opens or new message arrives
   useEffect(() => {
     if (!socket || !user?.id || messages.length === 0) return;
 
+    markNotificationsRead(chatId);
+
     const lastMessage = messages[messages.length - 1];
-    
+
     // Only mark as read if the last message is not from the current user
     if (lastMessage && lastMessage.sender.id !== user.id) {
       markAsRead(lastMessage.id);
@@ -97,24 +102,25 @@ export function useChat(chatId: string, initialData?: FetchChatResponse) {
     queryClient.invalidateQueries({
       queryKey: ["chats"]
     })
-    // queryClient.setQueryData(
-    //   ["chats"],
-    //   (oldData: any) => {
-    //     if (!oldData) return oldData;
-    //
-    //     return {
-    //       ...oldData,
-    //       pages: oldData.pages.map((page: any) => ({
-    //         ...page,
-    //         chats: page.chats.map((chat: any) => 
-    //           chat.id === chatId
-    //             ? { ...chat, unread: 0, isRead: true }
-    //             : chat
-    //         )
-    //       }))
-    //     };
-    //   }
-    // );
+
+    queryClient.setQueryData(
+      ["chats"],
+      (oldData: any) => {
+        if (!oldData) return oldData;
+
+        return {
+          ...oldData,
+          pages: oldData.pages.map((page: any) => ({
+            ...page,
+            chats: page.chats.map((chat: any) =>
+              chat.participant.id === chatId
+                ? { ...chat, unreadCount: 0 }
+                : chat
+            )
+          }))
+        };
+      }
+    );
   };
 
   /**
@@ -131,7 +137,7 @@ export function useChat(chatId: string, initialData?: FetchChatResponse) {
 
     // Trim the content to check if it's empty
     const trimmedContent = content.trim();
-    
+
     // Don't send if both content and attachment are empty
     if (!trimmedContent && !attachment) {
       return;
@@ -141,12 +147,12 @@ export function useChat(chatId: string, initialData?: FetchChatResponse) {
     if (attachment) {
       const isImage = attachment.type.startsWith("image/");
       const maxSize = isImage ? MAX_IMAGE_SIZE : MAX_FILE_SIZE;
-      
+
       if (attachment.size > maxSize) {
         const sizeMB = (attachment.size / (1024 * 1024)).toFixed(2);
         const maxSizeMB = (maxSize / (1024 * 1024)).toFixed(0);
         const fileType = isImage ? "image" : "file";
-        
+
         toast.error(`${fileType.charAt(0).toUpperCase() + fileType.slice(1)} size (${sizeMB}MB) exceeds the maximum allowed size of ${maxSizeMB}MB`);
         return;
       }
@@ -154,7 +160,7 @@ export function useChat(chatId: string, initialData?: FetchChatResponse) {
 
     // Create temporary message ID for optimistic update
     const tempId = `temp-${Date.now()}`;
-    
+
     // Optimistic UI update - add the message immediately
     queryClient.setQueryData(
       ["chat", chatId],
@@ -178,7 +184,7 @@ export function useChat(chatId: string, initialData?: FetchChatResponse) {
             ...(oldData.messages || []),
             {
               id: tempId,
-              content: trimmedContent, 
+              content: trimmedContent,
               createdAt: new Date().toISOString(),
               status: "sent",
               sender: {
@@ -202,22 +208,22 @@ export function useChat(chatId: string, initialData?: FetchChatResponse) {
     try {
       // Upload file if provided
       let uploadedAttachment: MessageAttachment | undefined;
-      
+
       if (attachment) {
         try {
           // Mark this message as uploading
           setUploadingMessages(prev => new Map(prev).set(tempId, 0));
-          
+
           // Upload the file
           const result = await handleUpload(attachment);
-          
+
           // Update progress for this specific message
           setUploadingMessages(prev => {
             const newMap = new Map(prev);
             newMap.set(tempId, uploadProgress);
             return newMap;
           });
-          
+
           // Convert upload result to attachment format
           uploadedAttachment = {
             url: result.secure_url,
@@ -225,7 +231,7 @@ export function useChat(chatId: string, initialData?: FetchChatResponse) {
             size: result.bytes,
             name: result.original_filename,
           };
-          
+
           // Remove from uploading set
           setUploadingMessages(prev => {
             const newMap = new Map(prev);
@@ -235,27 +241,27 @@ export function useChat(chatId: string, initialData?: FetchChatResponse) {
         } catch (uploadError) {
           console.error("File upload failed:", uploadError);
           toast.error("Failed to upload file");
-          
+
           // Remove from uploading set
           setUploadingMessages(prev => {
             const newMap = new Map(prev);
             newMap.delete(tempId);
             return newMap;
           });
-          
+
           // Remove the optimistic message if upload fails
           queryClient.setQueryData(
             ["chat", chatId],
             (oldData: TransformedChatQueryResult | undefined) => {
               if (!oldData) return oldData;
-              
+
               return {
                 ...oldData,
                 messages: oldData.messages.filter(msg => msg.id !== tempId),
               };
             }
           );
-          
+
           return;
         }
       }
@@ -267,7 +273,7 @@ export function useChat(chatId: string, initialData?: FetchChatResponse) {
         type: uploadedAttachment ? "FILE" : "TEXT",
         media: uploadedAttachment,
       };
-      
+
       // Only add message if there's content
       if (trimmedContent) {
         payload.message = trimmedContent;
@@ -282,11 +288,11 @@ export function useChat(chatId: string, initialData?: FetchChatResponse) {
           ["chat", chatId],
           (oldData: TransformedChatQueryResult | undefined) => {
             if (!oldData) return oldData;
-            
+
             return {
               ...oldData,
-              messages: oldData.messages.map(msg => 
-                msg.id === tempId 
+              messages: oldData.messages.map(msg =>
+                msg.id === tempId
                   ? { ...msg, attachments: [uploadedAttachment] }
                   : msg
               ),
@@ -294,25 +300,25 @@ export function useChat(chatId: string, initialData?: FetchChatResponse) {
           }
         );
       }
-      
-      
+
+
     } catch (error) {
       console.error("Error sending message:", error);
       toast.error("Failed to send message");
-      
+
       // Remove from uploading set
       setUploadingMessages(prev => {
         const newMap = new Map(prev);
         newMap.delete(tempId);
         return newMap;
       });
-      
+
       // Remove the optimistic message if sending fails
       queryClient.setQueryData(
         ["chat", chatId],
         (oldData: TransformedChatQueryResult | undefined) => {
           if (!oldData) return oldData;
-          
+
           return {
             ...oldData,
             messages: oldData.messages.filter(msg => msg.id !== tempId),
@@ -335,6 +341,6 @@ export function useChat(chatId: string, initialData?: FetchChatResponse) {
     isFetchingNextPage,
     uploadProgress,
     isUploading,
-    uploadingMessages, 
+    uploadingMessages,
   };
 }

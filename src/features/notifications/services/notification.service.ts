@@ -18,3 +18,7 @@ export function markNotificationAsRead(id: string) {
 export function markAllNotificationsAsRead() {
 	return apiRequest(() => api.post(API_ROUTES.NOTIFICATIONS.MARK_ALL_AS_READ))
 }
+
+export function markChatNotificationsAsRead(chatId: string) {
+	return apiRequest(() => api.put(API_ROUTES.NOTIFICATIONS.MARK_CHAT_READ(chatId)))
+}
