@@ -97,10 +97,7 @@ export function useChat(chatId: string, initialData?: FetchChatResponse) {
       }
     );
 
-    // Optimistically update the chats list
-    queryClient.invalidateQueries({
-      queryKey: ["chats"]
-    })
+
 
     queryClient.setQueryData(
       ["chats"],

@@ -128,9 +128,45 @@ export function registerChatEvents(socket: Socket) {
         }
       );
 
-      queryClient.invalidateQueries({
-        queryKey: ["chats"]
-      })
+      // Update chats list optimistically
+      let chatFound = false;
+      const isChatOpen = window.location.pathname.includes(messageData.senderId);
+
+      queryClient.setQueryData(["chats"], (oldData: any) => {
+        if (!oldData) return oldData;
+
+        const newPages = oldData.pages.map((page: any) => ({
+          ...page,
+          chats: page.chats.map((chat: any) => {
+            if (chat.participant.id === messageData.senderId) {
+              chatFound = true;
+              return {
+                ...chat,
+                lastMessage: {
+                  _id: messageData.messageId,
+                  content: messageData.message || (messageData.attachment ? "Attachment" : ""),
+                  type: messageData.type,
+                  createdAt: messageData.timestamp,
+                  status: "sent",
+                  senderId: messageData.senderId
+                },
+                unreadCount: isChatOpen ? 0 : (chat.unreadCount || 0) + 1,
+                updatedAt: new Date().toISOString()
+              };
+            }
+            return chat;
+          })
+        }));
+
+        return { ...oldData, pages: newPages };
+      });
+
+      // If chat wasn't found in current cache (e.g. new chat), invalidate to fetch it
+      if (!chatFound) {
+        queryClient.invalidateQueries({
+          queryKey: ["chats"]
+        });
+      }
     } catch (err) {
       console.error("[WS] Invalid chat payload:", err);
     }
