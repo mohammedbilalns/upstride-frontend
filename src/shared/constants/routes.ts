@@ -104,6 +104,8 @@ export const API_ROUTES = {
 		CREATE_CUSTOM_SLOT: `/slots/availability/custom`,
 		GET_MENTOR_SLOTS: `/slots/slots`,
 		CANCEL_SLOT: (slotId: string) => `/slots/${slotId}/cancel`,
+		ENABLE_SLOT: (slotId: string) => `/slots/${slotId}/enable`,
+		DELETE_SLOT: (slotId: string) => `/slots/${slotId}`,
 	},
 	SESSIONS: {
 		BOOK_SESSION: (slotId: string) => `/sessions/${slotId}/book`,

@@ -21,6 +21,7 @@ import { Separator } from "@/components/ui/separator";
 import { useQuery } from "@tanstack/react-query";
 import Loading from "@/components/common/Loading";
 import ErrorState from "@/components/common/ErrorState";
+import MentorSlots from "@/features/mentors/components/MentorSlots";
 
 //FIX: 404 error from backend 
 export const Route = createFileRoute("/(authenticated)/mentor/$mentorId")({
@@ -209,6 +210,8 @@ function RouteComponent() {
                 </ul>
               </CardContent>
             </Card>
+
+            <MentorSlots mentorId={mentorId} />
           </main>
         </div>
       </div>

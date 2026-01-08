@@ -3,6 +3,7 @@ export interface ApiError extends Error {
 		data?: {
 			message?: string;
 			success?: boolean;
+			errors?: { path: string; message: string }[];
 		};
 		status?: number;
 	};

@@ -15,6 +15,7 @@ interface RuleFormValues {
   startTime: string;
   endTime: string;
   slotDuration: 60 | 90 | 120 | 180;
+  price: number;
 }
 
 export default function AddRuleDialog({ mentorId }: { mentorId: string }) {
@@ -26,7 +27,8 @@ export default function AddRuleDialog({ mentorId }: { mentorId: string }) {
       weekDay: 1,
       startTime: "09:00",
       endTime: "10:00",
-      slotDuration: 60
+      slotDuration: 60,
+      price: 100
     }
   });
 
@@ -98,7 +100,7 @@ export default function AddRuleDialog({ mentorId }: { mentorId: string }) {
                       <SelectValue placeholder="Select a day" />
                     </SelectTrigger>
                     <SelectContent>
-                      <SelectItem value="0">Sunday</SelectItem>
+                      <SelectItem value="7">Sunday</SelectItem>
                       <SelectItem value="1">Monday</SelectItem>
                       <SelectItem value="2">Tuesday</SelectItem>
                       <SelectItem value="3">Wednesday</SelectItem>
@@ -151,6 +153,19 @@ export default function AddRuleDialog({ mentorId }: { mentorId: string }) {
                     </SelectContent>
                   </Select>
                 )}
+              />
+            </div>
+
+            {/* Price */}
+            <div className="grid grid-cols-4 items-center gap-4">
+              <label className="text-right">Hourly Rate (₹)</label>
+              <Input
+                type="number"
+                className="col-span-3"
+                placeholder="e.g. 500"
+                min={10}
+                max={10000}
+                {...form.register("price", { valueAsNumber: true })}
               />
             </div>
 
