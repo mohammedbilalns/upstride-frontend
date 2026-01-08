@@ -14,7 +14,7 @@ interface RuleFormValues {
   weekDay: number;
   startTime: string;
   endTime: string;
-  slotDuration: number;
+  slotDuration: 60 | 90 | 120 | 180;
 }
 
 export default function AddRuleDialog({ mentorId }: { mentorId: string }) {

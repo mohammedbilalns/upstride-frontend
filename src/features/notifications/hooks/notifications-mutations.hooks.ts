@@ -66,22 +66,17 @@ export const useMarkNotificationAsRead = () => {
       );
 
       // Optimistically update
-      queryClient.setQueryData<NotificationsInfiniteData>(
-        ["notifications"],
+      queryClient.setQueriesData<NotificationsInfiniteData>(
+        { queryKey: ["notifications"] },
         (oldData) => updateNotificationsCache(oldData, id)
       );
 
       return { previousNotifications };
     },
 
-    onError: (error: ApiError, _id, context) => {
+    onError: (error: ApiError, _id, _context) => {
       // Rollback on error
-      if (context?.previousNotifications) {
-        queryClient.setQueryData(
-          ["notifications"],
-          context.previousNotifications
-        );
-      }
+      queryClient.invalidateQueries({ queryKey: ["notifications"] });
 
       const errorMessage =
         error?.response?.data?.message || "Failed to mark notification as read";
@@ -107,8 +102,8 @@ export const useMarkAllNotificationsAsRead = () => {
       );
 
       // Optimistically update (no ID means mark all)
-      queryClient.setQueryData<NotificationsInfiniteData>(
-        ["notifications"],
+      queryClient.setQueriesData<NotificationsInfiniteData>(
+        { queryKey: ["notifications"] },
         (oldData) => updateNotificationsCache(oldData)
       );
 
@@ -150,8 +145,8 @@ export const useMarkChatNotificationsAsRead = () => {
         ["notifications"]
       );
 
-      queryClient.setQueryData<NotificationsInfiniteData>(
-        ["notifications"],
+      queryClient.setQueriesData<NotificationsInfiniteData>(
+        { queryKey: ["notifications"] },
         (oldData) => {
           if (!oldData?.pages?.length) return oldData;
 
@@ -190,9 +185,7 @@ export const useMarkChatNotificationsAsRead = () => {
     },
 
     onError: (_err, _var, context) => {
-      if (context?.previousNotifications) {
-        queryClient.setQueryData(["notifications"], context.previousNotifications);
-      }
+      queryClient.invalidateQueries({ queryKey: ["notifications"] });
     },
 
     onSuccess: () => {

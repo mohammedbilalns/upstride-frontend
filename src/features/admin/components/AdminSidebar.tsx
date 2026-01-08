@@ -121,9 +121,8 @@ export function Sidebar({ className = "" }: SidebarProps) {
 
 				{/* Navigation */}
 				<nav
-					className={`flex-1 px-4 scrollbar-hide py-2  scrollbar-hide ${
-						isCollapsed ? "overflow-hidden" : "overflow-y-auto"
-					}`}
+					className={`flex-1 px-4 scrollbar-hide py-2  scrollbar-hide ${isCollapsed ? "overflow-hidden" : "overflow-y-auto"
+						}`}
 				>
 					<ul className="space-y-1">
 						{navigationItems.map((item) => {
@@ -133,14 +132,13 @@ export function Sidebar({ className = "" }: SidebarProps) {
 							return (
 								<li key={item.id}>
 									<Link
-										to={`/admin/${item.href}`}
+										to={`/admin/${item.href}` as any}
 										onClick={handleItemClick}
 										className={`
                       w-full flex items-center space-x-3 px-4 py-3 rounded-xl text-left transition-all duration-200 group relative cursor-pointer
-                      ${
-												active
-													? "bg-primary/10 text-primary border border-primary/20 shadow-sm"
-													: "text-muted-foreground hover:bg-accent hover:text-foreground"
+                      ${active
+												? "bg-primary/10 text-primary border border-primary/20 shadow-sm"
+												: "text-muted-foreground hover:bg-accent hover:text-foreground"
 											}
                       ${isCollapsed ? "justify-center px-3" : ""}
                     `}
@@ -159,10 +157,9 @@ export function Sidebar({ className = "" }: SidebarProps) {
 											<Icon
 												className={`
                           h-5 w-5 shrink-0
-                          ${
-														active
-															? "text-primary"
-															: "text-muted-foreground group-hover:text-foreground"
+                          ${active
+														? "text-primary"
+														: "text-muted-foreground group-hover:text-foreground"
 													}
                         `}
 											/>
@@ -179,11 +176,10 @@ export function Sidebar({ className = "" }: SidebarProps) {
 													<span
 														className={`
                             px-2 py-1 text-xs font-semibold rounded-full
-                            ${
-															active
+                            ${active
 																? "bg-primary/20 text-primary"
 																: "bg-muted text-muted-foreground"
-														}
+															}
                           `}
 													>
 														{item.badge}

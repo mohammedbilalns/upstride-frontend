@@ -3,10 +3,16 @@ import { API_ROUTES } from "@/shared/constants/routes";
 import { type NotificationsResponse } from "@/shared/types/notifications";
 import { apiRequest } from "@/shared/utils/apiWrapper";
 
-export function fetchNotifications(page: number, limit: number) {
-	return apiRequest(() => api.get<NotificationsResponse>(API_ROUTES.NOTIFICATIONS.FETCH, {
-		params: { page, limit },
-	}))
+export function fetchNotifications(
+	page: number,
+	limit: number,
+	filter?: "all" | "unread",
+) {
+	return apiRequest(() =>
+		api.get<NotificationsResponse>(API_ROUTES.NOTIFICATIONS.FETCH, {
+			params: { page, limit, filter },
+		}),
+	);
 }
 
 export function markNotificationAsRead(id: string) {

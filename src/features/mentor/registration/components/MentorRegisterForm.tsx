@@ -2,30 +2,30 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { Plus } from "lucide-react";
 import { useState } from "react";
 import {
-	FormProvider,
-	type UseFormReturn,
-	useFieldArray,
-	useForm,
+  FormProvider,
+  type UseFormReturn,
+  useFieldArray,
+  useForm,
 } from "react-hook-form";
 import { toast } from "sonner";
 import { Button } from "@/components/ui/button";
 import { Checkbox } from "@/components/ui/checkbox";
 import {
-	Form,
-	FormControl,
-	FormDescription,
-	FormField,
-	FormItem,
-	FormLabel,
-	FormMessage,
+  Form,
+  FormControl,
+  FormDescription,
+  FormField,
+  FormItem,
+  FormLabel,
+  FormMessage,
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import {
-	Select,
-	SelectContent,
-	SelectItem,
-	SelectTrigger,
-	SelectValue,
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
 } from "@/components/ui/select";
 import { Textarea } from "@/components/ui/textarea";
 import { useFetchExpertises } from "@/shared/hooks/useFetchExperitses";
@@ -33,8 +33,8 @@ import type { Expertise } from "@/shared/types";
 import { useUploadMedia } from "../../../../shared/hooks/useUploadMedia";
 import { useRegisterAsMentor } from "../hooks/mentor-registration.hooks";
 import {
-	type mentorRegistrationFormValues,
-	mentorRegistrationSchema,
+  type mentorRegistrationFormValues,
+  mentorRegistrationSchema,
 } from "../schemas/mentor-registration.schema";
 import FilePreview from "./filePreview";
 import FileUpload from "./fileUpload";
@@ -42,78 +42,78 @@ import SkillSelection from "./skillSelection";
 import UploadingIndicator from "./uploadingIndicator";
 
 export default function MentorRegisterForm() {
-	const [selectedExpertise, setSelectedExpertise] = useState<string>("");
-	const [resumeFile, setResumeFile] = useState<File | null>(null);
-	const [isDragging, setIsDragging] = useState(false);
+  const [selectedExpertise, setSelectedExpertise] = useState<string>("");
+  const [resumeFile, setResumeFile] = useState<File | null>(null);
+  const [isDragging, setIsDragging] = useState(false);
   const [newSkills, setNewSkills] = useState<string[]>([]);
-	const registerMentorMuation = useRegisterAsMentor();
+  const registerMentorMuation = useRegisterAsMentor();
 
-	const { data } = useFetchExpertises("1", "10", "");
-	const expertiseOptions = data?.expertises || [];
+  const { data } = useFetchExpertises("1", "10", "");
+  const expertiseOptions = data?.expertises || [];
 
-	const form: UseFormReturn<mentorRegistrationFormValues> =
-		useForm<mentorRegistrationFormValues>({
-			resolver: zodResolver(mentorRegistrationSchema),
-			defaultValues: {
-				bio: "",
-				currentRole: "",
-				organisation: "",
-				yearsOfExperience: 0,
-				educationalQualifications: [{ value: "" }],
-				personalWebsite: "",
-				expertise: "",
-				skills: [],
-				resume: null as unknown as File,
-				termsAccepted: false,
-			},
-		});
+  const form: UseFormReturn<mentorRegistrationFormValues> =
+    useForm<mentorRegistrationFormValues>({
+      resolver: zodResolver(mentorRegistrationSchema),
+      defaultValues: {
+        bio: "",
+        currentRole: "",
+        organisation: "",
+        yearsOfExperience: 0,
+        educationalQualifications: [{ value: "" }],
+        personalWebsite: "",
+        expertise: "",
+        skills: [],
+        resume: null as unknown as File,
+        termsAccepted: false,
+      },
+    });
 
-	const { fields, append, remove } = useFieldArray({
-		control: form.control,
-		name: "educationalQualifications",
-	});
+  const { fields, append, remove } = useFieldArray({
+    control: form.control,
+    name: "educationalQualifications",
+  });
 
-	const {
-		handleUpload,
-		handleDelete,
-		uploadProgress,
-		isUploading,
-		fileDetails,
-		resetUpload,
-		isDeleting,
-	} = useUploadMedia();
+  const {
+    handleUpload,
+    handleDelete,
+    uploadProgress,
+    isUploading,
+    fileDetails,
+    resetUpload,
+    isDeleting,
+  } = useUploadMedia();
 
-	const handleExpertiseChange = (value: string) => {
-		setSelectedExpertise(value);
-		form.setValue("expertise", value);
-	};
+  const handleExpertiseChange = (value: string) => {
+    setSelectedExpertise(value);
+    form.setValue("expertise", value);
+  };
 
-	const handleDragOver = (e: React.DragEvent<HTMLDivElement>) => {
-		e.preventDefault();
-		setIsDragging(true);
-	};
+  const handleDragOver = (e: React.DragEvent<HTMLDivElement>) => {
+    e.preventDefault();
+    setIsDragging(true);
+  };
 
-	const handleDragLeave = () => {
-		setIsDragging(false);
-	};
+  const handleDragLeave = () => {
+    setIsDragging(false);
+  };
 
-	const handleDrop = (e: React.DragEvent<HTMLDivElement>) => {
-		e.preventDefault();
-		setIsDragging(false);
+  const handleDrop = (e: React.DragEvent<HTMLDivElement>) => {
+    e.preventDefault();
+    setIsDragging(false);
 
-		if (e?.dataTransfer?.files[0]) {
-			const file = e.dataTransfer.files[0];
-			if (file.type === "application/pdf") {
-				setResumeFile(file);
-				resetUpload();
-				form.setValue("resume", file);
-				handleUpload(file).catch((error) => {
-					console.error("Upload failed:", error);
-					toast.error("Failed to upload file");
-				});
-			} else {
-				toast.error("Invalid file type");
-			}
+    if (e?.dataTransfer?.files[0]) {
+      const file = e.dataTransfer.files[0];
+      if (file.type === "application/pdf") {
+        setResumeFile(file);
+        resetUpload();
+        form.setValue("resume", file);
+        handleUpload(file).catch((error) => {
+          console.error("Upload failed:", error);
+          toast.error("Failed to upload file");
+        });
+      } else {
+        toast.error("Invalid file type");
+      }
     }
   };
   const MAX_FILE_SIZE = 2 * 1024 * 1024;
@@ -289,7 +289,7 @@ export default function MentorRegisterForm() {
               <p className="text-sm font-medium text-destructive mt-2">
                 {
                   form.formState.errors.educationalQualifications
-                  .message as string
+                    .message as string
                 }
               </p>
             )}
@@ -359,15 +359,13 @@ export default function MentorRegisterForm() {
             </FormDescription>
 
             <div
-              type="button"
               role="button"
               tabIndex={0}
               aria-label="Upload resume file"
-              className={`w-full border-2 border-dashed rounded-lg p-6 text-center cursor-pointer transition-colors focus:outline-none focus:ring-2 focus:ring-primary focus:ring-offset-2 ${
-isDragging
-? "border-primary bg-primary/5"
-: "border-muted-foreground/25"
-}`}
+              className={`w-full border-2 border-dashed rounded-lg p-6 text-center cursor-pointer transition-colors focus:outline-none focus:ring-2 focus:ring-primary focus:ring-offset-2 ${isDragging
+                  ? "border-primary bg-primary/5"
+                  : "border-muted-foreground/25"
+                }`}
               onDragOver={handleDragOver}
               onDragLeave={handleDragLeave}
               onDrop={handleDrop}
@@ -375,26 +373,26 @@ isDragging
               {isUploading ? (
                 <UploadingIndicator uploadProgress={uploadProgress} />
               ) : fileDetails && resumeFile ? (
-                  <FilePreview
-                    resumeFile={resumeFile}
-                    fileDetails={fileDetails}
-                    handleUpload={handleUpload}
-                    removeResume={removeResume}
-                    isDeleting={isDeleting}
-                    isUploading={isUploading}
-                  />
-                ) : resumeFile ? (
-                    <FilePreview
-                      resumeFile={resumeFile}
-                      fileDetails={fileDetails}
-                      handleUpload={handleUpload}
-                      removeResume={removeResume}
-                      isUploading={isUploading}
-                      isDeleting={isDeleting}
-                    />
-                  ) : (
-                      <FileUpload handleFileChange={handleFileChange} />
-                    )}
+                <FilePreview
+                  resumeFile={resumeFile}
+                  fileDetails={fileDetails}
+                  handleUpload={handleUpload}
+                  removeResume={removeResume}
+                  isDeleting={isDeleting}
+                  isUploading={isUploading}
+                />
+              ) : resumeFile ? (
+                <FilePreview
+                  resumeFile={resumeFile}
+                  fileDetails={fileDetails}
+                  handleUpload={handleUpload}
+                  removeResume={removeResume}
+                  isUploading={isUploading}
+                  isDeleting={isDeleting}
+                />
+              ) : (
+                <FileUpload handleFileChange={handleFileChange} />
+              )}
             </div>
 
             {form.formState.errors.resume && (

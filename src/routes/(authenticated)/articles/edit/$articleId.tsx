@@ -64,7 +64,7 @@ function RouteComponent() {
 		// If it's already an object, return it
 		if (
 			typeof article.featuredImage === "object" &&
-			article.featuredImage.secure_url
+			(article.featuredImage as any).secure_url
 		) {
 			return article.featuredImage as CloudinaryResponse;
 		}

@@ -1,6 +1,6 @@
 import { type InfiniteData, useInfiniteQuery } from "@tanstack/react-query";
 import { Bell, Loader2 } from "lucide-react";
-import { useCallback, useState } from "react";
+import { useCallback, useMemo, useState } from "react";
 import { Button } from "@/components/ui/button";
 import {
 	Popover,
@@ -8,6 +8,7 @@ import {
 	PopoverTrigger,
 } from "@/components/ui/popover";
 import { Separator } from "@/components/ui/separator";
+import { Tabs, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { NOTIFICATIONS_LIMIT } from "@/shared/constants/common";
 import { useInfiniteScroll } from "@/shared/hooks/useInfinteScroll";
 import type { NotificationsResponse } from "@/shared/types/notifications";
@@ -19,25 +20,45 @@ import NotificationItem from "./NotificationItem";
 //NOTE: reduce notifications count  after user opens chat/articles
 export function NotificationsDropdown() {
 	const [open, setOpen] = useState<boolean>(false);
+	const [filter, setFilter] = useState<"all" | "unread">("all");
+
+	const allNotificationsQuery = useInfiniteQuery<
+		NotificationsResponse,
+		Error,
+		InfiniteData<NotificationsResponse>,
+		string[],
+		number
+	>({
+		queryKey: ["notifications", "all"],
+		queryFn: ({ pageParam }) =>
+			fetchNotifications(pageParam, NOTIFICATIONS_LIMIT, "all"),
+		initialPageParam: 1,
+		getNextPageParam: (lastPage, _allPages, lastPageParam) => {
+			if (lastPage.notifications.length < NOTIFICATIONS_LIMIT) return undefined;
+			return lastPageParam + 1;
+		},
+	});
+
+	const unreadNotificationsQuery = useInfiniteQuery<
+		NotificationsResponse,
+		Error,
+		InfiniteData<NotificationsResponse>,
+		string[],
+		number
+	>({
+		queryKey: ["notifications", "unread"],
+		queryFn: ({ pageParam }) =>
+			fetchNotifications(pageParam, NOTIFICATIONS_LIMIT, "unread"),
+		initialPageParam: 1,
+		getNextPageParam: (lastPage, _allPages, lastPageParam) => {
+			if (lastPage.notifications.length < NOTIFICATIONS_LIMIT) return undefined;
+			return lastPageParam + 1;
+		},
+		enabled: open,
+	});
 
 	const { data, fetchNextPage, hasNextPage, isFetchingNextPage, status } =
-		useInfiniteQuery<
-			NotificationsResponse,
-			Error,
-			InfiniteData<NotificationsResponse>,
-			string[],
-			number
-		>({
-			queryKey: ["notifications"],
-			queryFn: ({ pageParam }) =>
-				fetchNotifications(pageParam, NOTIFICATIONS_LIMIT),
-			initialPageParam: 1,
-			getNextPageParam: (lastPage, _allPages, lastPageParam) => {
-				if (lastPage.notifications.length < NOTIFICATIONS_LIMIT)
-					return undefined;
-				return lastPageParam + 1;
-			},
-		});
+		filter === "all" ? allNotificationsQuery : unreadNotificationsQuery;
 
 	const { setTarget } = useInfiniteScroll({
 		onIntersect: fetchNextPage,
@@ -51,9 +72,19 @@ export function NotificationsDropdown() {
 		markAllNotificationsAsReadMutation.mutate();
 	}, [markAllNotificationsAsReadMutation]);
 
-	const unreadCount = data?.pages[0]?.unreadCount ?? 0;
-	const allNotifications =
-		data?.pages.flatMap((page) => page.notifications) ?? [];
+	const unreadCount =
+		allNotificationsQuery.data?.pages[0]?.unreadCount ?? 0;
+
+	const allNotifications = useMemo(() => {
+		const flatNotifications =
+			data?.pages.flatMap((page) => page.notifications) ?? [];
+		const seen = new Set<string>();
+		return flatNotifications.filter((notification) => {
+			if (seen.has(notification.id)) return false;
+			seen.add(notification.id);
+			return true;
+		});
+	}, [data?.pages]);
 
 	return (
 		<Popover open={open} onOpenChange={setOpen}>
@@ -73,19 +104,32 @@ export function NotificationsDropdown() {
 				</Button>
 			</PopoverTrigger>
 			<PopoverContent className="w-96 p-0" align="end">
-				<div className="flex items-center justify-between p-4">
-					<h4 className="font-semibold">Notifications</h4>
-					{unreadCount > 0 && (
-						<Button
-							variant="ghost"
-							size="sm"
-							onClick={handleMarkAllAsRead}
-							disabled={markAllNotificationsAsReadMutation.isPending}
-              className="cursor-pointer"
-						>
-							Mark all as read
-						</Button>
-					)}
+				<div className="flex flex-col p-4 gap-4">
+					<div className="flex items-center justify-between">
+						<h4 className="font-semibold">Notifications</h4>
+						{unreadCount > 0 && (
+							<Button
+								variant="ghost"
+								size="sm"
+								onClick={handleMarkAllAsRead}
+								disabled={markAllNotificationsAsReadMutation.isPending}
+								className="cursor-pointer text-xs h-8"
+							>
+								Mark all as read
+							</Button>
+						)}
+					</div>
+					<Tabs
+						defaultValue="all"
+						value={filter}
+						onValueChange={(v) => setFilter(v as "all" | "unread")}
+						className="w-full"
+					>
+						<TabsList className="grid w-full grid-cols-2">
+							<TabsTrigger value="all">All</TabsTrigger>
+							<TabsTrigger value="unread">Unread</TabsTrigger>
+						</TabsList>
+					</Tabs>
 				</div>
 				<Separator />
 				<div className="max-h-96 overflow-y-auto">

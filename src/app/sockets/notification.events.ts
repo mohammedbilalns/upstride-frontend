@@ -12,7 +12,7 @@ import type { Notification } from "@/shared/types/notifications";
 // FIX: mark notifications as read when user open's a chat  
 export function registerNotificationEvents(socket: Socket) {
 	socket.on(SOCKET_EVENTS.NOTIFICATION.NEW, (data: Notification) => {
-    // Display toast notification
+		// Display toast notification
 		toast.info(data.content);
 
 		const newNotification: Notification = {
@@ -21,33 +21,40 @@ export function registerNotificationEvents(socket: Socket) {
 		};
 
 		//  Optimistically update the cache
-		queryClient.setQueryData(
-			["notifications"],
+		queryClient.setQueriesData(
+			{ queryKey: ["notifications"] },
 			(
 				oldData:
 					| {
-							pages: {
-								notifications: Notification[];
-								total: number;
-								unreadCount: number;
-							}[];
-					  }
+						pages: {
+							notifications: Notification[];
+							total: number;
+							unreadCount: number;
+						}[];
+					}
 					| undefined,
 			) => {
-        // If cache doesn't exist, skip updating
+				// If cache doesn't exist, skip updating
 				if (!oldData?.pages?.length) return oldData;
 
 				// Get the current first page.
-        const [firstPage, ...restPages] = oldData.pages;
+				const [firstPage, ...restPages] = oldData.pages;
 
-        // Create new first page with the prepended notification
+				// Create new first page with the prepended notification
 
-        const updatedFirstPage = {
-          ...firstPage,
-          notifications: [newNotification, ...(firstPage.notifications || [])],
-          total: (firstPage.total ?? 0) + 1,
-          unreadCount: (firstPage.unreadCount ?? 0) + 1,
-        };
+				// Create new first page with the prepended notification
+
+				const updatedFirstPage = {
+					...firstPage,
+					notifications: [
+						newNotification,
+						...(firstPage.notifications || []).filter(
+							(n) => n.id !== newNotification.id,
+						),
+					],
+					total: (firstPage.total ?? 0) + 1,
+					unreadCount: (firstPage.unreadCount ?? 0) + 1,
+				};
 				return {
 					...oldData,
 					pages: [updatedFirstPage, ...restPages],

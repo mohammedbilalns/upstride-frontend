@@ -42,6 +42,7 @@ export function registerChatEvents(socket: Socket) {
                 name: "You",
                 profilePicture: user?.profilePicture || "",
                 role: user?.role as UserRole,
+                isMentor: user?.role === "mentor",
               },
               attachment: pending?.media as MessageAttachment,
             };
