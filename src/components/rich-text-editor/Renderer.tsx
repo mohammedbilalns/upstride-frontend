@@ -17,22 +17,25 @@ export function TiptapRenderer({ content, className }: TiptapRendererProps) {
   // Initialize TipTap editor in read-only mode
   const editor = useEditor({
     extensions: [
-      StarterKit,
+      StarterKit.configure({
+        // @ts-ignore
+        link: false,
+      }),
       Image.configure({
         HTMLAttributes: {
           class: "rounded-lg max-w-full h-auto",
         },
       }),
       Link.configure({
-        openOnClick: true, 
+        openOnClick: true,
         HTMLAttributes: {
           class: "text-blue-500 underline hover:text-blue-600 transition-colors",
         },
       }),
     ],
     content,
-    editable: false, 
-    immediatelyRender: false, 
+    editable: false,
+    immediatelyRender: false,
   });
 
   // Update content reactively if it changes externally

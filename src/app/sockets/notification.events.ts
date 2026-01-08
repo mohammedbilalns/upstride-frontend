@@ -42,8 +42,6 @@ export function registerNotificationEvents(socket: Socket) {
 
 				// Create new first page with the prepended notification
 
-				// Create new first page with the prepended notification
-
 				const updatedFirstPage = {
 					...firstPage,
 					notifications: [
