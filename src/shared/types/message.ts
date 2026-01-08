@@ -7,7 +7,7 @@ export interface MessageAttachment {
   fileType: string;
   name: string;
 }
-export type Participant = Pick<User, "id" | "name" | "profilePicture" | "role"> & { isMentor: boolean };
+export type Participant = Pick<User, "id" | "name" | "profilePicture" | "role"> & { isMentor: boolean; mentorId?: string };
 
 export interface ChatMessage {
   id: string;

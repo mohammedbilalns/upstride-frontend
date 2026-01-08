@@ -31,7 +31,7 @@ export function ChatItem({ chat, isActive }: ChatItemProps) {
     if (!last) return "No messages yet";
 
     let messageText = "";
-    
+
     if (isAttachment) {
       if (last.type === "IMAGE") messageText = "Photo";
       else messageText = "Attachment";
@@ -39,7 +39,7 @@ export function ChatItem({ chat, isActive }: ChatItemProps) {
       messageText = last.content || "";
     }
 
-    if (last.senderId !== userId ) {
+    if (last.senderId !== userId) {
       return `${chat.participant.name}: ${messageText}`;
     }
 
@@ -53,54 +53,74 @@ export function ChatItem({ chat, isActive }: ChatItemProps) {
   return (
     <div
       className={cn(
-        "p-4 cursor-pointer transition-colors",
-        isActive ? "bg-muted" : "hover:bg-muted/50"
+        "p-4 cursor-pointer transition-all duration-200 border-l-2",
+        isActive
+          ? "bg-primary/5 border-primary"
+          : "hover:bg-muted/50 border-transparent hover:border-border"
       )}
     >
-      <div className="flex items-start space-x-3">
-        <UserAvatar
-          image={chat.participant.profilePicture}
-          name={chat.participant.name}
-          size={12}
-        />
+      <div className="flex items-start space-x-3.5">
+        <div className="relative shrink-0 ring-2 ring-background shadow-sm rounded-full">
+          <UserAvatar
+            image={chat.participant.profilePicture}
+            name={chat.participant.name}
+            size={10}
+          />
+          {/* Online status indicator could go here */}
+        </div>
 
-        <div className="flex-1 min-w-0">
-          <div className="flex items-center justify-between mb-1">
-            <h4 className="font-semibold truncate">
-              {chat.participant.name}
-            </h4>
-
-            <div className="flex items-center space-x-1 shrink-0">
-              <span className="text-xs text-muted-foreground whitespace-nowrap">
-                {last?.createdAt ? formatChatTimestamp(last.createdAt) : ""}
-              </span>
-              
-              {/* Show read receipt only for messages sent by current user */}
-              {shouldShowReadReceipt ? (
-                <CheckCheck className="h-3 w-3 text-muted-foreground" />
-              ) : shouldShowSingleCheck ? (
-                <Check className="h-3 w-3 text-muted-foreground" />
-              ) : null}
+        <div className="flex-1 min-w-0 flex flex-col justify-center h-10">
+          <div className="flex items-center justify-between leading-none mb-1.5">
+            <div className="flex items-center gap-1.5 min-w-0">
+              <h4 className={cn(
+                "text-sm font-medium truncate",
+                chat.unreadCount > 0 ? "text-foreground font-semibold" : "text-foreground/90"
+              )}>
+                {chat.participant.name}
+              </h4>
+              {chat.participant.isMentor && (
+                <Badge
+                  variant="secondary"
+                  className="text-[9px] h-3.5 px-1 font-medium bg-primary/10 text-primary hover:bg-primary/20 border-transparent shrink-0"
+                >
+                  MENTOR
+                </Badge>
+              )}
             </div>
+
+            <span className="text-[10px] text-muted-foreground shrink-0 tabular-nums">
+              {last?.createdAt ? formatChatTimestamp(last.createdAt) : ""}
+            </span>
           </div>
 
           <div className="flex items-center justify-between">
-            <div className="flex items-center space-x-1 min-w-0">
+            <div className="flex items-center space-x-1.5 min-w-0 text-xs text-muted-foreground">
+              {/* Show read receipt only for messages sent by current user */}
+              <div className="shrink-0 flex items-center">
+                {shouldShowReadReceipt ? (
+                  <CheckCheck className="h-3.5 w-3.5 text-primary" />
+                ) : shouldShowSingleCheck ? (
+                  <Check className="h-3.5 w-3.5" />
+                ) : null}
+              </div>
+
               {isAttachment && (
-                <span className="shrink-0">
+                <span className="shrink-0 text-foreground/70">
                   {getAttachmentIcon()}
                 </span>
               )}
 
-              <p className="text-sm text-muted-foreground truncate">
+              <p className={cn(
+                "truncate transition-colors",
+                chat.unreadCount > 0 ? "text-foreground font-medium" : "text-muted-foreground"
+              )}>
                 {getPreviewText()}
               </p>
             </div>
 
             {chat?.unreadCount > 0 && (
               <Badge
-                variant="destructive"
-                className="text-xs rounded-full h-5 w-5 flex items-center justify-center p-0 shrink-0"
+                className="h-5 min-w-[1.25rem] px-1 flex items-center justify-center rounded-full text-[10px] bg-primary text-primary-foreground shadow-sm animate-in zoom-in-50 duration-300"
               >
                 {chat.unreadCount}
               </Badge>

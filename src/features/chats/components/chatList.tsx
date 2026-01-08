@@ -13,14 +13,14 @@ interface ChatListProps {
 }
 
 export function ChatList({ chats, onItemClick }: ChatListProps) {
-  const { 
-    data, 
-    isLoading, 
-    error, 
-    fetchNextPage, 
-    hasNextPage, 
+  const {
+    data,
+    isLoading,
+    error,
+    fetchNextPage,
+    hasNextPage,
     isFetchingNextPage,
-    refetch 
+    refetch
   } = useFetchChats();
   const { chatId: activeChatId } = useParams({ strict: false });
 
@@ -32,9 +32,9 @@ export function ChatList({ chats, onItemClick }: ChatListProps) {
 
   if (error) {
     return (
-      <ErrorState 
-        message={error.message || "Failed to load conversations"} 
-        onRetry={refetch} 
+      <ErrorState
+        message={error.message || "Failed to load conversations"}
+        onRetry={refetch}
       />
     );
   }
@@ -43,8 +43,8 @@ export function ChatList({ chats, onItemClick }: ChatListProps) {
   if (!chatData || chatData.length === 0) {
     return (
       <div className="flex items-center justify-center h-full p-8">
-        <NoResource 
-          resource="chats" 
+        <NoResource
+          resource="chats"
           isHome={false}
         />
       </div>
@@ -53,13 +53,13 @@ export function ChatList({ chats, onItemClick }: ChatListProps) {
 
   return (
     <div className="h-full flex flex-col">
-      <div className="flex-1 overflow-y-auto divide-y">
+      <div className="flex-1 overflow-y-auto divide-y divide-border/40">
         {chatData.map((chat: Chat) => (
           <Link
             key={chat.id}
             to="/chats/$chatId"
             params={{ chatId: chat.participant.id }}
-            className="block"
+            className="block transition-all duration-200 outline-none focus-visible:ring-2 focus-visible:ring-primary/20 focus-visible:z-10"
             onClick={onItemClick}
           >
             <ChatItem chat={chat} isActive={chat.participant.id === activeChatId} />
@@ -68,14 +68,22 @@ export function ChatList({ chats, onItemClick }: ChatListProps) {
       </div>
 
       {hasNextPage && (
-        <div className="p-4 text-center border-t shrink-0">
+        <div className="p-3 text-center border-t bg-muted/5">
           <Button
-            variant="outline"
+            variant="ghost"
+            size="sm"
             onClick={() => fetchNextPage()}
             disabled={isFetchingNextPage}
-            className="w-full"
+            className="w-full text-xs text-muted-foreground hover:text-foreground"
           >
-            {isFetchingNextPage ? "Loading more..." : "Load more"}
+            {isFetchingNextPage ? (
+              <span className="flex items-center gap-2">
+                <span className="h-3 w-3 animate-spin rounded-full border-2 border-current border-t-transparent" />
+                Loading...
+              </span>
+            ) : (
+              "Load older chats"
+            )}
           </Button>
         </div>
       )}

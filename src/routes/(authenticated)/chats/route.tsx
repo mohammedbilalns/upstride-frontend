@@ -1,4 +1,4 @@
-import { useEffect, useRef } from "react";
+import { useEffect } from "react";
 import {
 	Outlet,
 	createFileRoute,
@@ -16,32 +16,21 @@ import { useChatLayoutStore } from "@/app/store/chat-layout.store";
 
 export const Route = createFileRoute("/(authenticated)/chats")({
 	loader: async () => {
-			const initialData = (await fetchChats(1, 10));
-			return { initialData };
+		const initialData = (await fetchChats(1, 10));
+		return { initialData };
 	},
 	component: RouteComponent,
 });
 
 function RouteComponent() {
-  // FIX: loader data request sends twice for loader and when rendering the compnent 
-  // TODO: show the mentor/ normal user indicator on each chat 
 	const { initialData } = useLoaderData({ from: "/(authenticated)/chats" });
 	const { error, refetch } = useFetchChats(initialData);
 	const isMobile = useMediaQuery("(max-width: 768px)");
 	const { showSidebar, setShowSidebar } = useChatLayoutStore();
-	const chatContainerRef = useRef<HTMLDivElement>(null);
 
 	useEffect(() => {
 		setShowSidebar(!isMobile);
 	}, [isMobile, setShowSidebar]);
-
-	useEffect(() => {
-		if (chatContainerRef.current) {
-			const topOffset = chatContainerRef.current.getBoundingClientRect().top;
-			const bottomPadding = 0; // py-6 was changed to pt-6
-			chatContainerRef.current.style.height = `calc(100dvh - ${topOffset}px - ${bottomPadding}px)`;
-		}
-	}, []);
 
 	const handleItemClick = () => {
 		if (isMobile) {
@@ -50,42 +39,37 @@ function RouteComponent() {
 	};
 
 	return (
-		<div className="container mx-auto px-4 sm:px-6 lg:px-8 pt-6">
-			<div className="mb-8 flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
-				<div>
-					<h1 className="text-3xl font-bold mb-2">Chats</h1>
-				</div>
-			</div>
-			<div
-				ref={chatContainerRef}
-				className="flex border bg-background rounded-xl shadow-lg overflow-hidden"
-			>
+		<div className="h-[calc(100vh-4rem)] md:h-[calc(100vh-5rem)] flex flex-col pt-4 container mx-auto max-w-7xl px-0 sm:px-4">
+			<div className="flex-1 flex overflow-hidden rounded-xl border bg-card shadow-sm ring-1 ring-border/50">
 				{/* Left Sidebar - Chat List */}
 				<aside
 					className={`
-	        ${
-						isMobile
-							? `fixed top-16 z-30 h-[calc(100%-4rem)] w-full max-w-xs transform bg-background transition-transform duration-300 ease-in-out ${
-									showSidebar ? "translate-x-0" : "-translate-x-full"
-								}`
-							: "relative flex w-full max-w-[350px] flex-col border-r"
-					}
-	      `}
+            ${isMobile
+							? `fixed inset-y-0 left-0 z-50 w-full max-w-[320px] bg-background shadow-xl transition-transform duration-300 ease-in-out ${showSidebar ? "translate-x-0" : "-translate-x-full"
+							}`
+							: "relative w-80 lg:w-96 flex flex-col border-r bg-muted/10"
+						}
+          `}
 				>
-					<div className="flex items-center justify-between border-b p-4">
+					{/* Sidebar Header */}
+					<div className="px-4 py-3 border-b flex items-center justify-between h-16 shrink-0 bg-background/50 backdrop-blur-sm">
+						<h1 className="text-xl font-semibold tracking-tight">Messages</h1>
 						{isMobile && (
 							<Button
 								variant="ghost"
 								size="icon"
 								onClick={() => setShowSidebar(false)}
+								className="h-8 w-8"
 							>
-								<X className="h-5 w-5" />
+								<X className="h-4 w-4" />
 							</Button>
 						)}
 					</div>
-					<div className="flex-1 overflow-y-auto">
+
+					{/* Chat List Area */}
+					<div className="flex-1 overflow-y-auto custom-scrollbar">
 						{useFetchChats(initialData).isLoading ? (
-							<div className="p-4">
+							<div className="p-4 space-y-4">
 								<Pending resource="conversations" />
 							</div>
 						) : error ? (
@@ -102,14 +86,14 @@ function RouteComponent() {
 				</aside>
 
 				{/* Main Content - Chat Window */}
-				<main className="flex-1 flex flex-col">
+				<main className="flex-1 flex flex-col bg-background relative overflow-hidden">
 					<Outlet />
 				</main>
 
-				{/* Mobile Sidebar Overlay */}
+				{/* Mobile Overlay */}
 				{isMobile && showSidebar && (
 					<div
-						className="fixed inset-0 top-16 z-20 bg-black/50"
+						className="fixed inset-0 z-40 bg-black/40 backdrop-blur-sm transition-opacity"
 						onClick={() => setShowSidebar(false)}
 					/>
 				)}

@@ -48,6 +48,7 @@ export function useChat(chatId: string, initialData?: FetchChatResponse) {
       name: chatInfo.participant.name,
       avatar: chatInfo.participant.profilePicture,
       isMentor: chatInfo.participant.isMentor ?? false,
+      participantId: chatInfo.participant.mentorId,
     };
   }, [chatInfo]);
 
