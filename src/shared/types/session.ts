@@ -6,7 +6,11 @@ export interface Slot {
   status: "OPEN" | "RESERVED" | "FULL" | "STARTED" | "COMPLETED" | "CANCELLED";
   price: number;
   currency: string;
+  description?: string;
 }
+
+import type { User } from './user';
+import type { PaymentDetails } from './payment';
 
 export interface Booking {
   id: string;
@@ -14,8 +18,18 @@ export interface Booking {
   userId: string;
   status: "PENDING" | "CONFIRMED" | "CANCELLED" | "REFUNDED" | "COMPLETED";
   paymentId?: string;
+  rescheduleRequest?: {
+    requestedSlotId: string;
+    reason?: string;
+    isStudentRequest: boolean;
+    status: "PENDING" | "REJECTED" | "APPROVED";
+    createdAt: string;
+  };
   createdAt: string;
   slot?: Slot; // Populated
+  userDetails?: User;
+  mentorDetails?: User;
+  paymentDetails?: PaymentDetails;
 }
 
 export interface Availability {

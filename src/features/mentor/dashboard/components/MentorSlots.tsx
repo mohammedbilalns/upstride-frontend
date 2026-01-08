@@ -95,7 +95,7 @@ export default function MentorSlots({ mentorId }: MentorSlotsProps) {
             id: slot.id,
             start: new Date(slot.startAt),
             end: new Date(slot.endAt),
-            title: `${format(new Date(slot.startAt), 'HH:mm')} (${slot.price} ${slot.currency || '$'})`,
+            title: `${format(new Date(slot.startAt), 'HH:mm')} (₹${slot.price})`,
             color: (slot.status === 'OPEN' ? 'blue' : 'pink') as "blue" | "pink",
         }));
     }, [slots]);
