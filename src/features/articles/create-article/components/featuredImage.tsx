@@ -122,7 +122,7 @@ export function FeaturedImageUpload({
 							<Button
 								variant="outline"
 								size="sm"
-								onClick={() => document.getElementById("file-upload")?.click()}
+								onClick={() => document.getElementById(fileInputId)?.click()}
 								disabled={isUploading}
 								className="flex-1"
 							>
@@ -155,7 +155,7 @@ export function FeaturedImageUpload({
 					<Button
 						variant="outline"
 						type="button"
-						onClick={() => document.getElementById("file-upload")?.click()}
+						onClick={() => document.getElementById(fileInputId)?.click()}
 						className="w-full h-auto border-dashed p-6 flex flex-col items-center justify-center text-center space-y-2 hover:border-foreground/20 transition-colors"
 					>
 						{isUploading ? (

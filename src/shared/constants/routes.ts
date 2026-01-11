@@ -59,6 +59,8 @@ export const API_ROUTES = {
 	},
 	MEDIA: {
 		GENERATE_TOKEN: "/media/generate-signature",
+		UPLOAD: "/media/upload",
+		SIGNED_URL: "/media/signed-url",
 		SAVE_MEDIA: "/media/save-media",
 		DELETE: (id: string, mediaType: string) => `/media/${id}/${mediaType}`,
 	},

@@ -1,6 +1,9 @@
 import api from "@/api/api";
 import { API_ROUTES } from "@/shared/constants/routes";
 import { apiRequest } from "../utils/apiWrapper";
+import type { CloudinaryResponse } from "../types/cloudinaryResponse";
+import axios from "axios";
+import { env } from "@/shared/constants/env";
 
 /**
  * Requests a Cloudinary upload signature/token from the backend.
@@ -26,5 +29,38 @@ export function generateToken(resource_type: string) {
 
 
 export function deleteFile(fileId: string, mediaType: string) {
-	return apiRequest(() => api.delete(API_ROUTES.MEDIA.DELETE(fileId, mediaType)));
+	// URL encode the fileId to handle slashes in Cloudinary public_id (e.g., "folder/filename")
+	const encodedFileId = encodeURIComponent(fileId);
+	return apiRequest(() => api.delete(API_ROUTES.MEDIA.DELETE(encodedFileId, mediaType)));
+}
+
+export function uploadMedia(
+	file: File,
+	resourceType: string,
+	onProgress?: (progress: number) => void,
+) {
+	const formData = new FormData();
+	formData.append("file", file);
+	formData.append("resource_type", resourceType);
+
+	return apiRequest(() =>
+		axios.post<{ message: string; data: CloudinaryResponse }>(
+			`${env.API_URL}${API_ROUTES.MEDIA.UPLOAD}`,
+			formData,
+			{
+				withCredentials: true,
+				headers: {
+					"Content-Type": undefined,
+				},
+				onUploadProgress: (progressEvent) => {
+					if (onProgress && progressEvent.total) {
+						const percentCompleted = Math.round(
+							(progressEvent.loaded * 100) / progressEvent.total,
+						);
+						onProgress(percentCompleted);
+					}
+				},
+			},
+		),
+	);
 }

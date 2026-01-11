@@ -2,10 +2,9 @@ import { useState } from "react";
 import { toast } from "sonner";
 import type { CloudinaryResponse } from "@/shared/types/cloudinaryResponse";
 import { useDeleteMedia } from "./useDeleteMedia";
-import { useGenerateToken } from "./useGenerateToken";
+import { uploadMedia } from "@/shared/services/media.service";
 
 export const useUploadMedia = () => {
-  const generateTokenMutation = useGenerateToken();
   const deleteMediaMutation = useDeleteMedia();
   const [uploadProgress, setUploadProgress] = useState<number>(0);
   const [isUploading, setIsUploading] = useState<boolean>(false);
@@ -18,54 +17,6 @@ export const useUploadMedia = () => {
     asset_folder: "",
   });
 
-  const uploadToCloudinary = async (
-    file: File,
-    resourceType: string,
-    cloudName: string,
-    apiKey: string,
-    token: string,
-    uploadPreset: string,
-    timestamp: number,
-  ) => {
-    return new Promise<CloudinaryResponse>((resolve, reject) => {
-      const url = `https://api.cloudinary.com/v1_1/${cloudName}/${resourceType}/upload`;
-      const xhr = new XMLHttpRequest();
-      const formData = new FormData();
-
-      formData.append("file", file);
-      formData.append("upload_preset", uploadPreset);
-      formData.append("api_key", apiKey);
-      formData.append("timestamp", timestamp.toString());
-      formData.append("signature", token);
-      formData.append("type", "authenticated");
-      formData.append("resource_type", resourceType);
-
-      xhr.open("POST", url, true);
-
-      xhr.upload.onprogress = (event) => {
-        if (event.lengthComputable) {
-          const progress = Math.round((event.loaded / event.total) * 100);
-          setUploadProgress(progress);
-        }
-      };
-
-      xhr.onload = () => {
-        if (xhr.status === 200) {
-          const response = JSON.parse(xhr.responseText);
-          resolve(response);
-        } else {
-          reject(new Error("Upload failed"));
-        }
-      };
-
-      xhr.onerror = () => {
-        reject(new Error("Upload failed"));
-      };
-
-      xhr.send(formData);
-    });
-  };
-
   const handleUpload = async (file: File): Promise<CloudinaryResponse> => {
     if (!file) {
       toast.error("Please select a file to upload");
@@ -77,17 +28,11 @@ export const useUploadMedia = () => {
       setUploadProgress(0);
       const resourceType = file.type === "application/pdf" ? "raw" : "image";
 
-      const tokenData = await generateTokenMutation.mutateAsync(resourceType);
+      const response = await uploadMedia(file, resourceType, (progress) => {
+        setUploadProgress(progress);
+      });
 
-      const fileDetails = await uploadToCloudinary(
-        file,
-        resourceType,
-        tokenData.data.cloud_name,
-        tokenData.data.api_key,
-        tokenData.data.signature,
-        tokenData.data.upload_preset,
-        tokenData.data.timestamp,
-      );
+      const fileDetails = response.data;
       setFileDetails(fileDetails);
 
       return fileDetails;

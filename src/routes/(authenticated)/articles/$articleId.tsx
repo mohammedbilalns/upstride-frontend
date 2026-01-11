@@ -1,4 +1,4 @@
-import {  useQuery } from "@tanstack/react-query";
+import { useQuery } from "@tanstack/react-query";
 import { createFileRoute, Link, useNavigate } from "@tanstack/react-router";
 import { ArrowLeft, Edit, MoreHorizontal, Trash2 } from "lucide-react";
 import { useAuthStore } from "@/app/store/auth.store";
@@ -47,7 +47,11 @@ function RouteComponent() {
 		staleTime: 5 * 60 * 1000,
 	});
 
-  const deleteArticleMutation = useDeleteArticle()
+	const deleteArticleMutation = useDeleteArticle({
+		onDeleteSuccess: () => {
+			navigate({ to: "/articles" });
+		},
+	});
 
 	const article: Article = data?.article;
 	const isLiked: boolean = data?.isLiked;

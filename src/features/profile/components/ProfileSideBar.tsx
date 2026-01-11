@@ -70,7 +70,7 @@ export function ProfileSidebar({
 								disabled={isUploading}
 							>
 								<Upload className="h-4 w-4 mr-1" />
-								Upload Photo
+								Change Photo
 							</Button>
 						</div>
 					)}
