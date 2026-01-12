@@ -22,6 +22,18 @@ const api = axios.create({
 });
 
 /**
+ * Request interceptor:
+ * Injects the Access Token from the store into the Authorization header.
+ */
+api.interceptors.request.use((config) => {
+	const token = useAuthStore.getState().accessToken;
+	if (token) {
+		config.headers.Authorization = `Bearer ${token}`;
+	}
+	return config;
+});
+
+/**
  * Response interceptor:
  * Handles global API errors including:
  * - 401 (Unauthorized): refreshes tokens and retries the request once
@@ -32,10 +44,10 @@ api.interceptors.response.use(
 	async (error: AxiosError) => {
 		const originalRequest = error.config as CustomAxiosRequestConfig;
 
-    // Handle expired token (401 Unauthorized)
+		// Handle expired token (401 Unauthorized)
 		if (error.response?.status === 401 && !originalRequest._retry) {
 
-      // Skip refresh for auth or expertise-related endpoints
+			// Skip refresh for auth or expertise-related endpoints
 			const isAuthEndpoint =
 				(originalRequest.url?.includes("/auth") &&
 					!originalRequest.url.includes("/me")) ||
@@ -49,19 +61,22 @@ api.interceptors.response.use(
 
 			try {
 
-        // Attempt to refresh the access token
-				await api.post("/auth/refresh");
-        // Retry the original request with new tokens
+				// Attempt to refresh the access token
+				const { data } = await api.post("/auth/refresh");
+				useAuthStore.getState().setAccessToken(data.accessToken);
+
+				// Retry the original request with new tokens
+				originalRequest.headers.Authorization = `Bearer ${data.accessToken}`;
 				return api(originalRequest);
 			} catch (refreshError) {
-        // Refresh failed → log out and clear auth state
+				// Refresh failed → log out and clear auth state
 				useAuthStore.getState().clearUser();
 				return Promise.reject(refreshError);
 			}
 		}
 
 		if (error.response?.status === 403) {
-    // Handle forbidden access (403) — blocked users
+			// Handle forbidden access (403) — blocked users
 			const data = error.response.data as { message?: string };
 			if (data?.message?.toLowerCase().includes("blocked")) {
 				useAuthStore.getState().clearUser();

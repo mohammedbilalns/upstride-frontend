@@ -19,13 +19,13 @@ interface SocketState {
 export const useSocketStore = create<SocketState>((set, get) => ({
 	socket: null,
 
-  /** Establish a socket connection if authenticated */
+	/** Establish a socket connection if authenticated */
 	connect: () => {
 		try {
-			const { isLoggedIn } = useAuthStore.getState();
+			const { isLoggedIn, accessToken } = useAuthStore.getState();
 			const { socket } = get();
 
-			if (!isLoggedIn) return;
+			if (!isLoggedIn || !accessToken) return;
 			if (socket?.connected) return;
 
 			const newSocket = io(env.SERVER_URL, {
@@ -33,9 +33,12 @@ export const useSocketStore = create<SocketState>((set, get) => ({
 				withCredentials: true,
 				reconnectionAttempts: 5,
 				reconnectionDelay: 2000,
+				auth: {
+					token: accessToken,
+				},
 			});
 
-      // Connection events
+			// Connection events
 			newSocket.on("connect", () => console.log("ws connected", newSocket.id));
 			newSocket.on("disconnect", () => console.log("ws disconnected"));
 			newSocket.on("connect_error", (err) => {
@@ -43,7 +46,7 @@ export const useSocketStore = create<SocketState>((set, get) => ({
 			});
 
 
-      // Register app-level event listeners
+			// Register app-level event listeners
 			registerSocketEventHandlers(newSocket);
 
 			set({ socket: newSocket });
@@ -52,7 +55,7 @@ export const useSocketStore = create<SocketState>((set, get) => ({
 		}
 	},
 
-  /** Cleanly disconnect from the socket server */
+	/** Cleanly disconnect from the socket server */
 	disconnect: () => {
 		const sock = get().socket;
 		if (sock) {
@@ -62,7 +65,7 @@ export const useSocketStore = create<SocketState>((set, get) => ({
 		set({ socket: null });
 	},
 
-  /** Reconnect by forcing a clean disconnect first */
+	/** Reconnect by forcing a clean disconnect first */
 	reconnect: () => {
 		get().disconnect();
 		get().connect();

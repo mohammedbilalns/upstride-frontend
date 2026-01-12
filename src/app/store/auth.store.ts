@@ -1,5 +1,5 @@
 import { create } from "zustand";
-import { devtools, persist } from "zustand/middleware";
+import { createJSONStorage, devtools, persist } from "zustand/middleware";
 import type { AuthState, User } from "@/shared/types";
 
 /**
@@ -10,6 +10,7 @@ export const useAuthStore = create<AuthState>()(
     persist(
       (set) => ({
         user: null,
+        accessToken: null,
         isLoggedIn: false,
 
         /** Set the authenticated user and mark as logged in */
@@ -19,15 +20,22 @@ export const useAuthStore = create<AuthState>()(
             isLoggedIn: true,
           })),
 
+        setAccessToken: (token: string) =>
+          set(() => ({
+            accessToken: token,
+          })),
+
         /** Clear user session and mark as logged out */
         clearUser: () =>
           set(() => ({
             user: null,
+            accessToken: null,
             isLoggedIn: false,
           })),
       }),
       {
-        name: "auth-storage", 
+        name: "auth-storage",
+        storage: createJSONStorage(() => sessionStorage),
       },
     ),
     { name: "AuthStore" },

@@ -6,7 +6,9 @@ export interface loginData {
 }
 export interface AuthState {
 	user: User | null;
+	accessToken: string | null;
 	isLoggedIn: boolean;
 	setUser: (user: User) => void;
+	setAccessToken: (token: string) => void;
 	clearUser: () => void;
 }

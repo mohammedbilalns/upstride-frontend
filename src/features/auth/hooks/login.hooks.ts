@@ -10,13 +10,14 @@ import type { CredentialResponse } from "@react-oauth/google";
 
 export const useLogin = () => {
 	const router = useRouter();
-	const { setUser } = useAuthStore();
+	const { setUser, setAccessToken } = useAuthStore();
 	const { connect } = useSocketStore();
 
 	return useMutation({
 		mutationFn: (data: loginFormValues) => userLogin(data),
 		onSuccess: (response) => {
 			setUser(response.user);
+			setAccessToken(response.accessToken);
 			connect();
 			router.navigate({ to: "/home" });
 			toast.success(response.message);
@@ -32,7 +33,7 @@ export const useGoogleLogin = (callbacks: {
 	onRegisterSuccess?: (email: string) => void;
 }) => {
 	const router = useRouter();
-	const { setUser } = useAuthStore();
+	const { setUser, setAccessToken } = useAuthStore();
 	const { connect } = useSocketStore();
 
 	return useMutation({
@@ -43,6 +44,7 @@ export const useGoogleLogin = (callbacks: {
 				callbacks.onRegisterSuccess?.(response.email);
 			} else {
 				setUser(response.user);
+				setAccessToken(response.accessToken);
 				connect();
 				router.navigate({ to: "/home" });
 			}
