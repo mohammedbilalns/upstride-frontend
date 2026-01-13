@@ -8,7 +8,7 @@ export const useCreateSkill = (callbacks?: {
 	onCreateSuccess?: () => void;
 }) => {
 	const router = useRouter();
-  const queryClient = useQueryClient();
+	const queryClient = useQueryClient();
 	return useMutation({
 		mutationFn: ({
 			name,
@@ -21,11 +21,12 @@ export const useCreateSkill = (callbacks?: {
 			toast.success(response.message);
 			callbacks?.onCreateSuccess?.();
 			router.invalidate({ sync: true });
-      queryClient.invalidateQueries({ queryKey: ["skills"]});
+			queryClient.invalidateQueries({ queryKey: ["skills"] });
 		},
 		onError: (error: ApiError) => {
 			const errorMessage =
-				error?.response?.data?.message || "Skill creation failed";
+				error?.response?.data?.message ||
+				"We encountered an issue adding the skill. Please try again.";
 			toast.error(errorMessage);
 		},
 	});
@@ -40,7 +41,9 @@ export const useVerifySkill = () => {
 			queryClient.invalidateQueries({ queryKey: ["skills"] });
 		},
 		onError: (error: ApiError) => {
-			const errorMessage = error?.response?.data?.message;
+			const errorMessage =
+				error?.response?.data?.message ||
+				"We encountered an issue verifying the skill. Please try again.";
 			toast.error(errorMessage);
 		},
 	});

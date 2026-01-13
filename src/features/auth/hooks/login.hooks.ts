@@ -23,7 +23,9 @@ export const useLogin = () => {
 			toast.success(response.message);
 		},
 		onError: (error: ApiError) => {
-			const errorMessage = error?.response?.data?.message || "Failed to login";
+			const errorMessage =
+				error?.response?.data?.message ||
+				"We encountered an issue during login. Please attempt to log in again.";
 			toast.error(errorMessage);
 		},
 	});

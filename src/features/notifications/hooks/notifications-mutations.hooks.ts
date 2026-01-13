@@ -79,7 +79,8 @@ export const useMarkNotificationAsRead = () => {
       queryClient.invalidateQueries({ queryKey: ["notifications"] });
 
       const errorMessage =
-        error?.response?.data?.message || "Failed to mark notification as read";
+        error?.response?.data?.message ||
+        "We encountered an issue marking the notification as read. Please try again.";
       toast.error(errorMessage);
       console.error("Mark notification as read error:", error);
     },
@@ -121,13 +122,13 @@ export const useMarkAllNotificationsAsRead = () => {
 
       const errorMessage =
         error?.response?.data?.message ||
-        "Failed to mark all notifications as read";
+        "We encountered an issue marking all notifications as read. Please try again.";
       toast.error(errorMessage);
       console.error("Mark all notifications as read error:", error);
     },
 
     onSuccess: () => {
-      toast.success("All notifications marked as read");
+      toast.success("All notifications have been marked as read.");
     },
   });
 };

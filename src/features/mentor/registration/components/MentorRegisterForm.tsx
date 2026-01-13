@@ -109,10 +109,10 @@ export default function MentorRegisterForm() {
         form.setValue("resume", file);
         handleUpload(file).catch((error) => {
           console.error("Upload failed:", error);
-          toast.error("Failed to upload file");
+          toast.error("We encountered an issue uploading the file. Please try again.");
         });
       } else {
-        toast.error("Invalid file type");
+        toast.error("The file type is invalid. Please upload a PDF.");
       }
     }
   };
@@ -123,13 +123,13 @@ export default function MentorRegisterForm() {
       const file = e.target.files[0];
 
       if (file.type !== "application/pdf") {
-        toast.error("Invalid file type. Only PDF allowed.");
+        toast.error("Only PDF files are allowed. Please choose a valid file.");
         e.target.value = "";
         return;
       }
 
       if (file.size > MAX_FILE_SIZE) {
-        toast.error("File size must not exceed 2MB.");
+        toast.error("File size cannot exceed 2MB. Please upload a smaller file.");
         e.target.value = "";
         return;
       }
@@ -140,7 +140,7 @@ export default function MentorRegisterForm() {
 
       handleUpload(file).catch((error) => {
         console.error("Upload failed:", error);
-        toast.error("Failed to upload file");
+        toast.error("We encountered an issue uploading the file. Please try again.");
       });
     }
   };
@@ -172,7 +172,7 @@ export default function MentorRegisterForm() {
         newSkills: newSkills,
       });
     } catch (error) {
-      toast.error("Failed to submit registration");
+      toast.error("We encountered an issue submitting your registration. Please try again.");
       console.error("Submission error:", error);
     }
   };
@@ -363,8 +363,8 @@ export default function MentorRegisterForm() {
               tabIndex={0}
               aria-label="Upload resume file"
               className={`w-full border-2 border-dashed rounded-lg p-6 text-center cursor-pointer transition-colors focus:outline-none focus:ring-2 focus:ring-primary focus:ring-offset-2 ${isDragging
-                  ? "border-primary bg-primary/5"
-                  : "border-muted-foreground/25"
+                ? "border-primary bg-primary/5"
+                : "border-muted-foreground/25"
                 }`}
               onDragOver={handleDragOver}
               onDragLeave={handleDragLeave}

@@ -27,7 +27,9 @@ export const useSaveInterests = () => {
 			router.navigate({ to: "/home" });
 		},
 		onError: (error: ApiError) => {
-			const errorMessage = error?.response?.data?.message;
+			const errorMessage =
+				error?.response?.data?.message ||
+				"We encountered an issue while saving your interests. Please try again.";
 			toast.error(errorMessage);
 		},
 	});

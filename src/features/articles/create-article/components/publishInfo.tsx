@@ -28,7 +28,7 @@ export default function PublishInfo({
 			<CardContent className="flex-1 flex flex-col space-y-4">
 				<div className="flex items-center text-sm text-muted-foreground">
 					<User className="h-4 w-4 mr-2" />
-					<span>Published as {user?.name}</span>
+					<span>Publishing as {user?.name}</span>
 				</div>
 				{/* <div className="flex items-center text-sm text-muted-foreground"> */}
 				{/*   <Calendar className="h-4 w-4 mr-2" /> */}
@@ -43,8 +43,8 @@ export default function PublishInfo({
 					>
 						{isSaving
 							? isEdit
-								? "Updating..."
-								: "Saving..."
+								? "Saving changes..."
+								: "Publishing..."
 							: isEdit
 								? "Update Article"
 								: "Publish Article"}

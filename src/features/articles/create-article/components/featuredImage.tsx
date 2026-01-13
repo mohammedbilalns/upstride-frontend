@@ -56,7 +56,7 @@ export function FeaturedImageUpload({
 		const file = event.target.files?.[0];
 		if (file) {
 			if (file.size > 5 * 1024 * 1024) {
-				alert("File size must be less than 5MB");
+				alert("File size cannot exceed 5MB.");
 				return;
 			}
 			let tempPreviewUrl: string = "";
@@ -170,10 +170,10 @@ export function FeaturedImageUpload({
 							<>
 								<Upload className="h-12 w-12 text-muted-foreground" />
 								<p className="text-sm text-muted-foreground">
-									Click to upload an image
+									Click to upload a cover image
 								</p>
 								<p className="text-xs text-muted-foreground/70">
-									PNG, JPG, GIF up to 5MB
+									Supported formats: PNG, JPG, GIF (Max 5MB)
 								</p>
 							</>
 						)}

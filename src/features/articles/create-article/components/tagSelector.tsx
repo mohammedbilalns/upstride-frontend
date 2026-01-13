@@ -26,7 +26,7 @@ export default function TagSelector({
 			<CardHeader>
 				<CardTitle className="flex items-center">
 					<Tag className="h-5 w-5 mr-2" />
-					Tags
+					Article Tags
 				</CardTitle>
 			</CardHeader>
 			<CardContent className="space-y-4">
@@ -46,7 +46,7 @@ export default function TagSelector({
 				</div>
 				<div className="flex space-x-2">
 					<Input
-						placeholder="Add tag..."
+						placeholder="Enter a tag..."
 						value={newTag}
 						onChange={(e) => setNewTag(e.target.value)}
 						onKeyDown={(e) => {
@@ -66,7 +66,7 @@ export default function TagSelector({
 							}
 						}}
 					>
-						Add
+						Add Tag
 					</Button>
 				</div>
 			</CardContent>

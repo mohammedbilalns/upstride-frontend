@@ -17,16 +17,18 @@ export const useChangePassword = () => {
       oldPassword,
       newPassword,
     }: {
-        oldPassword: string;
-        newPassword: string;
-      }) => {
+      oldPassword: string;
+      newPassword: string;
+    }) => {
       return await changePassword({ oldPassword, newPassword });
     },
     onSuccess: () => {
-      toast.success("Password updated successfully");
+      toast.success("Your password has been successfully updated.");
     },
     onError: (error: ApiError) => {
-      const errorMessage = error?.response?.data?.message;
+      const errorMessage =
+        error?.response?.data?.message ||
+        "We encountered an issue while updating your password. Please try again.";
       toast.error(errorMessage);
       console.error(errorMessage);
     },
@@ -47,11 +49,11 @@ export const useUpdateProfile = () => {
   return useMutation({
     mutationFn: (data: ProfileFormData) => updateProfile(data),
     onSuccess: (_, variables) => {
-      toast.success("Profile updated successfully");
+      toast.success("Your profile information has been successfully updated.");
       queryClient.invalidateQueries({ queryKey: ["profile"] });
 
       if (variables.profilePicture && user) {
-        const profilePictureUrl = 
+        const profilePictureUrl =
           typeof variables.profilePicture === 'string'
             ? variables.profilePicture
             : (variables.profilePicture as { secure_url: string }).secure_url;
@@ -63,7 +65,7 @@ export const useUpdateProfile = () => {
       }
     },
     onError: (error) => {
-      toast.error("Error while updating profile");
+      toast.error("We encountered an issue while updating your profile. Please try again.");
       console.error("error while updating profile", error);
     },
   });

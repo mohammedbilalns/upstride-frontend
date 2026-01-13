@@ -22,12 +22,12 @@ const SessionsPage = () => {
         mutationFn: ({ bookingId, slotId, reason }: { bookingId: string, slotId: string, reason?: string }) =>
             requestReschedule({ bookingId, requestedSlotId: slotId, reason }),
         onSuccess: () => {
-            toast.success("Reschedule requested successfully");
+            toast.success("Reschedule request submitted successfully.");
             setRescheduleBooking(null);
             queryClient.invalidateQueries({ queryKey: ['sessions'] });
         },
         onError: (err: any) => {
-            toast.error(err.response?.data?.message || "Failed to request reschedule");
+            toast.error(err.response?.data?.message || "We encountered an issue submitting the reschedule request. Please try again.");
         }
     });
 
@@ -35,11 +35,11 @@ const SessionsPage = () => {
         mutationFn: ({ bookingId, action }: { bookingId: string, action: 'APPROVED' | 'REJECTED' }) =>
             handleReschedule({ bookingId, action }),
         onSuccess: () => {
-            toast.success("Reschedule processed");
+            toast.success("Reschedule request has been processed.");
             queryClient.invalidateQueries({ queryKey: ['sessions'] });
         },
         onError: (err: any) => {
-            toast.error(err.response?.data?.message || "Failed to process reschedule");
+            toast.error(err.response?.data?.message || "We encountered an issue processing the reschedule request. Please try again.");
         }
     });
 

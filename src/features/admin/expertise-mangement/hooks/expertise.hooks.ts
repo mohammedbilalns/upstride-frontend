@@ -25,7 +25,8 @@ export const useCreateExpertise = (callbacks?: {
 		},
 		onError: (error: ApiError) => {
 			const errorMessage =
-				error?.response?.data?.message || "Expertise creation failed";
+				error?.response?.data?.message ||
+				"We encountered an issue adding the expertise. Please try again.";
 			toast.error(errorMessage);
 		},
 	});
@@ -56,7 +57,8 @@ export const useUpdateExpertise = (callbacks?: {
 		},
 		onError: (error: ApiError) => {
 			const errorMessage =
-				error?.response?.data?.message || "Expertise update failed";
+				error?.response?.data?.message ||
+				"We encountered an issue updating the expertise. Please try again.";
 			toast.error(errorMessage);
 		},
 	});
@@ -71,7 +73,9 @@ export const useVerifyExpertise = () => {
 			queryClient.invalidateQueries({ queryKey: ["expertises"] });
 		},
 		onError: (error: ApiError) => {
-			const errorMessage = error?.response?.data?.message;
+			const errorMessage =
+				error?.response?.data?.message ||
+				"We encountered an issue verifying the expertise. Please try again.";
 			toast.error(errorMessage);
 		},
 	});

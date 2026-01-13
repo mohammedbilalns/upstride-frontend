@@ -34,7 +34,8 @@ export const useForgotPassword = (callbacks: {
 		},
 		onError: (error: ApiError) => {
 			const errorMessage =
-				error?.response?.data?.message || "Forgot password failed";
+				error?.response?.data?.message ||
+				"We encountered an issue during the password reset request. Please try again.";
 			toast.error(errorMessage);
 		},
 	});
@@ -49,7 +50,9 @@ export const useUpdatePassword = (callbacks: { onSuccess: () => void }) => {
 			callbacks?.onSuccess?.();
 		},
 		onError: (error: ApiError) => {
-			const errorMessage = error?.response?.data?.message;
+			const errorMessage =
+				error?.response?.data?.message ||
+				"We encountered an issue while updating your password. Please try again.";
 			toast.error(errorMessage);
 		},
 	});
@@ -64,7 +67,9 @@ export const useResendForgotOtp = (callbacks?: {
 			toast.success(response.message);
 		},
 		onError: (error: ApiError) => {
-			const errorMessage = error?.response?.data?.message;
+			const errorMessage =
+				error?.response?.data?.message ||
+				"We encountered an issue while resending the OTP. Please try again.";
 			toast.error(errorMessage);
 			if (error.response?.status === 429) {
 				callbacks?.onOtpExpired?.();
@@ -84,7 +89,9 @@ export const useVerifyForgotOtp = (callbacks?: {
 			callbacks?.onSuccess?.();
 		},
 		onError: (error: ApiError) => {
-			const errorMessage = error?.response?.data?.message;
+			const errorMessage =
+				error?.response?.data?.message ||
+				"We encountered an issue while verifying the OTP. Please try again.";
 			toast.error(errorMessage);
 			if (error.response?.status === 429) {
 				callbacks?.onOtpExpired?.();

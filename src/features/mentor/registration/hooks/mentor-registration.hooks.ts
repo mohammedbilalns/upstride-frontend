@@ -11,7 +11,7 @@ export const useFetchMentorDetails = (enabled: boolean) => {
 	return useQuery({
 		queryKey: ["mentorDetails"],
 		queryFn: async () => {
-      // FIX : correct the api end point 
+			// FIX : correct the api end point 
 			const response = await api.get(API_ROUTES.MENTOR.GETME);
 			return response.data.mentor;
 		},
@@ -29,12 +29,13 @@ export const useRegisterAsMentor = () => {
 		mutationFn: (data: MentorProfileUpdatePayload) => registerMentor(data),
 
 		onSuccess: () => {
-			toast.success("Request submitted successfully");
+			toast.success("Your mentor application has been successfully submitted.");
 			router.navigate({ to: "/home" });
 		},
 		onError: (error: ApiError) => {
 			const errorMessage =
-				error.response?.data?.message || "Failed to register as mentor";
+				error.response?.data?.message ||
+				"We encountered an issue with your mentor registration. Please try again.";
 			toast.error(errorMessage);
 		},
 	});
@@ -45,12 +46,13 @@ export const useUpdateMentorRegistration = () => {
 	return useMutation({
 		mutationFn: (data: MentorDetails) => updateMentorRegistration(data),
 		onSuccess: () => {
-			toast.success("Request submitted successfully");
+			toast.success("Your changes have been successfully saved.");
 			router.navigate({ to: "/home" });
 		},
 		onError: (error: ApiError) => {
 			const errorMessage =
-				error.response?.data?.message || "Failed to update mentor registration";
+				error.response?.data?.message ||
+				"We encountered an issue updating your registration. Please try again.";
 			toast.error(errorMessage);
 		},
 	});

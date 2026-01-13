@@ -20,7 +20,9 @@ export const useRegister = (callbacks?: {
 			callbacks?.onRegisterSuccess?.(variables.email);
 		},
 		onError: (error: ApiError) => {
-			const errorMessage = error?.response?.data?.message;
+			const errorMessage =
+				error?.response?.data?.message ||
+				"We encountered an issue during registration. Please try again.";
 			toast.error(errorMessage);
 		},
 	});
@@ -64,7 +66,9 @@ export const useVerifyRegisterOtp = (callbacks?: {
 			toast.success(response.message);
 		},
 		onError: (error: ApiError) => {
-			const errorMessage = error?.response?.data?.message;
+			const errorMessage =
+				error?.response?.data?.message ||
+				"We encountered an issue while verifying the OTP. Please try again.";
 			toast.error(errorMessage);
 			if (error.response?.status === 429) {
 				callbacks?.onOtpExpired?.();
@@ -82,7 +86,9 @@ export const useResendRegisterOtp = (callbacks: {
 			toast.success(response.message);
 		},
 		onError: (error: ApiError) => {
-			const errorMessage = error?.response?.data?.message;
+			const errorMessage =
+				error?.response?.data?.message ||
+				"We encountered an issue while resending the OTP. Please try again.";
 			toast.error(errorMessage);
 			if (error.response?.status === 429) {
 				callbacks?.onOtpExpired?.();

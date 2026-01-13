@@ -45,7 +45,7 @@ const MentorSlots = ({ mentorId }: MentorSlotsProps) => {
         onSuccess: async (data, slotId) => {
             try {
                 if (!user) {
-                    toast.error("You must be logged in to book a session");
+                    toast.error("Please log in to book a mentorship session.");
                     setProcessingSlotId(null);
                     return;
                 }
@@ -77,7 +77,7 @@ const MentorSlots = ({ mentorId }: MentorSlotsProps) => {
                                 paymentId: response.razorpay_payment_id,
                                 signature: response.razorpay_signature
                             });
-                            toast.success("Payment Successful!");
+                            toast.success("Payment successful! Your session has been booked.");
 
                             // Invalidate slots cache to refresh UI
                             await queryClient.invalidateQueries({
@@ -86,7 +86,7 @@ const MentorSlots = ({ mentorId }: MentorSlotsProps) => {
 
                             setProcessingSlotId(null);
                         } catch (err) {
-                            toast.error("Payment Verification Failed");
+                            toast.error("We encountered an issue verifying your payment. Please contact support.");
                             setProcessingSlotId(null);
                         }
                     },
@@ -100,7 +100,7 @@ const MentorSlots = ({ mentorId }: MentorSlotsProps) => {
                     },
                     modal: {
                         ondismiss: () => {
-                            toast.error("Payment Cancelled");
+                            toast.error("Payment was cancelled.");
                             setProcessingSlotId(null);
                         }
                     }
@@ -110,12 +110,12 @@ const MentorSlots = ({ mentorId }: MentorSlotsProps) => {
                 rzp1.open();
 
             } catch (error) {
-                toast.error("Payment initiation failed");
+                toast.error("We encountered an issue initiating the payment. Please try again.");
                 setProcessingSlotId(null);
             }
         },
         onError: () => {
-            toast.error("Booking failed");
+            toast.error("We encountered an issue generating the booking. Please try again.");
             setProcessingSlotId(null);
         }
     });

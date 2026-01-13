@@ -20,7 +20,8 @@ export const useCreateArticle = (callbacks?: {
 		},
 		onError: (error: ApiError) => {
 			const errorMessage =
-				error?.response?.data?.message || "Article creation failed";
+				error?.response?.data?.message ||
+				"We encountered an issue while creating the article. Please try again.";
 			toast.error(errorMessage);
 		},
 	});

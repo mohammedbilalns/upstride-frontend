@@ -150,7 +150,7 @@ export function useChat(chatId: string, initialData?: FetchChatResponse) {
         const maxSizeMB = (maxSize / (1024 * 1024)).toFixed(0);
         const fileType = isImage ? "image" : "file";
 
-        toast.error(`${fileType.charAt(0).toUpperCase() + fileType.slice(1)} size (${sizeMB}MB) exceeds the maximum allowed size of ${maxSizeMB}MB`);
+        toast.error(`The ${fileType} file size (${sizeMB}MB) exceeds the ${maxSizeMB}MB limit. Please upload a smaller file.`);
         return;
       }
     }
@@ -237,7 +237,7 @@ export function useChat(chatId: string, initialData?: FetchChatResponse) {
           });
         } catch (uploadError) {
           console.error("File upload failed:", uploadError);
-          toast.error("Failed to upload file");
+          toast.error("We encountered an issue uploading the file. Please try again.");
 
           // Remove from uploading set
           setUploadingMessages(prev => {
@@ -301,7 +301,7 @@ export function useChat(chatId: string, initialData?: FetchChatResponse) {
 
     } catch (error) {
       console.error("Error sending message:", error);
-      toast.error("Failed to send message");
+      toast.error("We encountered an issue sending your message. Please try again.");
 
       // Remove from uploading set
       setUploadingMessages(prev => {

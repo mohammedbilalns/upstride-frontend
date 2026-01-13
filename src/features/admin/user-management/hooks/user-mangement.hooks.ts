@@ -6,16 +6,17 @@ import { blockUser, unblockUser } from "../services/user-mangement.service";
 
 export const useBlockUser = () => {
 	const router = useRouter();
-	
+
 	return useMutation({
 		mutationFn: (userId: string) => blockUser(userId),
 		onSuccess: (response) => {
 			toast.success(response.message);
-			router.invalidate({sync: true});
+			router.invalidate({ sync: true });
 		},
 		onError: (error: ApiError) => {
 			const errorMessage =
-				error?.response?.data?.message || "Block user failed";
+				error?.response?.data?.message ||
+				"We encountered an issue blocking the user. Please try again.";
 			toast.error(errorMessage);
 		},
 	});
@@ -23,16 +24,17 @@ export const useBlockUser = () => {
 
 export const useUnBlockUser = () => {
 	const router = useRouter();
-	
+
 	return useMutation({
 		mutationFn: (userId: string) => unblockUser(userId),
 		onSuccess: (response) => {
 			toast.success(response.message);
-			router.invalidate({sync: true});
+			router.invalidate({ sync: true });
 		},
 		onError: (error: ApiError) => {
 			const errorMessage =
-				error?.response?.data?.message || "Unblock user failed";
+				error?.response?.data?.message ||
+				"We encountered an issue unblocking the user. Please try again.";
 			toast.error(errorMessage);
 		},
 	});

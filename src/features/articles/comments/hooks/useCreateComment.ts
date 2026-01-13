@@ -51,7 +51,8 @@ export const useCreateComment = () => {
 			}
 
 			const message =
-				error?.response?.data?.message || "Failed to create comment";
+				error?.response?.data?.message ||
+				"We encountered an issue while creating the comment. Please try again.";
 			toast.error(message);
 		},
 

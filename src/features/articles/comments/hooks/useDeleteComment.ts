@@ -13,7 +13,8 @@ export const useDeleteComment = (articleId: string) => {
 		},
 		onError: (error: ApiError) => {
 			const message =
-				error?.response?.data?.message || "Failed to delete comment";
+				error?.response?.data?.message ||
+				"We encountered an issue while deleting the comment. Please try again.";
 			toast.error(message);
 		},
 	});

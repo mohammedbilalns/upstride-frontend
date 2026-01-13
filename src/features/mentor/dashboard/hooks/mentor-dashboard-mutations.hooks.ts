@@ -12,7 +12,7 @@ function invalidateMentorRule(mentorId: string) {
   })
 }
 
-function handlMutationError(error: ApiError, message: string) {
+function handleMutationError(error: ApiError, message: string) {
   const responseData = error?.response?.data;
 
   if (responseData?.errors && Array.isArray(responseData.errors)) {
@@ -33,7 +33,7 @@ export const useAddRecurringRule = (mentorId: string) => {
       invalidateMentorRule(mentorId)
     },
     onError: (error: ApiError) => {
-      handlMutationError(error, "Faild to create rule")
+      handleMutationError(error, "We encountered an issue creating the rule. Please try again.")
     }
   })
 }
@@ -43,10 +43,10 @@ export const useUpdateMentorRule = (mentorId: string) => {
     mutationFn: ({ ruleId, updatedRule, invalidateExisting }: { ruleId: string, updatedRule: Partial<RecurringRule> | { startTime: string, endTime: string, slotDuration: number, weekDay: number, price?: number }, invalidateExisting?: boolean }) => updateRecurringRule(ruleId, updatedRule, invalidateExisting),
     onSuccess: () => {
       invalidateMentorRule(mentorId)
-      toast.success("Rule updated successfully")
+      toast.success("Availability rule updated successfully.")
     },
     onError: (error: ApiError) => {
-      handlMutationError(error, "Faild to update rule")
+      handleMutationError(error, "We encountered an issue updating the rule. Please try again.")
     }
   })
 }
@@ -56,10 +56,10 @@ export const useDeleteMentorRule = (mentorId: string) => {
     mutationFn: ({ ruleId, deleteSlots }: { ruleId: string, deleteSlots?: boolean }) => deleteMentorRule(ruleId, deleteSlots),
     onSuccess: () => {
       invalidateMentorRule(mentorId)
-      toast.success("Rule deleted successfully")
+      toast.success("Availability rule deleted successfully.")
     },
     onError: (error: ApiError) => {
-      handlMutationError(error, "Faild to delete rule")
+      handleMutationError(error, "We encountered an issue deleting the rule. Please try again.")
     }
   })
 }
@@ -69,10 +69,10 @@ export const useDisableMentorRule = (mentorId: string) => {
     mutationFn: (ruleId: string) => disableRecurringRule(ruleId),
     onSuccess: () => {
       invalidateMentorRule(mentorId)
-      toast.success("Rule disabled successfully")
+      toast.success("Availability rule has been disabled.")
     },
     onError: (error: ApiError) => {
-      handlMutationError(error, "Faild to disable rule")
+      handleMutationError(error, "We encountered an issue disabling the rule. Please try again.")
     }
   })
 }
@@ -82,10 +82,10 @@ export const useEnableMentorRule = (mentorId: string) => {
     mutationFn: (ruleId: string) => enableRecurringRule(ruleId),
     onSuccess: () => {
       invalidateMentorRule(mentorId)
-      toast.success("Rule enabled successfully")
+      toast.success("Availability rule has been enabled.")
     },
     onError: (error: ApiError) => {
-      handlMutationError(error, "Faild to enable rule")
+      handleMutationError(error, "We encountered an issue enabling the rule. Please try again.")
     }
   })
 }
@@ -95,7 +95,7 @@ export const useUpdateMentorProfile = () => {
     mutationFn: (saveProfilePayload: SaveMentorProfilePayload) => updateMentorProfile(saveProfilePayload),
     onSuccess: () => { },
     onError: (error: ApiError) => {
-      handlMutationError(error, "Faild to update profile")
+      handleMutationError(error, "We encountered an issue updating the profile. Please try again.")
     }
   })
 }
@@ -111,10 +111,11 @@ export const useCreateCustomSlot = (mentorId: string) => {
           queryKey: ["slots", mentorId]
         })
       ]);
-      toast.success("Slot added successfully")
+
+      toast.success("Custom availability slot added successfully.")
     },
     onError: (error: ApiError) => {
-      handlMutationError(error, "Failed to create custom slot")
+      handleMutationError(error, "We encountered an issue creating the custom slot. Please try again.")
     }
   })
 }
@@ -126,10 +127,10 @@ export const useCancelSlot = (mentorId: string) => {
       await queryClient.invalidateQueries({
         queryKey: ["slots", mentorId]
       });
-      toast.success("Slot disabled successfully");
+      toast.success("Slot has been disabled.");
     },
     onError: (error: ApiError) => {
-      handlMutationError(error, "Failed to disable slot");
+      handleMutationError(error, "We encountered an issue disabling the slot. Please try again.");
     }
   })
 }
@@ -142,10 +143,10 @@ export const useDeleteSlot = (mentorId: string) => {
       await queryClient.invalidateQueries({
         queryKey: ["slots", mentorId]
       });
-      toast.success("Slot deleted successfully");
+      toast.success("Slot has been deleted.");
     },
     onError: (error: ApiError) => {
-      handlMutationError(error, "Failed to delete slot");
+      handleMutationError(error, "We encountered an issue deleting the slot. Please try again.");
     }
   })
 }

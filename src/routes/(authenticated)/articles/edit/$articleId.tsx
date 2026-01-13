@@ -115,7 +115,7 @@ function RouteComponent() {
 		const currentTags = form.getValues("tags") || [];
 		if (currentTags.length >= 5) {
 			form.setError("tags", {
-				message: "You can have a maximum of 5 tags",
+				message: "A maximum of 5 tags is allowed.",
 			});
 			return;
 		}
@@ -173,7 +173,7 @@ function RouteComponent() {
 		return (
 			<div className="container mx-auto px-4 py-6">
 				<div className="text-red-500">
-					Error loading article. Please try again.
+					We encountered an issue loading the article. Please try again later.
 				</div>
 			</div>
 		);
@@ -203,7 +203,7 @@ function RouteComponent() {
 						<CardHeader>
 							<CardTitle className="flex items-center">
 								<FileText className="h-5 w-5 mr-2" />
-								Article Content
+								Content
 							</CardTitle>
 						</CardHeader>
 						<CardContent className="flex-1 flex flex-col space-y-4">
@@ -211,7 +211,7 @@ function RouteComponent() {
 								<Label htmlFor={`${baseId}-title`}>Title</Label>
 								<Input
 									id={`${baseId}-title`}
-									placeholder="Enter article title..."
+									placeholder="Enter the article title"
 									{...form.register("title")}
 									className="text-lg mt-2"
 								/>

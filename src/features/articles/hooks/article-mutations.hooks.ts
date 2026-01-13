@@ -20,7 +20,8 @@ export const useDeleteArticle = (callbacks?: {
 		},
 		onError: (error: ApiError) => {
 			const errorMessage =
-				error?.response?.data?.message || "Article deletion failed";
+				error?.response?.data?.message ||
+				"We encountered an issue while deleting the article. Please try again.";
 			toast.error(errorMessage);
 		},
 	});
@@ -52,7 +53,8 @@ export const useUpdateArticle = (callbacks?: {
 		},
 		onError: (error: ApiError) => {
 			const errorMessage =
-				error?.response?.data?.message || "Article update failed";
+				error?.response?.data?.message ||
+				"We encountered an issue while updating the article. Please try again.";
 			toast.error(errorMessage);
 		},
 	});
