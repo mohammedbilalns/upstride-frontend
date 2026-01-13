@@ -11,7 +11,7 @@ export interface Article {
 	title: string;
 	description: string;
 	content: string;
-	featuredImage: string;
+	featuredImage: string | null;
 	likes: number;
 	views: number;
 	comments: number;
@@ -22,12 +22,12 @@ export interface Article {
 export type ArticleInList = Omit<Article, "content">;
 
 export type ArticlesResponse = {
-  articles: Article[]
-  total: number
+	articles: Article[]
+	total: number
 }
 
 export type ArticleResponse = {
-  article:Article,
-  isViewed:boolean,
-  isLiked: boolean
+	article: Article,
+	isViewed: boolean,
+	isLiked: boolean
 }

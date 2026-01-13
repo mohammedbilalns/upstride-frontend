@@ -23,7 +23,7 @@ const featuredImageSchema = z
 		bytes: z.number(),
 		asset_folder: z.string(),
 	})
-	.optional();
+	.optional().nullable();
 
 const baseArticleSchema = z.object({
 	title: titleSchema,

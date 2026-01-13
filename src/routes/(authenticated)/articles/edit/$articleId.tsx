@@ -138,7 +138,7 @@ function RouteComponent() {
 	};
 
 	const handleImageChange = (image: CloudinaryResponse | null) => {
-		form.setValue("featuredImage", image || undefined, {
+		form.setValue("featuredImage", image || null, {
 			shouldValidate: true,
 		});
 		form.clearErrors("featuredImage");
