@@ -1,3 +1,4 @@
+import { Link } from "@tanstack/react-router";
 import NoResource from "@/components/common/NoResource";
 import UserAvatar from "@/components/common/UserAvatar";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
@@ -44,33 +45,39 @@ export default function MutualConnections() {
 				) : (
 					<div className="space-y-3">
 						{connections.map((connection: MutualConnection) => (
-							<div
+							<Link
 								key={connection.id}
-								className="flex items-center justify-between p-3 border rounded-lg hover:bg-muted/50 transition-colors cursor-pointer group"
+								to="/mentors/$mentorId"
+								params={{ mentorId: connection.id }}
+								className="block"
 							>
-								<div className="flex items-center">
-									<UserAvatar
-										image={connection?.user?.profilePicture || connection.profilePicture}
-										name={connection.name}
-										size={10}
-									/>
-									<div className="ml-3">
-										<p className="text-sm font-medium group-hover:text-primary transition-colors">
-											{connection.name}
-										</p>
-										<p className="text-xs text-muted-foreground">
-											{connection.currentRole} at {connection.organisation}
-										</p>
-										<p className="text-xs text-muted-foreground">
-											{connection.mutualConnectionCount} mutual connection
-											{connection.mutualConnectionCount !== 1 ? "s" : ""}
-										</p>
+								<div
+									className="flex items-center justify-between p-3 border rounded-lg hover:bg-muted/50 transition-colors cursor-pointer group"
+								>
+									<div className="flex items-center">
+										<UserAvatar
+											image={connection?.user?.profilePicture || connection.profilePicture}
+											name={connection.name}
+											size={10}
+										/>
+										<div className="ml-3">
+											<p className="text-sm font-medium group-hover:text-primary transition-colors">
+												{connection.name}
+											</p>
+											<p className="text-xs text-muted-foreground">
+												{connection.currentRole} at {connection.organisation}
+											</p>
+											<p className="text-xs text-muted-foreground">
+												{connection.mutualConnectionCount} mutual connection
+												{connection.mutualConnectionCount !== 1 ? "s" : ""}
+											</p>
+										</div>
 									</div>
+									<Button size="sm" variant="outline">
+										View
+									</Button>
 								</div>
-								<Button size="sm" variant="outline">
-									View
-								</Button>
-							</div>
+							</Link>
 						))}
 					</div>
 				)}

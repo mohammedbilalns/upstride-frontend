@@ -10,8 +10,8 @@ import {
 	SelectTrigger,
 	SelectValue,
 } from "@/components/ui/select";
-import { sortOptions } from "@/features/articles/data/sort-options";
-import { useFetchExpertiseAreas } from "@/features/auth/hooks/onboarding.hooks";
+import { sortOptions } from "@/features/articles-mangement/data/sort-options";
+import { useFetchExpertiseAreas } from "@/features/authentication/hooks/onboarding.hooks";
 import type { Category } from "@/shared/types/category";
 import { useFetchMostUsedTags } from "../hooks/article-queries.hooks";
 

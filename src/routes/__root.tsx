@@ -5,9 +5,11 @@ import * as React from "react";
 import { useEffect } from "react";
 import { Toaster } from "sonner";
 import { useThemeStore } from "@/app/store/theme.store";
+import { useAuthStore } from "@/app/store/auth.store";
 
 interface RouterContext {
 	queryClient: QueryClient;
+	authStore: typeof useAuthStore;
 }
 
 export const Route = createRootRouteWithContext<RouterContext>()({
@@ -24,7 +26,6 @@ function RootComponent() {
 	return (
 		<React.Fragment>
 			{/* <NetworkStatusIndicator/> */}
-
 			<Outlet />
 			<TanStackRouterDevtools />
 			<Toaster></Toaster>

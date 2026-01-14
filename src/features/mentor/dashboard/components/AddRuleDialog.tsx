@@ -1,26 +1,50 @@
 import { useState, useEffect } from "react";
 import { useForm, FormProvider, Controller } from "react-hook-form";
+import { useNavigate } from "@tanstack/react-router";
+import { useQuery } from "@tanstack/react-query";
 import { Button } from "@/components/ui/button";
 import {
-  Dialog, DialogContent, DialogDescription, DialogFooter,
-  DialogHeader, DialogTitle, DialogTrigger
+  Dialog,
+  DialogContent,
+  DialogDescription,
+  DialogFooter,
+  DialogHeader,
+  DialogTitle,
+  DialogTrigger,
 } from "@/components/ui/dialog";
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
-import { Plus } from "lucide-react";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
+import { Plus, AlertCircle } from "lucide-react";
 import { Input } from "@/components/ui/input";
+import { Alert, AlertDescription } from "@/components/ui/alert";
 import { useAddRecurringRule } from "../hooks/mentor-dashboard-mutations.hooks";
+import { getPricingConfig } from "@/features/pricing/services/pricing.service";
+import { useAuthStore } from "@/app/store/auth.store";
 
 interface RuleFormValues {
   weekDay: number;
   startTime: string;
   endTime: string;
   slotDuration: 60 | 90 | 120 | 180;
-  price: number;
 }
 
 export default function AddRuleDialog({ mentorId }: { mentorId: string }) {
   const [open, setOpen] = useState(false);
+  const navigate = useNavigate();
   const createMentorRuleMutation = useAddRecurringRule(mentorId);
+  const { user } = useAuthStore();
+
+  // Check if pricing is configured
+  const { data: pricingConfig, isLoading: loadingPricing } = useQuery({
+    queryKey: ["pricing-config", user?.id],
+    queryFn: () => getPricingConfig(user?.id || ""),
+    enabled: open && !!user?.id,
+  });
 
   const form = useForm<RuleFormValues>({
     defaultValues: {
@@ -28,8 +52,7 @@ export default function AddRuleDialog({ mentorId }: { mentorId: string }) {
       startTime: "09:00",
       endTime: "10:00",
       slotDuration: 60,
-      price: 100
-    }
+    },
   });
 
   // Watch values to auto-calculate end time
@@ -39,23 +62,20 @@ export default function AddRuleDialog({ mentorId }: { mentorId: string }) {
   // Calculate and set end time whenever start time or duration changes
   useEffect(() => {
     if (startTime && slotDuration) {
-      const [hours, minutes] = startTime.split(':').map(Number);
+      const [hours, minutes] = startTime.split(":").map(Number);
       const date = new Date();
       date.setHours(hours);
-      date.setMinutes(minutes + Number(slotDuration)); // Add duration in minutes
+      date.setMinutes(minutes + Number(slotDuration));
 
-      // Format back to HH:mm
-      const newEndHours = String(date.getHours()).padStart(2, '0');
-      const newEndMinutes = String(date.getMinutes()).padStart(2, '0');
-
+      const newEndHours = String(date.getHours()).padStart(2, "0");
+      const newEndMinutes = String(date.getMinutes()).padStart(2, "0");
       const newEndTime = `${newEndHours}:${newEndMinutes}`;
 
-      // Only update if it's different 
       if (form.getValues("endTime") !== newEndTime) {
         form.setValue("endTime", newEndTime);
       }
     }
-  }, [startTime, slotDuration, form.setValue, form.getValues]);
+  }, [startTime, slotDuration, form]);
 
   const onSubmit = (values: RuleFormValues) => {
     createMentorRuleMutation.mutate(
@@ -64,13 +84,22 @@ export default function AddRuleDialog({ mentorId }: { mentorId: string }) {
         onSuccess: () => {
           setOpen(false);
           form.reset();
-        }
-      }
+        },
+      },
     );
   };
 
+  const handleOpenChange = (newOpen: boolean) => {
+    if (newOpen && !loadingPricing && !pricingConfig) {
+      // Redirect to pricing configuration
+      navigate({ to: "/settings/pricing" });
+      return;
+    }
+    setOpen(newOpen);
+  };
+
   return (
-    <Dialog open={open} onOpenChange={setOpen}>
+    <Dialog open={open} onOpenChange={handleOpenChange}>
       <DialogTrigger asChild>
         <Button>
           <Plus className="h-4 w-4 mr-2" />
@@ -86,6 +115,16 @@ export default function AddRuleDialog({ mentorId }: { mentorId: string }) {
           </DialogDescription>
         </DialogHeader>
 
+        {!pricingConfig && !loadingPricing && (
+          <Alert>
+            <AlertCircle className="h-4 w-4" />
+            <AlertDescription>
+              Please configure your pricing tiers before creating availability
+              rules.
+            </AlertDescription>
+          </Alert>
+        )}
+
         <FormProvider {...form}>
           <form className="grid gap-4 py-4" onSubmit={form.handleSubmit(onSubmit)}>
             {/* Weekday */}
@@ -95,7 +134,10 @@ export default function AddRuleDialog({ mentorId }: { mentorId: string }) {
                 name="weekDay"
                 control={form.control}
                 render={({ field }) => (
-                  <Select value={String(field.value)} onValueChange={(v) => field.onChange(Number(v))}>
+                  <Select
+                    value={String(field.value)}
+                    onValueChange={(v) => field.onChange(Number(v))}
+                  >
                     <SelectTrigger className="col-span-3">
                       <SelectValue placeholder="Select a day" />
                     </SelectTrigger>
@@ -141,7 +183,10 @@ export default function AddRuleDialog({ mentorId }: { mentorId: string }) {
                 name="slotDuration"
                 control={form.control}
                 render={({ field }) => (
-                  <Select value={String(field.value)} onValueChange={(v) => field.onChange(Number(v))}>
+                  <Select
+                    value={String(field.value)}
+                    onValueChange={(v) => field.onChange(Number(v))}
+                  >
                     <SelectTrigger className="col-span-3">
                       <SelectValue placeholder="Select duration" />
                     </SelectTrigger>
@@ -156,25 +201,18 @@ export default function AddRuleDialog({ mentorId }: { mentorId: string }) {
               />
             </div>
 
-            {/* Price */}
-            <div className="grid grid-cols-4 items-center gap-4">
-              <label className="text-right">Hourly Rate (₹)</label>
-              <Input
-                type="number"
-                className="col-span-3"
-                placeholder="e.g. 500"
-                min={10}
-                max={10000}
-                {...form.register("price", { valueAsNumber: true })}
-              />
-            </div>
-
             <DialogFooter>
-              <Button variant="outline" type="button" onClick={() => setOpen(false)}>
+              <Button
+                variant="outline"
+                type="button"
+                onClick={() => setOpen(false)}
+              >
                 Cancel
               </Button>
               <Button type="submit" disabled={createMentorRuleMutation.isPending}>
-                {createMentorRuleMutation.isPending ? "Creating..." : "Create Rule"}
+                {createMentorRuleMutation.isPending
+                  ? "Creating..."
+                  : "Create Rule"}
               </Button>
             </DialogFooter>
           </form>

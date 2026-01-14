@@ -1,81 +1,25 @@
-import { useState, useMemo } from "react";
+import { useMemo, useState } from "react";
 import { useQuery } from "@tanstack/react-query";
 import { getSlots } from "@/features/sessions/services/session.service";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
-import { LayoutList, ChevronLeft, ChevronRight } from "lucide-react";
+import { LayoutList, Trash2, Plus, Clock } from "lucide-react";
 import Pending from "@/components/common/Pending";
-import NotFoundComponent from "@/components/NotFoundComponent";
 import ErrorState from "@/components/common/ErrorState";
-import AddCustomSlotDialog from "./AddCustomSlotDialog";
 import { useDeleteSlot } from "../hooks/mentor-dashboard-mutations.hooks";
-import { isSameDay, parseISO, format, addMonths, startOfMonth, isSameMonth } from "date-fns";
-import DaySlotsDialog from "./DaySlotsDialog";
-import {
-    Calendar,
-    CalendarMonthView,
-    CalendarNextTrigger,
-    CalendarPrevTrigger,
-    useCalendar,
-} from '@/components/ui/full-calendar';
-import {
-    Select,
-    SelectContent,
-    SelectItem,
-    SelectTrigger,
-    SelectValue,
-} from "@/components/ui/select";
-
-const CalendarNavigation = () => {
-    const { date, setDate } = useCalendar();
-    const today = startOfMonth(new Date());
-    const options = [0, 1, 2].map(i => addMonths(today, i));
-    const maxDate = options[options.length - 1];
-
-    const handleMonthChange = (value: string) => {
-        setDate(new Date(value));
-    };
-
-    return (
-        <div className="flex items-center gap-2 ml-auto">
-            <CalendarPrevTrigger disabled={isSameMonth(date, today)}>
-                <ChevronLeft size={20} />
-                <span className="sr-only">Previous</span>
-            </CalendarPrevTrigger>
-
-            <Select
-                value={options.find(d => isSameMonth(d, date))?.toISOString() || date.toISOString()}
-                onValueChange={handleMonthChange}
-            >
-                <SelectTrigger className="w-[180px]">
-                    <SelectValue>
-                        {format(date, "MMMM yyyy")}
-                    </SelectValue>
-                </SelectTrigger>
-                <SelectContent>
-                    {options.map((optionDate) => (
-                        <SelectItem key={optionDate.toISOString()} value={optionDate.toISOString()}>
-                            {format(optionDate, "MMMM yyyy")}
-                        </SelectItem>
-                    ))}
-                </SelectContent>
-            </Select>
-
-            <CalendarNextTrigger disabled={isSameMonth(date, maxDate)}>
-                <ChevronRight size={20} />
-                <span className="sr-only">Next</span>
-            </CalendarNextTrigger>
-        </div>
-    );
-};
+import { isSameDay, parseISO, format } from "date-fns";
+import { Button } from "@/components/ui/button";
+import { Badge } from "@/components/ui/badge";
+import AddCustomSlotDialog from "./AddCustomSlotDialog";
+import { ScrollArea } from "@/components/ui/scroll-area";
 
 interface MentorSlotsProps {
     mentorId: string;
+    date?: Date;
 }
 
-export default function MentorSlots({ mentorId }: MentorSlotsProps) {
-    const [selectedDate, setSelectedDate] = useState<Date | undefined>(undefined);
-    const [isDayDialogOpen, setIsDayDialogOpen] = useState(false);
+export default function MentorSlots({ mentorId, date }: MentorSlotsProps) {
     const [isAddSlotOpen, setIsAddSlotOpen] = useState(false);
+    const displayDate = date || new Date();
 
     const { data: slots, isLoading, error } = useQuery({
         queryKey: ['slots', mentorId],
@@ -85,102 +29,133 @@ export default function MentorSlots({ mentorId }: MentorSlotsProps) {
 
     const deleteSlotMutation = useDeleteSlot(mentorId);
 
-    const handleDeleteSlot = (slotId: string) => {
-        deleteSlotMutation.mutate(slotId);
-    };
-
-    const events = useMemo(() => {
-        if (!slots) return [];
-        return slots.map((slot: any) => ({
-            id: slot.id,
-            start: new Date(slot.startAt),
-            end: new Date(slot.endAt),
-            title: `${format(new Date(slot.startAt), 'HH:mm')} (₹${slot.price})`,
-            color: (slot.status === 'OPEN' ? 'blue' : 'pink') as "blue" | "pink",
-        }));
-    }, [slots]);
-
-    const handleDayClick = (date: Date) => {
-        setSelectedDate(date);
-        setIsDayDialogOpen(true);
-    };
-
-    const handleEventClick = (event: any) => {
-        // Open dialog for the event's start day
-        setSelectedDate(event.start);
-        setIsDayDialogOpen(true);
-    };
-
-    // Filter slots for the selected date (for dialog)
+    // Filter slots for the selected date
     const selectedDateSlots = useMemo(() => {
-        if (!slots || !selectedDate) return [];
+        if (!slots) return [];
         return slots.filter((slot: any) =>
-            isSameDay(parseISO(slot.startAt), selectedDate)
+            isSameDay(parseISO(slot.startAt), displayDate)
         ).sort((a: any, b: any) => new Date(a.startAt).getTime() - new Date(b.startAt).getTime());
-    }, [slots, selectedDate]);
+    }, [slots, displayDate]);
 
     if (isLoading) return <Pending resource="Active Slots" />;
 
     if (error) {
         // @ts-expect-error - axios error typing
         if (error.response?.status === 404) {
-            return <NotFoundComponent />;
+            // Treat 404 as no slots found yet, which is fine
+            return <SlotsListEmptyState
+                date={displayDate}
+                onAdd={() => setIsAddSlotOpen(true)}
+            />;
         }
-        return <ErrorState message="Failed to load slots. Please try again later." onRetry={() => window.location.reload()} />;
+        return <ErrorState message="Failed to load slots." onRetry={() => window.location.reload()} />;
     }
 
     return (
         <Card className="h-full flex flex-col">
-            <CardHeader className="flex-none">
-                <div className="flex justify-between items-center">
+            <CardHeader className="pb-3">
+                <div className="flex justify-between items-start">
                     <div>
-                        <CardTitle className="flex items-center gap-2">
-                            <LayoutList className="h-5 w-5" />
-                            Manage Slot
+                        <CardTitle className="text-lg font-semibold flex items-center gap-2">
+                            <Clock className="h-5 w-5 text-primary" />
+                            {format(displayDate, "EEEE, MMM d")}
                         </CardTitle>
                         <CardDescription>
-                            Select a date on the calendar to view or manage slots.
+                            {selectedDateSlots.length} slots available
                         </CardDescription>
                     </div>
+                    {/* Add Button in Header as requested */}
+                    <Button size="sm" onClick={() => setIsAddSlotOpen(true)}>
+                        <Plus className="h-4 w-4 mr-1" />
+                        Add Slot
+                    </Button>
                 </div>
             </CardHeader>
-            <CardContent className="p-0 flex-1 overflow-hidden">
-                <Calendar
-                    events={events}
-                    onDayClick={handleDayClick}
-                    onEventClick={handleEventClick}
-                >
-                    <div className="h-full flex flex-col">
-                        <div className="flex px-6 items-center gap-2 mb-6 border-b pb-4 pt-4">
-                            <CalendarNavigation />
+            <CardContent className="flex-1 p-0 overflow-hidden">
+                <ScrollArea className="h-full px-6 pb-6">
+                    {selectedDateSlots.length === 0 ? (
+                        <div className="text-center py-12 text-muted-foreground">
+                            <p>No slots scheduled for this day.</p>
                         </div>
+                    ) : (
+                        <div className="space-y-3 pt-2">
+                            {selectedDateSlots.map((slot: any) => (
+                                <div
+                                    key={slot.id}
+                                    className="flex items-center justify-between p-3 rounded-lg border bg-card hover:shadow-sm transition-shadow"
+                                >
+                                    <div className="flex flex-col">
+                                        <div className="flex items-center gap-2">
+                                            <span className="font-semibold text-lg">
+                                                {format(parseISO(slot.startAt), "h:mm a")}
+                                            </span>
+                                            <span className="text-muted-foreground text-sm">
+                                                - {format(parseISO(slot.endAt), "h:mm a")}
+                                            </span>
+                                        </div>
+                                        <div className="flex items-center gap-2 mt-1">
+                                            <Badge variant={slot.isBooked ? "secondary" : "outline"} className={slot.isBooked ? "bg-primary/10 text-primary" : ""}>
+                                                {slot.isBooked ? "Booked" : "Open"}
+                                            </Badge>
+                                            {slot.price > 0 && (
+                                                <span className="text-xs text-muted-foreground">
+                                                    ₹{slot.price}
+                                                </span>
+                                            )}
+                                        </div>
+                                    </div>
 
-                        <div className="flex-1 px-6 overflow-hidden pb-4">
-                            <CalendarMonthView />
+                                    {!slot.isBooked && (
+                                        <Button
+                                            variant="ghost"
+                                            size="icon"
+                                            className="text-muted-foreground hover:text-destructive hover:bg-destructive/10"
+                                            onClick={() => deleteSlotMutation.mutate(slot.id)}
+                                            disabled={deleteSlotMutation.isPending}
+                                            title="Disable/Delete Slot"
+                                        >
+                                            <Trash2 className="h-4 w-4" />
+                                        </Button>
+                                    )}
+                                </div>
+                            ))}
                         </div>
-                    </div>
-                </Calendar>
+                    )}
+                </ScrollArea>
+
+                <AddCustomSlotDialog
+                    mentorId={mentorId}
+                    open={isAddSlotOpen}
+                    onOpenChange={setIsAddSlotOpen}
+                    selectedDate={displayDate}
+                />
             </CardContent>
-
-            <DaySlotsDialog
-                date={selectedDate}
-                slots={selectedDateSlots}
-                isOpen={isDayDialogOpen}
-                onClose={() => setIsDayDialogOpen(false)}
-                onDeleteSlot={handleDeleteSlot}
-                onAddSlot={() => {
-                    setIsAddSlotOpen(true);
-                }}
-            />
-
-            <AddCustomSlotDialog
-                mentorId={mentorId}
-                open={isAddSlotOpen}
-                onOpenChange={(open) => {
-                    setIsAddSlotOpen(open);
-                }}
-                selectedDate={selectedDate}
-            />
         </Card>
     );
+}
+
+function SlotsListEmptyState({ date, onAdd }: { date: Date, onAdd: () => void }) {
+    return (
+        <Card className="h-full flex flex-col">
+            <CardHeader>
+                <CardTitle className="text-lg font-semibold flex items-center gap-2">
+                    <Clock className="h-5 w-5 text-primary" />
+                    {format(date, "EEEE, MMM d")}
+                </CardTitle>
+            </CardHeader>
+            <CardContent className="flex-1 flex flex-col items-center justify-center p-6 text-center">
+                <div className="w-12 h-12 rounded-full bg-muted flex items-center justify-center mb-4">
+                    <LayoutList className="h-6 w-6 text-muted-foreground" />
+                </div>
+                <h3 className="font-semibold text-lg mb-1">No slots scheduled</h3>
+                <p className="text-muted-foreground text-sm mb-4">
+                    You haven't added any availability for this date.
+                </p>
+                <Button onClick={onAdd}>
+                    <Plus className="h-4 w-4 mr-2" />
+                    Add Slot
+                </Button>
+            </CardContent>
+        </Card>
+    )
 }

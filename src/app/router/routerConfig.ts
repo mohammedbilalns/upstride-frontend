@@ -4,32 +4,31 @@ import Loading from "@/components/common/Loading";
 import ErrorComponent from "@/components/Error";
 import NotFoundComponent from "@/components/NotFoundComponent";
 import { routeTree } from "@/routeTree.gen";
+import { useAuthStore } from "@/app/store/auth.store";
 
-// React Query client 
 export const queryClient = new QueryClient();
 
 /**
  * Global router configuration for the app
- * - Integrates React Query via context
- * - Defines default loading, error, and 404 components
- * - Enables scroll restoration and route preloading
+ *  Integrates React Query and auth store via context
  */
 export const router = createRouter({
   routeTree,
-  context: { queryClient },
+  context: {
+    queryClient,
+    authStore: useAuthStore
+  },
 
   // Fallback components
   defaultNotFoundComponent: NotFoundComponent,
   defaultPendingComponent: Loading,
   defaultErrorComponent: ErrorComponent,
 
-  // Scroll position is preserved between navigations
   scrollRestoration: true,
 
-  // Preload route data on hover or intent
+  // Preload route data on hover/ intent
   defaultPreload: "intent",
 
-  // Default React Query cache time (5 min)
   defaultStaleTime: 5 * 60 * 1000,
 });
 

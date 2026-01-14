@@ -16,7 +16,7 @@ export default function RegisterMentorCard() {
 						Share your expertise and help others grow in their careers.
 					</p>
 
-					<Link to="/mentor/register">
+					<Link to="/mentors/register">
 						<Button className="w-full cursor-pointer">
 							<Star className="h-4 w-4 mr-2" />
 							Register as Mentor

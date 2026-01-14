@@ -2,18 +2,20 @@ import { useState } from "react";
 import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
 import { AlertCircle } from "lucide-react";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import { ForgotPasswordForm } from "@/features/auth/components/ForgorPasswordForm";
-import { LoginForm } from "@/features/auth/components/LoginForm";
+import { ForgotPasswordForm } from "@/features/authentication/components/ForgorPasswordForm";
+import { LoginForm } from "@/features/authentication/components/LoginForm";
 import { createFileRoute } from "@tanstack/react-router";
-import { RegisterForm } from "@/features/auth/components/RegisterForm";
-import { RegisterOtpVerification } from "@/features/auth/components/RegisterOtpVerification";
-import { ForgotPasswordOtpVerification } from "@/features/auth/components/ResetOtpVerification";
-import { ResetPasswordForm } from "@/features/auth/components/ResetPasswordForm";
-import AuthCarousel from "../../../features/auth/components/AuthCarousal";
-import ExpertiseSelection from "../../../features/auth/components/ExpertiseSelectionForm";
-import { authSearchSchema } from "@/features/auth/schemas/authSearch.schema";
+import { RegisterForm } from "@/features/authentication/components/RegisterForm";
+import { RegisterOtpVerification } from "@/features/authentication/components/RegisterOtpVerification";
+import { ForgotPasswordOtpVerification } from "@/features/authentication/components/ResetOtpVerification";
+import { ResetPasswordForm } from "@/features/authentication/components/ResetPasswordForm";
+import AuthCarousel from "../../../features/authentication/components/AuthCarousal";
+import ExpertiseSelection from "../../../features/authentication/components/ExpertiseSelectionForm";
+import { authSearchSchema } from "@/features/authentication/schemas/authSearch.schema";
+import { publicGuard } from "@/shared/guards/public-guard";
 
 export const Route = createFileRoute("/(public)/auth/")({
+  beforeLoad: publicGuard(),
   component: RouteComponent,
   validateSearch: (search) => authSearchSchema.parse(search),
 });

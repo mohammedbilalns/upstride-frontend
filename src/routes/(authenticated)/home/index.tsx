@@ -4,7 +4,7 @@ import { Activity } from "react";
 import { useAuthStore } from "@/app/store/auth.store";
 import NoResource from "@/components/common/NoResource";
 import { Button } from "@/components/ui/button";
-import { fetchArticles } from "@/features/articles/services/article.service";
+import { fetchArticles } from "@/features/articles-mangement/services/article.service";
 import ArticleFeed from "@/features/home/ArticleFeed";
 import RecommendedArticles from "@/features/home/RecommendedArticles";
 import RegisterMentorCard from "@/features/home/RegisterMentorCard";

@@ -6,7 +6,7 @@ import FeaturesSection from "@/features/landing/components/FeaturesSection";
 import FooterCTA from "@/features/landing/components/FooterCTA";
 import HeroSection from "@/features/landing/components/HeroSection";
 import TestimonialsSection from "@/features/landing/components/TestimonialsSection";
-import ThemeToggle from "./common/Theme-toggle";
+import ThemeToggle from "../../../components/common/Theme-toggle";
 
 export default function LandingPage() {
 	const router = useRouter();

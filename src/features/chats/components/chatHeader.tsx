@@ -85,7 +85,7 @@ export function ChatHeader({ chat, onBack }: ChatHeaderProps) {
                             </Button>
                         </DropdownMenuTrigger>
                         <DropdownMenuContent align="end" className="w-48">
-                            <Link to="/mentor/$mentorId" params={{ mentorId: chat.participantId || '' }}>
+                            <Link to="/mentors/$mentorId" params={{ mentorId: chat.participantId || '' }}>
                                 <DropdownMenuItem className="cursor-pointer">
                                     <Info className="h-4 w-4 mr-2" />
                                     View Profile

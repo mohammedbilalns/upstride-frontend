@@ -7,7 +7,7 @@ import ShowMoreContent from "@/components/common/ShowMore";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import type { Article } from "@/shared/types/article";
 import { formatRelativeTime } from "@/shared/utils/dateUtil";
-import { useFetchArticles } from "../articles/hooks/article-queries.hooks";
+import { useFetchArticles } from "../articles-mangement/hooks/article-queries.hooks";
 
 export default function RecommendedArticles() {
 	const { data: articles, isPending, isError, refetch } = useFetchArticles();

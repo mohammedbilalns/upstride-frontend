@@ -39,8 +39,8 @@ export default function FollowedMentors({ count = 2 }: FollowedMentorProps) {
 						mentors.slice(0, count).map((mentor) => (
 							<Link
 								key={mentor.id}
-								to="/mentor/$mentorId"
-								params={{ mentorId: mentor?.mentorId?._id}}
+								to="/mentors/$mentorId"
+								params={{ mentorId: mentor?.mentorId?._id }}
 								className="block"
 							>
 								<div className="flex items-center justify-between p-2 rounded-lg hover:bg-muted/50 transition-colors cursor-pointer group">

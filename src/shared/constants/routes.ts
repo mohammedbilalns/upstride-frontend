@@ -77,10 +77,23 @@ export const API_ROUTES = {
 		UPDATE_PASSWORD: "/profile/change-password",
 	},
 	NOTIFICATIONS: {
-		MARK_READ: (notificationId: string) => `/notifications/${notificationId}`,
+		GET_NOTIFICATIONS: "/notifications",
+		MARK_AS_READ: (notificationId: string) =>
+			`/notifications/${notificationId}/read`,
 		MARK_CHAT_READ: (chatId: string) => `/notifications/chat/${chatId}/read`,
 		MARK_ALL_AS_READ: "/notifications/mark-all",
 		FETCH: "/notifications",
+	},
+	PRICING: {
+		SET_CONFIG: "/pricing/config",
+		GET_CONFIG: (mentorId: string) => `/pricing/config/${mentorId}`,
+	},
+	WALLETS: {
+		GET_BALANCE: "/wallets/balance",
+		GET_TRANSACTIONS: "/wallets/transactions",
+	},
+	ANALYTICS: {
+		GET_PLATFORM: "/analytics/platform",
 	},
 	CONNECTIONS: {
 		FOLLOW: "/connection/follow",

@@ -24,7 +24,7 @@ import ErrorState from "@/components/common/ErrorState";
 import MentorSlots from "@/features/mentors/components/MentorSlots";
 
 //FIX: 404 error from backend 
-export const Route = createFileRoute("/(authenticated)/mentor/$mentorId")({
+export const Route = createFileRoute("/(authenticated)/mentors/$mentorId")({
   component: RouteComponent,
   beforeLoad: authGuard(["mentor", "user"]),
   loader: async ({ params, context }) => {

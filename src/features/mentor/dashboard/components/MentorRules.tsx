@@ -23,7 +23,7 @@ import {
 export default function MentorRules({ mentorId }: { mentorId: string }) {
   const { data, isError, isPending } = useFetchMentorRules(mentorId);
 
-  const deleteRuleMuation = useDeleteMentorRule(mentorId);
+  const deleteRuleMuation = useDeleteMentorRule({ mentorId: mentorId });
   const disableRuleMutation = useDisableMentorRule(mentorId);
   const enableRuleMutation = useEnableMentorRule(mentorId);
 

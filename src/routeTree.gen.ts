@@ -13,29 +13,36 @@ import { Route as AboutRouteImport } from './routes/about'
 import { Route as authenticatedRouteRouteImport } from './routes/(authenticated)/route'
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as UnauthorizedIndexRouteImport } from './routes/unauthorized/index'
+import { Route as authenticatedWalletRouteImport } from './routes/(authenticated)/wallet'
 import { Route as authenticatedSessionsRouteImport } from './routes/(authenticated)/sessions'
 import { Route as authenticatedProfileRouteImport } from './routes/(authenticated)/profile'
 import { Route as authenticatedNetworkRouteImport } from './routes/(authenticated)/network'
-import { Route as authenticatedMentorsRouteImport } from './routes/(authenticated)/mentors'
-import { Route as publicAuthRouteRouteImport } from './routes/(public)/auth/route'
+import { Route as authenticatedMentorRouteRouteImport } from './routes/(authenticated)/mentor/route'
 import { Route as authenticatedChatsRouteRouteImport } from './routes/(authenticated)/chats/route'
 import { Route as adminAdminRouteRouteImport } from './routes/(admin)/admin/route'
 import { Route as publicAuthIndexRouteImport } from './routes/(public)/auth/index'
+import { Route as authenticatedMentorsIndexRouteImport } from './routes/(authenticated)/mentors/index'
 import { Route as authenticatedHomeIndexRouteImport } from './routes/(authenticated)/home/index'
 import { Route as authenticatedChatsIndexRouteImport } from './routes/(authenticated)/chats/index'
 import { Route as authenticatedArticlesIndexRouteImport } from './routes/(authenticated)/articles/index'
 import { Route as adminAdminIndexRouteImport } from './routes/(admin)/admin/index'
 import { Route as authenticatedSessionSessionIdRouteImport } from './routes/(authenticated)/session/$sessionId'
-import { Route as authenticatedMentorRegisterRouteImport } from './routes/(authenticated)/mentor/register'
+import { Route as authenticatedMentorsRegisterRouteImport } from './routes/(authenticated)/mentors/register'
+import { Route as authenticatedMentorsMentorIdRouteImport } from './routes/(authenticated)/mentors/$mentorId'
+import { Route as authenticatedMentorNetworkRouteImport } from './routes/(authenticated)/mentor/network'
 import { Route as authenticatedMentorDashboardRouteImport } from './routes/(authenticated)/mentor/dashboard'
-import { Route as authenticatedMentorMentorIdRouteImport } from './routes/(authenticated)/mentor/$mentorId'
+import { Route as authenticatedMentorCalendarRouteImport } from './routes/(authenticated)/mentor/calendar'
 import { Route as authenticatedChatsChatIdRouteImport } from './routes/(authenticated)/chats/$chatId'
 import { Route as authenticatedArticlesArticleIdRouteImport } from './routes/(authenticated)/articles/$articleId'
+import { Route as authenticatedMentorSettingsRouteRouteImport } from './routes/(authenticated)/mentor/settings/route'
 import { Route as authenticatedArticlesCreateIndexRouteImport } from './routes/(authenticated)/articles/create/index'
 import { Route as adminAdminUsermanagementIndexRouteImport } from './routes/(admin)/admin/usermanagement/index'
 import { Route as adminAdminMentormanagementIndexRouteImport } from './routes/(admin)/admin/mentormanagement/index'
 import { Route as adminAdminExpertisemanagementIndexRouteImport } from './routes/(admin)/admin/expertisemanagement/index'
 import { Route as adminAdminDashboardIndexRouteImport } from './routes/(admin)/admin/dashboard/index'
+import { Route as authenticatedMentorSettingsProfileRouteImport } from './routes/(authenticated)/mentor/settings/profile'
+import { Route as authenticatedMentorSettingsPricingRouteImport } from './routes/(authenticated)/mentor/settings/pricing'
+import { Route as authenticatedMentorSettingsAvailabilityRouteImport } from './routes/(authenticated)/mentor/settings/availability'
 import { Route as authenticatedArticlesEditArticleIdRouteImport } from './routes/(authenticated)/articles/edit/$articleId'
 
 const AboutRoute = AboutRouteImport.update({
@@ -57,6 +64,11 @@ const UnauthorizedIndexRoute = UnauthorizedIndexRouteImport.update({
   path: '/unauthorized/',
   getParentRoute: () => rootRouteImport,
 } as any)
+const authenticatedWalletRoute = authenticatedWalletRouteImport.update({
+  id: '/wallet',
+  path: '/wallet',
+  getParentRoute: () => authenticatedRouteRoute,
+} as any)
 const authenticatedSessionsRoute = authenticatedSessionsRouteImport.update({
   id: '/sessions',
   path: '/sessions',
@@ -72,16 +84,12 @@ const authenticatedNetworkRoute = authenticatedNetworkRouteImport.update({
   path: '/network',
   getParentRoute: () => authenticatedRouteRoute,
 } as any)
-const authenticatedMentorsRoute = authenticatedMentorsRouteImport.update({
-  id: '/mentors',
-  path: '/mentors',
-  getParentRoute: () => authenticatedRouteRoute,
-} as any)
-const publicAuthRouteRoute = publicAuthRouteRouteImport.update({
-  id: '/(public)/auth',
-  path: '/auth',
-  getParentRoute: () => rootRouteImport,
-} as any)
+const authenticatedMentorRouteRoute =
+  authenticatedMentorRouteRouteImport.update({
+    id: '/mentor',
+    path: '/mentor',
+    getParentRoute: () => authenticatedRouteRoute,
+  } as any)
 const authenticatedChatsRouteRoute = authenticatedChatsRouteRouteImport.update({
   id: '/chats',
   path: '/chats',
@@ -93,10 +101,16 @@ const adminAdminRouteRoute = adminAdminRouteRouteImport.update({
   getParentRoute: () => rootRouteImport,
 } as any)
 const publicAuthIndexRoute = publicAuthIndexRouteImport.update({
-  id: '/',
-  path: '/',
-  getParentRoute: () => publicAuthRouteRoute,
+  id: '/(public)/auth/',
+  path: '/auth/',
+  getParentRoute: () => rootRouteImport,
 } as any)
+const authenticatedMentorsIndexRoute =
+  authenticatedMentorsIndexRouteImport.update({
+    id: '/mentors/',
+    path: '/mentors/',
+    getParentRoute: () => authenticatedRouteRoute,
+  } as any)
 const authenticatedHomeIndexRoute = authenticatedHomeIndexRouteImport.update({
   id: '/home/',
   path: '/home/',
@@ -124,23 +138,35 @@ const authenticatedSessionSessionIdRoute =
     path: '/session/$sessionId',
     getParentRoute: () => authenticatedRouteRoute,
   } as any)
-const authenticatedMentorRegisterRoute =
-  authenticatedMentorRegisterRouteImport.update({
-    id: '/mentor/register',
-    path: '/mentor/register',
+const authenticatedMentorsRegisterRoute =
+  authenticatedMentorsRegisterRouteImport.update({
+    id: '/mentors/register',
+    path: '/mentors/register',
     getParentRoute: () => authenticatedRouteRoute,
+  } as any)
+const authenticatedMentorsMentorIdRoute =
+  authenticatedMentorsMentorIdRouteImport.update({
+    id: '/mentors/$mentorId',
+    path: '/mentors/$mentorId',
+    getParentRoute: () => authenticatedRouteRoute,
+  } as any)
+const authenticatedMentorNetworkRoute =
+  authenticatedMentorNetworkRouteImport.update({
+    id: '/network',
+    path: '/network',
+    getParentRoute: () => authenticatedMentorRouteRoute,
   } as any)
 const authenticatedMentorDashboardRoute =
   authenticatedMentorDashboardRouteImport.update({
-    id: '/mentor/dashboard',
-    path: '/mentor/dashboard',
-    getParentRoute: () => authenticatedRouteRoute,
+    id: '/dashboard',
+    path: '/dashboard',
+    getParentRoute: () => authenticatedMentorRouteRoute,
   } as any)
-const authenticatedMentorMentorIdRoute =
-  authenticatedMentorMentorIdRouteImport.update({
-    id: '/mentor/$mentorId',
-    path: '/mentor/$mentorId',
-    getParentRoute: () => authenticatedRouteRoute,
+const authenticatedMentorCalendarRoute =
+  authenticatedMentorCalendarRouteImport.update({
+    id: '/calendar',
+    path: '/calendar',
+    getParentRoute: () => authenticatedMentorRouteRoute,
   } as any)
 const authenticatedChatsChatIdRoute =
   authenticatedChatsChatIdRouteImport.update({
@@ -153,6 +179,12 @@ const authenticatedArticlesArticleIdRoute =
     id: '/articles/$articleId',
     path: '/articles/$articleId',
     getParentRoute: () => authenticatedRouteRoute,
+  } as any)
+const authenticatedMentorSettingsRouteRoute =
+  authenticatedMentorSettingsRouteRouteImport.update({
+    id: '/settings',
+    path: '/settings',
+    getParentRoute: () => authenticatedMentorRouteRoute,
   } as any)
 const authenticatedArticlesCreateIndexRoute =
   authenticatedArticlesCreateIndexRouteImport.update({
@@ -184,6 +216,24 @@ const adminAdminDashboardIndexRoute =
     path: '/dashboard/',
     getParentRoute: () => adminAdminRouteRoute,
   } as any)
+const authenticatedMentorSettingsProfileRoute =
+  authenticatedMentorSettingsProfileRouteImport.update({
+    id: '/profile',
+    path: '/profile',
+    getParentRoute: () => authenticatedMentorSettingsRouteRoute,
+  } as any)
+const authenticatedMentorSettingsPricingRoute =
+  authenticatedMentorSettingsPricingRouteImport.update({
+    id: '/pricing',
+    path: '/pricing',
+    getParentRoute: () => authenticatedMentorSettingsRouteRoute,
+  } as any)
+const authenticatedMentorSettingsAvailabilityRoute =
+  authenticatedMentorSettingsAvailabilityRouteImport.update({
+    id: '/availability',
+    path: '/availability',
+    getParentRoute: () => authenticatedMentorSettingsRouteRoute,
+  } as any)
 const authenticatedArticlesEditArticleIdRoute =
   authenticatedArticlesEditArticleIdRouteImport.update({
     id: '/articles/edit/$articleId',
@@ -196,24 +246,31 @@ export interface FileRoutesByFullPath {
   '/about': typeof AboutRoute
   '/admin': typeof adminAdminRouteRouteWithChildren
   '/chats': typeof authenticatedChatsRouteRouteWithChildren
-  '/auth': typeof publicAuthRouteRouteWithChildren
-  '/mentors': typeof authenticatedMentorsRoute
+  '/mentor': typeof authenticatedMentorRouteRouteWithChildren
   '/network': typeof authenticatedNetworkRoute
   '/profile': typeof authenticatedProfileRoute
   '/sessions': typeof authenticatedSessionsRoute
+  '/wallet': typeof authenticatedWalletRoute
   '/unauthorized': typeof UnauthorizedIndexRoute
+  '/mentor/settings': typeof authenticatedMentorSettingsRouteRouteWithChildren
   '/articles/$articleId': typeof authenticatedArticlesArticleIdRoute
   '/chats/$chatId': typeof authenticatedChatsChatIdRoute
-  '/mentor/$mentorId': typeof authenticatedMentorMentorIdRoute
+  '/mentor/calendar': typeof authenticatedMentorCalendarRoute
   '/mentor/dashboard': typeof authenticatedMentorDashboardRoute
-  '/mentor/register': typeof authenticatedMentorRegisterRoute
+  '/mentor/network': typeof authenticatedMentorNetworkRoute
+  '/mentors/$mentorId': typeof authenticatedMentorsMentorIdRoute
+  '/mentors/register': typeof authenticatedMentorsRegisterRoute
   '/session/$sessionId': typeof authenticatedSessionSessionIdRoute
   '/admin/': typeof adminAdminIndexRoute
   '/articles': typeof authenticatedArticlesIndexRoute
   '/chats/': typeof authenticatedChatsIndexRoute
   '/home': typeof authenticatedHomeIndexRoute
-  '/auth/': typeof publicAuthIndexRoute
+  '/mentors': typeof authenticatedMentorsIndexRoute
+  '/auth': typeof publicAuthIndexRoute
   '/articles/edit/$articleId': typeof authenticatedArticlesEditArticleIdRoute
+  '/mentor/settings/availability': typeof authenticatedMentorSettingsAvailabilityRoute
+  '/mentor/settings/pricing': typeof authenticatedMentorSettingsPricingRoute
+  '/mentor/settings/profile': typeof authenticatedMentorSettingsProfileRoute
   '/admin/dashboard': typeof adminAdminDashboardIndexRoute
   '/admin/expertisemanagement': typeof adminAdminExpertisemanagementIndexRoute
   '/admin/mentormanagement': typeof adminAdminMentormanagementIndexRoute
@@ -223,23 +280,31 @@ export interface FileRoutesByFullPath {
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/about': typeof AboutRoute
-  '/mentors': typeof authenticatedMentorsRoute
+  '/mentor': typeof authenticatedMentorRouteRouteWithChildren
   '/network': typeof authenticatedNetworkRoute
   '/profile': typeof authenticatedProfileRoute
   '/sessions': typeof authenticatedSessionsRoute
+  '/wallet': typeof authenticatedWalletRoute
   '/unauthorized': typeof UnauthorizedIndexRoute
+  '/mentor/settings': typeof authenticatedMentorSettingsRouteRouteWithChildren
   '/articles/$articleId': typeof authenticatedArticlesArticleIdRoute
   '/chats/$chatId': typeof authenticatedChatsChatIdRoute
-  '/mentor/$mentorId': typeof authenticatedMentorMentorIdRoute
+  '/mentor/calendar': typeof authenticatedMentorCalendarRoute
   '/mentor/dashboard': typeof authenticatedMentorDashboardRoute
-  '/mentor/register': typeof authenticatedMentorRegisterRoute
+  '/mentor/network': typeof authenticatedMentorNetworkRoute
+  '/mentors/$mentorId': typeof authenticatedMentorsMentorIdRoute
+  '/mentors/register': typeof authenticatedMentorsRegisterRoute
   '/session/$sessionId': typeof authenticatedSessionSessionIdRoute
   '/admin': typeof adminAdminIndexRoute
   '/articles': typeof authenticatedArticlesIndexRoute
   '/chats': typeof authenticatedChatsIndexRoute
   '/home': typeof authenticatedHomeIndexRoute
+  '/mentors': typeof authenticatedMentorsIndexRoute
   '/auth': typeof publicAuthIndexRoute
   '/articles/edit/$articleId': typeof authenticatedArticlesEditArticleIdRoute
+  '/mentor/settings/availability': typeof authenticatedMentorSettingsAvailabilityRoute
+  '/mentor/settings/pricing': typeof authenticatedMentorSettingsPricingRoute
+  '/mentor/settings/profile': typeof authenticatedMentorSettingsProfileRoute
   '/admin/dashboard': typeof adminAdminDashboardIndexRoute
   '/admin/expertisemanagement': typeof adminAdminExpertisemanagementIndexRoute
   '/admin/mentormanagement': typeof adminAdminMentormanagementIndexRoute
@@ -253,24 +318,31 @@ export interface FileRoutesById {
   '/about': typeof AboutRoute
   '/(admin)/admin': typeof adminAdminRouteRouteWithChildren
   '/(authenticated)/chats': typeof authenticatedChatsRouteRouteWithChildren
-  '/(public)/auth': typeof publicAuthRouteRouteWithChildren
-  '/(authenticated)/mentors': typeof authenticatedMentorsRoute
+  '/(authenticated)/mentor': typeof authenticatedMentorRouteRouteWithChildren
   '/(authenticated)/network': typeof authenticatedNetworkRoute
   '/(authenticated)/profile': typeof authenticatedProfileRoute
   '/(authenticated)/sessions': typeof authenticatedSessionsRoute
+  '/(authenticated)/wallet': typeof authenticatedWalletRoute
   '/unauthorized/': typeof UnauthorizedIndexRoute
+  '/(authenticated)/mentor/settings': typeof authenticatedMentorSettingsRouteRouteWithChildren
   '/(authenticated)/articles/$articleId': typeof authenticatedArticlesArticleIdRoute
   '/(authenticated)/chats/$chatId': typeof authenticatedChatsChatIdRoute
-  '/(authenticated)/mentor/$mentorId': typeof authenticatedMentorMentorIdRoute
+  '/(authenticated)/mentor/calendar': typeof authenticatedMentorCalendarRoute
   '/(authenticated)/mentor/dashboard': typeof authenticatedMentorDashboardRoute
-  '/(authenticated)/mentor/register': typeof authenticatedMentorRegisterRoute
+  '/(authenticated)/mentor/network': typeof authenticatedMentorNetworkRoute
+  '/(authenticated)/mentors/$mentorId': typeof authenticatedMentorsMentorIdRoute
+  '/(authenticated)/mentors/register': typeof authenticatedMentorsRegisterRoute
   '/(authenticated)/session/$sessionId': typeof authenticatedSessionSessionIdRoute
   '/(admin)/admin/': typeof adminAdminIndexRoute
   '/(authenticated)/articles/': typeof authenticatedArticlesIndexRoute
   '/(authenticated)/chats/': typeof authenticatedChatsIndexRoute
   '/(authenticated)/home/': typeof authenticatedHomeIndexRoute
+  '/(authenticated)/mentors/': typeof authenticatedMentorsIndexRoute
   '/(public)/auth/': typeof publicAuthIndexRoute
   '/(authenticated)/articles/edit/$articleId': typeof authenticatedArticlesEditArticleIdRoute
+  '/(authenticated)/mentor/settings/availability': typeof authenticatedMentorSettingsAvailabilityRoute
+  '/(authenticated)/mentor/settings/pricing': typeof authenticatedMentorSettingsPricingRoute
+  '/(authenticated)/mentor/settings/profile': typeof authenticatedMentorSettingsProfileRoute
   '/(admin)/admin/dashboard/': typeof adminAdminDashboardIndexRoute
   '/(admin)/admin/expertisemanagement/': typeof adminAdminExpertisemanagementIndexRoute
   '/(admin)/admin/mentormanagement/': typeof adminAdminMentormanagementIndexRoute
@@ -284,24 +356,31 @@ export interface FileRouteTypes {
     | '/about'
     | '/admin'
     | '/chats'
-    | '/auth'
-    | '/mentors'
+    | '/mentor'
     | '/network'
     | '/profile'
     | '/sessions'
+    | '/wallet'
     | '/unauthorized'
+    | '/mentor/settings'
     | '/articles/$articleId'
     | '/chats/$chatId'
-    | '/mentor/$mentorId'
+    | '/mentor/calendar'
     | '/mentor/dashboard'
-    | '/mentor/register'
+    | '/mentor/network'
+    | '/mentors/$mentorId'
+    | '/mentors/register'
     | '/session/$sessionId'
     | '/admin/'
     | '/articles'
     | '/chats/'
     | '/home'
-    | '/auth/'
+    | '/mentors'
+    | '/auth'
     | '/articles/edit/$articleId'
+    | '/mentor/settings/availability'
+    | '/mentor/settings/pricing'
+    | '/mentor/settings/profile'
     | '/admin/dashboard'
     | '/admin/expertisemanagement'
     | '/admin/mentormanagement'
@@ -311,23 +390,31 @@ export interface FileRouteTypes {
   to:
     | '/'
     | '/about'
-    | '/mentors'
+    | '/mentor'
     | '/network'
     | '/profile'
     | '/sessions'
+    | '/wallet'
     | '/unauthorized'
+    | '/mentor/settings'
     | '/articles/$articleId'
     | '/chats/$chatId'
-    | '/mentor/$mentorId'
+    | '/mentor/calendar'
     | '/mentor/dashboard'
-    | '/mentor/register'
+    | '/mentor/network'
+    | '/mentors/$mentorId'
+    | '/mentors/register'
     | '/session/$sessionId'
     | '/admin'
     | '/articles'
     | '/chats'
     | '/home'
+    | '/mentors'
     | '/auth'
     | '/articles/edit/$articleId'
+    | '/mentor/settings/availability'
+    | '/mentor/settings/pricing'
+    | '/mentor/settings/profile'
     | '/admin/dashboard'
     | '/admin/expertisemanagement'
     | '/admin/mentormanagement'
@@ -340,24 +427,31 @@ export interface FileRouteTypes {
     | '/about'
     | '/(admin)/admin'
     | '/(authenticated)/chats'
-    | '/(public)/auth'
-    | '/(authenticated)/mentors'
+    | '/(authenticated)/mentor'
     | '/(authenticated)/network'
     | '/(authenticated)/profile'
     | '/(authenticated)/sessions'
+    | '/(authenticated)/wallet'
     | '/unauthorized/'
+    | '/(authenticated)/mentor/settings'
     | '/(authenticated)/articles/$articleId'
     | '/(authenticated)/chats/$chatId'
-    | '/(authenticated)/mentor/$mentorId'
+    | '/(authenticated)/mentor/calendar'
     | '/(authenticated)/mentor/dashboard'
-    | '/(authenticated)/mentor/register'
+    | '/(authenticated)/mentor/network'
+    | '/(authenticated)/mentors/$mentorId'
+    | '/(authenticated)/mentors/register'
     | '/(authenticated)/session/$sessionId'
     | '/(admin)/admin/'
     | '/(authenticated)/articles/'
     | '/(authenticated)/chats/'
     | '/(authenticated)/home/'
+    | '/(authenticated)/mentors/'
     | '/(public)/auth/'
     | '/(authenticated)/articles/edit/$articleId'
+    | '/(authenticated)/mentor/settings/availability'
+    | '/(authenticated)/mentor/settings/pricing'
+    | '/(authenticated)/mentor/settings/profile'
     | '/(admin)/admin/dashboard/'
     | '/(admin)/admin/expertisemanagement/'
     | '/(admin)/admin/mentormanagement/'
@@ -370,8 +464,8 @@ export interface RootRouteChildren {
   authenticatedRouteRoute: typeof authenticatedRouteRouteWithChildren
   AboutRoute: typeof AboutRoute
   adminAdminRouteRoute: typeof adminAdminRouteRouteWithChildren
-  publicAuthRouteRoute: typeof publicAuthRouteRouteWithChildren
   UnauthorizedIndexRoute: typeof UnauthorizedIndexRoute
+  publicAuthIndexRoute: typeof publicAuthIndexRoute
 }
 
 declare module '@tanstack/react-router' {
@@ -404,6 +498,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof UnauthorizedIndexRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/(authenticated)/wallet': {
+      id: '/(authenticated)/wallet'
+      path: '/wallet'
+      fullPath: '/wallet'
+      preLoaderRoute: typeof authenticatedWalletRouteImport
+      parentRoute: typeof authenticatedRouteRoute
+    }
     '/(authenticated)/sessions': {
       id: '/(authenticated)/sessions'
       path: '/sessions'
@@ -425,19 +526,12 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof authenticatedNetworkRouteImport
       parentRoute: typeof authenticatedRouteRoute
     }
-    '/(authenticated)/mentors': {
-      id: '/(authenticated)/mentors'
-      path: '/mentors'
-      fullPath: '/mentors'
-      preLoaderRoute: typeof authenticatedMentorsRouteImport
+    '/(authenticated)/mentor': {
+      id: '/(authenticated)/mentor'
+      path: '/mentor'
+      fullPath: '/mentor'
+      preLoaderRoute: typeof authenticatedMentorRouteRouteImport
       parentRoute: typeof authenticatedRouteRoute
-    }
-    '/(public)/auth': {
-      id: '/(public)/auth'
-      path: '/auth'
-      fullPath: '/auth'
-      preLoaderRoute: typeof publicAuthRouteRouteImport
-      parentRoute: typeof rootRouteImport
     }
     '/(authenticated)/chats': {
       id: '/(authenticated)/chats'
@@ -455,10 +549,17 @@ declare module '@tanstack/react-router' {
     }
     '/(public)/auth/': {
       id: '/(public)/auth/'
-      path: '/'
-      fullPath: '/auth/'
+      path: '/auth'
+      fullPath: '/auth'
       preLoaderRoute: typeof publicAuthIndexRouteImport
-      parentRoute: typeof publicAuthRouteRoute
+      parentRoute: typeof rootRouteImport
+    }
+    '/(authenticated)/mentors/': {
+      id: '/(authenticated)/mentors/'
+      path: '/mentors'
+      fullPath: '/mentors'
+      preLoaderRoute: typeof authenticatedMentorsIndexRouteImport
+      parentRoute: typeof authenticatedRouteRoute
     }
     '/(authenticated)/home/': {
       id: '/(authenticated)/home/'
@@ -495,26 +596,40 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof authenticatedSessionSessionIdRouteImport
       parentRoute: typeof authenticatedRouteRoute
     }
-    '/(authenticated)/mentor/register': {
-      id: '/(authenticated)/mentor/register'
-      path: '/mentor/register'
-      fullPath: '/mentor/register'
-      preLoaderRoute: typeof authenticatedMentorRegisterRouteImport
+    '/(authenticated)/mentors/register': {
+      id: '/(authenticated)/mentors/register'
+      path: '/mentors/register'
+      fullPath: '/mentors/register'
+      preLoaderRoute: typeof authenticatedMentorsRegisterRouteImport
       parentRoute: typeof authenticatedRouteRoute
+    }
+    '/(authenticated)/mentors/$mentorId': {
+      id: '/(authenticated)/mentors/$mentorId'
+      path: '/mentors/$mentorId'
+      fullPath: '/mentors/$mentorId'
+      preLoaderRoute: typeof authenticatedMentorsMentorIdRouteImport
+      parentRoute: typeof authenticatedRouteRoute
+    }
+    '/(authenticated)/mentor/network': {
+      id: '/(authenticated)/mentor/network'
+      path: '/network'
+      fullPath: '/mentor/network'
+      preLoaderRoute: typeof authenticatedMentorNetworkRouteImport
+      parentRoute: typeof authenticatedMentorRouteRoute
     }
     '/(authenticated)/mentor/dashboard': {
       id: '/(authenticated)/mentor/dashboard'
-      path: '/mentor/dashboard'
+      path: '/dashboard'
       fullPath: '/mentor/dashboard'
       preLoaderRoute: typeof authenticatedMentorDashboardRouteImport
-      parentRoute: typeof authenticatedRouteRoute
+      parentRoute: typeof authenticatedMentorRouteRoute
     }
-    '/(authenticated)/mentor/$mentorId': {
-      id: '/(authenticated)/mentor/$mentorId'
-      path: '/mentor/$mentorId'
-      fullPath: '/mentor/$mentorId'
-      preLoaderRoute: typeof authenticatedMentorMentorIdRouteImport
-      parentRoute: typeof authenticatedRouteRoute
+    '/(authenticated)/mentor/calendar': {
+      id: '/(authenticated)/mentor/calendar'
+      path: '/calendar'
+      fullPath: '/mentor/calendar'
+      preLoaderRoute: typeof authenticatedMentorCalendarRouteImport
+      parentRoute: typeof authenticatedMentorRouteRoute
     }
     '/(authenticated)/chats/$chatId': {
       id: '/(authenticated)/chats/$chatId'
@@ -529,6 +644,13 @@ declare module '@tanstack/react-router' {
       fullPath: '/articles/$articleId'
       preLoaderRoute: typeof authenticatedArticlesArticleIdRouteImport
       parentRoute: typeof authenticatedRouteRoute
+    }
+    '/(authenticated)/mentor/settings': {
+      id: '/(authenticated)/mentor/settings'
+      path: '/settings'
+      fullPath: '/mentor/settings'
+      preLoaderRoute: typeof authenticatedMentorSettingsRouteRouteImport
+      parentRoute: typeof authenticatedMentorRouteRoute
     }
     '/(authenticated)/articles/create/': {
       id: '/(authenticated)/articles/create/'
@@ -565,6 +687,27 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof adminAdminDashboardIndexRouteImport
       parentRoute: typeof adminAdminRouteRoute
     }
+    '/(authenticated)/mentor/settings/profile': {
+      id: '/(authenticated)/mentor/settings/profile'
+      path: '/profile'
+      fullPath: '/mentor/settings/profile'
+      preLoaderRoute: typeof authenticatedMentorSettingsProfileRouteImport
+      parentRoute: typeof authenticatedMentorSettingsRouteRoute
+    }
+    '/(authenticated)/mentor/settings/pricing': {
+      id: '/(authenticated)/mentor/settings/pricing'
+      path: '/pricing'
+      fullPath: '/mentor/settings/pricing'
+      preLoaderRoute: typeof authenticatedMentorSettingsPricingRouteImport
+      parentRoute: typeof authenticatedMentorSettingsRouteRoute
+    }
+    '/(authenticated)/mentor/settings/availability': {
+      id: '/(authenticated)/mentor/settings/availability'
+      path: '/availability'
+      fullPath: '/mentor/settings/availability'
+      preLoaderRoute: typeof authenticatedMentorSettingsAvailabilityRouteImport
+      parentRoute: typeof authenticatedMentorSettingsRouteRoute
+    }
     '/(authenticated)/articles/edit/$articleId': {
       id: '/(authenticated)/articles/edit/$articleId'
       path: '/articles/edit/$articleId'
@@ -591,36 +734,80 @@ const authenticatedChatsRouteRouteWithChildren =
     authenticatedChatsRouteRouteChildren,
   )
 
+interface authenticatedMentorSettingsRouteRouteChildren {
+  authenticatedMentorSettingsAvailabilityRoute: typeof authenticatedMentorSettingsAvailabilityRoute
+  authenticatedMentorSettingsPricingRoute: typeof authenticatedMentorSettingsPricingRoute
+  authenticatedMentorSettingsProfileRoute: typeof authenticatedMentorSettingsProfileRoute
+}
+
+const authenticatedMentorSettingsRouteRouteChildren: authenticatedMentorSettingsRouteRouteChildren =
+  {
+    authenticatedMentorSettingsAvailabilityRoute:
+      authenticatedMentorSettingsAvailabilityRoute,
+    authenticatedMentorSettingsPricingRoute:
+      authenticatedMentorSettingsPricingRoute,
+    authenticatedMentorSettingsProfileRoute:
+      authenticatedMentorSettingsProfileRoute,
+  }
+
+const authenticatedMentorSettingsRouteRouteWithChildren =
+  authenticatedMentorSettingsRouteRoute._addFileChildren(
+    authenticatedMentorSettingsRouteRouteChildren,
+  )
+
+interface authenticatedMentorRouteRouteChildren {
+  authenticatedMentorSettingsRouteRoute: typeof authenticatedMentorSettingsRouteRouteWithChildren
+  authenticatedMentorCalendarRoute: typeof authenticatedMentorCalendarRoute
+  authenticatedMentorDashboardRoute: typeof authenticatedMentorDashboardRoute
+  authenticatedMentorNetworkRoute: typeof authenticatedMentorNetworkRoute
+}
+
+const authenticatedMentorRouteRouteChildren: authenticatedMentorRouteRouteChildren =
+  {
+    authenticatedMentorSettingsRouteRoute:
+      authenticatedMentorSettingsRouteRouteWithChildren,
+    authenticatedMentorCalendarRoute: authenticatedMentorCalendarRoute,
+    authenticatedMentorDashboardRoute: authenticatedMentorDashboardRoute,
+    authenticatedMentorNetworkRoute: authenticatedMentorNetworkRoute,
+  }
+
+const authenticatedMentorRouteRouteWithChildren =
+  authenticatedMentorRouteRoute._addFileChildren(
+    authenticatedMentorRouteRouteChildren,
+  )
+
 interface authenticatedRouteRouteChildren {
   authenticatedChatsRouteRoute: typeof authenticatedChatsRouteRouteWithChildren
-  authenticatedMentorsRoute: typeof authenticatedMentorsRoute
+  authenticatedMentorRouteRoute: typeof authenticatedMentorRouteRouteWithChildren
   authenticatedNetworkRoute: typeof authenticatedNetworkRoute
   authenticatedProfileRoute: typeof authenticatedProfileRoute
   authenticatedSessionsRoute: typeof authenticatedSessionsRoute
+  authenticatedWalletRoute: typeof authenticatedWalletRoute
   authenticatedArticlesArticleIdRoute: typeof authenticatedArticlesArticleIdRoute
-  authenticatedMentorMentorIdRoute: typeof authenticatedMentorMentorIdRoute
-  authenticatedMentorDashboardRoute: typeof authenticatedMentorDashboardRoute
-  authenticatedMentorRegisterRoute: typeof authenticatedMentorRegisterRoute
+  authenticatedMentorsMentorIdRoute: typeof authenticatedMentorsMentorIdRoute
+  authenticatedMentorsRegisterRoute: typeof authenticatedMentorsRegisterRoute
   authenticatedSessionSessionIdRoute: typeof authenticatedSessionSessionIdRoute
   authenticatedArticlesIndexRoute: typeof authenticatedArticlesIndexRoute
   authenticatedHomeIndexRoute: typeof authenticatedHomeIndexRoute
+  authenticatedMentorsIndexRoute: typeof authenticatedMentorsIndexRoute
   authenticatedArticlesEditArticleIdRoute: typeof authenticatedArticlesEditArticleIdRoute
   authenticatedArticlesCreateIndexRoute: typeof authenticatedArticlesCreateIndexRoute
 }
 
 const authenticatedRouteRouteChildren: authenticatedRouteRouteChildren = {
   authenticatedChatsRouteRoute: authenticatedChatsRouteRouteWithChildren,
-  authenticatedMentorsRoute: authenticatedMentorsRoute,
+  authenticatedMentorRouteRoute: authenticatedMentorRouteRouteWithChildren,
   authenticatedNetworkRoute: authenticatedNetworkRoute,
   authenticatedProfileRoute: authenticatedProfileRoute,
   authenticatedSessionsRoute: authenticatedSessionsRoute,
+  authenticatedWalletRoute: authenticatedWalletRoute,
   authenticatedArticlesArticleIdRoute: authenticatedArticlesArticleIdRoute,
-  authenticatedMentorMentorIdRoute: authenticatedMentorMentorIdRoute,
-  authenticatedMentorDashboardRoute: authenticatedMentorDashboardRoute,
-  authenticatedMentorRegisterRoute: authenticatedMentorRegisterRoute,
+  authenticatedMentorsMentorIdRoute: authenticatedMentorsMentorIdRoute,
+  authenticatedMentorsRegisterRoute: authenticatedMentorsRegisterRoute,
   authenticatedSessionSessionIdRoute: authenticatedSessionSessionIdRoute,
   authenticatedArticlesIndexRoute: authenticatedArticlesIndexRoute,
   authenticatedHomeIndexRoute: authenticatedHomeIndexRoute,
+  authenticatedMentorsIndexRoute: authenticatedMentorsIndexRoute,
   authenticatedArticlesEditArticleIdRoute:
     authenticatedArticlesEditArticleIdRoute,
   authenticatedArticlesCreateIndexRoute: authenticatedArticlesCreateIndexRoute,
@@ -650,25 +837,13 @@ const adminAdminRouteRouteWithChildren = adminAdminRouteRoute._addFileChildren(
   adminAdminRouteRouteChildren,
 )
 
-interface publicAuthRouteRouteChildren {
-  publicAuthIndexRoute: typeof publicAuthIndexRoute
-}
-
-const publicAuthRouteRouteChildren: publicAuthRouteRouteChildren = {
-  publicAuthIndexRoute: publicAuthIndexRoute,
-}
-
-const publicAuthRouteRouteWithChildren = publicAuthRouteRoute._addFileChildren(
-  publicAuthRouteRouteChildren,
-)
-
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   authenticatedRouteRoute: authenticatedRouteRouteWithChildren,
   AboutRoute: AboutRoute,
   adminAdminRouteRoute: adminAdminRouteRouteWithChildren,
-  publicAuthRouteRoute: publicAuthRouteRouteWithChildren,
   UnauthorizedIndexRoute: UnauthorizedIndexRoute,
+  publicAuthIndexRoute: publicAuthIndexRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)

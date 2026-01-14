@@ -22,11 +22,11 @@ export function ArticleCard({ article }: { article: ArticleInList }) {
             className="w-full h-full object-cover"
           />
         ) : (
-            <div className="absolute inset-0 flex flex-col items-center justify-center text-muted-foreground">
-              <ImageIcon className="h-10 w-10 mb-1" />
-              <span className="text-xs">No Image</span>
-            </div>
-          )}
+          <div className="absolute inset-0 flex flex-col items-center justify-center text-muted-foreground">
+            <ImageIcon className="h-10 w-10 mb-1" />
+            <span className="text-xs">No Image</span>
+          </div>
+        )}
       </div>
       <CardHeader className="pb-2 px-4 pt-3 shrink-0">
         <div className="flex items-start justify-between gap-2 mb-1">
@@ -50,7 +50,7 @@ export function ArticleCard({ article }: { article: ArticleInList }) {
           {article.title}
         </h3>
         <Link
-          to={"/mentor/$mentorId"}
+          to={"/mentors/$mentorId"}
           params={{ mentorId: article.author }}
           className="flex items-center gap-2 mt-2 hover:underline"
         >
@@ -61,10 +61,10 @@ export function ArticleCard({ article }: { article: ArticleInList }) {
               className="w-6 h-6 rounded-full object-cover"
             />
           ) : (
-              <div className="w-6 h-6 rounded-full bg-muted flex items-center justify-center">
-                <User className="h-3 w-3 text-muted-foreground" />
-              </div>
-            )}
+            <div className="w-6 h-6 rounded-full bg-muted flex items-center justify-center">
+              <User className="h-3 w-3 text-muted-foreground" />
+            </div>
+          )}
           <span className="text-xs text-muted-foreground">
             {article.authorName}
           </span>

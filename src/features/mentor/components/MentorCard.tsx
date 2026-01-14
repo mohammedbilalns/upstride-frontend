@@ -17,12 +17,12 @@ const dummyRatings: Record<
   string,
   { rating: number; reviewsCount: number; isAvailable: boolean }
 > = {
-    "68d25a05fca23226d5a1df2c": {
-      rating: 4.8,
-      reviewsCount: 24,
-      isAvailable: true,
-    },
-  };
+  "68d25a05fca23226d5a1df2c": {
+    rating: 4.8,
+    reviewsCount: 24,
+    isAvailable: true,
+  },
+};
 
 export default function MentorCard({ mentor }: { mentor: Mentor }) {
   const dummyRating = dummyRatings[mentor.id] || {
@@ -40,7 +40,7 @@ export default function MentorCard({ mentor }: { mentor: Mentor }) {
         <div className="flex flex-wrap items-start justify-between gap-3">
           {/* Made avatar and name clickable */}
           <Link
-            to="/mentor/$mentorId"
+            to="/mentors/$mentorId"
             params={{ mentorId: mentor.id }}
             className="flex flex-wrap items-start gap-3 min-w-0 hover:opacity-80 transition-opacity"
           >

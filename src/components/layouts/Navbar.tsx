@@ -14,7 +14,7 @@ import { NotificationsDropdown } from "@/features/notifications/components/Notif
 import ThemeToggle from "../common/Theme-toggle";
 import { useAuthStore } from "@/app/store/auth.store";
 import { motion } from "framer-motion";
-import { useLogout } from "@/features/auth/hooks/logout.hooks";
+import { useLogout } from "@/features/authentication/hooks/logout.hooks";
 
 const navLinks = [
   { label: "Articles", href: "/articles", section: "articles" },

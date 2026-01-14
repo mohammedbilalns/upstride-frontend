@@ -8,7 +8,7 @@ import { useCurrentUser } from "@/shared/hooks/useCurrentUser";
 import MentorRegisterForm from "@/features/mentor/registration/components/MentorRegisterForm";
 
 
-export const Route = createFileRoute("/(authenticated)/mentor/register")({
+export const Route = createFileRoute("/(authenticated)/mentors/register")({
   component: MentorRegisterPage,
 });
 

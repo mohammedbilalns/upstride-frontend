@@ -40,7 +40,7 @@ export default function SuggestedMentors({ count }: SuggestedMentorsProps) {
 						{mentors.map((mentor: Mentor) => (
 							<Link
 								key={mentor.id}
-								to="/mentor/$mentorId"
+								to="/mentors/$mentorId"
 								params={{ mentorId: mentor.id }}
 								className="block"
 							>

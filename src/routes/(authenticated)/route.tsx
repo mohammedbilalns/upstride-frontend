@@ -15,7 +15,6 @@ export const Route = createFileRoute("/(authenticated)")({
 			queryFn: ({ pageParam = 1 }) =>
 				fetchNotifications(pageParam, NOTIFICATIONS_LIMIT),
 			initialPageParam: 1,
-			// TODO: Specify proper types here
 			getNextPageParam: (lastPage : NotificationsResponse, _allPages : NotificationsResponse[], lastPageParam : number) => {
 				if (lastPage.notifications.length < NOTIFICATIONS_LIMIT)
 					return undefined;

@@ -10,7 +10,7 @@ export const Route = createFileRoute("/unauthorized/")({
 function RouteComponent() {
 	const router = useRouter();
 	return (
-		<div className="min-h-[calc(100vh-4rem)] flex flex-col justify-center items-center p-8 bg-gradient-to-b from-background to-muted/20">
+		<div className="min-h-[calc(100vh-4rem)] flex flex-col justify-center items-center p-8 bg-linear-to-b from-background to-muted/20">
 			<div className="w-full max-w-md text-center bg-card rounded-xl shadow-lg border border-border/50 p-8 backdrop-blur-sm">
 				<h1 className="text-3xl font-bold mb-4 text-foreground">
 					Access Denied
