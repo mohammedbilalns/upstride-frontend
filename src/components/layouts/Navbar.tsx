@@ -16,14 +16,6 @@ import { useAuthStore } from "@/app/store/auth.store";
 import { motion } from "framer-motion";
 import { useLogout } from "@/features/authentication/hooks/logout.hooks";
 
-const navLinks = [
-  { label: "Articles", href: "/articles", section: "articles" },
-  { label: "Mentors", href: "/mentors", section: "mentors" },
-  { label: "Sessions", href: "/sessions", section: "sessions" },
-  { label: "Network", href: "/network", section: "network" },
-  { label: "Chats", href: "/chats", section: "chats" },
-];
-
 /**
  * Main navigation bar 
  */
@@ -33,6 +25,17 @@ export default function Navbar() {
   const { user } = useAuthStore();
   const routerState = useRouterState();
   const currentPath = routerState.location.pathname;
+
+  const baseNavLinks = [
+    { label: "Articles", href: "/articles", section: "articles" },
+    { label: "Explore Mentors", href: "/mentors", section: "mentors" },
+    { label: "Sessions", href: "/sessions", section: "sessions" },
+    { label: "Chats", href: "/chats", section: "chats" },
+  ];
+
+  const navLinks = user?.role === "mentor"
+    ? [...baseNavLinks, { label: "Mentor Dashboard", href: "/mentor/dashboard", section: "mentor-dashboard" }]
+    : baseNavLinks;
 
   const isActive = (href: string) => currentPath.startsWith(href);
 
@@ -57,11 +60,10 @@ export default function Navbar() {
               <Link
                 key={link.section}
                 to={link.href}
-                className={`relative font-medium transition-all duration-200 ${
-active
-? "text-foreground"
-: "text-muted-foreground hover:text-foreground"
-}`}
+                className={`relative font-medium transition-all duration-200 ${active
+                    ? "text-foreground"
+                    : "text-muted-foreground hover:text-foreground"
+                  }`}
               >
                 {link.label}
                 {active && (
@@ -139,11 +141,10 @@ active
                   key={link.section}
                   to={link.href}
                   onClick={() => setIsOpen(false)}
-                  className={`px-3 py-2 text-sm font-medium rounded-md transition-colors ${
-                    active
+                  className={`px-3 py-2 text-sm font-medium rounded-md transition-colors ${active
                       ? "bg-primary/10 text-primary font-semibold"
                       : "text-muted-foreground hover:bg-muted"
-                  }`}
+                    }`}
                 >
                   {link.label}
                 </Link>

@@ -16,7 +16,6 @@ import { Route as UnauthorizedIndexRouteImport } from './routes/unauthorized/ind
 import { Route as authenticatedWalletRouteImport } from './routes/(authenticated)/wallet'
 import { Route as authenticatedSessionsRouteImport } from './routes/(authenticated)/sessions'
 import { Route as authenticatedProfileRouteImport } from './routes/(authenticated)/profile'
-import { Route as authenticatedNetworkRouteImport } from './routes/(authenticated)/network'
 import { Route as authenticatedMentorRouteRouteImport } from './routes/(authenticated)/mentor/route'
 import { Route as authenticatedChatsRouteRouteImport } from './routes/(authenticated)/chats/route'
 import { Route as adminAdminRouteRouteImport } from './routes/(admin)/admin/route'
@@ -77,11 +76,6 @@ const authenticatedSessionsRoute = authenticatedSessionsRouteImport.update({
 const authenticatedProfileRoute = authenticatedProfileRouteImport.update({
   id: '/profile',
   path: '/profile',
-  getParentRoute: () => authenticatedRouteRoute,
-} as any)
-const authenticatedNetworkRoute = authenticatedNetworkRouteImport.update({
-  id: '/network',
-  path: '/network',
   getParentRoute: () => authenticatedRouteRoute,
 } as any)
 const authenticatedMentorRouteRoute =
@@ -247,7 +241,6 @@ export interface FileRoutesByFullPath {
   '/admin': typeof adminAdminRouteRouteWithChildren
   '/chats': typeof authenticatedChatsRouteRouteWithChildren
   '/mentor': typeof authenticatedMentorRouteRouteWithChildren
-  '/network': typeof authenticatedNetworkRoute
   '/profile': typeof authenticatedProfileRoute
   '/sessions': typeof authenticatedSessionsRoute
   '/wallet': typeof authenticatedWalletRoute
@@ -281,7 +274,6 @@ export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/about': typeof AboutRoute
   '/mentor': typeof authenticatedMentorRouteRouteWithChildren
-  '/network': typeof authenticatedNetworkRoute
   '/profile': typeof authenticatedProfileRoute
   '/sessions': typeof authenticatedSessionsRoute
   '/wallet': typeof authenticatedWalletRoute
@@ -319,7 +311,6 @@ export interface FileRoutesById {
   '/(admin)/admin': typeof adminAdminRouteRouteWithChildren
   '/(authenticated)/chats': typeof authenticatedChatsRouteRouteWithChildren
   '/(authenticated)/mentor': typeof authenticatedMentorRouteRouteWithChildren
-  '/(authenticated)/network': typeof authenticatedNetworkRoute
   '/(authenticated)/profile': typeof authenticatedProfileRoute
   '/(authenticated)/sessions': typeof authenticatedSessionsRoute
   '/(authenticated)/wallet': typeof authenticatedWalletRoute
@@ -357,7 +348,6 @@ export interface FileRouteTypes {
     | '/admin'
     | '/chats'
     | '/mentor'
-    | '/network'
     | '/profile'
     | '/sessions'
     | '/wallet'
@@ -391,7 +381,6 @@ export interface FileRouteTypes {
     | '/'
     | '/about'
     | '/mentor'
-    | '/network'
     | '/profile'
     | '/sessions'
     | '/wallet'
@@ -428,7 +417,6 @@ export interface FileRouteTypes {
     | '/(admin)/admin'
     | '/(authenticated)/chats'
     | '/(authenticated)/mentor'
-    | '/(authenticated)/network'
     | '/(authenticated)/profile'
     | '/(authenticated)/sessions'
     | '/(authenticated)/wallet'
@@ -517,13 +505,6 @@ declare module '@tanstack/react-router' {
       path: '/profile'
       fullPath: '/profile'
       preLoaderRoute: typeof authenticatedProfileRouteImport
-      parentRoute: typeof authenticatedRouteRoute
-    }
-    '/(authenticated)/network': {
-      id: '/(authenticated)/network'
-      path: '/network'
-      fullPath: '/network'
-      preLoaderRoute: typeof authenticatedNetworkRouteImport
       parentRoute: typeof authenticatedRouteRoute
     }
     '/(authenticated)/mentor': {
@@ -779,7 +760,6 @@ const authenticatedMentorRouteRouteWithChildren =
 interface authenticatedRouteRouteChildren {
   authenticatedChatsRouteRoute: typeof authenticatedChatsRouteRouteWithChildren
   authenticatedMentorRouteRoute: typeof authenticatedMentorRouteRouteWithChildren
-  authenticatedNetworkRoute: typeof authenticatedNetworkRoute
   authenticatedProfileRoute: typeof authenticatedProfileRoute
   authenticatedSessionsRoute: typeof authenticatedSessionsRoute
   authenticatedWalletRoute: typeof authenticatedWalletRoute
@@ -797,7 +777,6 @@ interface authenticatedRouteRouteChildren {
 const authenticatedRouteRouteChildren: authenticatedRouteRouteChildren = {
   authenticatedChatsRouteRoute: authenticatedChatsRouteRouteWithChildren,
   authenticatedMentorRouteRoute: authenticatedMentorRouteRouteWithChildren,
-  authenticatedNetworkRoute: authenticatedNetworkRoute,
   authenticatedProfileRoute: authenticatedProfileRoute,
   authenticatedSessionsRoute: authenticatedSessionsRoute,
   authenticatedWalletRoute: authenticatedWalletRoute,
