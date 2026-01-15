@@ -16,8 +16,8 @@ export function ArticlesSearchBar({
 	onViewModeChange,
 }: SearchBarProps) {
 	return (
-		<div className="mb-6 flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 bg-background p-4 rounded-lg border">
-			<div className="relative w-full sm:max-w-md">
+		<div className="mb-6 flex items-center gap-2 bg-background p-4 rounded-lg border">
+			<div className="relative flex-1">
 				<Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-muted-foreground h-4 w-4" />
 				<Input
 					placeholder="Search articles..."
@@ -26,17 +26,19 @@ export function ArticlesSearchBar({
 					onChange={(e) => onSearchChange(e.target.value)}
 				/>
 			</div>
-			<div className="flex space-x-2">
+			<div className="flex space-x-1 shrink-0">
 				<Button
 					variant={viewMode === "grid" ? "default" : "outline"}
-					size="sm"
+					size="icon"
+					className="h-9 w-9"
 					onClick={() => onViewModeChange("grid")}
 				>
 					<LayoutGrid className="h-4 w-4" />
 				</Button>
 				<Button
 					variant={viewMode === "list" ? "default" : "outline"}
-					size="sm"
+					size="icon"
+					className="h-9 w-9"
 					onClick={() => onViewModeChange("list")}
 				>
 					<List className="h-4 w-4" />

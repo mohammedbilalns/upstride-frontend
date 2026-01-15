@@ -20,6 +20,7 @@ interface MutualConnection {
 	};
 }
 
+//NOTE : unused component 
 export default function MutualConnections() {
 	const { data, isPending, isError, refetch } = useFetchMutualMentors();
 	const connections: MutualConnection[] = data?.connections || [];

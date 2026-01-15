@@ -6,6 +6,7 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { useFetchFollowers } from "../hooks/connections-queries.hooks";
 import { useFetchFollowing } from "../hooks/connections-queries.hooks";
 
+// NOTE: unused component 
 export default function ConnectionStats() {
 	const { user } = useAuthStore();
 	const isMentor = user?.role === "mentor";

@@ -59,46 +59,50 @@ export default function MentorListPage() {
   return (
     <div className="min-h-[calc(100vh-5rem)] bg-background">
       <main className="container mx-auto px-4 sm:px-6 lg:px-8 py-6">
+        {/* Top Header Section */}
+        <div className="mb-8 flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
+          <div>
+            <h1 className="text-3xl font-bold mb-2">Find Mentors</h1>
+            <p className="text-muted-foreground">
+              Connect with experienced professionals who can guide you in your career journey.
+            </p>
+          </div>
+        </div>
+
         <div className="flex flex-col lg:flex-row gap-6">
           {/* Left Sidebar - Filters (Top on Mobile) */}
           <aside className={`${isMobile ? "w-full" : "w-full lg:w-1/4"
             } space-y-6 lg:sticky lg:top-6 self-start h-fit z-10`}>
-            <div className="bg-card rounded-xl shadow-sm border border-border/50 p-4">
-              <h2 className="text-lg font-semibold mb-4">Filters</h2>
-            </div>
-
+            {/* Removed standalone Filters island */}
             <MentorSideBar search={search} navigate={navigate} />
           </aside>
 
           {/* Main Content - Mentors Grid */}
           <section className={`${isMobile ? "w-full" : "w-full lg:w-3/4"
             } space-y-6`}>
-            {/* Header */}
-            <div className="bg-card rounded-xl shadow-sm border border-border/50 p-6">
-              <h1 className="text-2xl font-bold mb-2">Find Mentors</h1>
-              <p className="text-muted-foreground mb-6">
-                Connect with experienced professionals who can guide you in your career journey.
-              </p>
+            {/* Header / Search Bar */}
+            <div className="bg-card rounded-xl shadow-sm border border-border/50 p-4">
+              <div className="flex items-center gap-2">
+                {/* Search Bar */}
+                <div className="relative flex-1">
+                  <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-muted-foreground h-4 w-4" />
+                  <Input
+                    placeholder="Search mentors..."
+                    className="pl-10"
+                    value={searchInput}
+                    onChange={(e) => setSearchInput(e.target.value)}
+                  />
+                </div>
 
-              {/* Search Bar */}
-              <div className="relative w-full mb-4">
-                <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-muted-foreground h-4 w-4" />
-                <Input
-                  placeholder="Search mentors..."
-                  className="pl-10"
-                  value={searchInput}
-                  onChange={(e) => setSearchInput(e.target.value)}
-                />
-              </div>
-
-              {/* View Toggle */}
-              <div className="flex space-x-2">
-                <Button variant="outline" size="sm">
-                  <LayoutGrid className="h-4 w-4" />
-                </Button>
-                <Button variant="ghost" size="sm">
-                  <List className="h-4 w-4" />
-                </Button>
+                {/* View Toggle */}
+                <div className="flex space-x-1 shrink-0">
+                  <Button variant="outline" size="icon" className="h-9 w-9">
+                    <LayoutGrid className="h-4 w-4" />
+                  </Button>
+                  <Button variant="ghost" size="icon" className="h-9 w-9">
+                    <List className="h-4 w-4" />
+                  </Button>
+                </div>
               </div>
             </div>
 
