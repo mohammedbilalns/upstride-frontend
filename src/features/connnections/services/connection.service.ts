@@ -123,3 +123,18 @@ export function followMentor(mentorId: string) {
 export function unfollowMentor(mentorId: string) {
   return apiRequest(() => api.post(API_ROUTES.CONNECTIONS.UNFOLLOW, { mentorId }));
 }
+//------------------
+// Query Options
+//------------------
+import { infiniteQueryOptions } from "@tanstack/react-query";
+
+export const followersQueryOptions = (limit: number = 10) =>
+  infiniteQueryOptions({
+    queryKey: ["followers"],
+    queryFn: ({ pageParam = 1 }) => fetchFollowers(pageParam, limit),
+    initialPageParam: 1,
+    getNextPageParam: (lastPage, allPages) => {
+      if (lastPage?.length < limit) return undefined;
+      return allPages.length + 1;
+    },
+  });

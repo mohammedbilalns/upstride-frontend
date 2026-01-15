@@ -50,7 +50,7 @@ function MentorLayout() {
         <div className="flex flex-col lg:flex-row gap-6">
           {/* Sidebar */}
           <aside className="w-full lg:w-64 shrink-0">
-            <div className="bg-background border-r border-border/50 backdrop-blur-sm z-40 transition-all duration-300 ease-in-out flex flex-col w-full lg:w-64">
+            <div className="bg-background border-r border-border/50 backdrop-blur-sm z-40 flex flex-col w-full lg:w-64">
               <div className="font-semibold text-lg px-4 mb-4">Mentor Portal</div>
 
               {/* Navigation */}
