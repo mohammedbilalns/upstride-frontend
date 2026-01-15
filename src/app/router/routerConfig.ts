@@ -25,6 +25,7 @@ export const router = createRouter({
   defaultErrorComponent: ErrorComponent,
 
   scrollRestoration: true,
+  //defaultViewTransition: true,
 
   // Preload route data on hover/ intent
   defaultPreload: "intent",

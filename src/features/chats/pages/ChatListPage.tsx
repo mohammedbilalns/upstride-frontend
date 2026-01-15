@@ -1,6 +1,6 @@
 import { X } from "lucide-react";
-import { useEffect } from "react"; 
-import { Outlet, useLoaderData } from "@tanstack/react-router";
+import { useEffect } from "react";
+import { Outlet, useLoaderData, useLocation } from "@tanstack/react-router";
 import { Button } from "@/components/ui/button";
 import { useFetchChats } from "@/features/chats/hooks/useFetchChats";
 import { ChatList } from "@/features/chats/components/chatList";
@@ -15,9 +15,17 @@ export default function ChatListPage() {
 	const isMobile = useMediaQuery("(max-width: 768px)");
 	const { showSidebar, setShowSidebar } = useChatLayoutStore();
 
+	const location = useLocation();
+	const pathname = location.pathname;
+
 	useEffect(() => {
-		setShowSidebar(!isMobile);
-	}, [isMobile, setShowSidebar]);
+		if (isMobile) {
+			const isRoot = pathname === "/chats" || pathname === "/chats/";
+			setShowSidebar(isRoot);
+		} else {
+			setShowSidebar(true);
+		}
+	}, [isMobile, setShowSidebar, pathname]);
 
 	const handleItemClick = () => {
 		if (isMobile) {
@@ -25,14 +33,16 @@ export default function ChatListPage() {
 		}
 	};
 
+	const isRoot = pathname === "/chats" || pathname === "/chats/";
+
 	return (
-		<div className="h-[calc(100vh-4rem)] md:h-[calc(100vh-5rem)] flex flex-col pt-4 container mx-auto max-w-7xl px-0 sm:px-4">
+		<div className="h-[calc(100vh-4rem)] flex flex-col container mx-auto px-4 sm:px-6 lg:px-8 py-6">
 			<div className="flex-1 flex overflow-hidden rounded-xl border bg-card shadow-sm ring-1 ring-border/50">
 				{/* Left Sidebar - Chat List */}
 				<aside
 					className={`
-            ${isMobile
-							? `fixed inset-y-0 left-0 z-50 w-full max-w-[320px] bg-background shadow-xl transition-transform duration-300 ease-in-out ${showSidebar ? "translate-x-0" : "-translate-x-full"
+						${isMobile
+							? `fixed top-16 bottom-0 left-0 z-50 w-full max-w-[320px] bg-background shadow-xl transition-transform duration-300 ease-in-out ${showSidebar ? "translate-x-0" : "-translate-x-full"
 							}`
 							: "relative w-80 lg:w-96 flex flex-col border-r bg-muted/10"
 						}
@@ -41,7 +51,7 @@ export default function ChatListPage() {
 					{/* Sidebar Header */}
 					<div className="px-4 py-3 border-b flex items-center justify-between h-16 shrink-0 bg-background/50 backdrop-blur-sm">
 						<h1 className="text-xl font-semibold tracking-tight">Messages</h1>
-						{isMobile && (
+						{isMobile && !isRoot && (
 							<Button
 								variant="ghost"
 								size="icon"
@@ -78,7 +88,7 @@ export default function ChatListPage() {
 				</main>
 
 				{/* Mobile Overlay */}
-				{isMobile && showSidebar && (
+				{isMobile && showSidebar && !isRoot && (
 					<div
 						className="fixed inset-0 z-40 bg-black/40 backdrop-blur-sm transition-opacity"
 						onClick={() => setShowSidebar(false)}

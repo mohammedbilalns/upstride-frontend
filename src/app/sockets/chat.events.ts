@@ -199,21 +199,7 @@ export function registerChatEvents(socket: Socket) {
         }
       );
 
-      // Update the chats list to mark messages as read
-      // queryClient.setQueryData(["chats"], (oldData: any) => {
-      //   if (!oldData) return oldData;
-      //
-      //   return {
-      //     ...oldData,
-      //     pages: oldData.pages.map((page: any) => ({
-      //       ...page,
-      //       chats: page.chats.map((chat: any) =>
-      //         chat.id === receiverId
-      //           ? { ...chat, isRead: true }
-      //           : chat
-      //       ),
-      //     })),
-      //   };
+  
     } catch (err) {
       console.error("[WS] Invalid mark as read payload:", err);
     }
