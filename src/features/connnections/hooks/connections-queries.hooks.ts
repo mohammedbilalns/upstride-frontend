@@ -1,5 +1,5 @@
 import { useInfiniteQuery, useQuery } from "@tanstack/react-query";
-import { fetchFollowing, fetchRecentActivity } from "../services/connection.service";
+import { fetchRecentActivity } from "../services/connection.service";
 
 import { followersQueryOptions } from "../services/connection.service";
 
@@ -7,19 +7,10 @@ export function useFetchFollowers() {
 	return useInfiniteQuery(followersQueryOptions());
 }
 
+import { followingQueryOptions } from "../services/connection.service";
+
 export function useFetchFollowing() {
-	const limit = 10;
-
-	return useInfiniteQuery({
-		queryKey: ["following"],
-		queryFn: ({ pageParam = 1 }) => fetchFollowing(pageParam, limit),
-		getNextPageParam: (lastPage, allPages) => {
-			if (lastPage?.length < limit) return undefined;
-			return allPages.length + 1;
-		},
-		initialPageParam: 1,
-
-	});
+	return useInfiniteQuery(followingQueryOptions());
 }
 
 export function useFetchRecentActivity() {

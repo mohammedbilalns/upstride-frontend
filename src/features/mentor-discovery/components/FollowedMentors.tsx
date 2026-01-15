@@ -11,7 +11,7 @@ interface FollowedMentorProps {
 	count?: number;
 }
 
-export default function FollowedMentors({ count = 2 }: FollowedMentorProps) {
+export default function FollowedMentors({ count = 3 }: FollowedMentorProps) {
 	const { data, isPending, isError, refetch } = useFetchFollowing();
 	const mentors = data?.pages.flat() || [];
 	const hasMoreToShow = mentors?.length > count;
@@ -70,9 +70,9 @@ export default function FollowedMentors({ count = 2 }: FollowedMentorProps) {
 
 				{!isPending && !isError && mentors.length > 0 && hasMoreToShow && (
 					<div className="mt-4 pt-4 border-t">
-						<Link to="/network">
+						<Link to="/mentors/followed">
 							<Button variant="outline" className="w-full">
-								Show All
+								View More
 							</Button>
 						</Link>
 					</div>

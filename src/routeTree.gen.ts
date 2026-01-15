@@ -27,6 +27,7 @@ import { Route as authenticatedArticlesIndexRouteImport } from './routes/(authen
 import { Route as adminAdminIndexRouteImport } from './routes/(admin)/admin/index'
 import { Route as authenticatedSessionSessionIdRouteImport } from './routes/(authenticated)/session/$sessionId'
 import { Route as authenticatedMentorsRegisterRouteImport } from './routes/(authenticated)/mentors/register'
+import { Route as authenticatedMentorsFollowedRouteImport } from './routes/(authenticated)/mentors/followed'
 import { Route as authenticatedMentorsMentorIdRouteImport } from './routes/(authenticated)/mentors/$mentorId'
 import { Route as authenticatedMentorNetworkRouteImport } from './routes/(authenticated)/mentor/network'
 import { Route as authenticatedMentorDashboardRouteImport } from './routes/(authenticated)/mentor/dashboard'
@@ -136,6 +137,12 @@ const authenticatedMentorsRegisterRoute =
   authenticatedMentorsRegisterRouteImport.update({
     id: '/mentors/register',
     path: '/mentors/register',
+    getParentRoute: () => authenticatedRouteRoute,
+  } as any)
+const authenticatedMentorsFollowedRoute =
+  authenticatedMentorsFollowedRouteImport.update({
+    id: '/mentors/followed',
+    path: '/mentors/followed',
     getParentRoute: () => authenticatedRouteRoute,
   } as any)
 const authenticatedMentorsMentorIdRoute =
@@ -252,6 +259,7 @@ export interface FileRoutesByFullPath {
   '/mentor/dashboard': typeof authenticatedMentorDashboardRoute
   '/mentor/network': typeof authenticatedMentorNetworkRoute
   '/mentors/$mentorId': typeof authenticatedMentorsMentorIdRoute
+  '/mentors/followed': typeof authenticatedMentorsFollowedRoute
   '/mentors/register': typeof authenticatedMentorsRegisterRoute
   '/session/$sessionId': typeof authenticatedSessionSessionIdRoute
   '/admin/': typeof adminAdminIndexRoute
@@ -285,6 +293,7 @@ export interface FileRoutesByTo {
   '/mentor/dashboard': typeof authenticatedMentorDashboardRoute
   '/mentor/network': typeof authenticatedMentorNetworkRoute
   '/mentors/$mentorId': typeof authenticatedMentorsMentorIdRoute
+  '/mentors/followed': typeof authenticatedMentorsFollowedRoute
   '/mentors/register': typeof authenticatedMentorsRegisterRoute
   '/session/$sessionId': typeof authenticatedSessionSessionIdRoute
   '/admin': typeof adminAdminIndexRoute
@@ -322,6 +331,7 @@ export interface FileRoutesById {
   '/(authenticated)/mentor/dashboard': typeof authenticatedMentorDashboardRoute
   '/(authenticated)/mentor/network': typeof authenticatedMentorNetworkRoute
   '/(authenticated)/mentors/$mentorId': typeof authenticatedMentorsMentorIdRoute
+  '/(authenticated)/mentors/followed': typeof authenticatedMentorsFollowedRoute
   '/(authenticated)/mentors/register': typeof authenticatedMentorsRegisterRoute
   '/(authenticated)/session/$sessionId': typeof authenticatedSessionSessionIdRoute
   '/(admin)/admin/': typeof adminAdminIndexRoute
@@ -359,6 +369,7 @@ export interface FileRouteTypes {
     | '/mentor/dashboard'
     | '/mentor/network'
     | '/mentors/$mentorId'
+    | '/mentors/followed'
     | '/mentors/register'
     | '/session/$sessionId'
     | '/admin/'
@@ -392,6 +403,7 @@ export interface FileRouteTypes {
     | '/mentor/dashboard'
     | '/mentor/network'
     | '/mentors/$mentorId'
+    | '/mentors/followed'
     | '/mentors/register'
     | '/session/$sessionId'
     | '/admin'
@@ -428,6 +440,7 @@ export interface FileRouteTypes {
     | '/(authenticated)/mentor/dashboard'
     | '/(authenticated)/mentor/network'
     | '/(authenticated)/mentors/$mentorId'
+    | '/(authenticated)/mentors/followed'
     | '/(authenticated)/mentors/register'
     | '/(authenticated)/session/$sessionId'
     | '/(admin)/admin/'
@@ -582,6 +595,13 @@ declare module '@tanstack/react-router' {
       path: '/mentors/register'
       fullPath: '/mentors/register'
       preLoaderRoute: typeof authenticatedMentorsRegisterRouteImport
+      parentRoute: typeof authenticatedRouteRoute
+    }
+    '/(authenticated)/mentors/followed': {
+      id: '/(authenticated)/mentors/followed'
+      path: '/mentors/followed'
+      fullPath: '/mentors/followed'
+      preLoaderRoute: typeof authenticatedMentorsFollowedRouteImport
       parentRoute: typeof authenticatedRouteRoute
     }
     '/(authenticated)/mentors/$mentorId': {
@@ -765,6 +785,7 @@ interface authenticatedRouteRouteChildren {
   authenticatedWalletRoute: typeof authenticatedWalletRoute
   authenticatedArticlesArticleIdRoute: typeof authenticatedArticlesArticleIdRoute
   authenticatedMentorsMentorIdRoute: typeof authenticatedMentorsMentorIdRoute
+  authenticatedMentorsFollowedRoute: typeof authenticatedMentorsFollowedRoute
   authenticatedMentorsRegisterRoute: typeof authenticatedMentorsRegisterRoute
   authenticatedSessionSessionIdRoute: typeof authenticatedSessionSessionIdRoute
   authenticatedArticlesIndexRoute: typeof authenticatedArticlesIndexRoute
@@ -782,6 +803,7 @@ const authenticatedRouteRouteChildren: authenticatedRouteRouteChildren = {
   authenticatedWalletRoute: authenticatedWalletRoute,
   authenticatedArticlesArticleIdRoute: authenticatedArticlesArticleIdRoute,
   authenticatedMentorsMentorIdRoute: authenticatedMentorsMentorIdRoute,
+  authenticatedMentorsFollowedRoute: authenticatedMentorsFollowedRoute,
   authenticatedMentorsRegisterRoute: authenticatedMentorsRegisterRoute,
   authenticatedSessionSessionIdRoute: authenticatedSessionSessionIdRoute,
   authenticatedArticlesIndexRoute: authenticatedArticlesIndexRoute,
