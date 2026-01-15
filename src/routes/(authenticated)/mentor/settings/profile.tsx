@@ -13,11 +13,11 @@ import { Textarea } from "@/components/ui/textarea";
 import { Badge } from "@/components/ui/badge";
 import { Edit, X } from "lucide-react";
 import UserAvatar from "@/components/common/UserAvatar";
-import { getSelf } from "@/features/mentor/services/mentor.service";
+import { getSelf } from "@/features/mentor-discovery/services/mentor.service";
 import { authGuard } from "@/shared/guards/auth-gaurd";
-import { useUpdateMentorProfile } from "@/features/mentor/dashboard/hooks/mentor-dashboard-mutations.hooks";
+import { useUpdateMentorProfile } from "@/features/mentor-portal/hooks/mentor-dashboard-mutations.hooks";
 import { FormProvider, useForm } from "react-hook-form";
-import SkillSelection from "@/features/mentor/registration/components/skillSelection";
+import SkillSelection from "@/features/mentor-discovery/registration/components/skillSelection";
 import { router } from "@/app/router/routerConfig";
 import type { ProfileFormPayload } from "@/shared/types/profile";
 

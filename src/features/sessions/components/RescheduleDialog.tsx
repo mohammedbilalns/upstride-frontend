@@ -13,7 +13,7 @@ import {
     CalendarTodayTrigger,
     type CalendarEvent,
 } from '@/components/ui/full-calendar';
-import PublicDaySlotsDialog from "@/features/mentors/components/PublicDaySlotsDialog";
+import PublicDaySlotsDialog from "@/features/mentor-portal/components/PublicDaySlotsDialog";
 import { isSameDay, parseISO } from "date-fns";
 import type { Booking } from "@/shared/types/session";
 

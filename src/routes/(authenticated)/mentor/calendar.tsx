@@ -5,8 +5,8 @@ import {
     CardHeader,
 } from "@/components/ui/card";
 import { authGuard } from "@/shared/guards/auth-gaurd";
-import { getSelf } from "@/features/mentor/services/mentor.service";
-import MentorSlots from "@/features/mentor/dashboard/components/MentorSlots";
+import { getSelf } from "@/features/mentor-discovery/services/mentor.service";
+import MentorSlots from "@/features/mentor-portal/components/MentorSlots";
 import { useState } from "react";
 import {
     Calendar,
@@ -42,7 +42,7 @@ function CalendarPage() {
             >
                 <div className="flex flex-col md:flex-row gap-6 h-full flex-1 min-h-0">
                     {/* Left: Calendar View */}
-                    <div className="md:w-[70%] flex-shrink-0">
+                    <div className="md:w-[70%] shrink-0">
                         <Card className="h-full flex flex-col hover:shadow-md transition-shadow">
                             <CardHeader className="pb-2">
                                 <div className="flex items-center justify-between">

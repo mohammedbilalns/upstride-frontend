@@ -18,8 +18,9 @@ interface NoResourceProps {
 const resourceConfig: ResourceConfig = {
   mentors: {
     icon: UsersRound,
-    defaultMessage: "Get started by exploring our mentorship program.",
+    defaultMessage: "Connect with industry leaders to accelerate your professional growth. Explore our network of mentors today.",
     searchMessage: "Try adjusting your search filters or browse all mentors.",
+    defaultTitle: "No Mentors Found",
   },
   articles: {
     icon: FileText,
@@ -33,8 +34,9 @@ const resourceConfig: ResourceConfig = {
   },
   followers: {
     icon: UsersRound,
-    defaultMessage: "Get started by exploring mentors.",
+    defaultMessage: "Follow mentors to stay updated with the latest trends in your field. Browse our mentor community to find your match.",
     searchMessage: "Try adjusting your search filters or browse all followers.",
+    defaultTitle: "No Followed Mentors Found",
   },
   following: {
     icon: UsersRound,
@@ -65,6 +67,10 @@ const NoResource: React.FC<NoResourceProps> = ({
 }) => {
   const config = resourceConfig[resource];
   const Icon = config.icon;
+
+  const title = isSearch
+    ? config.searchTitle || `No ${resource} found`
+    : config.defaultTitle || `No ${resource} found`;
 
   /**
    * Conditionally render an action button:
@@ -107,7 +113,7 @@ const NoResource: React.FC<NoResourceProps> = ({
 
       {/* Title */}
       <h3 className="text-lg font-medium mb-2 capitalize">
-        No {resource} found
+        {title}
       </h3>
 
       {/* Description */}

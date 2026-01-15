@@ -2,7 +2,7 @@ import { Calendar, Clock, Trash2, Power } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import Pending from "@/components/common/Pending";
 import ErrorState from "@/components/common/ErrorState";
-import { useFetchMentorRules } from "../../hooks/mentor-rules.hooks";
+import { useFetchMentorRules } from "@/features/mentor-discovery/hooks/mentor-rules.hooks";
 import UpdateRuleDialog from "./UpdateRuleDialog";
 import { Card, CardContent } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";

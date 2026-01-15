@@ -12,7 +12,7 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { authGuard } from "@/shared/guards/auth-gaurd";
 import { setPricingConfig } from "@/features/pricing/services/pricing.service";
-import { pricingSchema, type PricingFormValues } from "@/features/mentor/schemas/pricing";
+import { pricingSchema, type PricingFormValues } from "@/features/mentor-discovery/schemas/pricing";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useMutation, useQueryClient, useSuspenseQuery } from "@tanstack/react-query";

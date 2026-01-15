@@ -79,7 +79,7 @@ export const API_ROUTES = {
 	NOTIFICATIONS: {
 		GET_NOTIFICATIONS: "/notifications",
 		MARK_AS_READ: (notificationId: string) =>
-			`/notifications/${notificationId}/read`,
+			`/notifications/${notificationId}`,
 		MARK_CHAT_READ: (chatId: string) => `/notifications/chat/${chatId}/read`,
 		MARK_ALL_AS_READ: "/notifications/mark-all",
 		FETCH: "/notifications",

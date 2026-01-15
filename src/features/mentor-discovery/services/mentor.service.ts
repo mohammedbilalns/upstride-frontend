@@ -3,7 +3,35 @@ import { API_ROUTES } from "@/shared/constants/routes";
 import { type MentorDetails, type MentorInDashboard } from "@/shared/types/mentor";
 import { type Availability } from "@/shared/types/session";
 import { apiRequest } from "@/shared/utils/apiWrapper";
-import { queryOptions } from "@tanstack/react-query";
+import { queryOptions, infiniteQueryOptions } from "@tanstack/react-query";
+
+interface MentorsResponse {
+	mentors: MentorInDashboard[];
+	total: number;
+}
+
+export const mentorsQueryOptions = (
+	query = "",
+	expertiseId = "",
+	skillId = "",
+	limit = 10,
+) =>
+	infiniteQueryOptions({
+		queryKey: ["mentors", query, expertiseId, skillId],
+		queryFn: ({ pageParam = 1 }) =>
+			getMentors(
+				pageParam.toString(),
+				limit.toString(),
+				query,
+				expertiseId,
+				skillId,
+			),
+		getNextPageParam: (lastPage: MentorsResponse, allPages: MentorsResponse[]) => {
+			if (lastPage.mentors.length < limit) return undefined;
+			return allPages.length + 1;
+		},
+		initialPageParam: 1,
+	});
 
 export function getMentors(
 	page = "1",

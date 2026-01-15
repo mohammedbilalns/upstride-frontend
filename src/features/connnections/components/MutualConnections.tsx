@@ -3,7 +3,7 @@ import NoResource from "@/components/common/NoResource";
 import UserAvatar from "@/components/common/UserAvatar";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
-import { useFetchMutualMentors } from "@/features/mentor/hooks/mentors-queries.hooks";
+import { useFetchMutualMentors } from "@/features/mentor-discovery/hooks/mentors-queries.hooks";
 import ShowMoreContent from "@/components/common/ShowMore";
 import Pending from "@/components/common/Pending";
 import ErrorState from "@/components/common/ErrorState";

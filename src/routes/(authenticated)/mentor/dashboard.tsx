@@ -16,7 +16,7 @@ import {
 } from "lucide-react";
 import {
   getSelf,
-} from "@/features/mentor/services/mentor.service";
+} from "@/features/mentor-discovery/services/mentor.service";
 import { authGuard } from "@/shared/guards/auth-gaurd";
 import GrowthChart from "@/features/connnections/components/GrowthChart";
 

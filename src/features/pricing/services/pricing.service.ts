@@ -13,7 +13,7 @@ export const setPricingConfig = async (
     return response.data.data;
 };
 
-const getPricingConfig = async (
+export const getPricingConfig = async (
     mentorId: string,
 ): Promise<PricingConfigResponse> => {
     const response = await api.get(API_ROUTES.PRICING.GET_CONFIG(mentorId));

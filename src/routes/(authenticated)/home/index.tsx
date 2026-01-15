@@ -1,5 +1,4 @@
 import { createFileRoute } from "@tanstack/react-router";
-
 import { articlesQueryOptions } from "@/features/articles-mangement/services/article.service";
 import HomePage from "@/features/home/pages/HomePage";
 

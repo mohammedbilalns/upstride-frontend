@@ -16,7 +16,7 @@ export function fetchNotifications(
 }
 
 export function markNotificationAsRead(id: string) {
-	return apiRequest(() => api.post(API_ROUTES.NOTIFICATIONS.MARK_READ(id), {
+	return apiRequest(() => api.post(API_ROUTES.NOTIFICATIONS.MARK_AS_READ(id), {
 		id,
 	}))
 }

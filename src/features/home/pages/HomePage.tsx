@@ -6,10 +6,11 @@ import RecommendedArticles from "@/features/home/components/RecommendedArticles"
 import RegisterMentorCard from "@/features/home/components/RegisterMentorCard";
 import SuggestedMentors from "@/features/home/components/SuggestedMentors";
 import UpcomingSessions from "@/features/home/components/UpcomingSessions";
-import FollowedMentors from "@/features/mentor/components/FollowedMentors";
+import FollowedMentors from "@/features/mentor-discovery/components/FollowedMentors";
 import type { Article } from "@/shared/types/article";
 import { Bell, MessageCircle } from "lucide-react";
 import { Activity } from "react";
+
 import NoResource from "@/components/common/NoResource";
 import { Button } from "@/components/ui/button";
 

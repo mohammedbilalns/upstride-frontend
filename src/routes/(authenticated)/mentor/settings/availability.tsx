@@ -7,9 +7,9 @@ import {
   CardTitle,
 } from "@/components/ui/card";
 import { authGuard } from "@/shared/guards/auth-gaurd";
-import { getSelf } from "@/features/mentor/services/mentor.service";
-import MentorRules from "@/features/mentor/dashboard/components/MentorRules";
-import AddRuleDialog from "@/features/mentor/dashboard/components/AddRuleDialog";
+import { getSelf } from "@/features/mentor-discovery/services/mentor.service";
+import MentorRules from "@/features/mentor-portal/components/MentorRules";
+import AddRuleDialog from "@/features/mentor-portal/components/AddRuleDialog";
 import { Calendar } from "lucide-react";
 
 export const Route = createFileRoute("/(authenticated)/mentor/settings/availability")({
