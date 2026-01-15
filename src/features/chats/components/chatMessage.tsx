@@ -1,11 +1,11 @@
 import UserAvatar from "@/components/common/UserAvatar";
 import { Check, CheckCheck, File, Loader2 } from "lucide-react";
 import { formatChatTimestamp } from "@/shared/utils/dateUtil";
-import type { ChatMessageProps } from "@/shared/types/message";
+import type { ChatMessage as ChatMessageType } from "@/shared/types/message";
 import { cn } from "@/shared/utils/utils";
 
 interface ChatMessageProps {
-  message: ChatMessage;
+  message: ChatMessageType;
   isOwn: boolean;
   uploadProgress?: number;
   isUploading?: boolean;

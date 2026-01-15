@@ -9,7 +9,7 @@ import FollowingList from "@/features/connnections/components/FollowingList";
 import GrowthChart from "@/features/connnections/components/GrowthChart";
 import MutualConnections from "@/features/connnections/components/MutualConnections";
 import RecentActivityCard from "@/features/connnections/components/RecentActivityCard";
-import SuggestedMentors from "@/features/home/SuggestedMentors";
+import SuggestedMentors from "@/features/home/components/SuggestedMentors";
 
 export const Route = createFileRoute("/(authenticated)/network")({
 	component: RouteComponent,

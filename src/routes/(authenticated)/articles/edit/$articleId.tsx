@@ -1,7 +1,6 @@
 import ArticleEditPage from "@/features/articles-mangement/pages/ArticleEditPage";
 import { createFileRoute } from "@tanstack/react-router";
 
-
 import { articleQueryOptions } from "@/features/articles-mangement/services/article.service";
 
 export const Route = createFileRoute(

@@ -28,6 +28,7 @@ export const articlesQueryOptions = (
 	});
 
 export const articleQueryOptions = (articleId: string) => queryOptions({
+
 	queryKey: ["articles", articleId],
 	queryFn: () => getArticle(articleId),
 });

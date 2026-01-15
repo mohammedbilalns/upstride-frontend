@@ -6,7 +6,7 @@ import ShowMoreContent from "@/components/common/ShowMore";
 import UserAvatar from "@/components/common/UserAvatar";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import type { Mentor } from "@/shared/types/mentor";
-import { useFetchSuggestedMentors } from "../mentor/hooks/mentors-queries.hooks";
+import { useFetchSuggestedMentors } from "../../mentor/hooks/mentors-queries.hooks";
 
 interface SuggestedMentorsProps {
 	count?: number;

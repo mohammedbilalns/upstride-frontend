@@ -1,5 +1,6 @@
 import { ArrowLeft, Edit, MoreHorizontal, Trash2 } from "lucide-react";
-import { useAuthStore } from "@/app/store/auth.store";
+import { useSuspenseQuery } from "@tanstack/react-query";
+import { articleQueryOptions } from "../services/article.service";
 import { ConfirmDialog } from "@/components/common/Confirm";
 import UserAvatar from "@/components/common/UserAvatar";
 import { TiptapRenderer } from "@/components/rich-text-editor/Renderer";
@@ -17,21 +18,15 @@ import CommentsList from "@/features/articles-mangement/comments/components/Comm
 import ArticleEngagementBar from "@/features/articles-mangement/components/ArticleEngagementBar";
 import type { Article, Tag } from "@/shared/types/article";
 import { useDeleteArticle } from "@/features/articles-mangement/hooks/article-mutations.hooks";
-import { useQuery } from "@tanstack/react-query";
 import { Link, useNavigate } from "@tanstack/react-router";
-import { fetchArticle } from "../services/article.service";
-import {Route} from "@/routes/(authenticated)/articles/$articleId"
+import { Route } from "@/routes/(authenticated)/articles/$articleId"
 
 export default function ArticleDetailsPage() {
-  const { user } = useAuthStore();
   const { articleId } = Route.useParams();
   const navigate = useNavigate();
+  const { user } = Route.useLoaderData();
 
-  const { data } = useQuery({
-    queryKey: ["article", articleId],
-    queryFn: () => fetchArticle(articleId),
-    staleTime: 5 * 60 * 1000,
-  });
+  const { data } = useSuspenseQuery(articleQueryOptions(articleId));
 
   const deleteArticleMutation = useDeleteArticle({
     onDeleteSuccess: () => {

@@ -22,6 +22,7 @@ import { Route } from "@/routes/(authenticated)/articles/edit/$articleId"
 import { useSuspenseQuery } from "@tanstack/react-query";
 import { articleQueryOptions } from "../services/article.service";
 
+
 type ArticleFormData = z.infer<typeof articleUpdateSchema>;
 export default function ArticleEditPage() {
 	const { articleId } = Route.useParams();
