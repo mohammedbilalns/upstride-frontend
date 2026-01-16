@@ -2,6 +2,8 @@ import api from "@/api/api";
 import { API_ROUTES } from "@/shared/constants/routes";
 import type { Booking, Slot } from "@/shared/types/session";
 
+import { queryOptions } from "@tanstack/react-query";
+
 export const getSessions = async (
     type?: "upcoming" | "history",
 ): Promise<Booking[]> => {
@@ -51,13 +53,45 @@ export const cancelBooking = async (bookingId: string) => {
     return response.data;
 };
 
+export const cancelReservation = async (slotId: string) => {
+    const response = await api.post(API_ROUTES.SESSIONS.CANCEL_RESERVATION(slotId));
+    return response.data;
+};
+
 export const getSlots = async (
     mentorId: string,
-    date?: string,
+    month?: number,
+    year?: number,
     availableOnly?: boolean,
 ): Promise<Slot[]> => {
-    const response = await api.get(
-        `${API_ROUTES.SLOTS.GET_MENTOR_SLOTS}?mentorId=${mentorId}&date=${date || ""}&availableOnly=${availableOnly || false}`,
-    );
+    const params: any = { mentorId, availableOnly: availableOnly || false };
+    if (month !== undefined) params.month = month;
+    if (year !== undefined) params.year = year;
+
+    const response = await api.get(API_ROUTES.SLOTS.GET_MENTOR_SLOTS, {
+        params,
+    });
     return response.data.slots || [];
 };
+
+export const getAvailableSlots = async (
+    mentorId: string,
+    month?: number,
+    year?: number,
+): Promise<Slot[]> => {
+    const params: any = { mentorId, month, year };
+    const response = await api.get(API_ROUTES.SLOTS.GET_AVAILABLE_SLOTS, {
+        params,
+    });
+    return response.data.slots || [];
+};
+
+export const upcomingSessionsQueryOptions = queryOptions({
+    queryKey: ["sessions", "upcoming"],
+    queryFn: () => getSessions("upcoming"),
+});
+
+export const historySessionsQueryOptions = queryOptions({
+    queryKey: ["sessions", "history"],
+    queryFn: () => getSessions("history"),
+});

@@ -17,8 +17,8 @@ import { Separator } from "@/components/ui/separator";
 import { useQuery } from "@tanstack/react-query";
 import Loading from "@/components/common/Loading";
 import ErrorState from "@/components/common/ErrorState";
-import MentorSlots from "@/features/mentor-portal/components/MentorSlots";
-import {Route} from "@/routes/(authenticated)/mentors/$mentorId"
+import BookingCalendar from "../components/BookingCalendar";
+import { Route } from "@/routes/(authenticated)/mentors/$mentorId"
 import { getMentor } from "../services/mentor.service";
 import FollowButton from "@/features/connnections/components/FollowButton";
 
@@ -197,7 +197,10 @@ export default function MentorDetailsPage() {
               </CardContent>
             </Card>
 
-            <MentorSlots mentorId={mentorId} />
+            <div className="mt-8">
+              <h2 className="text-2xl font-bold mb-4">Availability</h2>
+              <BookingCalendar mentorId={mentorId} />
+            </div>
           </main>
         </div>
       </div>

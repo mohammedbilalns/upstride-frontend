@@ -8,5 +8,8 @@ export const SOCKET_EVENTS = Object.freeze({
     SEND: "send.message",
     MARK_MESSAGE_READ: "markread.message",
     MARK_CHAT_READ: "markread.chat",
+  }),
+  SESSION: Object.freeze({
+    STARTED: "session_started",
   })
 });

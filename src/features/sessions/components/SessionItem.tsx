@@ -81,7 +81,19 @@ const SessionItem = ({ session, isMentor, onRescheduleClick, onHandleReschedule,
                     </div>
                 )}
 
-                <div className="mt-4" onClick={(e) => e.stopPropagation()}>
+                <div className="mt-4 flex gap-2" onClick={(e) => e.stopPropagation()}>
+                    {(session.status === 'CONFIRMED' || (session.slot?.status === 'STARTED')) && (
+                        <Button
+                            size="sm"
+                            className="bg-green-600 hover:bg-green-700 text-white w-full sm:w-auto"
+                            onClick={(e) => {
+                                e.stopPropagation();
+                                window.location.href = `/session/${session.id}`;
+                            }}
+                        >
+                            Join Session
+                        </Button>
+                    )}
                     {!isMentor && session.status === 'CONFIRMED' && !session.rescheduleRequest && (
                         <Button variant="outline" size="sm" className="w-full sm:w-auto" onClick={(e) => { e.stopPropagation(); onRescheduleClick(session); }}>
                             Request Reschedule

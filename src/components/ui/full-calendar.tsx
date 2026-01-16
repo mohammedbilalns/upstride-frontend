@@ -85,17 +85,12 @@ type ContextType = {
   onDayClick?: (date: Date) => void;
   enableHotkeys?: boolean;
   today: Date;
+  hideEventTime?: boolean;
 };
 
 const Context = createContext<ContextType>({} as ContextType);
 
-export type CalendarEvent = {
-  id: string;
-  start: Date;
-  end: Date;
-  title: string;
-  color?: VariantProps<typeof monthEventVariants>['variant'];
-};
+// ... CalendarEvent type ...
 
 type CalendarProps = {
   children: ReactNode;
@@ -107,6 +102,8 @@ type CalendarProps = {
   onChangeView?: (view: View) => void;
   onEventClick?: (event: CalendarEvent) => void;
   onDayClick?: (date: Date) => void;
+  onDateChange?: (date: Date) => void;
+  hideEventTime?: boolean;
 };
 
 const Calendar = ({
@@ -117,8 +114,10 @@ const Calendar = ({
   view: _defaultMode = 'month',
   onEventClick,
   onDayClick,
+  onDateChange,
   events: defaultEvents = [],
   onChangeView,
+  hideEventTime = false,
 }: CalendarProps) => {
   const [view, setView] = useState<View>(_defaultMode);
   const [date, setDate] = useState(defaultDate);
@@ -127,6 +126,10 @@ const Calendar = ({
   useEffect(() => {
     setEvents(defaultEvents);
   }, [defaultEvents]);
+
+  useEffect(() => {
+    onDateChange?.(date);
+  }, [date, onDateChange]);
 
   const changeView = (view: View) => {
     setView(view);
@@ -164,6 +167,7 @@ const Calendar = ({
         onDayClick,
         onChangeView,
         today: new Date(),
+        hideEventTime,
       }}
     >
       {children}
@@ -337,7 +341,7 @@ const CalendarWeekView = () => {
 };
 
 const CalendarMonthView = () => {
-  const { date, view, events, locale, onDayClick } = useCalendar();
+  const { date, view, events, locale, onDayClick, hideEventTime } = useCalendar();
 
   const monthDates = useMemo(() => getDaysInMonth(date), [date]);
   const weekDays = useMemo(() => generateWeekdays(locale), [locale]);
@@ -359,7 +363,7 @@ const CalendarMonthView = () => {
           </div>
         ))}
       </div>
-      <div className="grid overflow-hidden -mt-px flex-1 auto-rows-[minmax(3.5rem,1fr)] md:auto-rows-[minmax(8rem,1fr)] p-px grid-cols-7 gap-px">
+      <div className="grid overflow-hidden -mt-px flex-1 grid-rows-6 p-px grid-cols-7 gap-px">
         {monthDates.map((_date) => {
           const currentEvents = events.filter((event) =>
             isSameDay(event.start, _date)
@@ -397,10 +401,12 @@ const CalendarMonthView = () => {
                         monthEventVariants({ variant: event.color })
                       )}
                     ></div>
-                    <span className="flex-1 truncate">{event.title}</span>
-                    <time className="tabular-nums text-muted-foreground/50 text-xs">
-                      {format(event.start, 'HH:mm')}
-                    </time>
+                    {event.title && <span className="flex-1 truncate">{event.title}</span>}
+                    {!hideEventTime && (
+                      <time className="tabular-nums text-muted-foreground/50 text-xs">
+                        {format(event.start, 'HH:mm')}
+                      </time>
+                    )}
                   </div>
                 );
               })}

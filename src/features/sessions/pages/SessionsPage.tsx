@@ -1,12 +1,11 @@
 import { useState } from 'react';
-import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
-import { getSessions, requestReschedule, handleReschedule } from '../services/session.service';
+import { useMutation, useQueryClient, useSuspenseQuery } from '@tanstack/react-query';
+import { requestReschedule, handleReschedule, upcomingSessionsQueryOptions, historySessionsQueryOptions } from '../services/session.service';
 import { useAuthStore } from '@/app/store/auth.store';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import SessionItem from '../components/SessionItem';
 import RescheduleDialog from '../components/RescheduleDialog';
 import SessionDetailsDialog from '../components/SessionDetailsDialog';
-import Loading from '@/components/common/Loading';
 import { toast } from 'sonner';
 import type { Booking } from '@/shared/types/session';
 
@@ -55,20 +54,8 @@ const SessionsPage = () => {
         setDetailsBooking(booking);
     };
 
-    // Unified Queries (Backend handles role-based fetching)
-    const { data: upcomingSessions, isLoading: isLoadingUpcoming } = useQuery({
-        queryKey: ['sessions', 'upcoming', user?.role],
-        queryFn: () => getSessions('upcoming'),
-        enabled: !!user
-    });
-
-    const { data: historySessions, isLoading: isLoadingHistory } = useQuery({
-        queryKey: ['sessions', 'history', user?.role],
-        queryFn: () => getSessions('history'),
-        enabled: !!user
-    });
-
-    if (isLoadingUpcoming || isLoadingHistory) return <Loading />;
+    const { data: upcomingSessions } = useSuspenseQuery(upcomingSessionsQueryOptions);
+    const { data: historySessions } = useSuspenseQuery(historySessionsQueryOptions);
 
     return (
         <div className="container mx-auto p-6">

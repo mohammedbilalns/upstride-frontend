@@ -7,6 +7,7 @@ export interface Slot {
   price: number;
   currency: string;
   description?: string;
+  participantId?: string;
 }
 
 import type { User } from './user';
@@ -42,8 +43,8 @@ export interface Availability {
 export interface RecurringRule {
   ruleId: string;
   weekDay: number; // 0-6
-  startTime: string; // HH:mm
-  endTime: string; // HH:mm
+  startTime: number;
+  endTime: number;
   slotDuration: number;
   isActive: boolean;
   price: number;

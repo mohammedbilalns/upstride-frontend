@@ -90,7 +90,7 @@ export default function AddCustomSlotDialog({
     useEffect(() => {
         if (open && !loadingPricing && !pricingConfig) {
             onOpenChange(false);
-            navigate({ to: "/settings/pricing" });
+            navigate({ to: "/mentor/settings/pricing" });
         }
     }, [open, loadingPricing, pricingConfig, onOpenChange, navigate]);
 

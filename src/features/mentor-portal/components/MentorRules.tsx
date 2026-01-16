@@ -1,4 +1,5 @@
-import { Calendar, Clock, Trash2, Power } from "lucide-react";
+import { Calendar, Clock, Trash2, Power, Pencil } from "lucide-react";
+import { useState } from "react";
 import { Button } from "@/components/ui/button";
 import Pending from "@/components/common/Pending";
 import ErrorState from "@/components/common/ErrorState";
@@ -8,7 +9,7 @@ import { Card, CardContent } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { useDeleteMentorRule, useDisableMentorRule, useEnableMentorRule } from "../hooks/mentor-dashboard-mutations.hooks";
 import { ConfirmDialog } from "@/components/common/Confirm";
-import { minutesToTime, minutesToTime12 } from "@/shared/utils/dateUtil";
+import { minutesToTime12 } from "@/shared/utils/dateUtil";
 import {
   AlertDialog,
   AlertDialogCancel,
@@ -20,16 +21,15 @@ import {
   AlertDialogTrigger,
 } from "@/components/ui/alert-dialog";
 
+
 export default function MentorRules({ mentorId }: { mentorId: string }) {
   const { data, isError, isPending } = useFetchMentorRules(mentorId);
+  const [editingRule, setEditingRule] = useState<import("@/shared/types/session").RecurringRule | null>(null);
+  const [isEditOpen, setIsEditOpen] = useState(false);
 
-  const deleteRuleMuation = useDeleteMentorRule({ mentorId: mentorId });
-  const disableRuleMutation = useDisableMentorRule(mentorId);
-  const enableRuleMutation = useEnableMentorRule(mentorId);
-
-  const handleDeleteRule = (ruleId: string) => {
-    deleteRuleMuation.mutate(ruleId);
-  };
+  const deleteRuleMuation = useDeleteMentorRule();
+  const disableRuleMutation = useDisableMentorRule();
+  const enableRuleMutation = useEnableMentorRule();
 
   const handleToggleRule = (ruleId: string, isActive: boolean) => {
     if (isActive) {
@@ -67,7 +67,7 @@ export default function MentorRules({ mentorId }: { mentorId: string }) {
         return (
           <Card key={rule?.ruleId} className="overflow-hidden">
             <CardContent className="p-4">
-              <div className="flex justify-between items-start">
+              <div className="flex flex-col sm:flex-row justify-between items-start gap-4">
                 <div className="space-y-2">
                   {/* Status + Weekday */}
                   <div className="flex items-center gap-4">
@@ -87,37 +87,34 @@ export default function MentorRules({ mentorId }: { mentorId: string }) {
                     </div>
                     <span className="font-medium">
                       {[
-                        "Sunday", // 0 (Unused if backend sends 1-7)
+                        "Sunday", // 0 
                         "Monday", // 1
                         "Tuesday", // 2
                         "Wednesday", // 3
                         "Thursday", // 4
                         "Friday", // 5
                         "Saturday", // 6
-                        "Sunday", // 7
                       ][rule.weekDay]}
                     </span>
                   </div>
 
                   {/* Time & Duration */}
-                  <div className="flex items-center gap-4 text-sm text-muted-foreground">
+                  <div className="flex flex-col sm:flex-row sm:items-center gap-2 sm:gap-4 text-sm text-muted-foreground">
                     <div className="flex items-center gap-1">
                       <Clock className="h-4 w-4" />
                       <span>
                         {minutesToTime12(Number(rule.startTime))} – {minutesToTime12(Number(rule.endTime))}
                       </span>
                     </div>
+                    <div className="hidden sm:block">•</div>
                     <div>
-                      Slot Duration: {rule.slotDuration} minutes
-                    </div>
-                    <div>
-                      Price: ₹{rule.price || 100}
+                      {rule.slotDuration} min slots
                     </div>
                   </div>
                 </div>
 
                 {/* Actions */}
-                <div className="flex gap-2">
+                <div className="flex gap-2 w-full sm:w-auto justify-end">
                   {rule.isActive ? (
                     <ConfirmDialog
                       title="Disable Rule?"
@@ -154,7 +151,16 @@ export default function MentorRules({ mentorId }: { mentorId: string }) {
                     </ConfirmDialog>
                   )}
 
-                  <UpdateRuleDialog mentorId={mentorId} rule={rule} />
+                  <Button
+                    variant="outline"
+                    size="sm"
+                    onClick={() => {
+                      setEditingRule(rule);
+                      setIsEditOpen(true);
+                    }}
+                  >
+                    <Pencil className="h-4 w-4" />
+                  </Button>
 
                   <AlertDialog>
                     <AlertDialogTrigger asChild>
@@ -190,6 +196,19 @@ export default function MentorRules({ mentorId }: { mentorId: string }) {
           </Card>
         )
       })}
-    </div>
+
+      {
+        editingRule && (
+          <UpdateRuleDialog
+            rule={editingRule}
+            open={isEditOpen}
+            onOpenChange={(open) => {
+              setIsEditOpen(open);
+              if (!open) setEditingRule(null);
+            }}
+          />
+        )
+      }
+    </div >
   );
 }

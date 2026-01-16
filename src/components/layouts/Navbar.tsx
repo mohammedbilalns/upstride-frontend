@@ -31,6 +31,7 @@ export default function Navbar() {
     { label: "Explore Mentors", href: "/mentors", section: "mentors" },
     { label: "Sessions", href: "/sessions", section: "sessions" },
     { label: "Chats", href: "/chats", section: "chats" },
+    { label: "Wallet", href: "/wallet", section: "wallet" },
   ];
 
   const navLinks = user?.role === "mentor"
@@ -61,8 +62,8 @@ export default function Navbar() {
                 key={link.section}
                 to={link.href}
                 className={`relative font-medium transition-all duration-200 ${active
-                    ? "text-foreground"
-                    : "text-muted-foreground hover:text-foreground"
+                  ? "text-foreground"
+                  : "text-muted-foreground hover:text-foreground"
                   }`}
               >
                 {link.label}
@@ -142,8 +143,8 @@ export default function Navbar() {
                   to={link.href}
                   onClick={() => setIsOpen(false)}
                   className={`px-3 py-2 text-sm font-medium rounded-md transition-colors ${active
-                      ? "bg-primary/10 text-primary font-semibold"
-                      : "text-muted-foreground hover:bg-muted"
+                    ? "bg-primary/10 text-primary font-semibold"
+                    : "text-muted-foreground hover:bg-muted"
                     }`}
                 >
                   {link.label}

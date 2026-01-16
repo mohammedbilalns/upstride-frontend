@@ -88,12 +88,17 @@ export const API_ROUTES = {
 		SET_CONFIG: "/pricing/config",
 		GET_CONFIG: (mentorId: string) => `/pricing/config/${mentorId}`,
 	},
+	PAYMENT: {
+		CREATE: "/payments",
+		CAPTURE: "/payments/capture",
+	},
 	WALLETS: {
 		GET_BALANCE: "/wallets/balance",
-		GET_TRANSACTIONS: "/wallets/transactions",
+		GET_DETAILS: "/wallets/details",
+		PAY: "/payments/wallet",
 	},
-	ANALYTICS: {
-		GET_PLATFORM: "/analytics/platform",
+	FINANCE: {
+		GET_PLATFORM: "/finance/platform",
 	},
 	CONNECTIONS: {
 		FOLLOW: "/connection/follow",
@@ -118,6 +123,7 @@ export const API_ROUTES = {
 		DELETE_RECURRING_RULE: (ruleId: string) => `/slots/availability/recurring/${ruleId}`,
 		CREATE_CUSTOM_SLOT: `/slots/availability/custom`,
 		GET_MENTOR_SLOTS: `/slots/slots`,
+		GET_AVAILABLE_SLOTS: `/slots/slots/available`,
 		CANCEL_SLOT: (slotId: string) => `/slots/${slotId}/cancel`,
 		ENABLE_SLOT: (slotId: string) => `/slots/${slotId}/enable`,
 		DELETE_SLOT: (slotId: string) => `/slots/${slotId}`,
@@ -127,5 +133,6 @@ export const API_ROUTES = {
 		CANCEL_BOOKING: (bookingId: string) => `/sessions/${bookingId}/cancel`,
 		START_SESSION: (slotId: string) => `/sessions/${slotId}/start`,
 		MARK_SESSION_AS_COMPLETED: (sessionId: string) => `/sessions/${sessionId}/complete`,
+		CANCEL_RESERVATION: (slotId: string) => `/sessions/${slotId}/cancel-reservation`,
 	}
 } as const;

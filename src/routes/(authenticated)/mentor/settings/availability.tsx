@@ -7,7 +7,6 @@ import {
   CardTitle,
 } from "@/components/ui/card";
 import { authGuard } from "@/shared/guards/auth-gaurd";
-import { getSelf } from "@/features/mentor-discovery/services/mentor.service";
 import MentorRules from "@/features/mentor-portal/components/MentorRules";
 import AddRuleDialog from "@/features/mentor-portal/components/AddRuleDialog";
 import { Calendar } from "lucide-react";
@@ -15,13 +14,15 @@ import { Calendar } from "lucide-react";
 export const Route = createFileRoute("/(authenticated)/mentor/settings/availability")({
   component: AvailabilitySettingsPage,
   beforeLoad: authGuard(["mentor"]),
-  loader: async () => {
-    return await getSelf();
+  loader: async ({ context }) => {
+    const user = context.authStore.getState().user;
+    if (!user || !user.mentorId) throw new Error("Mentor not found");
+    return { mentorId: user.mentorId };
   }
 });
 
 function AvailabilitySettingsPage() {
-  const mentor = Route.useLoaderData();
+  const { mentorId } = Route.useLoaderData();
 
   return (
     <div className="space-y-6">
@@ -32,16 +33,16 @@ function AvailabilitySettingsPage() {
               <Calendar className="h-5 w-5" />
               Recurring Rules
             </CardTitle>
-            <AddRuleDialog mentorId={mentor.id} />
+            <AddRuleDialog mentorId={mentorId} />
           </div>
           <CardDescription>
             Define your weekly recurring availability.
           </CardDescription>
         </CardHeader>
         <CardContent>
-          <MentorRules mentorId={mentor.id} />
+          <MentorRules mentorId={mentorId} />
         </CardContent>
-      </Card>e
+      </Card>
     </div>
   );
 }

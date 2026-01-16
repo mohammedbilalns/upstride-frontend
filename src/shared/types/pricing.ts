@@ -24,5 +24,7 @@ export interface PricingConfigResponse {
 }
 
 export interface SetPricingConfigRequest {
+    mentorId: string;
     pricingTiers: PricingTier[];
+    updateExistingSlots?: boolean;
 }

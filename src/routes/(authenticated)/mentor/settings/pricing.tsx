@@ -34,7 +34,7 @@ export const Route = createFileRoute("/(authenticated)/mentor/settings/pricing")
 });
 
 function PricingSettingsPage() {
-  const {mentorId}  = Route.useLoaderData()
+  const { mentorId } = Route.useLoaderData()
   const queryClient = useQueryClient();
   const { data: pricing } = useSuspenseQuery(pricingQueryOptions(mentorId));
 
@@ -75,7 +75,8 @@ function PricingSettingsPage() {
         { duration: 30 as const, price: data.tier30 },
         { duration: 60 as const, price: data.tier60 },
         { duration: 90 as const, price: data.tier90 },
-      ]
+      ],
+      updateExistingSlots: data.updateExistingSlots
     };
     updatePricingMutation.mutate(payload);
   };
@@ -100,9 +101,16 @@ function PricingSettingsPage() {
                   min="0"
                   {...register("tier30", { valueAsNumber: true })}
                 />
-                {errors.tier30 && (
-                  <p className="text-sm text-destructive">{errors.tier30.message}</p>
-                )}
+                <div className="flex justify-between items-center text-xs">
+                  {errors.tier30 ? (
+                    <p className="text-destructive">{errors.tier30.message}</p>
+                  ) : (
+                    <p className="text-muted-foreground">
+                      You receive: <span className="font-medium text-green-600">₹{((form.watch("tier30") || 0) * 0.9).toFixed(2)}</span>
+                      <span className="text-gray-400"> (10% platform fee deducted)</span>
+                    </p>
+                  )}
+                </div>
               </div>
 
               <div className="space-y-2">
@@ -113,9 +121,16 @@ function PricingSettingsPage() {
                   min="0"
                   {...register("tier60", { valueAsNumber: true })}
                 />
-                {errors.tier60 && (
-                  <p className="text-sm text-destructive">{errors.tier60.message}</p>
-                )}
+                <div className="flex justify-between items-center text-xs">
+                  {errors.tier60 ? (
+                    <p className="text-destructive">{errors.tier60.message}</p>
+                  ) : (
+                    <p className="text-muted-foreground">
+                      You receive: <span className="font-medium text-green-600">₹{((form.watch("tier60") || 0) * 0.9).toFixed(2)}</span>
+                      <span className="text-gray-400"> (10% platform fee deducted)</span>
+                    </p>
+                  )}
+                </div>
               </div>
 
               <div className="space-y-2">
@@ -126,9 +141,28 @@ function PricingSettingsPage() {
                   min="0"
                   {...register("tier90", { valueAsNumber: true })}
                 />
-                {errors.tier90 && (
-                  <p className="text-sm text-destructive">{errors.tier90.message}</p>
-                )}
+                <div className="flex justify-between items-center text-xs">
+                  {errors.tier90 ? (
+                    <p className="text-destructive">{errors.tier90.message}</p>
+                  ) : (
+                    <p className="text-muted-foreground">
+                      You receive: <span className="font-medium text-green-600">₹{((form.watch("tier90") || 0) * 0.9).toFixed(2)}</span>
+                      <span className="text-gray-400"> (10% platform fee deducted)</span>
+                    </p>
+                  )}
+                </div>
+              </div>
+
+              <div className="flex items-center space-x-2">
+                <input
+                  type="checkbox"
+                  id="updateExistingSlots"
+                  className="h-4 w-4 rounded border-gray-300 text-primary focus:ring-primary"
+                  {...register("updateExistingSlots")}
+                />
+                <Label htmlFor="updateExistingSlots" className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70">
+                  Update price for existing unbooked slots
+                </Label>
               </div>
 
               {errors.root && (

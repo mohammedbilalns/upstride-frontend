@@ -34,6 +34,7 @@ import { Route as authenticatedMentorDashboardRouteImport } from './routes/(auth
 import { Route as authenticatedMentorCalendarRouteImport } from './routes/(authenticated)/mentor/calendar'
 import { Route as authenticatedChatsChatIdRouteImport } from './routes/(authenticated)/chats/$chatId'
 import { Route as authenticatedArticlesArticleIdRouteImport } from './routes/(authenticated)/articles/$articleId'
+import { Route as adminAdminFinanceRouteImport } from './routes/(admin)/admin/finance'
 import { Route as authenticatedMentorSettingsRouteRouteImport } from './routes/(authenticated)/mentor/settings/route'
 import { Route as authenticatedArticlesCreateIndexRouteImport } from './routes/(authenticated)/articles/create/index'
 import { Route as adminAdminUsermanagementIndexRouteImport } from './routes/(admin)/admin/usermanagement/index'
@@ -181,6 +182,11 @@ const authenticatedArticlesArticleIdRoute =
     path: '/articles/$articleId',
     getParentRoute: () => authenticatedRouteRoute,
   } as any)
+const adminAdminFinanceRoute = adminAdminFinanceRouteImport.update({
+  id: '/finance',
+  path: '/finance',
+  getParentRoute: () => adminAdminRouteRoute,
+} as any)
 const authenticatedMentorSettingsRouteRoute =
   authenticatedMentorSettingsRouteRouteImport.update({
     id: '/settings',
@@ -253,6 +259,7 @@ export interface FileRoutesByFullPath {
   '/wallet': typeof authenticatedWalletRoute
   '/unauthorized': typeof UnauthorizedIndexRoute
   '/mentor/settings': typeof authenticatedMentorSettingsRouteRouteWithChildren
+  '/admin/finance': typeof adminAdminFinanceRoute
   '/articles/$articleId': typeof authenticatedArticlesArticleIdRoute
   '/chats/$chatId': typeof authenticatedChatsChatIdRoute
   '/mentor/calendar': typeof authenticatedMentorCalendarRoute
@@ -287,6 +294,7 @@ export interface FileRoutesByTo {
   '/wallet': typeof authenticatedWalletRoute
   '/unauthorized': typeof UnauthorizedIndexRoute
   '/mentor/settings': typeof authenticatedMentorSettingsRouteRouteWithChildren
+  '/admin/finance': typeof adminAdminFinanceRoute
   '/articles/$articleId': typeof authenticatedArticlesArticleIdRoute
   '/chats/$chatId': typeof authenticatedChatsChatIdRoute
   '/mentor/calendar': typeof authenticatedMentorCalendarRoute
@@ -325,6 +333,7 @@ export interface FileRoutesById {
   '/(authenticated)/wallet': typeof authenticatedWalletRoute
   '/unauthorized/': typeof UnauthorizedIndexRoute
   '/(authenticated)/mentor/settings': typeof authenticatedMentorSettingsRouteRouteWithChildren
+  '/(admin)/admin/finance': typeof adminAdminFinanceRoute
   '/(authenticated)/articles/$articleId': typeof authenticatedArticlesArticleIdRoute
   '/(authenticated)/chats/$chatId': typeof authenticatedChatsChatIdRoute
   '/(authenticated)/mentor/calendar': typeof authenticatedMentorCalendarRoute
@@ -363,6 +372,7 @@ export interface FileRouteTypes {
     | '/wallet'
     | '/unauthorized'
     | '/mentor/settings'
+    | '/admin/finance'
     | '/articles/$articleId'
     | '/chats/$chatId'
     | '/mentor/calendar'
@@ -397,6 +407,7 @@ export interface FileRouteTypes {
     | '/wallet'
     | '/unauthorized'
     | '/mentor/settings'
+    | '/admin/finance'
     | '/articles/$articleId'
     | '/chats/$chatId'
     | '/mentor/calendar'
@@ -434,6 +445,7 @@ export interface FileRouteTypes {
     | '/(authenticated)/wallet'
     | '/unauthorized/'
     | '/(authenticated)/mentor/settings'
+    | '/(admin)/admin/finance'
     | '/(authenticated)/articles/$articleId'
     | '/(authenticated)/chats/$chatId'
     | '/(authenticated)/mentor/calendar'
@@ -646,6 +658,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof authenticatedArticlesArticleIdRouteImport
       parentRoute: typeof authenticatedRouteRoute
     }
+    '/(admin)/admin/finance': {
+      id: '/(admin)/admin/finance'
+      path: '/finance'
+      fullPath: '/admin/finance'
+      preLoaderRoute: typeof adminAdminFinanceRouteImport
+      parentRoute: typeof adminAdminRouteRoute
+    }
     '/(authenticated)/mentor/settings': {
       id: '/(authenticated)/mentor/settings'
       path: '/settings'
@@ -818,6 +837,7 @@ const authenticatedRouteRouteWithChildren =
   authenticatedRouteRoute._addFileChildren(authenticatedRouteRouteChildren)
 
 interface adminAdminRouteRouteChildren {
+  adminAdminFinanceRoute: typeof adminAdminFinanceRoute
   adminAdminIndexRoute: typeof adminAdminIndexRoute
   adminAdminDashboardIndexRoute: typeof adminAdminDashboardIndexRoute
   adminAdminExpertisemanagementIndexRoute: typeof adminAdminExpertisemanagementIndexRoute
@@ -826,6 +846,7 @@ interface adminAdminRouteRouteChildren {
 }
 
 const adminAdminRouteRouteChildren: adminAdminRouteRouteChildren = {
+  adminAdminFinanceRoute: adminAdminFinanceRoute,
   adminAdminIndexRoute: adminAdminIndexRoute,
   adminAdminDashboardIndexRoute: adminAdminDashboardIndexRoute,
   adminAdminExpertisemanagementIndexRoute:

@@ -11,8 +11,19 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Checkbox } from "@/components/ui/checkbox";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
 import type { RecurringRule } from "@/shared/types/session";
 import { useUpdateRecurringRule } from "../hooks/mentor-dashboard-mutations.hooks";
+import { toast } from "sonner";
+
+import { minutesToTime } from "@/shared/utils/dateUtil";
+
 
 interface UpdateRuleDialogProps {
   rule: RecurringRule;
@@ -26,8 +37,8 @@ export default function UpdateRuleDialog({
   onOpenChange,
 }: UpdateRuleDialogProps) {
   const [updatedRule, setUpdatedRule] = useState({
-    startTime: rule.startTime,
-    endTime: rule.endTime,
+    startTime: minutesToTime(rule.startTime),
+    endTime: minutesToTime(rule.endTime),
     slotDuration: rule.slotDuration,
     weekDay: rule.weekDay,
   });
@@ -38,26 +49,37 @@ export default function UpdateRuleDialog({
   // Calculate end time whenever start time or duration changes
   useEffect(() => {
     if (updatedRule.startTime && updatedRule.slotDuration) {
-      const [hours, minutes] = updatedRule.startTime.split(":").map(Number);
-      const date = new Date();
-      date.setHours(hours);
-      date.setMinutes(minutes + Number(updatedRule.slotDuration));
+      const parts = updatedRule.startTime.split(":");
+      if (parts.length === 2) {
+        const [hours, minutes] = parts.map(Number);
+        const date = new Date();
+        date.setHours(hours);
+        date.setMinutes(minutes + Number(updatedRule.slotDuration));
 
-      const newEndHours = String(date.getHours()).padStart(2, "0");
-      const newEndMinutes = String(date.getMinutes()).padStart(2, "0");
-      const newEndTime = `${newEndHours}:${newEndMinutes}`;
+        const newEndHours = String(date.getHours()).padStart(2, "0");
+        const newEndMinutes = String(date.getMinutes()).padStart(2, "0");
+        const newEndTime = `${newEndHours}:${newEndMinutes}`;
 
-      if (updatedRule.endTime !== newEndTime) {
-        setUpdatedRule((prev) => ({ ...prev, endTime: newEndTime }));
+        if (updatedRule.endTime !== newEndTime) {
+          setUpdatedRule((prev) => ({ ...prev, endTime: newEndTime }));
+        }
       }
     }
   }, [updatedRule.startTime, updatedRule.slotDuration]);
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
+
+    if (!rule.ruleId) {
+      console.error("Missing ruleId in rule:", rule);
+      toast.error("Error: Rule ID is missing. Please refresh or delete/recreate.");
+      return;
+    }
+
+    console.log("Submitting update rule:", { ruleId: rule.ruleId, updatedRule, invalidateExisting });
     updateRuleMutation.mutate(
       {
-        ruleId: rule.id,
+        ruleId: rule.ruleId,
         updatedRule: {
           startTime: updatedRule.startTime,
           endTime: updatedRule.endTime,
@@ -120,18 +142,25 @@ export default function UpdateRuleDialog({
             <Label htmlFor="slotDuration" className="text-right">
               Duration (min)
             </Label>
-            <Input
-              id="slotDuration"
-              type="number"
-              className="col-span-3"
-              value={updatedRule.slotDuration}
-              onChange={(e) =>
+            <Select
+              value={String(updatedRule.slotDuration)}
+              onValueChange={(value) =>
                 setUpdatedRule({
                   ...updatedRule,
-                  slotDuration: Number(e.target.value),
+                  slotDuration: Number(value),
                 })
               }
-            />
+            >
+              <SelectTrigger className="col-span-3">
+                <SelectValue placeholder="Select duration" />
+              </SelectTrigger>
+              <SelectContent>
+                <SelectItem value="30">30 minutes</SelectItem>
+                <SelectItem value="60">1 hour</SelectItem>
+                <SelectItem value="90">1.5 hours</SelectItem>
+                <SelectItem value="120">2 hours</SelectItem>
+              </SelectContent>
+            </Select>
           </div>
 
           {/* Invalidate Existing Slots */}
@@ -149,7 +178,7 @@ export default function UpdateRuleDialog({
           </div>
 
           <DialogFooter>
-            <Button
+ t          <Button
               variant="outline"
               type="button"
               onClick={() => onOpenChange(false)}

@@ -1,7 +1,5 @@
 import { useState, useEffect } from "react";
 import { useForm, FormProvider, Controller } from "react-hook-form";
-import { useNavigate } from "@tanstack/react-router";
-import { useQuery } from "@tanstack/react-query";
 import { Button } from "@/components/ui/button";
 import {
   Dialog,
@@ -19,12 +17,9 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
-import { Plus, AlertCircle } from "lucide-react";
+import { Plus } from "lucide-react";
 import { Input } from "@/components/ui/input";
-import { Alert, AlertDescription } from "@/components/ui/alert";
 import { useAddRecurringRule } from "../hooks/mentor-dashboard-mutations.hooks";
-import { getPricingConfig } from "@/features/pricing/services/pricing.service";
-import { useAuthStore } from "@/app/store/auth.store";
 
 interface RuleFormValues {
   weekDay: number;
@@ -35,16 +30,8 @@ interface RuleFormValues {
 
 export default function AddRuleDialog({ mentorId }: { mentorId: string }) {
   const [open, setOpen] = useState(false);
-  const navigate = useNavigate();
   const createMentorRuleMutation = useAddRecurringRule(mentorId);
-  const { user } = useAuthStore();
 
-  // Check if pricing is configured
-  const { data: pricingConfig, isLoading: loadingPricing } = useQuery({
-    queryKey: ["pricing-config", user?.id],
-    queryFn: () => getPricingConfig(user?.id || ""),
-    enabled: open && !!user?.id,
-  });
 
   const form = useForm<RuleFormValues>({
     defaultValues: {
@@ -90,11 +77,6 @@ export default function AddRuleDialog({ mentorId }: { mentorId: string }) {
   };
 
   const handleOpenChange = (newOpen: boolean) => {
-    if (newOpen && !loadingPricing && !pricingConfig) {
-      // Redirect to pricing configuration
-      navigate({ to: "/settings/pricing" });
-      return;
-    }
     setOpen(newOpen);
   };
 
@@ -114,16 +96,6 @@ export default function AddRuleDialog({ mentorId }: { mentorId: string }) {
             Create a new rule for your session availability
           </DialogDescription>
         </DialogHeader>
-
-        {!pricingConfig && !loadingPricing && (
-          <Alert>
-            <AlertCircle className="h-4 w-4" />
-            <AlertDescription>
-              Please configure your pricing tiers before creating availability
-              rules.
-            </AlertDescription>
-          </Alert>
-        )}
 
         <FormProvider {...form}>
           <form className="grid gap-4 py-4" onSubmit={form.handleSubmit(onSubmit)}>

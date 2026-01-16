@@ -21,7 +21,7 @@ export function updateRecurringRule(
   },
   invalidateExisting?: boolean,
 ) {
-  return api.put(API_ROUTES.SLOTS.UPDATE_RECURRING_RULE(ruleId), {
+  return api.patch(API_ROUTES.SLOTS.UPDATE_RECURRING_RULE(ruleId), {
     ...updatedRule,
     invalidateExisting,
   });
@@ -35,8 +35,8 @@ export function disableRecurringRule(ruleId: string) {
   return api.patch(API_ROUTES.SLOTS.DISABLE_RECURRING_RULE(ruleId));
 }
 
-export function deleteRecurringRule(ruleId: string) {
-  return api.delete(API_ROUTES.SLOTS.DELETE_RECURRING_RULE(ruleId));
+export function deleteRecurringRule(payload: { ruleId: string; deleteSlots: boolean }) {
+  return api.delete(`${API_ROUTES.SLOTS.DELETE_RECURRING_RULE(payload.ruleId)}?deleteSlots=${payload.deleteSlots}`);
 }
 
 export function createCustomSlot(payload: {

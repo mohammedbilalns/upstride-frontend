@@ -7,6 +7,7 @@ import {
 	ShieldCheck,
 	Star,
 	Users,
+	IndianRupee,
 } from "lucide-react";
 
 export interface NavigationItem {
@@ -42,6 +43,12 @@ export const navigationItems: NavigationItem[] = [
 		name: "Chat & Sessions",
 		icon: MessageCircle,
 		href: "/chatandselp",
+	},
+	{
+		id: "finance",
+		name: "Finance Dashboard",
+		icon: IndianRupee,
+		href: "/finance",
 	},
 	{
 		id: "analytics",

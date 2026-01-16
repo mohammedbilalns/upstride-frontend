@@ -1,4 +1,5 @@
 import { useMutation, useQueryClient } from "@tanstack/react-query";
+import { AxiosError } from "axios";
 import {
   addRecurringRule,
   updateRecurringRule,
@@ -34,7 +35,9 @@ export function useAddRecurringRule(mentorId: string) {
       toast.success("Recurring rule created successfully");
     },
     onError: (error: Error) => {
-      toast.error(error.message || "Failed to create recurring rule");
+      const axiosError = error as AxiosError<{ message: string }>;
+      const message = axiosError.response?.data?.message || "Failed to create recurring rule";
+      toast.error(message);
     },
   });
 }
@@ -57,14 +60,19 @@ export function useUpdateRecurringRule() {
         weekDay: number;
       };
       invalidateExisting?: boolean;
-    }) => updateRecurringRule(ruleId, updatedRule, invalidateExisting),
+    }) => {
+      console.log("MutationFn executing", { ruleId, updatedRule });
+      return updateRecurringRule(ruleId, updatedRule, invalidateExisting);
+    },
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["mentor-rules"] });
       queryClient.invalidateQueries({ queryKey: ["mentor-slots"] });
       toast.success("Rule updated successfully");
     },
     onError: (error: Error) => {
-      toast.error(error.message || "Failed to update rule");
+      const axiosError = error as AxiosError<{ message: string }>;
+      const message = axiosError.response?.data?.message || "Failed to update rule";
+      toast.error(message);
     },
   });
 }
@@ -78,7 +86,9 @@ export function useEnableRecurringRule() {
       toast.success("Rule enabled successfully");
     },
     onError: (error: Error) => {
-      toast.error(error.message || "Failed to enable rule");
+      const axiosError = error as AxiosError<{ message: string }>;
+      const message = axiosError.response?.data?.message || "Failed to enable rule";
+      toast.error(message);
     },
   });
 }
@@ -92,7 +102,9 @@ export function useDisableRecurringRule() {
       toast.success("Rule disabled successfully");
     },
     onError: (error: Error) => {
-      toast.error(error.message || "Failed to disable rule");
+      const axiosError = error as AxiosError<{ message: string }>;
+      const message = axiosError.response?.data?.message || "Failed to disable rule";
+      toast.error(message);
     },
   });
 }
@@ -100,14 +112,16 @@ export function useDisableRecurringRule() {
 export function useDeleteRecurringRule() {
   const queryClient = useQueryClient();
   return useMutation({
-    mutationFn: (ruleId: string) => deleteRecurringRule(ruleId),
+    mutationFn: (payload: { ruleId: string; deleteSlots: boolean }) => deleteRecurringRule(payload),
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["mentor-rules"] });
       queryClient.invalidateQueries({ queryKey: ["mentor-slots"] });
       toast.success("Rule deleted successfully");
     },
     onError: (error: Error) => {
-      toast.error(error.message || "Failed to delete rule");
+      const axiosError = error as AxiosError<{ message: string }>;
+      const message = axiosError.response?.data?.message || "Failed to delete rule";
+      toast.error(message);
     },
   });
 }
@@ -122,11 +136,14 @@ export function useCreateCustomSlot(mentorId: string) {
       slotDuration: number;
     }) => createCustomSlot(payload),
     onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ["mentor-slots", mentorId] });
+      queryClient.invalidateQueries({ queryKey: ["slots", mentorId] });
+      queryClient.invalidateQueries({ queryKey: ["slots"] });
       toast.success("Custom slot created successfully");
     },
     onError: (error: Error) => {
-      toast.error(error.message || "Failed to create custom slot");
+      const axiosError = error as AxiosError<{ message: string }>;
+      const message = axiosError.response?.data?.message || axiosError.message || "Failed to create custom slot";
+      toast.error(message);
     },
   });
 }
@@ -165,6 +182,7 @@ export function useDeleteSlot() {
     mutationFn: (slotId: string) => deleteSlot(slotId),
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["mentor-slots"] });
+      queryClient.invalidateQueries({ queryKey: ["slots"] });
       toast.success("Slot deleted successfully");
     },
     onError: (error: Error) => {

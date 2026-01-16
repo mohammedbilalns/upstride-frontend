@@ -7,10 +7,12 @@ interface TransactionListProps {
     transactions: TransactionListResponse[];
 }
 
-const getTransactionIcon = (type: string) => {
+const getTransactionIcon = (type: string, amount: number) => {
     switch (type) {
         case "PAYMENT":
-            return <ArrowUpCircle className="h-4 w-4 text-green-600" />;
+            return amount < 0
+                ? <ArrowDownCircle className="h-4 w-4 text-red-600" />
+                : <ArrowUpCircle className="h-4 w-4 text-green-600" />;
         case "REFUND":
             return <RefreshCw className="h-4 w-4 text-blue-600" />;
         case "COMMISSION":
@@ -19,21 +21,6 @@ const getTransactionIcon = (type: string) => {
             return <ArrowDownCircle className="h-4 w-4 text-red-600" />;
         default:
             return null;
-    }
-};
-
-const getTransactionColor = (type: string) => {
-    switch (type) {
-        case "PAYMENT":
-            return "text-green-600";
-        case "REFUND":
-            return "text-blue-600";
-        case "COMMISSION":
-            return "text-purple-600";
-        case "WITHDRAWAL":
-            return "text-red-600";
-        default:
-            return "text-gray-600";
     }
 };
 
@@ -64,7 +51,7 @@ export function TransactionList({ transactions }: TransactionListProps) {
                             className="flex items-center justify-between py-3 border-b last:border-0"
                         >
                             <div className="flex items-center gap-3">
-                                {getTransactionIcon(transaction.transactionType)}
+                                {getTransactionIcon(transaction.transactionType, transaction.amount)}
                                 <div>
                                     <p className="text-sm font-medium">
                                         {transaction.description}
@@ -76,10 +63,10 @@ export function TransactionList({ transactions }: TransactionListProps) {
                             </div>
                             <div className="text-right">
                                 <p
-                                    className={`text-sm font-semibold ${getTransactionColor(transaction.transactionType)}`}
+                                    className={`text-sm font-semibold ${Number(transaction.amount) < 0 ? "text-red-600" : "text-green-600"}`}
                                 >
-                                    {transaction.transactionType === "WITHDRAWAL" ? "-" : "+"}₹
-                                    {transaction.amount.toFixed(2)}
+                                    {Number(transaction.amount) < 0 ? "-" : "+"}₹
+                                    {Math.abs(Number(transaction.amount)).toFixed(2)}
                                 </p>
                                 <p className="text-xs text-muted-foreground">
                                     Balance: ₹{transaction.balance.toFixed(2)}
