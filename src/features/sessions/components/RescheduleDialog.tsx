@@ -29,7 +29,7 @@ const RescheduleDialog = ({ booking, open, onClose, onReschedule }: RescheduleDi
 
     const { data: slots, isLoading } = useQuery({
         queryKey: ["slots", mentorId, "available"],
-        queryFn: () => mentorId ? getSlots(mentorId, undefined, true) : Promise.resolve([]),
+        queryFn: () => mentorId ? getSlots(mentorId, undefined, undefined, true) : Promise.resolve([]),
         enabled: !!mentorId && open
     });
 

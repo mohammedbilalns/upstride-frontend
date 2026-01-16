@@ -91,8 +91,8 @@ export function WalletPage() {
                                     {transactions.map((txn: any) => (
                                         <div key={txn.id} className="flex flex-col sm:flex-row sm:items-center justify-between p-4 rounded-lg border bg-card hover:bg-accent/50 transition-colors gap-4">
                                             <div className="flex items-center space-x-4">
-                                                <div className={`p-2.5 rounded-full shrink-0 ${['PAYMENT', 'REFUND', 'COMMISSION', 'WALLET_LOAD'].includes(txn.transactionType) ? 'bg-emerald-100 text-emerald-600 dark:bg-emerald-900/30 dark:text-emerald-400' : 'bg-rose-100 text-rose-600 dark:bg-rose-900/30 dark:text-rose-400'}`}>
-                                                    {['PAYMENT', 'REFUND', 'COMMISSION', 'WALLET_LOAD'].includes(txn.transactionType) ? <ArrowDownLeft className="h-5 w-5" /> : <ArrowUpRight className="h-5 w-5" />}
+                                                <div className={`p-2.5 rounded-full shrink-0 ${txn.amount >= 0 ? 'bg-emerald-100 text-emerald-600 dark:bg-emerald-900/30 dark:text-emerald-400' : 'bg-rose-100 text-rose-600 dark:bg-rose-900/30 dark:text-rose-400'}`}>
+                                                    {txn.amount >= 0 ? <ArrowDownLeft className="h-5 w-5" /> : <ArrowUpRight className="h-5 w-5" />}
                                                 </div>
                                                 <div>
                                                     <p className="text-sm font-medium leading-none mb-1">{txn.description || "Transaction"}</p>
@@ -102,9 +102,9 @@ export function WalletPage() {
                                                 </div>
                                             </div>
                                             <div className="flex items-center justify-between sm:justify-end sm:flex-col sm:items-end gap-2 sm:gap-1 pl-14 sm:pl-0">
-                                                <Badge variant="secondary" className="text-[10px] uppercase tracking-wider font-semibold">{txn.transactionType.replace('_', ' ')}</Badge>
-                                                <div className={`font-bold text-base ${['PAYMENT', 'REFUND', 'COMMISSION', 'WALLET_LOAD'].includes(txn.transactionType) ? 'text-emerald-600 dark:text-emerald-400' : 'text-slate-900 dark:text-slate-100'}`}>
-                                                    {['PAYMENT', 'REFUND', 'COMMISSION', 'WALLET_LOAD'].includes(txn.transactionType) ? '+' : '-'} {currency} {txn.amount}
+                                                <Badge variant="secondary" className="text-[10px] uppercase tracking-wider font-semibold">{txn.amount >= 0 ? 'CREDIT' : 'DEBIT'}</Badge>
+                                                <div className={`font-bold text-base ${txn.amount >= 0 ? 'text-emerald-600 dark:text-emerald-400' : 'text-rose-600 dark:text-rose-400'}`}>
+                                                    {txn.amount >= 0 ? '+' : '-'} {currency} {Math.abs(txn.amount).toFixed(2)}
                                                 </div>
                                             </div>
                                         </div>

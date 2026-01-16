@@ -80,6 +80,7 @@ export default function AddMoneyDialog({ open, onClose, onSuccess }: AddMoneyDia
             };
 
             const rzp1 = new window.Razorpay(options);
+            onClose();
             rzp1.open();
 
         } catch (error) {

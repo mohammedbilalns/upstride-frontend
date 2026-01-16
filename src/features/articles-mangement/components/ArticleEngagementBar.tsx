@@ -43,9 +43,9 @@ export default function ArticleEngagementBar({
 		);
 	};
 
-	const handleBookmark = () => {
-		setBookmarked(!bookmarked);
-	};
+	// const handleBookmark = () => {
+	// 	setBookmarked(!bookmarked);
+	// };
 
 	return (
 		<div className="flex items-center justify-between py-2">
@@ -70,16 +70,16 @@ export default function ArticleEngagementBar({
 					<Heart className={`h-4 w-4 mr-1 ${liked ? "fill-current" : ""}`} />
 					{likes}
 				</Button>
-				<Button
-					variant="outline"
-					size="sm"
-					onClick={handleBookmark}
-				>
-					<Bookmark className={`h-4 w-4 ${bookmarked ? "fill-current" : ""}`} />
-				</Button>
-				<Button variant="outline" size="sm">
-					<Share className="h-4 w-4" />
-				</Button>
+				{/* <Button */}
+				{/* 	variant="outline" */}
+				{/* 	size="sm" */}
+				{/* 	onClick={handleBookmark} */}
+				{/* > */}
+				{/* 	<Bookmark className={`h-4 w-4 ${bookmarked ? "fill-current" : ""}`} /> */}
+				{/* </Button> */}
+				{/* <Button variant="outline" size="sm"> */}
+				{/* 	<Share className="h-4 w-4" /> */}
+				{/* </Button> */}
 			</div>
 		</div>
 	);

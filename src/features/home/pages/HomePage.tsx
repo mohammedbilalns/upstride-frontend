@@ -23,7 +23,6 @@ export default function HomePage() {
 	const isUser = true;
 	const isMentor = user?.role === "mentor";
 	const isExceededLimit = false;
-	// TODO: add logic to check exceded limit
 
 	return (
 		<div className="min-h-screen bg-background">

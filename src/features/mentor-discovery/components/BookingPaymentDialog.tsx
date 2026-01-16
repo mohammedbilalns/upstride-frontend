@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import {
     Dialog,
@@ -37,6 +37,16 @@ export default function BookingPaymentDialog({
     const [isProcessing, setIsProcessing] = useState(false);
     useRazorpay();
     const queryClient = useQueryClient();
+
+    useEffect(() => {
+        if (open) {
+            setIsProcessing(false);
+            setSelectedMethod(null);
+        }
+    }, [open]);
+
+
+
 
     // Fetch Wallet Balance
     const { data: walletBalance, isLoading: isBalanceLoading } = useQuery({

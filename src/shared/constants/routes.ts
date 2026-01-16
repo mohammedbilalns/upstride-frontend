@@ -91,6 +91,7 @@ export const API_ROUTES = {
 	PAYMENT: {
 		CREATE: "/payments",
 		CAPTURE: "/payments/capture",
+		RECEIPT: (paymentId: string) => `/payments/${paymentId}/receipt`,
 	},
 	WALLETS: {
 		GET_BALANCE: "/wallets/balance",
@@ -134,5 +135,9 @@ export const API_ROUTES = {
 		START_SESSION: (slotId: string) => `/sessions/${slotId}/start`,
 		MARK_SESSION_AS_COMPLETED: (sessionId: string) => `/sessions/${sessionId}/complete`,
 		CANCEL_RESERVATION: (slotId: string) => `/sessions/${slotId}/cancel-reservation`,
+		LIST: "/sessions/list",
+		RESCHEDULE: (bookingId: string) => `/sessions/${bookingId}/reschedule`,
+		HANDLE_RESCHEDULE: (bookingId: string) => `/sessions/${bookingId}/reschedule/handle`,
+		CANCEL: (bookingId: string) => `/sessions/${bookingId}/cancel`,
 	}
 } as const;

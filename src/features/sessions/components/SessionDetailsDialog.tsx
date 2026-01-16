@@ -11,11 +11,11 @@ interface SessionDetailsDialogProps {
     open: boolean;
     onClose: () => void;
     isMentor: boolean;
-    onRescheduleClick: (booking: Booking) => void;
+
     onHandleReschedule: (bookingId: string, action: 'APPROVED' | 'REJECTED') => void;
 }
 
-const SessionDetailsDialog = ({ booking, open, onClose, isMentor, onRescheduleClick, onHandleReschedule }: SessionDetailsDialogProps) => {
+const SessionDetailsDialog = ({ booking, open, onClose, isMentor, onHandleReschedule }: SessionDetailsDialogProps) => {
     if (!booking) return null;
 
     const startDate = booking.slot?.startAt ? parseISO(booking.slot.startAt) : null;
@@ -124,11 +124,7 @@ const SessionDetailsDialog = ({ booking, open, onClose, isMentor, onRescheduleCl
 
                 <DialogFooter className="sm:justify-between">
                     <div className="flex gap-2 w-full justify-end">
-                        {!isMentor && booking.status === 'CONFIRMED' && !booking.rescheduleRequest && (
-                            <Button variant="outline" onClick={() => onRescheduleClick(booking)}>
-                                Request Reschedule
-                            </Button>
-                        )}
+
                         <Button type="button" variant="secondary" onClick={onClose}>
                             Close
                         </Button>

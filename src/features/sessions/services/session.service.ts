@@ -7,6 +7,7 @@ import { queryOptions } from "@tanstack/react-query";
 export const getSessions = async (
     type?: "upcoming" | "history",
 ): Promise<Booking[]> => {
+    // Deprecated in favor of getSessionsList
     const query = type ? `?type=${type}` : "";
     const response = await api.get(`/sessions${query}`);
     return response.data.data;
@@ -21,7 +22,7 @@ export const requestReschedule = async ({
     requestedSlotId: string;
     reason?: string;
 }) => {
-    const response = await api.post(`/sessions/${bookingId}/reschedule`, {
+    const response = await api.post(API_ROUTES.SESSIONS.RESCHEDULE(bookingId), {
         requestedSlotId,
         reason,
     });
@@ -35,7 +36,7 @@ export const handleReschedule = async ({
     bookingId: string;
     action: "APPROVED" | "REJECTED";
 }) => {
-    const response = await api.post(`/sessions/${bookingId}/reschedule/handle`, {
+    const response = await api.post(API_ROUTES.SESSIONS.HANDLE_RESCHEDULE(bookingId), {
         action,
     });
     return response.data;
@@ -49,7 +50,7 @@ export const bookSession = async (
 };
 
 export const cancelBooking = async (bookingId: string) => {
-    const response = await api.post(`/sessions/${bookingId}/cancel`);
+    const response = await api.post(API_ROUTES.SESSIONS.CANCEL(bookingId));
     return response.data;
 };
 
@@ -95,3 +96,21 @@ export const historySessionsQueryOptions = queryOptions({
     queryKey: ["sessions", "history"],
     queryFn: () => getSessions("history"),
 });
+
+export const getSessionsList = async ({
+    pageParam = 1,
+    type = "upcoming"
+}: {
+    pageParam?: number,
+    type?: "upcoming" | "history"
+}): Promise<{ sessions: Booking[], total: number }> => {
+    const response = await api.get(API_ROUTES.SESSIONS.LIST, {
+        params: {
+            page: pageParam,
+            limit: 15,
+            type
+        }
+    });
+    return response.data.data;
+};
+

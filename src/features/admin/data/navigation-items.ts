@@ -37,24 +37,17 @@ export const navigationItems: NavigationItem[] = [
 		icon: ShieldCheck,
 		href: "/mentormanagement",
 	},
-	{ id: "articles", name: "Articles", icon: Newspaper, href: "/articles" },
-	{
-		id: "chatandsessions",
-		name: "Chat & Sessions",
-		icon: MessageCircle,
-		href: "/chatandselp",
-	},
 	{
 		id: "finance",
 		name: "Finance Dashboard",
 		icon: IndianRupee,
 		href: "/finance",
 	},
-	{
-		id: "analytics",
-		name: "Analytics",
-		icon: ChartLine,
-		href: "/analytics",
-	},
-	{ id: "settings", name: "Settings", icon: Settings, href: "/settings" },
+	// {
+	// 	id: "analytics",
+	// 	name: "Analytics",
+	// 	icon: ChartLine,
+	// 	href: "/analytics",
+	// },
+	// { id: "settings", name: "Settings", icon: Settings, href: "/settings" },
 ];

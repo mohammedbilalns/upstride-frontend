@@ -1,32 +1,35 @@
 import type { Booking } from '@/shared/types/session';
+import { API_ROUTES } from '@/shared/constants/routes';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
-import { format, parseISO } from 'date-fns';
+import { format, parseISO, subMinutes } from 'date-fns';
 import { CalendarIcon, Clock } from 'lucide-react';
+import { Link } from '@tanstack/react-router';
 import UserAvatar from '@/components/common/UserAvatar';
 
 interface SessionItemProps {
     session: Booking;
     isMentor: boolean;
-    onRescheduleClick: (booking: Booking) => void;
+
     onHandleReschedule: (bookingId: string, action: 'APPROVED' | 'REJECTED') => void;
     onViewDetails: (booking: Booking) => void;
+    onCancelClick?: (booking: Booking) => void;
+    onPayClick?: (booking: Booking) => void;
 }
 
-const SessionItem = ({ session, isMentor, onRescheduleClick, onHandleReschedule, onViewDetails }: SessionItemProps) => {
+const SessionItem = ({ session, isMentor, onHandleReschedule, onViewDetails, onCancelClick, onPayClick }: SessionItemProps) => {
     const startDate = session.slot?.startAt ? parseISO(session.slot.startAt) : null;
 
-    // Use populated details from backend
     const mentorUser = session.mentorDetails;
     const menteeUser = session.userDetails;
 
-    // Determine display details
     const displayImage = isMentor ? menteeUser?.profilePicture : mentorUser?.profilePicture;
-    const displayName = isMentor ? menteeUser?.name || `Mentee ${session.userId}` : mentorUser?.name || "Mentor";
-    // Role simplified as we don't fetch full mentor profile in backend yet, only user data
+    const displayName = isMentor ? (menteeUser?.name || `Mentee`) : (mentorUser?.name || "Mentor");
     const displayRole = isMentor ? "Mentee" : "Mentor";
 
+
+    const canJoin = startDate ? new Date() >= subMinutes(startDate, 1) : false;
 
     return (
         <Card
@@ -42,7 +45,7 @@ const SessionItem = ({ session, isMentor, onRescheduleClick, onHandleReschedule,
                     />
                     <div>
                         <CardTitle className="text-base font-semibold">
-                            {isMentor ? `Session with ${displayName}` : `Mentorship with ${displayName}`}
+                            Session with {displayName}
                         </CardTitle>
                         <p className="text-sm text-muted-foreground">{displayRole}</p>
                     </div>
@@ -81,27 +84,88 @@ const SessionItem = ({ session, isMentor, onRescheduleClick, onHandleReschedule,
                     </div>
                 )}
 
-                <div className="mt-4 flex gap-2" onClick={(e) => e.stopPropagation()}>
-                    {(session.status === 'CONFIRMED' || (session.slot?.status === 'STARTED')) && (
+                <div className="mt-4 flex flex-wrap gap-2" onClick={(e) => e.stopPropagation()}>
+                    {session.status === 'PENDING' && !isMentor && (
                         <Button
                             size="sm"
-                            className="bg-green-600 hover:bg-green-700 text-white w-full sm:w-auto"
+                            className="w-full sm:w-auto"
                             onClick={(e) => {
                                 e.stopPropagation();
-                                window.location.href = `/session/${session.id}`;
+                                onPayClick?.(session);
                             }}
                         >
-                            Join Session
+                            Pay Now
                         </Button>
                     )}
-                    {!isMentor && session.status === 'CONFIRMED' && !session.rescheduleRequest && (
-                        <Button variant="outline" size="sm" className="w-full sm:w-auto" onClick={(e) => { e.stopPropagation(); onRescheduleClick(session); }}>
-                            Request Reschedule
+
+                    {/* Join Session */}
+                    {(session.status === 'CONFIRMED' || session.slot?.status === 'STARTED') && canJoin && (
+                        <Link
+                            to="/session/$sessionId"
+                            params={{ sessionId: session.id }}
+                            onClick={(e) => e.stopPropagation()}
+                            className="w-full sm:w-auto"
+                        >
+                            <Button
+                                size="sm"
+                                className="bg-green-600 hover:bg-green-700 text-white w-full"
+                            >
+                                Join Session
+                            </Button>
+                        </Link>
+                    )}
+
+                    {/* Download Receipt */}
+                    {session.paymentId && session.paymentId !== "PENDING" && !isMentor && (
+                        <Button
+                            variant="outline"
+                            size="sm"
+                            className="w-full sm:w-auto hover:bg-muted"
+                            onClick={async (e) => {
+                                e.stopPropagation();
+                                try {
+                                    const response = await import('@/api/api').then(m => m.default.get(
+                                        API_ROUTES.PAYMENT.RECEIPT(session.paymentId),
+                                        { responseType: 'blob' }
+                                    ));
+
+                                    const blob = new Blob([response.data], { type: 'application/pdf' });
+                                    const url = window.URL.createObjectURL(blob);
+                                    const link = document.createElement('a');
+                                    link.href = url;
+                                    link.setAttribute('download', `receipt-${session.paymentId}.pdf`);
+                                    document.body.appendChild(link);
+                                    link.click();
+                                    link.remove();
+                                    window.URL.revokeObjectURL(url);
+                                } catch (error) {
+                                    console.error('Failed to download receipt', error);
+                                }
+                            }}
+                        >
+                            Download Receipt
+                        </Button>
+                    )}
+
+
+
+                    {/* Cancel */}
+                    {!isMentor && (session.status === 'CONFIRMED' || session.status === 'PENDING') && (
+                        <Button
+                            variant="destructive"
+                            size="sm"
+                            className="w-full sm:w-auto"
+                            onClick={(e) => {
+                                e.stopPropagation();
+                                onCancelClick?.(session);
+                            }}
+                        >
+                            Cancel
                         </Button>
                     )}
                 </div>
             </CardContent>
-        </Card>
+        </Card >
     );
 };
 

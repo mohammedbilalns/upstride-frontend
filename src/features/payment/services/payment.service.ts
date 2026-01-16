@@ -27,11 +27,6 @@ export const verifyPayment = async (data: {
     paymentId: string;
     signature: string;
 }) => {
-    // Re-using capture endpoint or a specific verify endpoint if exists. 
-    // Usually verify and capture are similar in Razorpay flow.
-    // Based on previous code context, it seems verifyPayment was called.
-    // If backend only has capture, we might map it to capture.
-    // But let's check if there is a specific verify endpoint.
-    // Use capture for now as it's the standard completion step.
+
     return capturePayment(data);
 };
